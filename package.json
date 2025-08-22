@@ -6,7 +6,6 @@
   "author": "",
   "type": "commonjs",
   "scripts": {
-  
     "start": "nodemon index.js"
   },
   "dependencies": {

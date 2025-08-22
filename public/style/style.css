@@ -1,11 +1,24 @@
 :root {
-      --dark: #101010;
-      --font-size: 1em;
-      --font-color:azure;
-    }
+    --dark: #101010;
+    --font-size: 1em;
+    --font-color:azure;
+  }
 * {
-    box-sizing: border-box;
-    font-size: var(--font-size);
-    margin: 0;
-     padding: 0;
-    }
+  box-sizing: border-box;
+  font-size: var(--font-size);
+  margin: 0;
+   padding: 0;
+  }
+body{
+   width: 100%;
+  font-size: var(--font-size);
+  background-color: var(--dark);
+   color: var(--font-color);
+  
+} 
+
+.logo{
+  img{
+    width: 100px;
+  }
+}
