@@ -146,7 +146,6 @@ a {
     padding: 0;
     display: none;
     visibility: hidden;
-    /* Prevent rendering when hidden */
     align-items: center;
     flex-direction: column;
     gap: 20px;
@@ -159,30 +158,22 @@ a {
     top: 10px;
     z-index: 10;
     transform: translateX(100%);
-    /* Start off-screen to the right */
     transition: transform 0.3s ease-in-out;
-    /* Animate transform */
   }
 
   .links.active {
     transform: translateX(0);
-    /* Slide into final position */
     visibility: visible;
-    /* Ensure visible when active */
   }
 
   .links a {
     color: white;
     background-color: thistle;
     width: 100%;
-    /* Full width of the .links container */
     padding: 7px 0;
-    /* Better vertical spacing instead of fixed height */
     text-align: center;
     box-sizing: border-box;
-    /* Ensure padding doesn't cause overflow */
     border-radius: 5px;
-    /* Optional: slight rounding for better aesthetics */
   }
 
   .lk {
@@ -196,15 +187,12 @@ a {
   .admission {
     display: none;
     visibility: hidden;
-    /* Prevent rendering when hidden */
     position: absolute;
     right: 10px;
     top: 420px;
     z-index: 10;
     transform: translateX(100%);
-    /* Start off-screen to the right */
     transition: transform 0.3s ease-in-out;
-    /* Animate transform */
     background-color: thistle;
     border-radius: 10px;
     padding: 9px 68.3px;
@@ -214,9 +202,7 @@ a {
 
   .admission.active {
     transform: translateX(0);
-    /* Slide into final position */
     visibility: visible;
-    /* Ensure visible when active */
   }
 }
 
