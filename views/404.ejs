@@ -1,11 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 🥱 |  <%= path %></title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 🥱 | <%= path %></title>
+    <link rel="stylesheet" href="style/style.css">
+  </head>
+  <body>
     <h1>Page not found <%= path %></h1>
-</body>
+    <% if (typeof admins !== 'undefined' && admins && admins.length > 0) { %> <%
+    admins.forEach(admin => { %>
+    <ul>
+      <li><img style="width: 100px;" src="<%= admin.img %>" alt="<%= admin.name %>" /></li>
+      <li><%= admin.name %></li>
+    </ul>
+    <% }); %> <% } else { %>
+    <!-- You can add a message here if admins is not defined or empty -->
+    <p>No admins found or admins data is not available.</p>
+    <% } %>
+  </body>
 </html>

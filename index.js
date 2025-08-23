@@ -6,15 +6,24 @@ const stcolumbus=require('./routes/routes.js')
 const Path=require('path')
 const logging=require('./middleware/logging.js')
 const errorHandler=require('./middleware/errorHandler.js')
+const uniqueUser=require('./middleware/countVisiter.js')
+const cookieParser=require('cookie-parser')
 dotenv.config();
 
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
-app.set('views',Path.join(__dirname,'views'))
 
+app.set('views',Path.join(__dirname,'views'))
+app.use(express.static(Path.join(__dirname, 'public')));
+app.use(express.static(Path.join(__dirname, 'assets')));
+// app.use(express.static('public'))
+
+
+app.use(cookieParser())
 // app middelwares---------------------------------------
 app.use(logging)
+app.use(uniqueUser)
 
 // app apis --------------------------------------------
 
@@ -45,4 +54,4 @@ async function main() {
     app.listen(PORT, () => console.log(PORT));
 }
 
-main()
+main().catch((err) => console.log(err));
