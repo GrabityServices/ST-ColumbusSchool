@@ -4,6 +4,7 @@ const Router=express.Router()
 
 //rendering home page
 Router.route('/').get((req,res)=>{
+    console.log(req.ip)
     res.render('home.ejs')
 })
 
