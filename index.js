@@ -1,22 +1,48 @@
-const express = require("express");
-const path = require("path");
+const express=require('express')
+const dotenv=require('dotenv')
+const connectDB=require('./connectdb')
+const Home =require('./routes/home.js')
+const stcolumbus=require('./routes/routes.js')
+const Path=require('path')
+const logging=require('./middleware/logging.js')
+const errorHandler=require('./middleware/errorHandler.js')
+dotenv.config();
+
 const app = express();
-const Home = require("./routes/routes.js");
-const { send } = require("process");
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
-
-app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
+app.set("view engine", "ejs");
+app.set('views',Path.join(__dirname,'views'))
+
+// app middelwares---------------------------------------
+app.use(logging)
+
+// app apis --------------------------------------------
+
+app.use('/',Home)
+app.use('/home',stcolumbus)
 
 
 
-app.use("/", Home);
 
-app.use((req, res) => {
-  setTimeout(() => {
-    res.redirect("/");
-  }, 1000);
-});
+// error handling ----------------
+app.use(errorHandler)
+// undefine address
 
-app.listen(8000, () => console.log("http://localhost:8000/"));
+app.use((req,res)=>{
+  res.render('404.ejs',{path:req.path})
+})
+
+
+// ---------------------------- Listening--------------------------
+
+const PORT = process.env.PORT;
+async function main() {
+  await connectDB()
+    .then(() => console.log("DB connected"))
+    .catch((err) => {
+      console.log("Error ", err);
+    });
+    app.listen(PORT, () => console.log(PORT));
+}
+
+main()
