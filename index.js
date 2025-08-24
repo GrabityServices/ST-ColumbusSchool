@@ -46,7 +46,7 @@ app.use((req,res)=>{
 
 // ---------------------------- Listening--------------------------
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT||8000;
 async function main() {
   await connectDB()
     .then(() => console.log("DB connected"))
