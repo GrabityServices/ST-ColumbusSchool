@@ -8,6 +8,7 @@ const logging=require('./middleware/logging.js')
 const errorHandler=require('./middleware/errorHandler.js')
 const uniqueUser=require('./middleware/countVisiter.js')
 const cookieParser=require('cookie-parser')
+const { render } = require('ejs')
 dotenv.config();
 
 const app = express();
@@ -31,6 +32,7 @@ app.use('/',Home)
 app.use('/home',stcolumbus)
 
 
+app.get('/ft',(req,res)=>res.render('home.ejs'))
 
 
 // error handling ----------------
