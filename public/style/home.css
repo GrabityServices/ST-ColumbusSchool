@@ -1,16 +1,23 @@
-/* body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
+ * {
+    color: #fff;
+}
+
+.slider-box {
+    background-color: aqua;
+    height: calc(100dvh - 90px);
+    margin-top: 90px;
+
+    .slider {
+        background-color: black;
+        height: 100%;
+    }
 }
 
 .slider {
-    margin-top: 90px;
     display: block;
     width: 100%;
     overflow: hidden;
-    height: calc(100vh - 90px);
+    height: 100%;
     position: relative;
 }
 
@@ -67,6 +74,11 @@
     width: 100%;
     color: #fff;
 }
+
+main {
+    height: calc(100dvh - 90px);
+}
+
 
 @keyframes slide {
     0% {
@@ -133,10 +145,13 @@
         padding: 5px 10px;
     }
 
-    .slider {
+    .slider-box {
+
         margin-top: 70px;
-        height: calc(100vh - 70px);
+        height: calc(100dvh - 70px);
+    }
+
+    main {
+        height: calc(100dvh - 70px);
     }
 }
-
- */
