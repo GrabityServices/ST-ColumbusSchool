@@ -13,6 +13,10 @@ dotenv.config();
 
 const app = express();
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+
+
 app.set("view engine", "ejs");
 
 app.set('views',Path.join(__dirname,'views'))
@@ -30,6 +34,12 @@ app.use(uniqueUser)
 
 app.use('/',Home)
 app.use('/home',stcolumbus)
+// app.post('/home/adminUpdate/:id',update.single('img'),(req,res)=>{
+//    console.log(req.body)
+//     console.log(req.file)
+
+//     res.send('HRllo')
+// })
 
 
 app.get('/ft',(req,res)=>res.render('home.ejs'))

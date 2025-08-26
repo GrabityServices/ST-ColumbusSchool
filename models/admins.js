@@ -18,7 +18,7 @@ const adminsSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      match: [/^[a-zA-Z]{3,15}\s[a-zA-Z]{3,15}$/],
+      // match: [/^[a-zA-Z]{3,15}\s[a-zA-Z]{3,15}$/],
       minlength: [3, "Admin Name must be at least 3 characters"],
       maxlength: [30, "Admin Name must be at most 30 characters"],
     },
@@ -54,16 +54,6 @@ const adminsSchema = new mongoose.Schema(
 );
 
 const Admins = mongoose.model("admins", adminsSchema);
-
-// const admin1 = Admins.create({
-//   unqId: "2234S",
-//   name: "Dev Endra",
-//   email: "dar0645@gmail.com",
-//   position: "Chairman",
-//   gender: "male",
-//   quli: "BCA 3rd Year | 8CGPA",
-//   age: 20,
-// });
 
 
 module.exports = Admins;
