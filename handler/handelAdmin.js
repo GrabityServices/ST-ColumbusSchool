@@ -32,8 +32,7 @@ const newData={
 }
 
 const data =await Admins.findByIdAndUpdate(req.params.id,{...newData},{new:true})
-console.log(data)
-  res.send("Working");
+res.redirect('/home/')
 }
 
 module.exports = {
