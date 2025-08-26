@@ -3,7 +3,7 @@ const path=require('path')
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.resolve('./assets/adminAvt/'))
+    cb(null, path.resolve('./assets/achivAvt/'))
   },
   filename: function (req, file, cb) {
     const regex = /.\.(jpg|png|jpeg)$/i;
@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
       const uniqueSuff = Date.now() ;
       cb(null, uniqueSuff + "-" + file.originalname);
       req.body.uploaded=true
-      req.body.filename= "/adminAvt/"+uniqueSuff + "-" + file.originalname
+      req.body.filename= "/achivAvt/"+uniqueSuff + "-" + file.originalname
     } else {
       cb(null,'unvalid'+Date.now()+file.originalname)
         req.body.uploaded=false
@@ -19,6 +19,6 @@ const storage = multer.diskStorage({
   }
 })
 
-const adminAvt = multer({ storage: storage })
+const achivAvt = multer({ storage: storage })
 
-module.exports=adminAvt
+module.exports=achivAvt

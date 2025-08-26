@@ -11,7 +11,7 @@ async function setAdminForm(req, res) {
     const useris = await Admins.findByIdAndUpdate(req.params.id, {
       img: req.body.filename,
     });
-    res.redirect("/home/");
+    res.redirect("/home/admin");
   } else {
     res.redirect(`/home/adminUpdate/${req.params.id}`);
   }
@@ -32,7 +32,7 @@ const newData={
 }
 
 const data =await Admins.findByIdAndUpdate(req.params.id,{...newData},{new:true})
-res.redirect('/home/')
+res.redirect('/home/admin')
 }
 
 module.exports = {

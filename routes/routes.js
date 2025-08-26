@@ -1,24 +1,49 @@
 const express = require("express");
 const stcolumbus = express.Router();
-const multer =require('multer')
-const avatarupload=require('../utils/updateAdmin.js')
+const multer = require("multer");
+const adminAvt = require("../utils/updateAdmin.js");
+const achivAvt = require("../utils/updateAchiv.js");
 
-const update =multer({dest:'assets/adminAvt/'})
+const update = multer({ dest: "assets/adminAvt/" });
 
-const handelGet = require("../handler/get.js");
+const { handelGetAdmin, handelGetAchiv } = require("../handler/get.js");
 const {
   getAdmin,
   setAdminForm,
-  setAdminFormDet
+  setAdminFormDet,
 } = require("../handler/handelAdmin.js");
-stcolumbus.route("/").get(handelGet);
-stcolumbus.route("/admin").get(getAdmin);
+
+const {
+  getAchiv,
+  setAchivForm,
+  setAchivFormDet,
+} = require("../handler/handelAchiv.js");
+
+// ==================================================
+stcolumbus.route("/admin").get(handelGetAdmin);
+
+stcolumbus.route("/adminroe").get(getAdmin);
 stcolumbus
   .route("/adminUpdate/:id")
-  .get((req, res) => res.render("updateAdmin.ejs",{id:req.params.id}))
-  .post(avatarupload.single('img'),setAdminForm)
+  .get((req, res) => res.render("updateAdmin.ejs", { id: req.params.id }))
+  .post(adminAvt.single("img"), setAdminForm);
 
-  stcolumbus.route('/adminUpdate/details/:id')
-  .get((req, res) => res.render("updateAdminDet.ejs",{id:req.params.id}))
-  .post(setAdminFormDet)
+stcolumbus
+  .route("/adminUpdate/details/:id")
+  .get((req, res) => res.render("updateAdminDet.ejs", { id: req.params.id }))
+  .post(setAdminFormDet);
+
+// ================================================
+stcolumbus.route("/achiv").get(handelGetAchiv);
+stcolumbus.route("/achivroe").get(getAchiv);
+stcolumbus
+  .route("/achivUpdate/:id")
+  .get((req, res) => res.render("updateAchiv.ejs", { id: req.params.id }))
+  .post(achivAvt.single("img"), setAchivForm);
+
+stcolumbus
+  .route("/achivUpdate/details/:id")
+  .get((req, res) => res.render("updateAchivDet.ejs", { id: req.params.id }))
+  .post(setAchivFormDet);
+
 module.exports = stcolumbus;
