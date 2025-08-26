@@ -13,6 +13,11 @@
     <ul>
       <li><img style="width: 100px;" src="<%= admin.img %>" alt="<%= admin.name %>" /></li>
       <li><%= admin.name %></li>
+      <li><%= admin._id %></li>
+
+        <a href="/home/adminUpdate/<%=admin._id %>">Update Img</a>
+        <a href="/home/adminUpdate/details/<%=admin._id %>">details</a>
+
     </ul>
     <% }); %> <% } else { %>
     <!-- You can add a message here if admins is not defined or empty -->
