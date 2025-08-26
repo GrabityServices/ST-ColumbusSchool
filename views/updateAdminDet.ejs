@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1><%= id %></h1>
+    <form action="/home/adminUpdate/details/<%= id%>" method="post">
+      <input
+        type="text"
+        name="uniqId"
+        placeholder="Unique ID"
+        pattern="[a-zA-Z0-9]{3,30}"
+        title="Unique ID should be alphanumeric and between 3 to 30 characters"
+        maxlength="30"
+        minlength="3"
+      />
+      <br />
+      <input type="email" name="email" placeholder="Email"  />
+      <br />
+      <input
+        type="text"
+        name="name"
+        placeholder="Name"
+        minlength="3"
+        maxlength="30"
+        title="Name should be between 3 to 30 characters"
+      />
+      <br />
+      <input
+        type="text"
+        name="position"
+        placeholder="Position"
+        pattern="[a-zA-Z]{3,30}"
+        title="Position should be alphabets and between 3 to 30 characters"
+      />
+      <br />
+      <br />
+      <select name="gender" required>
+        <option value="">Select Gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="others">Others</option>
+      </select>
+      <br />
+      <input
+        type="text"
+        name="quli"
+        placeholder="Qualification"
+        maxlength="30"
+      />
+      <br />
+      <input type="number" name="age" placeholder="Age" min="20" max="120" />
+      <br />
+      <input type="date" name="joingDate" value="2002-01-10" />
+      <br />
+      <button type="submit">Save</button>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+     <% if (typeof achivs !== 'undefined' && achivs && achivs.length > 0) { %> <%
+    achivs.forEach(achiv => { %>
+    <ul>
+      <li><img style="width: 100px;" src="<%= achiv.img %>" alt="<%= achiv.title %>" /></li>
+      <li><%= achiv.title %></li>
+      <li><%= achiv._id %></li>
+      <li><%= achiv.desc %></li>
+
+        <a href="/home/achivUpdate/<%=achiv._id %>">Update Img</a>
+        <a href="/home/achivUpdate/details/<%=achiv._id %>">details</a>
+
+    </ul>
+    <% }); %> <% } else { %>
+    <!-- You can add a message here if admins is not defined or empty -->
+    <p>No admins found or admins data is not available.</p>
+    <% } %>
+
+</body>
+</html>
