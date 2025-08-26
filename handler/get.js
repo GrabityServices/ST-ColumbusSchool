@@ -10,7 +10,7 @@ const Achiv = require("../models/achivments.js");
 async function handelGetAchiv(req,res){
 const achivs = await Achiv.find({});
   const jsonData = achivs.map((achiv) => achiv.toJSON());
-  console.log(jsonData)
+  // console.log(jsonData)
   res.render("achiv.ejs", { path: req.path,achivs:jsonData });
 }
 
