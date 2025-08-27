@@ -33,36 +33,16 @@ document.getElementById( 'next' ).addEventListener( 'click', () => {
     goToSlide( currentIndex );
 } );
 
-
-// Increment
-// for(let i = 0;i<=2000;i++)
-// {
-//     setTimeout(()=>{
-//         increment.innerText = `${i}+`
-//     },5000)
-// }
-
-
-// setTimeout( () => {
-//     for ( let i = 0; i <= 2000; i++ ) {
-//         setTimeout( () => {
-//             increment.innerText = `${ i }+`;
-//         }, 500 )
-//     }
-// }, 5000 )
-
-
 setTimeout( () => {
     let i = 0;
     let interval = setInterval( () => {
         increment.innerText = `${ i }+`;
         if ( i >= 2000 ) {
-            clearInterval( interval ); 
+            clearInterval( interval );
         }
         i++;
     }, 70 ); // update every 5ms
 }, 3000 );
-
 
 setTimeout( () => {
     let i = 0;
@@ -75,12 +55,10 @@ setTimeout( () => {
     }, 300 ); // update every 5ms
 }, 3000 );
 
-
-
 setTimeout( () => {
     let i = 0;
     let interval = setInterval( () => {
-        school.innerText = `${ i }+`;
+        school.innerText = `${ i }`;
         if ( i >= 2 ) {
             clearInterval( interval );
         }
