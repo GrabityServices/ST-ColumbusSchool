@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style/style.css">
+    <title>Galery</title>
+  </head>
+  <body>
+
+    <a href="/home/gallery/new">Set a new Image</a>
+
+    <% if (typeof images !== 'undefined' && images && images.length > 0) { %> <%
+    images.forEach(image => { %>
+    <ul>
+      <li><img style="width: 100px;" src="<%= image.img %>" alt="<%= image.name %>" /></li>
+      <li><%= image.title %></li>
+      <li><%= image.desc %></li>
+      <li><%= image.EventDate %></li>
+
+        <a href="/home/galleryUpdate/<%=image._id %>">Update Img</a>
+        <a href="/home/galleryUpdate/details/<%=image._id %>">details</a>
+
+    </ul>
+    <% }); %> <% } else { %>
+    <!-- You can add a message here if admins is not defined or empty -->
+    <p>No admins found or admins data is not available.</p>
+    <% } %>
+
+
+  </body>
+</html>
