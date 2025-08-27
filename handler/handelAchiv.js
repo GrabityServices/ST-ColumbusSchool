@@ -32,7 +32,7 @@ const newData={
 // console.log(newData)
 
 const data =await Achivs.findByIdAndUpdate(req.params.id,{...newData},{new:true})
-console.log(data)
+// console.log(data)
 res.redirect('/home/achiv')
 }
 
