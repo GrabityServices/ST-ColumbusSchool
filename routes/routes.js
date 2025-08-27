@@ -3,10 +3,15 @@ const stcolumbus = express.Router();
 const multer = require("multer");
 const adminAvt = require("../utils/updateAdmin.js");
 const achivAvt = require("../utils/updateAchiv.js");
+const galleyAvt = require("../utils/updateGallery.js");
 
 const update = multer({ dest: "assets/adminAvt/" });
 
-const { handelGetAdmin, handelGetAchiv } = require("../handler/get.js");
+const {
+  handelGetAdmin,
+  handelGetAchiv,
+  handelGetGallery,
+} = require("../handler/get.js");
 const {
   getAdmin,
   setAdminForm,
@@ -19,6 +24,13 @@ const {
   setAchivFormDet,
 } = require("../handler/handelAchiv.js");
 
+const {
+  handelGallery,
+  setGalleryForm,
+  setGalleryFormDet,
+  handelNewGallery,
+  handelNewGalleryForm,
+} = require("../handler/handelGallery.js");
 // ==================================================
 stcolumbus.route("/admin").get(handelGetAdmin);
 
@@ -46,4 +58,22 @@ stcolumbus
   .get((req, res) => res.render("updateAchivDet.ejs", { id: req.params.id }))
   .post(setAchivFormDet);
 
+// =========================================
+stcolumbus.route("/gallery").get(handelGetGallery);
+stcolumbus.route("/galleryore").get(handelGallery);
+
+stcolumbus
+  .route("/galleryUpdate/:id")
+  .get((req, res) => res.render("updateGalley.ejs", { id: req.params.id }))
+  .post(galleyAvt.single("img"), setGalleryForm);
+
+stcolumbus
+  .route("/galleryUpdate/details/:id")
+  .get((req, res) => res.render("galleryUpdateDet.ejs", { id: req.params.id }))
+  .post(setGalleryFormDet);
+
+stcolumbus
+  .route("/gallery/new")
+  .get(handelNewGallery)
+  .post(galleyAvt.single("img"),handelNewGalleryForm);
 module.exports = stcolumbus;
