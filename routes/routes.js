@@ -33,7 +33,7 @@ const {
 } = require("../handler/handelGallery.js");
 // ==================================================
 stcolumbus.route("/admin").get(handelGetAdmin);
-
+stcolumbus.route('/').get((req,res)=>res.redirect('/home/admin'))
 stcolumbus.route("/adminroe").get(getAdmin);
 stcolumbus
   .route("/adminUpdate/:id")
