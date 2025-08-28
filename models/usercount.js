@@ -13,4 +13,9 @@ const visit = new mongoose.Schema(
 );
 
 const totalVisits = mongoose.model("TotalVisits", visit);
+// totalVisits.create({
+//   totalvisits:100,
+//   fetchBy:'STCOLUMBUS'
+// })
+
 module.exports = totalVisits;

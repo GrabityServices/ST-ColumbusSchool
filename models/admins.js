@@ -55,5 +55,15 @@ const adminsSchema = new mongoose.Schema(
 
 const Admins = mongoose.model("admins", adminsSchema);
 
+// Admins.create({
+//   unqId:'8561',
+//   name:"Raj",
+//   position:"Developer",
+//   gender:'male',
+//   quli:"BCA CGPA",
+//   age:20,
+//   email:"r@gmail.com"
+// })
+
 
 module.exports = Admins;

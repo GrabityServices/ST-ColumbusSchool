@@ -6,8 +6,14 @@ async function uniqueUser(req, res, next) {
     req.user = req.user || {};
     req.user.visited = false;
     try {
-      const count = await TotalVisits.findOne({ fetchBy: "STCOLUMBUS", _id: "68a9b266b945c3d996eb2e01" });
-      await TotalVisits.findByIdAndUpdate({fetchBy: "STCOLUMBUS", _id: "68a9b266b945c3d996eb2e01" }, { $inc: { totalvisits: 1 } });
+      const count = await TotalVisits.findOne({
+        fetchBy: "STCOLUMBUS",
+        _id: "68b03d2baf4d79f57fa2cd79",
+      });
+      await TotalVisits.findByIdAndUpdate(
+        { fetchBy: "STCOLUMBUS", _id: "68b03d2baf4d79f57fa2cd79" },
+        { $inc: { totalvisits: 1 } }
+      );
       const oneDay = 24 * 60 * 60 * 1000;
       res.cookie("visited", true, {
         httpOnly: true,
