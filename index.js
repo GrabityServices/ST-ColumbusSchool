@@ -1,39 +1,36 @@
-const express=require('express')
-const dotenv=require('dotenv')
-const connectDB=require('./connectdb')
-const Home =require('./routes/home.js')
-const stcolumbus=require('./routes/routes.js')
-const Path=require('path')
-const logging=require('./middleware/logging.js')
-const errorHandler=require('./middleware/errorHandler.js')
-const uniqueUser=require('./middleware/countVisiter.js')
-const cookieParser=require('cookie-parser')
-const { render } = require('ejs')
+const express = require("express");
+const dotenv = require("dotenv");
+const connectDB = require("./connectdb");
+const Home = require("./routes/home.js");
+const stcolumbus = require("./routes/routes.js");
+const Path = require("path");
+const logging = require("./middleware/logging.js");
+const errorHandler = require("./middleware/errorHandler.js");
+const uniqueUser = require("./middleware/countVisiter.js");
+const cookieParser = require("cookie-parser");
+const { render } = require("ejs");
 dotenv.config();
 
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-
-
 app.set("view engine", "ejs");
 
-app.set('views',Path.join(__dirname,'views'))
-app.use(express.static(Path.join(__dirname, 'public')));
-app.use(express.static(Path.join(__dirname, 'assets')));
+app.set("views", Path.join(__dirname, "views"));
+app.use(express.static(Path.join(__dirname, "public")));
+app.use(express.static(Path.join(__dirname, "assets")));
 // app.use(express.static('public'))
 
-
-app.use(cookieParser())
+app.use(cookieParser());
 // app middelwares---------------------------------------
-app.use(logging)
-app.use(uniqueUser)
+app.use(logging);
+app.use(uniqueUser);
 
 // app apis --------------------------------------------
 
-app.use('/',Home)
-app.use('/home',stcolumbus)
+app.use("/", Home);
+app.use("/home", stcolumbus);
 // app.post('/home/adminUpdate/:id',update.single('img'),(req,res)=>{
 //    console.log(req.body)
 //     console.log(req.file)
@@ -41,29 +38,29 @@ app.use('/home',stcolumbus)
 //     res.send('HRllo')
 // })
 
-
-app.get('/ft',(req,res)=>res.render('home.ejs'))
-
+app.get("/ft", (req, res) => {
+  console.log(req.user);
+  res.render("home.ejs");
+});
 
 // error handling ----------------
-app.use(errorHandler)
+app.use(errorHandler);
 // undefine address
 
-app.use((req,res)=>{
-  res.render('404.ejs',{path:req.path})
-})
-
+app.use((req, res) => {
+  res.render("404.ejs", { path: req.path });
+});
 
 // ---------------------------- Listening--------------------------
 
-const PORT = process.env.PORT||8000;
+const PORT = process.env.PORT || 8000;
 async function main() {
   await connectDB()
     .then(() => console.log("DB connected"))
     .catch((err) => {
       console.log("Error ", err);
     });
-    app.listen(PORT, () => console.log(PORT));
+  app.listen(PORT, () => console.log(PORT));
 }
 
 main().catch((err) => console.log(err));

@@ -2,14 +2,14 @@ const TotalVisits = require("../models/usercount");
 
 async function uniqueUser(req, res, next) {
   if (!req.cookies?.visited) {
-    console.log("not visited");
+    // console.log("not visited");
     req.user = req.user || {};
     req.user.visited = false;
     try {
-      const count = await TotalVisits.findOne({
-        fetchBy: "STCOLUMBUS",
-        _id: "68b03d2baf4d79f57fa2cd79",
-      });
+      // const count = await TotalVisits.findOne({
+      //   fetchBy: "STCOLUMBUS",
+      //   _id: "68b03d2baf4d79f57fa2cd79",
+      // });
       await TotalVisits.findByIdAndUpdate(
         { fetchBy: "STCOLUMBUS", _id: "68b03d2baf4d79f57fa2cd79" },
         { $inc: { totalvisits: 1 } }
@@ -24,7 +24,6 @@ async function uniqueUser(req, res, next) {
     } catch (err) {
       console.log(err);
     }
-    req.user.totalvisits=count.totalvisits+1
   } else {
     req.user = req.user || {};
     req.user.visited = true;
