@@ -33,7 +33,7 @@ const achivSchema = new mongoose.Schema(
 const Achivments = mongoose.model("achivs", achivSchema);
 
 // Achivments.create({
-//   title: "Group Song inter School level compition",
+//   title: "ThankYou seromany",
 //   desc: "Our school st columbus take first prize",
 //   prizeType: "First",
 // });
