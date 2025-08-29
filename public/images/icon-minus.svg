@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 30 31">
+  <!-- Black circular background -->
+  <circle cx="15" cy="15.5" r="12.188" fill="white" />
+
+  <!-- White minus sign -->
+  <rect x="9" y="14.5625" width="12" height="2" fill="black" rx="1" />
+</svg>
