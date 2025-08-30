@@ -32,9 +32,9 @@ app.use(uniqueUser);
 // app apis --------------------------------------------
 
 app.use("/", Home);
-app.use("/home", stcolumbus);
+app.use("/home",checkAdmin, stcolumbus);
 app.use("/stcolumbus/jaj/ekdara/admin",checkAdmin, adminroute);
-app.use('/stcolumbus/admin/manage',adminManagment)
+app.use("/stcolumbus/admin/manage", adminManagment);
 // app.post('/home/adminUpdate/:id',update.single('img'),(req,res)=>{
 //    console.log(req.body)
 //     console.log(req.file)
