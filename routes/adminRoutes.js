@@ -13,6 +13,7 @@ const {
 const {
   handleUpdateAdminImg,
   handleUpdateAdminDet,
+  handleDeleteAdmin,
 } = require("../handler/stcolumbusadmin.js");
 //==================admin work=================================
 adminroute.route("").get(handleStAdmin);
@@ -29,6 +30,8 @@ adminroute
     res.render("updateAdminAccountDet.ejs", { id: req.params.id })
   )
   .post(handleUpdateAdminDet);
+
+  adminroute.route('/delete/:id').get(handleDeleteAdmin)
 //=======================admin login logout section=========================================
 adminManagment
   .route("/login")
