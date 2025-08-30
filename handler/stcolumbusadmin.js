@@ -2,6 +2,9 @@ const UserAdmin = require("../models/userAdmin.js");
 const bcrypt = require("bcrypt");
 const validUser = require("../utils/validate.js");
 const jwt = require("jsonwebtoken");
+const path = require("path");
+const fs=require('fs');
+const { ref } = require("process");
 
 async function handleStAdmin(req, res) {
   const Admin = await UserAdmin.find({});
@@ -9,13 +12,18 @@ async function handleStAdmin(req, res) {
 }
 
 async function hadnleLoginForm(req, res) {
+  const referer = req.get("Referer") || "/stcolumbus/jaj/ekdara/admin";
+  console.log(referer)
   if (req.cookies.stadminis) {
     return res.redirect("/stcolumbus/jaj/ekdara/admin");
   }
   const data = await UserAdmin.findOne({
     $or: [{ email: req.body.idOrEmail }, { uniqId: req.body.idOrEmail }],
   });
-  const passMatch = await bcrypt.compare(req.body.password, data.password);
+  let passMatch = "";
+  if (data) {
+    passMatch = await bcrypt.compare(req.body.password, data.password);
+  }
   if (passMatch) {
     const token = await jwt.sign(
       {
@@ -141,21 +149,58 @@ async function handleUpdateAdminImg(req, res) {
 }
 
 async function handleUpdateAdminDet(req, res) {
- try{
-   const data = await UserAdmin.findById(req.params.id);
-  let name = data.name;
-  if (req.body.FirstName) {
-    name =
-      req.body.FirstName.trim() + " " + req.body.LastName.trim() || data.name;
+  try {
+    const data = await UserAdmin.findById(req.params.id);
+    let name = data.name;
+    if (req.body.FirstName) {
+      name =
+        req.body.FirstName.trim() + " " + req.body.LastName.trim() || data.name;
+    }
+    const uniqId = req.body.uniqId.trim() || data.uniqId;
+    const email = req.body.email.trim() || data.email;
+    const newData = { name, uniqId, email };
+    const newUpdateData = await UserAdmin.findByIdAndUpdate(
+      req.params.id,
+      { ...newData },
+      { new: true }
+    );
+    res.redirect("/stcolumbus/jaj/ekdara/admin");
+  } catch (err) {
+    res.redirect("/stcolumbus/jaj/ekdara/admin/update/det/" + req.params.id);
   }
-  const uniqId = req.body.uniqId.trim() || data.uniqId;
-  const email = req.body.email.trim() || data.email;
-  const newData = { name, uniqId, email };
-  const newUpdateData=await UserAdmin.findByIdAndUpdate(req.params.id,{...newData},{new:true})
-  res.redirect("/stcolumbus/jaj/ekdara/admin");
- }catch(err){
-  res.redirect("/stcolumbus/jaj/ekdara/admin/update/det/" + req.params.id)
- }
+}
+
+async function handleDeleteAdmin(req, res) {
+  try {
+    // Find the user admin document by ID
+    const admin = await UserAdmin.findById(req.params.id);
+
+    if (!admin) {
+      return res.status(404).send("Admin not found");
+    }
+
+    // Check if the image is not the default image
+    if (admin.img && admin.img !== "/adminAvt/defaultAvt.png") {
+      const imagePath = path.join(__dirname, "../assets", admin.img); // Adjust based on your storage setup
+
+      // Delete the image file
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error("Error deleting image:", err);
+        } else {
+          console.log("Image deleted successfully");
+        }
+      });
+    }
+
+    // Delete the admin record
+    await UserAdmin.findByIdAndDelete(req.params.id);
+    res.redirect("/stcolumbus/jaj/ekdara/admin");
+  } catch (err) {
+    console.log(err);
+    res.redirect("/stcolumbus/jaj/ekdara/admin");
+  }
+  
 }
 module.exports = {
   handleStAdmin,
@@ -164,4 +209,5 @@ module.exports = {
   handleForgotForm,
   handleUpdateAdminImg,
   handleUpdateAdminDet,
+  handleDeleteAdmin,
 };
