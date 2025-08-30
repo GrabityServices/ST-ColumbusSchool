@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin Signup</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .signup-container {
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 350px;
+        font-family: Arial, sans-serif;
+      }
+
+      .input-group {
+        margin-bottom: 15px;
+      }
+
+      .input-group label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .input-group input,
+      .input-group select {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+      }
+
+      .signup-btn {
+        width: 100%;
+        padding: 10px;
+        background-color: #34a853;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .signup-btn:hover {
+        background-color: #2c8a46;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="signup-container">
+      <h2>Admin Signup</h2>
+      <form action="/stcolumbus/admin/manage/signup" method="post" >
+        <!-- Name -->
+        <div class="input-group">
+          <label for="name">First Name</label>
+          <input
+            type="text"
+            id="name"
+            name="firstName"
+            required
+            minlength="3"
+            maxlength="30"
+          />
+        </div>
+        <div class="input-group">
+          <label for="name">Last Name</label>
+          <input
+            type="text"
+            id="name"
+            name="lastName"
+            required
+            minlength="3"
+            maxlength="30"
+          />
+        </div>
+
+        <!-- Unique ID -->
+        <div class="input-group">
+          <label for="uniqId">User ID </label>
+          <input type="text" id="uniqId" name="uniqId" required pattern="[A-Z0-9]{5}" title="Must be exactly 5 uppercase letters or digits" />
+
+        </div>
+
+        <!-- Email -->
+        <div class="input-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+
+        <!-- Password -->
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+        <!-- Submit Button -->
+        <button type="submit" class="signup-btn">Sign Up</button>
+      </form>
+    </div>
+  </body>
+</html>

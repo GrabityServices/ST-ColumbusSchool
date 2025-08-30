@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Forgot Password</title>
+    <style>
+      .forgot-container {
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 350px;
+        font-family: Arial, sans-serif;
+      }
+
+      .input-group {
+        margin-bottom: 15px;
+      }
+
+      .input-group label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .input-group input {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 10px;
+        background-color: #4285f4;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .submit-btn:hover {
+        background-color: #357ae8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="forgot-container">
+      <h2>Forgot Password</h2>
+      <form action="/stcolumbus/admin/manage/forgot/pass" method="post">
+        <div class="input-group">
+          <label for="idOrEmail">Enter your User ID or Email</label>
+          <input
+            type="text"
+            id="idOrEmail"
+            name="idOrEmail"
+            required
+            value="<%= typeof idOrEmail !== 'undefined' ? idOrEmail : '' %>"
+            placeholder="User ID or Email"
+          />
+        </div>
+
+        <% if (user) { %>
+        <div class="input-group">
+          <label for="password">New Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            required
+            placeholder="Enter new password"
+          />
+        </div>
+
+        <div class="input-group">
+          <label for="copyPassword">Re-enter New Password</label>
+          <input
+            type="password"
+            id="copyPassword"
+            name="copyPassword"
+            required
+            placeholder="Re-enter password"
+          />
+        </div>
+        <% } %>
+
+        <button type="submit" class="submit-btn">
+          <% if (user) { %>Reset Password<% } else { %>Verify ID or Email<% } %>
+        </button>
+      </form>
+    </div>
+  </body>
+</html>

@@ -4,6 +4,7 @@ const multer = require("multer");
 const adminAvt = require("../utils/updateAdmin.js");
 const achivAvt = require("../utils/updateAchiv.js");
 const galleyAvt = require("../utils/updateGallery.js");
+// const UserAdmin = require("../models/userAdmin.js");
 
 const update = multer({ dest: "assets/adminAvt/" });
 
@@ -76,4 +77,9 @@ stcolumbus
   .route("/gallery/new")
   .get(handelNewGallery)
   .post(galleyAvt.single("img"),handelNewGalleryForm);
+
+
+
+  // ======================================AdminFunctions======================================
+
 module.exports = stcolumbus;

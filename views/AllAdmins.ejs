@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>All Admins</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background-color: #f7f7f7;
+      }
+
+      .admin-card {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        flex-direction: column;
+        min-width: 500px;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+        margin: 20px auto;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        border: 1px solid #ddd;
+        width: fit-content;
+        max-width: 90%;
+      }
+
+      .admin-card img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid tomato;
+      }
+
+      .admin-details {
+        flex: 1;
+        line-height: 1.8;
+      }
+
+      .admin-details p {
+        margin: 6px 0;
+      }
+
+      .admin-details strong {
+        display: inline-block;
+        width: 120px;
+        color: #333;
+      }
+
+      .btns {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-left: 20px;
+      }
+
+      .link-btn {
+        background-color: tomato;
+        color: white;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: transform 0.2s ease, background-color 0.2s ease;
+      }
+
+      .link-btn:hover {
+        transform: scale(1.05);
+        background-color: #e5533d;
+      }
+
+      @media (max-width: 768px) {
+        .admin-card {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .btns {
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: center;
+          margin: 10px 0 0 0;
+        }
+
+        .admin-details {
+          text-align: center;
+        }
+
+        .admin-details strong {
+          width: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>All Admin Users</h1>
+      <button
+            type="button"
+            onclick="location.href='/stcolumbus/admin/manage/signup'"
+            class="link-btn"
+          >
+          
+            Create  new Admin
+          </button>
+
+    <% if (data.length === 0) { %>
+    <p>No admins found.</p>
+    <% } else { %> <% data.forEach(admin => { %>
+    <div class="admin-card">
+      <img src="<%= admin.img %>" alt="<%= admin.name %>'s avatar" />
+      <div class="admin-details">
+        <p><strong>Name:</strong> <%= admin.name %></p>
+        <p><strong>Email:</strong> <%= admin.email %></p>
+        <p><strong>Unique ID:</strong> <%= admin.uniqId %></p>
+        <p><strong>Blocked:</strong> <%= admin.blocked ? "Yes" : "No" %></p>
+        <p><strong>Last Login:</strong> <%= admin.lastLogin %></p>
+      </div>
+      <div class="btns">
+        <button
+          type="submit"
+          onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/img/<%= admin._id %>'"
+          class="link-btn"
+        >
+          Update Img
+        </button>
+        <button
+          type="submit"
+          onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/<%= admin._id %>'"
+          class="link-btn"
+        >
+          Update Details
+        </button>
+        <button
+          type="submit"
+          onclick="location.href='/stcolumbus/jaj/ekdara/admin/delete/<%= admin._id %>'"
+          class="link-btn"
+        >
+          Delete Admin
+        </button>
+      </div>
+    </div>
+    <% }) %> <% } %>
+  </body>
+</html>
