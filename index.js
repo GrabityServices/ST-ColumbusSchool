@@ -8,7 +8,9 @@ const logging = require("./middleware/logging.js");
 const errorHandler = require("./middleware/errorHandler.js");
 const uniqueUser = require("./middleware/countVisiter.js");
 const cookieParser = require("cookie-parser");
-const { render } = require("ejs");
+const {adminroute}=require('./routes/adminRoutes.js')
+const checkAdmin = require("./middleware/checkAdmin.js");
+const {adminManagment} = require("./routes/adminRoutes.js");
 dotenv.config();
 
 const app = express();
@@ -31,6 +33,8 @@ app.use(uniqueUser);
 
 app.use("/", Home);
 app.use("/home", stcolumbus);
+app.use("/stcolumbus/jaj/ekdara/admin",checkAdmin, adminroute);
+app.use('/stcolumbus/admin/manage',adminManagment)
 // app.post('/home/adminUpdate/:id',update.single('img'),(req,res)=>{
 //    console.log(req.body)
 //     console.log(req.file)
