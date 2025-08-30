@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login Form</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f3f3f3;
+        display: flex;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .login-container {
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 300px;
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .input-group {
+        margin-bottom: 15px;
+      }
+
+      .input-group label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .input-group input {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+        text-transform: uppercase;
+      }
+
+      .login-btn {
+        width: 100%;
+        padding: 10px;
+        background-color: #4285f4;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .login-btn:hover {
+        background-color: #357ae8;
+      }
+
+      .links {
+        margin-top: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .link-btn {
+        background: none;
+        border: none;
+        color: #4285f4;
+        cursor: pointer;
+        text-align: left;
+        padding: 0;
+      }
+
+      .link-btn:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <h2>Login</h2>
+      <form action="/stcolumbus/admin/manage/login" method="post">
+        <div class="input-group">
+          <label for="idOrEmail">User ID or Email</label>
+          <input type="text" id="idOrEmail" name="idOrEmail" required />
+        </div>
+
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+
+        <button type="submit" class="login-btn">Login</button>
+
+        <div class="links">
+          <button
+            type="button"
+            onclick="location.href='/stcolumbus/admin/manage/forgot/pass'"
+            class="link-btn"
+          >
+            Forgot Password?
+          </button>
+          <button
+            type="button"
+            onclick="location.href='/stcolumbus/admin/manage/signup'"
+            class="link-btn"
+          >
+          
+            Sign Up
+          </button>
+          <button
+            type="button"
+            onclick="location.href='/stcolumbus/admin/manage/change/pass'"
+            class="link-btn"
+          >
+
+            Change Pass 
+          </button>
+
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
