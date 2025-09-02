@@ -48,7 +48,7 @@
   <body>
     <div class="signup-container">
       <h2>Admin Signup</h2>
-      <form action="/stcolumbus/admin/manage/signup" method="post" >
+      <form action="/stcolumbus/admin/manage/signup" method="post">
         <!-- Name -->
         <div class="input-group">
           <label for="name">First Name</label>
@@ -76,8 +76,14 @@
         <!-- Unique ID -->
         <div class="input-group">
           <label for="uniqId">User ID </label>
-          <input type="text" id="uniqId" name="uniqId" required pattern="[A-Z0-9]{5}" title="Must be exactly 5 uppercase letters or digits" />
-
+          <input
+            type="text"
+            id="uniqId"
+            name="uniqId"
+            required
+            pattern="[A-Z0-9]{5}"
+            title="Must be exactly 5 uppercase letters or digits"
+          />
         </div>
 
         <!-- Email -->
@@ -90,6 +96,15 @@
         <div class="input-group">
           <label for="password">Password</label>
           <input type="password" id="password" name="password" required />
+        </div>
+        <!-- role -->
+        <div class="input-group">
+          <label for="password">Role</label>
+          <select name="role" id="">
+            <option value="superadmin">SuperAdmin</option>
+            <option value="moderator">Moderator</option>
+            <option value="editor" selected>Editor</option>
+          </select>
         </div>
         <!-- Submit Button -->
         <button type="submit" class="signup-btn">Sign Up</button>

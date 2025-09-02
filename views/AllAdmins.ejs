@@ -100,16 +100,22 @@
   </head>
   <body>
     <h1>All Admin Users</h1>
-      <button
-            type="button"
-            onclick="location.href='/stcolumbus/admin/manage/signup'"
-            class="link-btn"
-          >
-          
-            Create  new Admin
-          </button>
+    <button
+      type="button"
+      onclick="location.href='/stcolumbus/admin/manage/signup'"
+      class="link-btn"
+    >
+      Create new Admin
+    </button>
+    <button
+      type="button"
+      onclick="location.href='/stcolumbus/admin/manage/logout'"
+      class="link-btn"
+    >
+      Logout
+    </button>
 
-    <% if (data.length === 0) { %>
+    <% if (!data && data.length <= 0) { %>
     <p>No admins found.</p>
     <% } else { %> <% data.forEach(admin => { %>
     <div class="admin-card">
@@ -118,6 +124,7 @@
         <p><strong>Name:</strong> <%= admin.name %></p>
         <p><strong>Email:</strong> <%= admin.email %></p>
         <p><strong>Unique ID:</strong> <%= admin.uniqId %></p>
+        <p><strong>Role :</strong> <%= admin.role.toUpperCase() %></p>
         <p><strong>Blocked:</strong> <%= admin.blocked ? "Yes" : "No" %></p>
         <p><strong>Last Login:</strong> <%= admin.lastLogin %></p>
       </div>
@@ -136,6 +143,7 @@
         >
           Update Details
         </button>
+        <% if(supAd) {%>
         <button
           type="submit"
           onclick="location.href='/stcolumbus/jaj/ekdara/admin/delete/<%= admin._id %>'"
@@ -143,6 +151,14 @@
         >
           Delete Admin
         </button>
+        <button
+          type="submit"
+          onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/superadmin/<%= admin._id %>'"
+          class="link-btn"
+        >
+          Update Access Control Or Block Admin
+        </button>
+        <% } %>
       </div>
     </div>
     <% }) %> <% } %>

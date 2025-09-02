@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Update Admin</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f3f3;
+      margin: 0;
+      padding: 40px;
+    }
+
+    .form-container {
+      background-color: #fff;
+      max-width: 600px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    select[multiple] {
+      height: 100px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Update Admin Details</h2>
+    <form action="/stcolumbus/jaj/ekdara/admin/update/det/superadmin/<%=id%>" method="POST">
+      <label for="ftName">Unique Id</label>
+      <input type="text" name="uniqId" id="ftName"  pattern="[A-Z0-9]{5}"/>
+      
+      <label for="role">Role</label>
+      <select name="role" id="role">
+        <option value="" hidden selected></option>
+        <option value="editor">Editor</option>
+        <option value="superadmin">SuperAdmin</option>
+        <option value="moderator">Moderator</option>
+      </select>
+
+
+      <label for="activeness">Activeness</label>
+      <select name="blocked" id="activeness">
+        <option value="" hidden selected></option>
+        <option value="true">Non Active</option>
+        <option value="false" >Active</option>
+      </select>
+      <button type="submit">Update Admin</button>
+    </form>
+  </div>
+</body>
+</html>

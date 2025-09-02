@@ -3,28 +3,40 @@ const bcrypt = require("bcrypt");
 const validUser = require("../utils/validate.js");
 const jwt = require("jsonwebtoken");
 const path = require("path");
-const fs=require('fs');
-const { ref } = require("process");
+const fs = require("fs");
+const moment = require("moment");
 
 async function handleStAdmin(req, res) {
   const Admin = await UserAdmin.find({});
-  res.render("AllAdmins.ejs", { data: Admin });
+  const jwtData = await jwt.decode(req.cookies.stadminis, process.env.JWTKEYIS);
+  if (jwtData.role === "superadmin") {
+    return res.render("AllAdmins.ejs", { data: Admin, supAd: true });
+  } else {
+    Admin.forEach((member) => {
+      if (member._id == jwtData.id) {
+        return res.render("AllAdmins.ejs", { data: [member], supAd: false });
+      }
+    });
+  }
 }
 
 async function hadnleLoginForm(req, res) {
-  const referer = req.get("Referer") || "/stcolumbus/jaj/ekdara/admin";
-  console.log(referer)
   if (req.cookies.stadminis) {
+    console.log("Allready Login");
     return res.redirect("/stcolumbus/jaj/ekdara/admin");
   }
-  const data = await UserAdmin.findOne({
-    $or: [{ email: req.body.idOrEmail }, { uniqId: req.body.idOrEmail }],
-  });
+  const data = await UserAdmin.findOneAndUpdate(
+    {
+      $or: [{ email: req.body.idOrEmail }, { uniqId: req.body.idOrEmail }],
+    },
+    { lastLogin: moment().format("YYYY-MM-DD") },
+    { new: true }
+  );
   let passMatch = "";
   if (data) {
     passMatch = await bcrypt.compare(req.body.password, data.password);
   }
-  if (passMatch) {
+  if (passMatch && !data.blocked) {
     const token = await jwt.sign(
       {
         name: data.name,
@@ -32,6 +44,7 @@ async function hadnleLoginForm(req, res) {
         email: data.email,
         uniqId: data.uniqId,
         blocked: data.blocked,
+        role: data.role,
         id: data._id,
       },
       process.env.JWTKEYIS,
@@ -45,6 +58,7 @@ async function hadnleLoginForm(req, res) {
     });
     res.redirect("/stcolumbus/jaj/ekdara/admin");
   } else {
+    console.log("Admin is either Blocked or not signedup");
     res.redirect("/stcolumbus/admin/manage/login");
   }
 }
@@ -75,9 +89,11 @@ async function hadnleSignupForm(req, res) {
         uniqId: req.body.uniqId,
         email: req.body.email,
         password: req.body.password,
+        role: req.body.role,
       });
     } catch (err) {
       throw new Error("User Creating Fail");
+      res.redirect("/stcolumbus/admin/manage/login");
     }
 
     res.redirect("/stcolumbus/admin/manage/login");
@@ -141,10 +157,45 @@ async function handleUpdateAdminImg(req, res) {
   if (req.body.uploaded) {
     const userAdmins = await UserAdmin.findByIdAndUpdate(req.params.id, {
       img: req.body.filename,
+    }).then((AdminIs) => {
+      console.log(AdminIs.img);
+      if (AdminIs.img && AdminIs.img !== "/adminAvt/defaultAvt.png") {
+        try {
+          const imagePath = path.join(__dirname, "../assets", AdminIs.img); // Adjust based on your storage setup
+          // Delete the image file
+          fs.unlink(imagePath, (err) => {
+            if (err) {
+              console.error("Error deleting image:", err);
+            } else {
+              console.log("Image deleted successfully");
+            }
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      }
     });
     res.redirect("/stcolumbus/jaj/ekdara/admin");
   } else {
-    res.redirect("/stcolumbus/jaj/ekdara/admin/update/img/" + req.params.id);
+    try {
+      const imagePath = path.join(
+        __dirname,
+        "../assets/adminAccountAvt",
+        req.body.filename
+      ); // Adjust based on your storage setup
+
+      // Delete the image file
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error("Error deleting image:", err);
+        } else {
+          console.log("Image deleted successfully");
+        }
+      });
+      res.redirect("/stcolumbus/jaj/ekdara/admin/update/img/" + req.params.id);
+    } catch (err) {
+      res.redirect("/stcolumbus/jaj/ekdara/admin/update/img/" + req.params.id);
+    }
   }
 }
 
@@ -156,9 +207,8 @@ async function handleUpdateAdminDet(req, res) {
       name =
         req.body.FirstName.trim() + " " + req.body.LastName.trim() || data.name;
     }
-    const uniqId = req.body.uniqId.trim() || data.uniqId;
     const email = req.body.email.trim() || data.email;
-    const newData = { name, uniqId, email };
+    const newData = { name, email };
     const newUpdateData = await UserAdmin.findByIdAndUpdate(
       req.params.id,
       { ...newData },
@@ -200,7 +250,30 @@ async function handleDeleteAdmin(req, res) {
     console.log(err);
     res.redirect("/stcolumbus/jaj/ekdara/admin");
   }
-  
+}
+
+async function hadnleUpdateBySuperAdmin(req, res) {
+  const oldData = await UserAdmin.findById(req.params.id);
+  const newData = {
+    uniqId: req.body.uniqId || oldData.uniqId,
+    role: req.body.role || oldData.role,
+    blocked: req.body.blocked || oldData.blocked,
+  };
+  if (oldData) {
+    const data = await UserAdmin.findByIdAndUpdate(req.params.id, {
+      ...newData,
+    })
+      .then((ress) => {
+        console.log("Admin Update performed");
+      })
+      .catch((err) => {
+        console.log("Admin Update performed");
+      });
+    res.redirect("/stcolumbus/jaj/ekdara/admin");
+  } else
+    res.redirect(
+      `/stcolumbus/jaj/ekdara/admin/update/det/superadmin/${req.params.id}`
+    );
 }
 module.exports = {
   handleStAdmin,
@@ -210,4 +283,5 @@ module.exports = {
   handleUpdateAdminImg,
   handleUpdateAdminDet,
   handleDeleteAdmin,
+  hadnleUpdateBySuperAdmin,
 };

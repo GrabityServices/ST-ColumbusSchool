@@ -2,6 +2,7 @@ const express = require("express");
 const adminroute = express.Router();
 const adminManagment = express.Router();
 const adminAccountAvt = require("../utils/updateAdminAccountImg.js");
+const { checkAdminAsSuperadmin } = require("../middleware/checkAdmin.js");
 // ======================accpunt Handlers==============
 const {
   handleStAdmin,
@@ -14,6 +15,7 @@ const {
   handleUpdateAdminImg,
   handleUpdateAdminDet,
   handleDeleteAdmin,
+  hadnleUpdateBySuperAdmin,
 } = require("../handler/stcolumbusadmin.js");
 //==================admin work=================================
 adminroute.route("").get(handleStAdmin);
@@ -31,7 +33,14 @@ adminroute
   )
   .post(handleUpdateAdminDet);
 
-  adminroute.route('/delete/:id').get(handleDeleteAdmin)
+adminroute
+  .route("/update/det/superadmin/:id")
+  .get(checkAdminAsSuperadmin,(req, res) =>
+    res.render("updateBySuperAdmin.ejs", { id: req.params.id })
+  )
+  .post(checkAdminAsSuperadmin,hadnleUpdateBySuperAdmin);
+
+adminroute.route("/delete/:id").get(checkAdminAsSuperadmin, handleDeleteAdmin);
 //=======================admin login logout section=========================================
 adminManagment
   .route("/login")
@@ -45,8 +54,8 @@ adminManagment
 
 adminManagment
   .route("/signup")
-  .get((req, res) => res.render("signupForm.ejs"))
-  .post(hadnleSignupForm);
+  .get(checkAdminAsSuperadmin, (req, res) => res.render("signupForm.ejs"))
+  .post(checkAdminAsSuperadmin, hadnleSignupForm);
 
 adminManagment.route("/forgot/userid").get((req, res) => res.send("By Id"));
 adminManagment.route("/forgot/email").get((req, res) => res.send("By email"));
@@ -59,4 +68,14 @@ adminManagment.route("/change/pass").get((req, res) => {
   res.render("forgotAdminPass.ejs", { user: true });
 });
 
+
+adminManagment.route("/logout").get((req,res)=>{
+  res.cookie("stadminis", null, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "strict",
+    expires: new Date(Date.now()),
+  });
+  res.redirect('/stcolumbus/admin/manage/login')
+})
 module.exports = { adminroute, adminManagment };
