@@ -1,3 +1,5 @@
+const path = require("path");
+const fs = require("fs");
 const Gallery = require("../models/gallery.js");
 
 async function handelGallery(req, res) {
@@ -10,10 +12,45 @@ async function setGalleryForm(req, res) {
   if (req.body.uploaded == true) {
     const gallery = await Gallery.findByIdAndUpdate(req.params.id, {
       img: req.body.filename,
+    }).then((AdminIs) => {
+      console.log(AdminIs.img);
+      if (AdminIs.img && AdminIs.img !== "/adminAvt/defaultAvt.png") {
+        try {
+          const imagePath = path.join(__dirname, "../assets", AdminIs.img); // Adjust based on your storage setup
+          // Delete the image file
+          fs.unlink(imagePath, (err) => {
+            if (err) {
+              console.error("Error deleting image:", err);
+            } else {
+              console.log("Image deleted successfully");
+            }
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      }
     });
     res.redirect("/home/gallery");
   } else {
-    res.redirect(`/home/galleryUpdate/${req.params.id}`);
+    try {
+      const imagePath = path.join(
+        __dirname,
+        "../assets/galleryAvt",
+        req.body.filename
+      ); // Adjust based on your storage setup
+
+      // Delete the image file
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error("Error deleting image:", err);
+        } else {
+          console.log("Image deleted successfully");
+        }
+      });
+      res.redirect(`/home/galleryUpdate/${req.params.id}`);
+    } catch (err) {
+      res.redirect(`/home/galleryUpdate/${req.params.id}`);
+    }
   }
 }
 
@@ -46,7 +83,7 @@ function handelNewGallery(req, res) {
 
 async function handelNewGalleryForm(req, res) {
   if (req.body.uploaded) {
-    const {title,desc,EventDate,filename}=req.body
+    const { title, desc, EventDate, filename } = req.body;
     const newGal = await Gallery.create({
       title,
       desc,
@@ -54,9 +91,28 @@ async function handelNewGalleryForm(req, res) {
       img: filename,
     });
     // console.log(newGal);
-    return res.redirect('/home/gallery')
+    return res.redirect("/home/gallery");
+  } else {
+    try {
+      const imagePath = path.join(
+        __dirname,
+        "../assets/galleryAvt",
+        req.body.filename
+      ); // Adjust based on your storage setup
+
+      // Delete the image file
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error("Error deleting image:", err);
+        } else {
+          console.log("Image deleted successfully");
+        }
+      });
+      res.redirect(`/home/gallery/new`);
+    } catch (err) {
+      res.redirect(`/home/gallery/new`);
+    }
   }
-  res.redirect('/home/gallery/new')
 }
 module.exports = {
   handelGallery,

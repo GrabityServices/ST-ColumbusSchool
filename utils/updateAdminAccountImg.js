@@ -1,25 +1,27 @@
-const multer=require('multer')
-const path=require('path')
+const multer = require("multer");
+const path = require("path");
 
 const storage = multer.diskStorage({
-  limits:10*10*1024,
+  limits: 10 * 10 * 1024,
   destination: function (req, file, cb) {
-    cb(null, path.resolve('./assets/adminAccountAvt/'))
+    cb(null, path.resolve("./assets/adminAccountAvt/"));
   },
   filename: function (req, file, cb) {
     const regex = /.\.(jpg|png|jpeg)$/i;
     if (regex.test(file.originalname)) {
-      const uniqueSuff = Date.now() ;
+      const uniqueSuff = Date.now();
       cb(null, uniqueSuff + "-" + file.originalname);
-      req.body.uploaded=true
+      req.body.uploaded = true;
       req.body.filename =
         "/adminAccountAvt/" + uniqueSuff + "-" + file.originalname;
     } else {
-      cb(null,'unvalid'+Date.now()+file.originalname)
-        req.body.uploaded=false
+      const dateis = Date.now() + file.originalname;
+      cb(null, "unvalid" + dateis);
+      req.body.uploaded = false;
+      req.body.filename = "unvalid" + dateis;
     }
-  }
-})
+  },
+});
 
 const adminAccountAvt = multer({ storage: storage });
 
