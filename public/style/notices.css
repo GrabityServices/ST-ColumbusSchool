@@ -1,0 +1,147 @@
+:root {
+    --maxw: 1100px;
+    --muted: #666;
+    --accent: #0b6;
+}
+
+* {
+    box-sizing: border-box
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: #222;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 1.25rem
+}
+
+.notice-hero {
+    margin-top: 90px;
+    background: #112;
+    color: #fff;
+    padding: 2.25rem 0;
+    text-align: center
+}
+
+.notice-hero h1 {
+    font-size: 2.4rem;
+    margin: .25rem 0
+}
+
+.notice-hero .lead {
+    font-size: 1.02rem;
+    opacity: .95
+}
+
+.breadcrumbs {
+    font-size: .95rem;
+    opacity: .9;
+    margin-bottom: .5rem
+}
+
+/* controls */
+.notice-controls .controls-row {
+    display: flex;
+    gap: .7rem;
+    align-items: center
+}
+
+.notice-controls input[type="search"] {
+    flex: 1;
+    padding: .6rem .75rem;
+    border-radius: 8px;
+    border: 1px solid #ddd
+}
+
+.notice-controls select {
+    padding: .55rem .6rem;
+    border-radius: 8px;
+    border: 1px solid #ddd
+}
+
+/* pinned */
+.notice-pinned {
+    margin-top: 1rem
+}
+
+.notice-card {
+    background: #000000;
+    border: 1px solid #eee;
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .03)
+}
+
+.notice-card header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: .6rem
+}
+
+.notice-card h3 {
+    font-size: 1.25rem;
+    margin: 0
+}
+
+.notice-card time {
+    font-size: .9rem;
+    color: var(--muted)
+}
+
+/* pinned style */
+.notice-card--pinned {
+    border-left: 6px solid #d9534f;
+    background: #0a0a0aa4
+}
+
+/* excerpt & meta */
+.excerpt {
+    font-size: 1rem;
+    margin: .6rem 0
+}
+
+.meta a {
+    font-size: .95rem;
+    color: #0b6;
+    text-decoration: none
+}
+
+/* load more */
+.notice-pagination {
+    display: flex;
+    justify-content: center;
+    padding: 1.2rem 0
+}
+
+.btn {
+    background: #111;
+    color: #fff;
+    padding: .6rem 1rem;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer
+}
+
+.btn:focus {
+    outline: 2px solid #888
+}
+
+@media (max-width:720px) {
+    .notice-controls .controls-row {
+        flex-direction: column;
+        align-items: stretch
+    }
+
+    .notice-hero h1 {
+        font-size: 1.8rem
+    }
+}

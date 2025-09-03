@@ -3,9 +3,9 @@
     --second-text-color: white;
     --button-color: rgba(236, 105, 105, 0.6);
     --first-bg: thistle;
-    --second-bg: black;
     --black-text: black;
     --light-text: rgb(27, 26, 26);
+    --maxw: 1400px;
 }
 
 * {
@@ -13,23 +13,48 @@
 
 }
 
-body,
-html {
+body {
     margin: 0;
     padding: 0;
-    color: var(--text-color);
+    line-height: 1.5;
 }
 
+/* Container & typography */
+.container {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 2rem .5rem;
+}
+
+h1 {
+    font-size: 3.5rem;
+    line-height: 1;
+}
+
+h2 {
+    font-size: 2.5rem;
+}
+
+h3 {
+    font-size: 1.35rem;
+}
+
+p {
+    font-size: 1.1rem;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* IMAGE SLIDER */
 .slider-box {
     height: calc(100dvh - 90px);
     margin-top: 90px;
-
-    .slider {
-        height: 100%;
-    }
 }
 
 .slider {
+    height: 100%;
     display: block;
     width: 100%;
     overflow: hidden;
@@ -80,7 +105,6 @@ html {
 }
 
 .slide p {
-    font-size: 70px;
     text-align: center;
     display: inline-block;
     width: 100%;
@@ -120,6 +144,7 @@ html {
     }
 }
 
+/* SOCIAL ICONS */
 .social-icons {
     width: 45px;
     height: 150px;
@@ -196,42 +221,21 @@ html {
 }
 
 
-/* Second Page */
-main {
-    width: 100%;
-    background-color: var(--second-bg);
-}
-
-.second-page {
-    max-width: 100%;
-    color: var(--dark-text-color);
-}
-
+/* SECOND PAGE */
 .welcome-to-st-col {
-    max-width: 100%;
     margin: 0 auto;
-    padding: 20px 0;
-}
-
-.welcome-to-st-col h1 {
-    font-size: 2rem;
     text-align: center;
-    letter-spacing: 1px;
 }
 
 .Where-learning-blossoms {
-    max-width: 80%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     gap: 30px;
-    padding: 20px 0;
-    margin: 0 auto;
 }
 
-.Where-learning-blossoms h1 {
-    font-size: 2.5rem;
+.Where-learning-blossoms h2 {
     text-align: center;
     color: var(--second-text-color);
     border-left: 1px solid hotpink;
@@ -245,16 +249,7 @@ main {
 .Where-learning-blossoms .heart-text {
     text-wrap: nowrap;
     color: hotpink;
-    font-size: 2.5rem;
 }
-
-.Where-learning-blossoms p {
-    font-size: 1.4rem;
-    padding: 0 15px;
-    line-height: 1.2;
-    letter-spacing: 0.5px;
-}
-
 
 /* Text scroll animation */
 .Where-learning-blossoms span {
@@ -267,7 +262,6 @@ main {
     animation-timeline: view(y);
 }
 
-
 .Where-learning-blossoms p span {
     animation-range-start: cover 30vh;
     animation-range-end: cover 70vh;
@@ -279,57 +273,44 @@ main {
     }
 }
 
-
 .Where-learning-blossoms button {
     padding: 10px 20px;
     border: none;
     font-family: inherit;
-    font-size: 1.5rem;
     border-radius: 50px;
     cursor: pointer;
     background-color: var(--button-color);
     color: var(--second-text-color);
 }
 
-.facts-summary {
-    max-width: 100%;
-    background-color: var;
-}
-
+/* THIRD PAGE */
 .inner-fact-summary {
     display: grid;
     grid-template-columns: repeat(3, 295px);
     grid-template-rows: repeat(2, 230px);
-    gap: 30px;
+    gap: 50px;
     margin: 0 auto;
     justify-content: center;
     align-items: center;
     padding: 50px 10px;
     text-align: center;
-    background-color: var(--first-bg);
 }
 
 .count {
-    width: 295px;
+    width: 310px;
     height: 230px;
     backdrop-filter: blur(16px);
-    background-color: rgba(17, 25, 40, 0.1);
     border-radius: 12px;
+    background-color: #bdbfce7a;
     border: 0.1px solid rgba(255, 255, 255, 0.125);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 10px;
     border-radius: 10px;
 }
 
-.count h2 {
-    font-size: 3rem;
-}
-
-.count p {
-    font-size: 1.8rem;
+.count h3 {
     color: var(--black-text);
 }
 
@@ -344,8 +325,8 @@ main {
 }
 
 
-/* Third Page */
-.third-page {
+/* FOURTH PAGE */
+.fourth-page {
     width: 100%;
     position: relative;
 }
@@ -359,7 +340,7 @@ main {
     position: absolute;
     top: 120px;
     right: 35%;
-    font-size: 3rem;
+    padding: 5px;
 }
 
 .tree-and-study-image img {
@@ -369,7 +350,6 @@ main {
 
 .mission-and-vision {
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.479);
     color: var(--text-color);
 }
 
@@ -406,18 +386,11 @@ main {
     width: 100%;
 }
 
-.value-cards h3 {
-    font-size: 2rem;
-    letter-spacing: 1px;
-}
-
 .value-cards b {
-    font-size: 1.3rem;
     font-weight: 600;
 }
 
 .value-cards p {
-    font-size: 1.2rem;
     color: var(--light-text);
     text-wrap: wrap;
     white-space: initial;
@@ -430,10 +403,9 @@ main {
 }
 
 
-/* Fourth Page */
-.fourth-page {
+/* FIFTH PAGE */
+.fifth-page {
     width: 100%;
-    /* height: calc(100vh - 90px); */
     background-color: tomato;
     display: flex;
     align-items: center;
@@ -447,22 +419,17 @@ main {
 }
 
 .why-this-school h1 {
-    font-size: 2.8rem;
     text-align: center;
     padding: 20px 0;
 }
 
 .why-this-school p {
-    font-size: 1.2rem;
-    line-height: 21px;
     text-align: center;
 }
 
 .why-this-school-card-container {
     max-width: 1250px;
     display: grid;
-    /* grid-template-rows: repeat(2, 280px); */
-    /* grid-template-columns: repeat(3, 400px); */
     grid-template-columns: repeat(3, minmax(200px, 1fr));
     gap: 20px;
     padding: 70px 0;
@@ -486,21 +453,10 @@ main {
     height: 100%;
 }
 
-.why-card h3 {
-    font-size: 1.5rem
-}
 
-.why-card p {
-    font-size: 1.1rem;
-    line-height: 20px;
-}
-
-
-
-/* Fifth Page */
-.fifth-page {
+/* SIXTH PAGE */
+.sixth-page {
     height: 850px;
-    width: 100%;
     background-color: #3B5998;
 }
 
@@ -514,13 +470,10 @@ main {
 }
 
 .achievement h1 {
-    font-size: 3.8rem;
     text-align: center;
-
 }
 
 .achievement p {
-    font-size: 1.1rem;
     text-align: center;
 }
 
@@ -555,8 +508,8 @@ main {
 }
 
 
-/* Sixth Page */
-.sixth-page {
+/* SEVENTH PAGE */
+.seventh-page {
     width: 100%;
     background-color: #cc6c6c;
     padding: 20px 0;
@@ -590,14 +543,8 @@ main {
     gap: 30px;
 }
 
-.founders h1 {
-    font-size: 2.8rem;
-}
-
 .founders p {
-    font-size: 1rem;
     text-align: left;
-    line-height: 20.5px;
 }
 
 .founders a {
@@ -605,7 +552,6 @@ main {
     background-color: var(--button-color);
     color: var(--text-color);
     border-radius: 5px;
-    font-size: 0.95rem;
 }
 
 .founder-right {
@@ -622,16 +568,9 @@ main {
     gap: 15px;
 }
 
-.right-first h3,
-.right-second h3 {
-    font-size: 1.3rem;
-}
-
 .right-first p,
 .right-second p {
-    font-size: 1.05rem;
     opacity: 0.9;
-    font-weight: 400;
 }
 
 .right-first-image,
@@ -658,79 +597,157 @@ main {
 }
 
 
-/* Frequently asked question */
-.frequently-asked-questions{
-    width: 100%;
-    height: 600px;
-    background-color: var(--black-text);
-    padding: 20px 0;
+/* FREQUENT ASKED QUESTIONS */
+.frequently-asked-questions {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 40px 10px;
+    gap: 70px;
 }
 
-.faq-image-text{
+.faq-heading-section {
+    display: flex;
+    align-items: center;
+}
+
+.faq-card {
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 15px;
+    padding: 30px;
+    background-color: #504b4bab;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.faq-item {
+    border-bottom: 0.1px solid #ddd;
+    padding: 15px 0;
+}
+
+.faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.faq-question img {
+    width: 30px;
+    height: 30px;
+    transition: transform 0.3s;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding-top: 0;
+}
+
+.faq-answer p {
+    opacity: 0.8;
+}
+
+.faq-item.active .faq-answer {
+    padding-top: 10px;
+}
+
+
+/* FOOTER */
+footer {
+    width: 100%;
+    background-color: black;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    padding: 20px 5px;
+    border-top: 1px solid rgba(155, 150, 150, 0.425);
+}
+
+.footer-container {
+    max-width: 1400px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 80px;
+    padding: 40px 0;
+    border-bottom: 1px solid rgb(155, 150, 150);
+}
+
+.about-us {
+    max-width: 390px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.contact-us {
+    max-width: 400px;
+}
+
+.quick-links div a,
+.follow-us div a {
+    color: white;
+    opacity: 0.8;
+}
+
+.quick-links,
+.follow-us,
+.contact-us {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+
+.about-us div p,
+.quick-links div p,
+.follow-us div p,
+.contact-us div p {
+    opacity: 0.8;
+}
+
+.quick-links div,
+.follow-us div,
+.contact-us div {
+    display: flex;
+    flex-direction: column;
     gap: 10px;
 }
 
-.frequently-asked-questions h1{
-    font-size: 2.8rem;
+.copy-right {
+    padding: 10px 0;
 }
 
-.faq-container{
-    height: 400px;
-    width: 800px;
-    background-color: thistle;
-    margin-inline: auto;
-    padding: 10px;
-    margin-top: 40px;
-}
-
-.question-section{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    border-bottom: 0.2px solid rgba(0, 0, 0, 0.5);
-}
-
-.question-section p{
-    font-size: 1.2rem;
+.copy-right a {
+    color: rgb(0, 140, 255);
 }
 
 
-
-
-/* Responsive */
+/* RESPONSIVENESS */
 @media (max-width: 1050px) {
     .inner-fact-summary {
         display: grid;
-        grid-template-columns: repeat(3, 260px);
-        grid-template-rows: repeat(2, 190px);
-        gap: 20px;
+        grid-template-columns: repeat(3, 250px);
+        grid-template-rows: repeat(2, 180px);
+        gap: 10px;
     }
 
     .count {
-        max-width: 260px;
-        max-height: 190px;
-    }
-
-    .count h2 {
-        font-size: 2.5rem;
-    }
-
-    .count p {
-        font-size: 1.5rem;
+        max-width: 250px;
+        max-height: 180px;
     }
 
     .fact-image {
-        width: 70px;
-        height: 70px;
+        width: 50px;
+        height: 50px;
     }
 
     .our-beliefs {
-        font-size: 2.5rem;
-        top: 80px;
+        top: 20px;
         right: 35%;
     }
 
@@ -740,6 +757,33 @@ main {
 }
 
 @media (max-width: 845px) {
+    body {
+        line-height: 1.4;
+    }
+
+    .container {
+        padding: 1rem .5rem;
+    }
+
+    h1 {
+        font-size: 3rem;
+        line-height: 1;
+    }
+
+    h2 {
+        font-size: 2rem;
+        margin-bottom: .75rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+        margin-bottom: .5rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
     .inner-fact-summary {
         display: grid;
         grid-template-columns: repeat(3, 230px);
@@ -750,20 +794,11 @@ main {
     .count {
         width: 230px;
         height: 170px;
-        gap: 5px;
-    }
-
-    .count h2 {
-        font-size: 2.5rem;
-    }
-
-    .count p {
-        font-size: 1.5rem;
     }
 
     .fact-image {
-        width: 70px;
-        height: 70px;
+        width: 60px;
+        height: 60px;
     }
 
     .social-icons {
@@ -771,18 +806,7 @@ main {
         top: 45%;
     }
 
-    .value-cards h3 {
-        font-size: 2rem
-    }
-
-    .value-cards b {
-        font-size: 1.3rem;
-        font-weight: 600;
-
-    }
-
     .value-cards p {
-        font-size: 1.2rem;
         color: var(--light-text);
     }
 
@@ -798,20 +822,8 @@ main {
         flex-wrap: wrap;
     }
 
-    .value-cards h3 {
-        font-size: 1.5rem
-    }
-
-    .value-cards b {
-        font-size: 1rem;
-    }
-
-    .value-cards p {
-        font-size: 1rem;
-    }
-
     .content-section {
-        gap: 10px;
+        gap: 20px;
     }
 
     /* Sixth Page Founder Image */
@@ -821,11 +833,7 @@ main {
         gap: 40px;
     }
 
-    .founders h1{
-        font-size: 2rem;
-    }
-
-    .founder-left{
+    .founder-left {
         max-width: none;
         gap: 10px;
     }
@@ -837,7 +845,6 @@ main {
 
     .right-first,
     .right-second {
-        font-size: 1.1rem;
         gap: 10px;
     }
 
@@ -845,6 +852,18 @@ main {
     .right-second-image {
         width: 85%;
         height: auto;
+    }
+
+    /* FAQ */
+    .frequently-asked-questions {
+        padding: 30px 10px;
+        gap: 60px;
+    }
+
+    /* Footer */
+    .footer-container {
+        padding: 20px 0;
+        gap: 50px;
     }
 }
 
@@ -863,27 +882,20 @@ main {
         padding: 10px 5px;
     }
 
-    .welcome-to-st-col h1 {
-        font-size: 1.5rem;
-    }
-
     .Where-learning-blossoms {
         max-width: 100%;
     }
 
     .Where-learning-blossoms h1 {
-        font-size: 1.8rem;
         padding: 0 10px;
     }
 
     .Where-learning-blossoms p {
-        font-size: 1.2rem;
         padding: 0 10px;
     }
 
     .Where-learning-blossoms button {
         padding: 10px 20px;
-        font-size: 1rem;
     }
 
     .inner-fact-summary {
@@ -898,14 +910,6 @@ main {
         border-radius: 5px;
     }
 
-    .count h2 {
-        font-size: 2rem;
-    }
-
-    .count p {
-        font-size: 1rem;
-    }
-
     .fact-image {
         width: 50px;
         height: 70px;
@@ -917,14 +921,8 @@ main {
     }
 
     .our-beliefs {
-        font-size: 1.8rem;
-        top: 50px;
+        top: 1px;
         right: 31%;
-    }
-
-    /* Fourth Page */
-    .why-this-school h1 {
-        font-size: 1.8rem;
     }
 
     .why-this-school-card-container {
@@ -933,15 +931,39 @@ main {
         padding: 30px 0;
     }
 
-    /* Fifth Page */
-    .achievement h1 {
-        font-size: 2rem;
+    .frequently-asked-questions {
+        padding: 20px 10px;
+        gap: 20px;
+    }
+
+    .faq-card {
+        padding: 15px;
     }
 
 
 }
 
 @media (max-width: 500px) {
+    body {
+        line-height: 1.3;
+    }
+
+    h1 {
+        font-size: 2rem;
+        line-height: 1;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.1rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
 
     .inner-fact-summary {
         grid-template-columns: repeat(2, 190px);
@@ -952,6 +974,7 @@ main {
         width: 190px;
         height: 150px;
         border-radius: 5px;
+        padding: 5px;
     }
 
     .our-beliefs {
@@ -977,30 +1000,46 @@ main {
         width: 30px;
     }
 
+    /* FAQ */
+    .faq-question img {
+        width: 25px;
+        height: 25px;
+    }
+
+    .faq-item {
+        padding: 10px 0;
+    }
+
+    footer {
+        padding: 5px;
+    }
+
+    .footer-container {
+        gap: 30px;
+    }
+
 }
 
 @media (max-width: 450px) {
     .main-text .heart-text {
         padding: 0 4px;
-        font-size: 30px;
     }
 
     .inner-fact-summary {
-        grid-template-columns: repeat(2, 150px);
-        grid-template-rows: repeat(3, 110px);
+        grid-template-columns: repeat(2, 170px);
+        grid-template-rows: repeat(3, 130px);
     }
 
     .count {
-        width: 150px;
-        height: 110px;
+        width: 170px;
+        height: 130px;
         border-radius: 5px;
-        gap: 1px;
-        padding: 2px;
+        padding: 5px;
     }
 
     .fact-image {
         width: 40px;
-        height: 55px;
+        height: 40px;
     }
 
     .why-this-school-card-container {
@@ -1012,5 +1051,28 @@ main {
         width: 40px;
         height: 40px;
     }
+
+    body {
+        line-height: 1.3;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        line-height: 1;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+    }
+
+    h3 {
+        font-size: 1.1rem;
+    }
+
+    p,
+    li {
+        font-size: 1rem;
+    }
+
 
 }
