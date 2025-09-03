@@ -212,7 +212,7 @@ async function handleUpdateAdminDet(req, res) {
     const newUpdateData = await UserAdmin.findByIdAndUpdate(
       req.params.id,
       { ...newData },
-      { new: true }
+      { new: true, runValidators: true }
     );
     res.redirect("/stcolumbus/jaj/ekdara/admin");
   } catch (err) {
@@ -260,9 +260,13 @@ async function hadnleUpdateBySuperAdmin(req, res) {
     blocked: req.body.blocked || oldData.blocked,
   };
   if (oldData) {
-    const data = await UserAdmin.findByIdAndUpdate(req.params.id, {
-      ...newData,
-    })
+    const data = await UserAdmin.findByIdAndUpdate(
+      req.params.id,
+      {
+        ...newData,
+      },
+      { new: true, runValidators: true }
+    )
       .then((ress) => {
         console.log("Admin Update performed");
       })
