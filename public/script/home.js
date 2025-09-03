@@ -21,6 +21,7 @@ const slides = document.querySelectorAll( '.slide' );
 const increment = document.querySelector( '.increment' );
 const teacherIncrement = document.querySelector( '.teacher-increment' );
 const school = document.querySelector( '.school' );
+const area = document.querySelector( '.area' );
 // const firstImage = document.querySelector( '.firstImageTag' );
 // const centerImage = document.querySelector( '.centerImageTag' );
 // const lastImage = document.querySelector( '.lastImageTag' );
@@ -34,7 +35,7 @@ function goToSlide ( index ) {
         slide.offsetHeight; // force reflow
         slide.style.animation = "";
         slide.style.animation = "slide 12s infinite";
-        slide.style.animationDelay = ( ( i - index ) * 3 ) + "s"; // shift slides
+        slide.style.animationDelay = ( ( i - index ) * 3 ) + "s";
     } );
 }
 
@@ -86,6 +87,17 @@ setTimeout( () => {
     }, 300 );
 }, 3000 );
 
+// Number increment for area
+setTimeout( () => {
+    let i = 0;
+    let interval = setInterval( () => {
+        area.innerText = `${ i }+`;
+        if ( i >= 10 ) {
+            clearInterval( interval );
+        }
+        i++;
+    }, 500 );
+}, 3000 );
 
 
 
@@ -112,3 +124,32 @@ function updateImages () {
 }
 setInterval( updateImages, 2000 );
 updateImages();
+
+
+// Change the image on click at faq section
+const faqs = document.querySelectorAll( '.faq-item' );
+
+faqs.forEach( faq => {
+    faq.querySelector( '.faq-question' ).addEventListener( 'click', () => {
+        // Close all other FAQ answers
+        faqs.forEach( f => {
+            if ( f !== faq ) {
+                f.classList.remove( 'active' );
+                f.querySelector( 'img' ).src = '/images/icon-plus.svg';
+                f.querySelector( '.faq-answer' ).style.maxHeight = 0;
+            }
+        } );
+
+        // Toggle current FAQ
+        const answer = faq.querySelector( '.faq-answer' );
+        faq.classList.toggle( 'active' );
+        faq.classList.contains( 'active' )
+            ? answer.style.maxHeight = 150 + "px"
+            : answer.style.maxHeight = 0;
+
+        // Toggle icon
+        faq.querySelector( 'img' ).src = faq.classList.contains( 'active' )
+            ? '/images/icon-minus.svg'
+            : '/images/icon-plus.svg';
+    } );
+} );

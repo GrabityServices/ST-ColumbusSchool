@@ -6,8 +6,10 @@
 }
 
 @font-face {
-  font-family: inconsolata;
-  src: url(../fonts/Inconsolata-Medium.ttf);
+  font-family: Poppins;
+  src: url(../fonts/Poppins-Regular.ttf);
+  font-style: normal;
+  font-weight: normal;
 }
 
 * {
@@ -22,9 +24,8 @@ body {
   min-width: 250px;
   font-size: var(--font-size);
   background-color: var(--dark);
-  color: var(--font-color);
-  font-family: inconsolata, sans-serif;
-  font-weight: 600;
+  color: var(--color);
+  font-family: "Poppins", sans-serif;
   overflow-x: hidden;
 }
 
@@ -36,6 +37,7 @@ header {
   top: 0;
   z-index: 100;
   background-color: thistle;
+  font-weight: 500;
 }
 
 nav {
@@ -66,7 +68,7 @@ nav {
   border-radius: 50px;
 }
 
-a {
+.links a {
   text-decoration: none;
   font-size: 1.1rem;
   color: var(--font-color);
@@ -83,6 +85,7 @@ a {
 
 .admission a {
   color: var(--color);
+  text-decoration: none;
 }
 
 .admission .arrow-icon {
@@ -117,7 +120,8 @@ a {
   cursor: pointer;
   overflow: hidden;
   display: none;
-  i{
+
+  i {
     transition-delay: 0.3s;
     transition-duration: 0.5s;
     color: wheat;
@@ -125,31 +129,6 @@ a {
   }
 
 }
-
-/* .line {
-  width: 90%;
-  height: 4px;
-  background-color: white;
-  border-radius: 5px;
-  transition: all 0.55s ease;
-} */
-/* 
-.hamburger.active .first-line {
-  width: 70%;
-  transform: rotate(45deg) translateX(2px);
-}
-
-.hamburger.active .second-line {
-  opacity: 0;
-  width: 70%;
-  transform: translateX(-100px);
-}
-
-.hamburger.active .third-line {
-  width: 70%;
-  transform: rotate(-45deg) translateX(2px);
-  margin-top: -150%;
-} */
 
 @media (max-width: 915px) {
   .hamburger {
@@ -163,7 +142,7 @@ a {
     visibility: hidden;
     align-items: center;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
     position: absolute;
     padding: 20px;
     width: 260px;
@@ -191,7 +170,8 @@ a {
     text-align: center;
     box-sizing: border-box;
   }
-  .lk {
+
+  .first-link {
     margin-top: 40px;
   }
 
@@ -220,27 +200,28 @@ a {
 }
 
 @media (max-width: 700px) {
-  header{
+  header {
     height: 70px;
   }
 
 
 
-  .logo{
+  .logo {
     height: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .logo img{
-    height: 80%;
-    }
 
-  .links{
+  .logo img {
+    height: 80%;
+  }
+
+  .links {
     margin-top: -10px;
   }
 
-  .admission{
+  .admission {
     top: 370px;
   }
 
