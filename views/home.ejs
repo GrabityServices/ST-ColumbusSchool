@@ -1,59 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ST ColumbusSchool</title>
+    <!-- Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+      integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <!-- Styles and Script -->
+    <link rel="stylesheet" href="/style/style.css" />
+    <script src="/script/script.js" defer></script>
+    <link rel="stylesheet" href="/style/home.css" />
+    <script src="/script/home.js" defer></script>
+  </head>
 
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ST ColumbusSchool</title>
-<!-- Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
-  integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
-  crossorigin="anonymous" referrerpolicy="no-referrer" />
-<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-  <!-- Styles and Script -->
-<link rel="stylesheet" href="/style/style.css">
-<script src="/script/script.js" defer></script>
-<link rel="stylesheet" href="/style/home.css">
-<script src="/script/home.js" defer></script>
-</head>
-
-<body>
-  <!-- Nav bar -->
-  <%- include('index.ejs') %>
+  <body>
+    <!-- Nav bar -->
+    <%- include('index.ejs') %>
     <!-- write Home page code here -->
 
     <!-- IMAGE SLIDER -->
     <div class="slider-box">
       <div class="slider">
         <div class="slide">
+          <p class="schoolName">ST. COLUMBUS SCHOOL</p>
+          <p class="schooleAdd">Ekdara, Jhajha (811308)</p>
         </div>
         <div class="slide">
+          <p class="schoolName">ST. COLUMBUS SCHOOL</p>
+          <p class="schooleAdd">Ekdara, Jhajha (811308)</p>
         </div>
         <div class="slide">
+          <p class="schoolName">ST. COLUMBUS SCHOOL</p>
+          <p class="schooleAdd">Ekdara, Jhajha (811308)</p>
         </div>
         <div class="slide">
+          <p class="schoolName">ST. COLUMBUS SCHOOL</p>
+          <p class="schooleAdd">Ekdara, Jhajha (811308)</p>
         </div>
 
         <div class="social-icons">
           <div class="facebook">
             <a href="/">
-              <img src="/images/facebook.svg" alt="">
+              <img src="/images/facebook.svg" alt="" />
             </a>
           </div>
           <div class="youtube">
             <a href="/">
-              <img src="/images/youtube.svg" alt="">
+              <img src="/images/youtube.svg" alt="" />
             </a>
           </div>
           <div class="instagram">
             <a href="/">
-              <img src="/images/instagram.svg" alt="">
+              <img src="/images/instagram.svg" alt="" />
             </a>
           </div>
         </div>
 
         <div class="controls">
-          <img src="/images/previous-arrow.svg" id="prev">
-          <img src="/images/next-arrow.svg" id="next">
+          <img src="/images/previous-arrow.svg" id="prev" />
+          <img src="/images/next-arrow.svg" id="next" />
         </div>
       </div>
     </div>
@@ -62,78 +74,86 @@
       <!-- SECOND PAGE -->
       <section class="second-page container">
         <div class="welcome-to-st-col">
-          <h2>Welcome to <br> ST. COLOMBUS PUBLIC SCHOOL</h2>
+          <h2>
+            Welcome to <br />
+            ST. COLOMBUS PUBLIC SCHOOL
+          </h2>
         </div>
 
-          <div class="Where-learning-blossoms">
-            <div class="main-text">
-              <h2>Where Learning Blossoms in the <span class="heart-text">Heart of Nature</span></h2>
-            </div>
-            <p>
-              <span>
-                St. Colombus Public School is a co-educational English-medium institution established in 2002, offering
-                classes from Pre-Primary to Class 8. The school focuses on academic growth, discipline, and character building in a
-                supportive environment. Emphasizing extracurricular activities, moral values, and life skills, it prepares students to excel
-                academically while growing into confident and responsible individuals.
-              </span>
-            </p>
-            <button>ABOUT US</button>
+        <div class="Where-learning-blossoms">
+          <div class="main-text">
+            <h2>
+              Where Learning Blossoms in the
+              <span class="heart-text">Heart of Nature</span>
+            </h2>
           </div>
+          <p>
+            <span>
+              St. Colombus Public School is a co-educational English-medium
+              institution established in 2002, offering classes from Pre-Primary
+              to Class 8. The school focuses on academic growth, discipline, and
+              character building in a supportive environment. Emphasizing
+              extracurricular activities, moral values, and life skills, it
+              prepares students to excel academically while growing into
+              confident and responsible individuals.
+            </span>
+          </p>
+          <button>ABOUT US</button>
+        </div>
       </section>
-      
+
       <!-- THIRD PAGE -->
       <section class="facts-summary container">
-          <div class="inner-fact-summary">
-            <div class="first-fact count">
-              <div class="fact-image">
-                <img src="/images/student.svg" alt="students-icon">
-              </div>
-              <h2 class="increment">2000+</h2>
-              <h3>Students</h3>
+        <div class="inner-fact-summary">
+          <div class="first-fact count">
+            <div class="fact-image">
+              <img src="/images/student.svg" alt="students-icon" />
             </div>
-            <div class="second-fact count">
-              <div class="fact-image">
-                <img src="/images/teacher.svg" alt="teacher-icon">
-              </div>
-              <h2 class="teacher-increment">50+</h2>
-              <h3>Teachers</h3>
-            </div>
-            <div class="third-fact count">
-              <div class="fact-image">
-                <img src="/images/school.svg" alt="school-icon">
-              </div>
-              <h2 class="school">2</h2>
-              <h3>Schools</h3>
-            </div>
-            <div class="fourth-fact count">
-              <div class="fact-image">
-                <img src="/images/computer.svg" alt="computer-icon">
-              </div>
-              <h2>1</h2>
-              <h3>Computer Labs</h3>
-            </div>
-            <div class="fifth-fact count">
-              <div class="fact-image">
-                <img src="/images/library.svg" alt="library-icon">
-              </div>
-              <h2>1</h2>
-              <h3>Library</h3>
-            </div>
-            <div class="sixth-fact count">
-              <div class="fact-image">
-                <img src="/images/area.svg" alt="area-icon">
-              </div>
-              <h2 class="area">10+</h2>
-              <h3>Acres</h3>
-            </div>
+            <h2 class="increment">2000+</h2>
+            <h3>Students</h3>
           </div>
-
+          <div class="second-fact count">
+            <div class="fact-image">
+              <img src="/images/teacher.svg" alt="teacher-icon" />
+            </div>
+            <h2 class="teacher-increment">50+</h2>
+            <h3>Teachers</h3>
+          </div>
+          <div class="third-fact count">
+            <div class="fact-image">
+              <img src="/images/school.svg" alt="school-icon" />
+            </div>
+            <h2 class="school">2</h2>
+            <h3>Schools</h3>
+          </div>
+          <div class="fourth-fact count">
+            <div class="fact-image">
+              <img src="/images/computer.svg" alt="computer-icon" />
+            </div>
+            <h2>1</h2>
+            <h3>Computer Labs</h3>
+          </div>
+          <div class="fifth-fact count">
+            <div class="fact-image">
+              <img src="/images/library.svg" alt="library-icon" />
+            </div>
+            <h2>1</h2>
+            <h3>Library</h3>
+          </div>
+          <div class="sixth-fact count">
+            <div class="fact-image">
+              <img src="/images/area.svg" alt="area-icon" />
+            </div>
+            <h2 class="area">10+</h2>
+            <h3>Acres</h3>
+          </div>
+        </div>
       </section>
 
       <!-- FOURTH PAGE -->
       <section class="fourth-page">
         <div class="tree-and-study-image">
-          <img src="/images/tree-and-study.png" alt="tree-and-study">
+          <img src="/images/tree-and-study.png" alt="tree-and-study" />
         </div>
         <div class="our-beliefs">
           <h1>Our Beliefs and Values</h1>
@@ -143,44 +163,50 @@
           <div class="mission-vision-and-value-container">
             <div class="mission value-cards">
               <div class="image-section">
-                <img src="/images/mission.svg" alt="">
+                <img src="/images/mission.svg" alt="" />
               </div>
               <div class="content-section">
                 <h3>MISSION</h3>
                 <b>Inspiring Growth, Shaping Character.</b>
-                <p>Our mission is to cultivate a dynamic and inclusive learning environment where every child is
-                  empowered with knowledge,
-                  life skills, and strong moral values. We aim to prepare students not just for exams, but for
-                  life—instilling confidence,
-                  compassion, and a sense of purpose.</p>
+                <p>
+                  Our mission is to cultivate a dynamic and inclusive learning
+                  environment where every child is empowered with knowledge,
+                  life skills, and strong moral values. We aim to prepare
+                  students not just for exams, but for life—instilling
+                  confidence, compassion, and a sense of purpose.
+                </p>
               </div>
             </div>
             <div class="vision value-cards">
               <div class="image-section">
-                <img src="/images/vision.svg" alt="">
+                <img src="/images/vision.svg" alt="" />
               </div>
               <div class="content-section">
                 <h3>VISION</h3>
                 <b>Inspiring Growth, Shaping Character.</b>
-                <p>Our mission is to cultivate a dynamic and inclusive learning environment where every child is
-                  empowered with knowledge,
-                  life skills, and strong moral values. We aim to prepare students not just for exams, but for
-                  life—instilling confidence,
-                  compassion, and a sense of purpose.</p>
+                <p>
+                  Our mission is to cultivate a dynamic and inclusive learning
+                  environment where every child is empowered with knowledge,
+                  life skills, and strong moral values. We aim to prepare
+                  students not just for exams, but for life—instilling
+                  confidence, compassion, and a sense of purpose.
+                </p>
               </div>
             </div>
             <div class="core-value value-cards">
               <div class="image-section">
-                <img src="/images/core-value.svg" alt="">
+                <img src="/images/core-value.svg" alt="" />
               </div>
               <div class="content-section">
                 <h3>CORE VALUE</h3>
                 <b>Inspiring Growth, Shaping Character.</b>
-                <p>Our mission is to cultivate a dynamic and inclusive learning environment where every child is
-                  empowered with knowledge,
-                  life skills, and strong moral values. We aim to prepare students not just for exams, but for
-                  life—instilling confidence,
-                  compassion, and a sense of purpose.</p>
+                <p>
+                  Our mission is to cultivate a dynamic and inclusive learning
+                  environment where every child is empowered with knowledge,
+                  life skills, and strong moral values. We aim to prepare
+                  students not just for exams, but for life—instilling
+                  confidence, compassion, and a sense of purpose.
+                </p>
               </div>
             </div>
           </div>
@@ -191,111 +217,119 @@
       <section class="fifth-page container">
         <div class="why-this-school">
           <h1>Why St. Colombus Public School?</h1>
-          <p>At St. Colombus Public School, we go beyond textbooks to nurture well-rounded individuals equipped for
-            life. Our
-            educational philosophy focuses not just on academic achievement, but on the holistic development of every
-            child-intellectually, emotionally, physically, and
-            ethically. We create a learning environment where curiosity is encouraged, values are instilled, and each
-            student is inspired to reach their full potential.
-            Here's what truly sets us apart:</p>
+          <p>
+            At St. Colombus Public School, we go beyond textbooks to nurture
+            well-rounded individuals equipped for life. Our educational
+            philosophy focuses not just on academic achievement, but on the
+            holistic development of every child-intellectually, emotionally,
+            physically, and ethically. We create a learning environment where
+            curiosity is encouraged, values are instilled, and each student is
+            inspired to reach their full potential. Here's what truly sets us
+            apart:
+          </p>
         </div>
-      
+
         <div class="why-this-school-card-container">
           <div class="why-card">
             <div class="why-section-image">
-              <img src="/images/holistics.svg" alt="">
+              <img src="/images/holistics.svg" alt="" />
             </div>
             <h3>Holistic Education Approach</h3>
-            <p>At Roots Country School, we believe in nurturing the whole child. Our curriculum integrates academics,
-              sports, arts, and life skills, helping students grow intellectually, emotionally, socially, and
-              morally—preparing them for all aspects of life</p>
+            <p>
+              At Roots Country School, we believe in nurturing the whole child.
+              Our curriculum integrates academics, sports, arts, and life
+              skills, helping students grow intellectually, emotionally,
+              socially, and morally—preparing them for all aspects of life
+            </p>
           </div>
-      
+
           <div class="why-card">
             <div class="why-section-image">
-              <img src="/images/strong-value.svg" alt="">
+              <img src="/images/strong-value.svg" alt="" />
             </div>
             <h3>Strong Value System</h3>
-            <p>We are deeply rooted in Indian culture while
-              embracing global perspectives. Our students are
-              guided by values such as honesty, empathy,
-              respect, and responsibility-forming the
-              foundation of their character and future
-              leadership.</p>
+            <p>
+              We are deeply rooted in Indian culture while embracing global
+              perspectives. Our students are guided by values such as honesty,
+              empathy, respect, and responsibility-forming the foundation of
+              their character and future leadership.
+            </p>
           </div>
-      
+
           <div class="why-card">
             <div class="why-section-image">
-              <img src="/images/experience.svg" alt="">
+              <img src="/images/experience.svg" alt="" />
             </div>
-            <h3>Experienced & Caring Faculty
-            </h3>
-            <p>Our dedicated team of teachers brings a wealth
-              of experience, subject expertise, and a deep
-              commitment to student well-being. They provide
-              personalized attention, fostering both academic
-              achievement and emotional growth.</p>
+            <h3>Experienced & Caring Faculty</h3>
+            <p>
+              Our dedicated team of teachers brings a wealth of experience,
+              subject expertise, and a deep commitment to student well-being.
+              They provide personalized attention, fostering both academic
+              achievement and emotional growth.
+            </p>
           </div>
-      
+
           <div class="why-card">
             <div class="why-section-image">
-              <img src="/images/safe-and-campus.svg" alt="">
+              <img src="/images/safe-and-campus.svg" alt="" />
             </div>
             <h3>Safe and Serene Campus</h3>
-            <p>Set amidst the scenic hills of Himachal, our eco-
-              friendly campus offers a calm and secure
-              environment. Free from distractions, this natural
-              setting promotes focused learning, creativity, and
-              peace of mind for every student.</p>
+            <p>
+              Set amidst the scenic hills of Himachal, our eco- friendly campus
+              offers a calm and secure environment. Free from distractions, this
+              natural setting promotes focused learning, creativity, and peace
+              of mind for every student.
+            </p>
           </div>
-      
+
           <div class="why-card">
             <div class="why-section-image">
-              <img src="/images/focus.svg" alt="">
+              <img src="/images/focus.svg" alt="" />
             </div>
             <h3>Focus on Individua</h3>
-            <p>We understand that each child is unique. With
-              small class sizes, one-on-one mentoring, and
-              continuous performance feedback, we help every
-              student discover their strengths and reach their
-              full potential.</p>
+            <p>
+              We understand that each child is unique. With small class sizes,
+              one-on-one mentoring, and continuous performance feedback, we help
+              every student discover their strengths and reach their full
+              potential.
+            </p>
           </div>
-      
+
           <div class="why-card">
             <div class="why-section-image">
-              <img src="/images/global.svg" alt="">
+              <img src="/images/global.svg" alt="" />
             </div>
-            <h3>Global Outlook with Local Roots
-            </h3>
-            <p>While preparing students to compete and thrive
-              in a globalized world, we remain firmly grounded
-              in our cultural heritage. This balance creates
-              confident, respectful, and responsible global
-              citizens.</p>
+            <h3>Global Outlook with Local Roots</h3>
+            <p>
+              While preparing students to compete and thrive in a globalized
+              world, we remain firmly grounded in our cultural heritage. This
+              balance creates confident, respectful, and responsible global
+              citizens.
+            </p>
           </div>
-      
         </div>
       </section>
 
       <!-- SIXTH PAGE -->
       <section class="sixth-page container">
         <div class="achievement">
-          <h1># Happenings St. Columbus</h1>
-          <p>Boys and girls at The "St. Columbus Public School" experience something new each day, while teachers and
-            staff learn
-            and grow together with them like a family.</p>
+          <h1 style="text-transform: uppercase">#EVENTS_AT_COLUMBUSJHAJHA</h1>
+          <p>
+            Boys and girls at The "St. Columbus Public School" experience
+            something new each day, while teachers and staff learn and grow
+            together with them like a family.
+          </p>
         </div>
-      
+
         <div class="image-card">
-      
           <div class="gallery-img first">
-            <img class="firstImageTag" src="" alt="first-image">
+            <img class="firstImageTag" src="" alt="first-image" />
           </div>
           <div class="gallery-img center">
-            <img class="centerImageTag" src="" alt="second-image">
+            <img class="centerImageTag" src="" alt="second-image" />
           </div>
           <div class="gallery-img last">
-            <img class="lastImageTag" src="" alt="last-image">
+            <img class="lastImageTag" src="" alt="last-image" />
           </div>
         </div>
       </section>
@@ -303,36 +337,40 @@
       <!-- SEVENTH PAGE -->
       <section class="seventh-page">
         <div class="top-border">
-          <img src="/images/founders-border-top.svg" alt="">
+          <img src="/images/founders-border-top.svg" alt="" />
         </div>
         <div class="founders">
           <div class="founder-left">
             <h1>Founders</h1>
-            <p>Through their unwavering dedication and visionary leadership, Sunil and Kriti Rotha have not only
-              revolutionized the educational fabric of the Shimla Hills but have also pioneered a transformative model
-              of holistic, value-driven, and environmentally conscious schooling that stands as a beacon of excellence
-              across India's educational landscape.</p>
+            <p>
+              Through their unwavering dedication and visionary leadership,
+              Sunil and Kriti Rotha have not only revolutionized the educational
+              fabric of the Shimla Hills but have also pioneered a
+              transformative model of holistic, value-driven, and
+              environmentally conscious schooling that stands as a beacon of
+              excellence across India's educational landscape.
+            </p>
             <a href="../views/about.ejs/#about">About Founders</a>
           </div>
           <div class="founder-right">
             <div class="right-first">
               <div class="right-first-image">
-                <img src="/images/founder1.jpg" alt="">
+                <img src="<%=admins[0].img%>" alt="" />
               </div>
-              <h3>SK SHARMA</h3>
-              <p>Director</p>
+              <h3><%=admins[0].name %></h3>
+              <p><%= admins[0].position%></p>
             </div>
             <div class="right-second">
               <div class="right-second-image">
-                <img src="/images/founder1.jpg" alt="">
+                <img src="<%=admins[1].img%>" alt="" />
               </div>
-              <h3>DEV SHARMA</h3>
-              <p>Principle</p>
+              <h3><%=admins[1].name %></h3>
+              <p><%= admins[1].position%></p>
             </div>
           </div>
         </div>
         <div class="bottom-border">
-          <img src="/images/founders-border.svg" alt="">
+          <img src="/images/founders-border.svg" alt="" />
         </div>
       </section>
 
@@ -345,77 +383,86 @@
           </div>
           <h1>&nbsp;Frequently Asked Questions</h1>
         </div>
-      
+
         <div class="faq-card">
           <div class="faq-item">
             <div class="faq-question">
               <p>What classes are offered at St. Columbus Public School?</p>
-              <img src="/images/icon-plus.svg" alt="toggle-icon">
+              <img src="/images/icon-plus.svg" alt="toggle-icon" />
             </div>
             <div class="faq-answer">
-              <p>St. Columbus Public School offers classes from Nursery to Class X. The curriculum covers English,
-                Mathematics,
-                Science, Social Studies, and Computer Education, along with value-based learning and co-curricular
-                activities
-                for balanced growth.</p>
+              <p>
+                St. Columbus Public School offers classes from Nursery to Class
+                X. The curriculum covers English, Mathematics, Science, Social
+                Studies, and Computer Education, along with value-based learning
+                and co-curricular activities for balanced growth.
+              </p>
             </div>
           </div>
-      
+
           <div class="faq-item">
             <div class="faq-question">
               <p>What is the admission process at the school?</p>
-              <img src="/images/icon-plus.svg" alt="toggle-icon">
+              <img src="/images/icon-plus.svg" alt="toggle-icon" />
             </div>
             <div class="faq-answer">
-              <p>Admission is simple and direct. Parents need to fill out the admission form and pay the admission
-                charges. No
-                entrance test or interview is required, and admission is given on a first-come-first-served basis,
-                depending on seat
-                availability.</p>
+              <p>
+                Admission is simple and direct. Parents need to fill out the
+                admission form and pay the admission charges. No entrance test
+                or interview is required, and admission is given on a
+                first-come-first-served basis, depending on seat availability.
+              </p>
             </div>
           </div>
-      
+
           <div class="faq-item">
             <div class="faq-question">
               <p>Does the school provide transportation facilities?</p>
-              <img src="/images/icon-plus.svg" alt="toggle-icon">
+              <img src="/images/icon-plus.svg" alt="toggle-icon" />
             </div>
             <div class="faq-answer">
-              <p>Yes, the school offers safe and reliable transport services covering Jhajha, Jamui, and nearby
-                villages. Buses
-                are well-maintained and managed by trained drivers and attendants to ensure student safety and
-                comfort.</p>
+              <p>
+                Yes, the school offers safe and reliable transport services
+                covering Jhajha, Jamui, and nearby villages. Buses are
+                well-maintained and managed by trained drivers and attendants to
+                ensure student safety and comfort.
+              </p>
             </div>
           </div>
-      
+
           <div class="faq-item">
             <div class="faq-question">
               <p>What facilities does the school provide?</p>
-              <img src="/images/icon-plus.svg" alt="toggle-icon">
+              <img src="/images/icon-plus.svg" alt="toggle-icon" />
             </div>
             <div class="faq-answer">
-              <p>The school provides modern classrooms, well-equipped laboratories, a library, sports grounds, and
-                cultural
-                activity spaces. These facilities support academic excellence, physical fitness, creativity, and
-                overall personality
-                development of students.</p>
+              <p>
+                The school provides modern classrooms, well-equipped
+                laboratories, a library, sports grounds, and cultural activity
+                spaces. These facilities support academic excellence, physical
+                fitness, creativity, and overall personality development of
+                students.
+              </p>
             </div>
           </div>
-      
+
           <div class="faq-item">
             <div class="faq-question">
               <p>What is the school's teaching approach?</p>
-              <img src="/images/icon-plus.svg" alt="toggle-icon">
+              <img src="/images/icon-plus.svg" alt="toggle-icon" />
             </div>
             <div class="faq-answer">
-              <p>The school follows a student-centered teaching approach that combines traditional methods with modern
-                techniques. Emphasis is placed on conceptual understanding, practical learning, and the development of
-                critical
-                thinking, communication, and problem-solving skills to prepare students for future challenges.</p>
+              <p>
+                The school follows a student-centered teaching approach that
+                combines traditional methods with modern techniques. Emphasis is
+                placed on conceptual understanding, practical learning, and the
+                development of critical thinking, communication, and
+                problem-solving skills to prepare students for future
+                challenges.
+              </p>
             </div>
           </div>
         </div>
-      
       </section>
     </main>
 
@@ -424,19 +471,22 @@
         <div class="about-us">
           <h3>About Us</h3>
           <div>
-            <p>St. Columbus Public School is a private English Medium
-              School established for providing quality education to
-              students up to High School level with a focus on values,
-              discipline, and all-round development.</p>
+            <p>
+              St. Columbus Public School is a private English Medium School
+              established for providing quality education to students up to High
+              School level with a focus on values, discipline, and all-round
+              development.
+            </p>
           </div>
         </div>
         <div class="quick-links">
           <h3>Quick Links</h3>
-          <div><a href="/">Home</a>
-            <a href="/">About Us</a>
-            <a href="/">Admission</a>
-            <a href="/">Gallery</a>
-            <a href="/">Contact Us</a>
+          <div>
+            <a href="/">Home</a>
+            <a href="/about">About Us</a>
+            <a href="/admission">Admission</a>
+            <a href="/gallery">Gallery</a>
+            <a href="/contact">Contact Us</a>
           </div>
         </div>
 
@@ -453,26 +503,22 @@
         <div class="contact-us">
           <h3>Contact Us</h3>
           <div>
-            <p><i class="fas fa-map-marker-alt"></i> St. Columbus Public School, Ekdara, &nbsp; &nbsp;&nbsp; Jhajha,
-              Jamui 811308 (Bihar), India </p>
+            <p>
+              <i class="fas fa-map-marker-alt"></i> St. Columbus Public School,
+              Ekdara, &nbsp; &nbsp;&nbsp; Jhajha, Jamui 811308 (Bihar), India
+            </p>
             <p><i class="fas fa-phone"></i> +91-9876543210, +91-1122334455</p>
             <p><i class="fas fa-envelope"></i> info@gvpschool.edu.in</p>
           </div>
         </div>
-
       </div>
       <p class="copy-right">
-        <i class="far fa-copyright"></i> 2025 St. Columbus Public School. All rights reserved. | Developed by
-        <a href="https://www.grabityservices.com" target="_blank">GrabityServices</a>
+        <i class="far fa-copyright"></i> 2025 St. Columbus Public School. All
+        rights reserved. | Developed by
+        <a href="https://www.grabityservices.com" target="_blank"
+          >GrabityServices</a
+        >
       </p>
-
     </footer>
-
-</body>
-
+  </body>
 </html>
-
-
-
-
-
