@@ -23,7 +23,7 @@ function checkAdminAsEditor(req, res, next) {
       if (logindUser.role === "editor" && !logindUser.blocked) {
         return next();
       }
-      res.redirect("/home/");
+      res.redirect("/stcolumbus/jaj/ekdara/admin");
     } else {
       res.redirect("/stcolumbus/admin/manage/login");
     }

@@ -1,7 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./connectdb");
-const Home = require("./routes/home.js");
 const stcolumbus = require("./routes/routes.js");
 const Path = require("path");
 const logging = require("./middleware/logging.js");
@@ -11,12 +10,9 @@ const cookieParser = require("cookie-parser");
 const { adminroute } = require("./routes/adminRoutes.js");
 const Admin = require("./models/admins.js");
 const Gallery = require("./models/gallery.js");
-const {
-  checkAdmin,
-  checkAdminAsSuperadmin,
-} = require("./middleware/checkAdmin.js");
+const Notice = require("./models/notice.js");
+const { checkAdmin } = require("./middleware/checkAdmin.js");
 const { adminManagment } = require("./routes/adminRoutes.js");
-const { title } = require("process");
 dotenv.config();
 
 const app = express();
@@ -35,23 +31,21 @@ app.use(cookieParser());
 app.use(logging);
 app.use(uniqueUser);
 
-// app apis --------------------------------------------
-
-app.use("/", Home);
+// app apis for manage data --------------------------------------------
 
 app.use("/home", checkAdmin, stcolumbus);
 app.use("/stcolumbus/jaj/ekdara/admin", checkAdmin, adminroute);
 app.use("/stcolumbus/admin/manage", adminManagment);
-// app.post('/home/adminUpdate/:id',update.single('img'),(req,res)=>{
-//    console.log(req.body)
-//     console.log(req.file)
 
-//     res.send('HRllo')
-// })
-
+// webpage routes
 app.get("/ft", (req, res) => {
   console.log(req.user);
   res.render("about.ejs");
+});
+
+app.get("/", async (req, res) => {
+  const admins = await Admin.find({});
+  res.render("home.ejs", { admins });
 });
 
 app.get("/academics", async (req, res) => {
@@ -62,8 +56,9 @@ app.get("/about", async (req, res) => {
 
   res.render("about.ejs", { admins });
 });
-app.get("/notice", (req, res) => {
-  res.send("Working Notice");
+app.get("/notice", async (req, res) => {
+  const notices = await Notice.find({});
+  res.render("notice.ejs", { notices });
 });
 app.get("/contact", (req, res) => {
   res.send("Working contact");

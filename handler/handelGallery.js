@@ -2,12 +2,6 @@ const path = require("path");
 const fs = require("fs");
 const Gallery = require("../models/gallery.js");
 
-async function handelGallery(req, res) {
-  const images = await Gallery.find({});
-  const jsonData = images.map((image) => image.toJSON());
-  res.json(jsonData);
-}
-
 async function setGalleryForm(req, res) {
   if (req.body.uploaded == true) {
     const gallery = await Gallery.findByIdAndUpdate(req.params.id, {
@@ -30,7 +24,7 @@ async function setGalleryForm(req, res) {
         }
       }
     });
-    res.redirect("/home/gallery");
+    res.redirect("/stcolumbus/jaj/ekdara/admin#gallery");
   } else {
     try {
       const imagePath = path.join(
@@ -59,12 +53,12 @@ async function setGalleryFormDet(req, res) {
   // console.log(achivIS)
   const title = req.body.title || galleryIs.title;
   const desc = req.body.desc || galleryIs.desc;
-  const EventDate = req.body.EventDate || galleryIs.EventDate;
+  // const EventDate = req.body.EventDate || galleryIs.EventDate;
 
   const newData = {
     title,
     desc,
-    EventDate,
+    // EventDate,
   };
   // console.log(newData)
 
@@ -74,10 +68,12 @@ async function setGalleryFormDet(req, res) {
     { new: true }
   );
   // console.log(data)
-  res.redirect("/home/gallery");
+  res.redirect("/stcolumbus/jaj/ekdara/admin#gallery");
 }
-
-function handelNewGallery(req, res) {
+// ==============================================================================================
+async function handelNewGallery(req, res) {
+  // const disc = await Gallery.distinct("EventDate");
+  // console.log(disc);
   res.render("newGallery.ejs");
 }
 
@@ -91,7 +87,7 @@ async function handelNewGalleryForm(req, res) {
       img: filename,
     });
     // console.log(newGal);
-    return res.redirect("/home/gallery");
+    return res.redirect("/stcolumbus/jaj/ekdara/admin#admin");
   } else {
     try {
       const imagePath = path.join(
@@ -115,7 +111,6 @@ async function handelNewGalleryForm(req, res) {
   }
 }
 module.exports = {
-  handelGallery,
   setGalleryForm,
   setGalleryFormDet,
   handelNewGallery,
