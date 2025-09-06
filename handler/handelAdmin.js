@@ -1,11 +1,7 @@
 const Admins = require("../models/admins.js");
 const path = require("path");
 const fs = require("fs");
-async function getAdmin(req, res) {
-  const admins = await Admins.find({});
-  const jsonData = admins.map((admin) => admin.toJSON());
-  res.json(jsonData);
-}
+
 
 async function setAdminForm(req, res) {
   if (req.body.uploaded == true) {
@@ -29,7 +25,7 @@ async function setAdminForm(req, res) {
         }
       }
     });
-    res.redirect("/home/admin");
+    res.redirect("/stcolumbus/jaj/ekdara/admin#admin");
   } else {
     try {
       const imagePath = path.join(
@@ -79,11 +75,10 @@ async function setAdminFormDet(req, res) {
     { ...newData },
     { new: true }
   );
-  res.redirect("/home/admin");
+  res.redirect("/stcolumbus/jaj/ekdara/admin#admin");
 }
 
 module.exports = {
-  getAdmin,
   setAdminForm,
   setAdminFormDet,
 };

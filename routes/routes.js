@@ -3,57 +3,51 @@ const stcolumbus = express.Router();
 const multer = require("multer");
 const adminAvt = require("../utils/updateAdmin.js");
 const achivAvt = require("../utils/updateAchiv.js");
+const noticeAvt = require("../utils/addNotice.js");
 const galleyAvt = require("../utils/updateGallery.js");
+const path = require("path");
+const fs = require("fs");
 // const UserAdmin = require("../models/userAdmin.js");
-const {
-  checkAdminAsEditor,
-} = require("../middleware/checkAdmin.js");
+const { checkAdminAsEditor } = require("../middleware/checkAdmin.js");
+
+const { setAdminForm, setAdminFormDet } = require("../handler/handelAdmin.js");
 
 const {
-  handelGetAdmin,
-  handelGetAchiv,
-  handelGetGallery,
-} = require("../handler/get.js");
-const {
-  getAdmin,
-  setAdminForm,
-  setAdminFormDet,
-} = require("../handler/handelAdmin.js");
-
-const {
-  getAchiv,
   setAchivForm,
   setAchivFormDet,
+  handelNewAchiv,
+  handelNewAchivForm,
 } = require("../handler/handelAchiv.js");
 
 const {
-  handelGallery,
   setGalleryForm,
   setGalleryFormDet,
   handelNewGallery,
   handelNewGalleryForm,
 } = require("../handler/handelGallery.js");
+const {
+  handelNoticeForm,
+  handelNoticeUpdateDet,
+  handelNoticeUpdateImg,
+} = require("../handler/notice.js");
+
+const Gallery = require("../models/gallery.js");
+const Achivments = require("../models/achivments.js");
+const Notice = require("../models/notice.js");
 // ==================================================
-stcolumbus.route("/").get((req, res) => res.redirect("/home/admin"));
-stcolumbus.route("/admin").get(handelGetAdmin);
-stcolumbus.route("/adminroe").get(getAdmin);
+// admin Work
 stcolumbus
   .route("/adminUpdate/:id")
-  .get( (req, res) =>
-    res.render("updateAdmin.ejs", { id: req.params.id })
-  )
-  .post( adminAvt.single("img"), setAdminForm);
+  .get((req, res) => res.render("updateAdmin.ejs", { id: req.params.id }))
+  .post(adminAvt.single("img"), setAdminForm);
 
 stcolumbus
   .route("/adminUpdate/details/:id")
-  .get( (req, res) =>
-    res.render("updateAdminDet.ejs", { id: req.params.id })
-  )
-  .post( setAdminFormDet);
+  .get((req, res) => res.render("updateAdminDet.ejs", { id: req.params.id }))
+  .post(setAdminFormDet);
 
 // ================================================
-stcolumbus.route("/achiv").get(handelGetAchiv);
-stcolumbus.route("/achivroe").get(getAchiv);
+// Achiv work
 stcolumbus
   .route("/achivUpdate/:id")
   .get(checkAdminAsEditor, (req, res) =>
@@ -68,10 +62,33 @@ stcolumbus
   )
   .post(checkAdminAsEditor, setAchivFormDet);
 
-// =========================================
-stcolumbus.route("/gallery").get(handelGetGallery);
-stcolumbus.route("/galleryore").get(handelGallery);
+stcolumbus
+  .route("/achivDelete/:id")
+  .get(checkAdminAsEditor, async (req, res) => {
+    const data = await Achivments.findByIdAndDelete(req.params.id);
 
+    if (data.img && data.img !== "/adminAvt/defaultAvt.png") {
+      const imagePath = path.join(__dirname, "../assets", data.img); // Adjust based on your storage setup
+
+      // Delete the image file
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error("Error deleting image:", err);
+        } else {
+          console.log("Image deleted successfully");
+        }
+      });
+    }
+    res.redirect("/stcolumbus/jaj/ekdara/admin#admin");
+  });
+
+stcolumbus
+  .route("/achiv/new")
+  .get(checkAdminAsEditor, handelNewAchiv)
+  .post(checkAdminAsEditor, achivAvt.single("img"), handelNewAchivForm);
+
+// =========================================
+// Gallery work
 stcolumbus
   .route("/galleryUpdate/:id")
   .get(checkAdminAsEditor, (req, res) =>
@@ -87,10 +104,69 @@ stcolumbus
   .post(checkAdminAsEditor, setGalleryFormDet);
 
 stcolumbus
+  .route("/galleryDelete/:id")
+  .get(checkAdminAsEditor, async (req, res) => {
+    const data = await Gallery.findByIdAndDelete(req.params.id);
+
+    if (data.img && data.img !== "/adminAvt/defaultAvt.png") {
+      const imagePath = path.join(__dirname, "../assets", data.img); // Adjust based on your storage setup
+
+      // Delete the image file
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error("Error deleting image:", err);
+        } else {
+          console.log("Image deleted successfully");
+        }
+      });
+    }
+    res.redirect("/stcolumbus/jaj/ekdara/admin#gallery");
+  });
+
+stcolumbus
   .route("/gallery/new")
   .get(checkAdminAsEditor, handelNewGallery)
   .post(checkAdminAsEditor, galleyAvt.single("img"), handelNewGalleryForm);
 
-// ======================================AdminFunctions======================================
+// ===================================================
+//Notice Work
+stcolumbus
+  .route("/notice/new")
+  .get(checkAdminAsEditor, (req, res) => res.render("createNotice.ejs"))
+  .post(checkAdminAsEditor, noticeAvt.single("img"), handelNoticeForm);
 
+stcolumbus
+  .route("/noticeUpdate/details/:id")
+  .get(checkAdminAsEditor, (req, res) => {
+    res.render("noticeDetUpdate.ejs", { id: req.params.id });
+  })
+  .post(checkAdminAsEditor, handelNoticeUpdateDet);
+
+stcolumbus
+  .route("/noticeUpdate/:id")
+  .get(checkAdminAsEditor, (req, res) =>
+    res.render("noticeImgUpdate.ejs", { id: req.params.id })
+  )
+  .post(checkAdminAsEditor, noticeAvt.single("img"), handelNoticeUpdateImg);
+
+stcolumbus
+  .route("/noticeDelete/:id")
+  .get(checkAdminAsEditor, async (req, res) => {
+    const data = await Notice.findByIdAndDelete(req.params.id);
+
+    if (data.img && data.img !== "/adminAvt/defaultAvt.png") {
+      const imagePath = path.join(__dirname, "../assets", data.img); // Adjust based on your storage setup
+
+      // Delete the image file
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error("Error deleting image:", err);
+        } else {
+          console.log("Image deleted successfully");
+        }
+      });
+    }
+    res.redirect("/stcolumbus/jaj/ekdara/admin#notice");
+  });
+// ===========================================================================
 module.exports = stcolumbus;

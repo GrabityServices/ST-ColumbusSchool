@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style/style.css" />
+    <title>Gallery</title>
+    <style>
+      .card {
+        margin-bottom: 20px;
+      }
+
+      .title-block {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 10px;
+      }
+
+      .img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+        object-fit: cover;
+        border-radius: 10px;
+      }
+
+      .img img:hover {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+        transform: scale(1.01);
+        transition: all 0.3s ease-in-out;
+      }
+
+      h1 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      @media (max-width: 1200px) {
+        .img {
+          width: calc(25% - 20px);
+        }
+      }
+
+      @media (max-width: 900px) {
+        .img {
+          width: calc(33.33% - 20px);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .img {
+          width: calc(50% - 20px);
+        }
+      }
+
+      @media (max-width: 400px) {
+        .img {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="select">
+      <label for="byDate">ByDate</label>
+      <input type="checkbox" id="byDate" />
+    </div>
+    <!-- <p id="toggle-gallery">Gallery by Date</p> -->
+    <div class="byDate">
+      <% if (typeof images !== 'undefined' && images && images.length > 0) {
+      images = images.sort((a, b) => a.EventDate.localeCompare(b.EventDate));%>
+      <% let imgArr = []; let prv = ""; images.forEach((img, idx) => { if (prv)
+      { if (prv == img.EventDate) { imgArr[imgArr.length - 1].push(img); } else
+      { prv = img.EventDate; imgArr.push([img]); } } else { prv = img.EventDate;
+      imgArr.push([img]); } }); %> <% imgArr.forEach((imgs, idx) => { %> <%
+      const date = imgs[0].EventDate.split('-'); %>
+      <div class="card">
+        <h1>Gallery | <%= `${date[2]}-${date[1]}-${date[0]}` %></h1>
+        <div class="title-block">
+          <% imgs.forEach((img, idx) => { %>
+          <div class="img">
+            <img src="<%= img.img %>" alt="<%= img.title %>" />
+          </div>
+          <% }); %>
+        </div>
+      </div>
+      <% }); %> <% } else { %>
+      <h1>No Images</h1>
+      <% } %>
+    </div>
+    <div class="byTitle">
+      <% if (typeof images !== 'undefined' && images && images.length > 0) { %>
+      <% images = images.sort((a, b) => a.title.localeCompare(b.title)); let
+      imgArr = []; let prv = ""; images.forEach((img, idx) => { if (prv) { if
+      (prv == img.title) { imgArr[imgArr.length - 1].push(img); } else { prv =
+      img.title; imgArr.push([img]); } } else { prv = img.title;
+      imgArr.push([img]); } }); %> <% imgArr.forEach((imgs, idx) => { %>
+      <div class="card">
+        <h1>Gallery | <%= imgs[0].title %></h1>
+        <div class="title-block">
+          <% imgs.forEach((img, idx) => { %>
+          <div class="img">
+            <img src="<%= img.img %>" alt="<%= img.title %>" />
+          </div>
+          <% }); %>
+        </div>
+      </div>
+      <% }); %> <% } else { %>
+      <h1>No Images</h1>
+      <% } %>
+    </div>
+    <script>
+      const checkbox = document.getElementById("byDate");
+      const byDateGallery = document.querySelector(".byDate");
+      const byTitleGallery = document.querySelector(".byTitle");
+
+      checkbox.addEventListener("change", () => {
+        if (checkbox.checked) {
+          byDateGallery.style.display = "block";
+          byTitleGallery.style.display = "none";
+        } else {
+          byDateGallery.style.display = "none";
+          byTitleGallery.style.display = "block";
+        }
+      });
+
+      // Initialize the display based on the checkbox state
+      if (checkbox.checked) {
+        byDateGallery.style.display = "block";
+        byTitleGallery.style.display = "none";
+      } else {
+        byDateGallery.style.display = "none";
+        byTitleGallery.style.display = "block";
+      }
+
+      const toggleGallery = document.getElementById("toggle-gallery");
+
+      // toggleGallery.addEventListener("click", () => {
+      //   if (byDateGallery.style.display === "block") {
+      //     byDateGallery.style.display = "none";
+      //     byTitleGallery.style.display = "block";
+      //     toggleGallery.textContent = "Gallery by Date";
+      //   } else {
+      //     byDateGallery.style.display = "block";
+      //     byTitleGallery.style.display = "none";
+      //     toggleGallery.textContent = "Gallery by Title";
+      //   }
+      // });
+    </script>
+  </body>
+</html>

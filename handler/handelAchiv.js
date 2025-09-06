@@ -2,12 +2,6 @@ const path = require("path");
 const fs = require("fs");
 const Achivs = require("../models/achivments.js");
 
-async function getAchiv(req, res) {
-  const achivs = await Achivs.find({});
-  const jsonData = achivs.map((achiv) => achiv.toJSON());
-  res.json(jsonData);
-}
-
 async function setAchivForm(req, res) {
   if (req.body.uploaded == true) {
     const achivIS = await Achivs.findByIdAndUpdate(req.params.id, {
@@ -30,7 +24,7 @@ async function setAchivForm(req, res) {
         }
       }
     });
-    res.redirect("/home/achiv");
+    res.redirect("/stcolumbus/jaj/ekdara/admin#achiv");
   } else {
     try {
       const imagePath = path.join(
@@ -76,11 +70,50 @@ async function setAchivFormDet(req, res) {
     { new: true }
   );
   // console.log(data)
-  res.redirect("/home/achiv");
+  res.redirect("/stcolumbus/jaj/ekdara/admin#achiv");
 }
 
+function handelNewAchiv(req, res) {
+  res.render("newAchiv.ejs");
+}
+
+
+async function handelNewAchivForm(req, res) {
+  if (req.body.uploaded) {
+    const { title, desc, prizeType, filename } = req.body;
+    const newGal = await Achivs.create({
+      title,
+      desc,
+      prizeType,
+      img: filename,
+    });
+    // console.log(newGal);
+    return res.redirect("/stcolumbus/jaj/ekdara/admin#achiv");
+  } else {
+    try {
+      const imagePath = path.join(
+        __dirname,
+        "../assets/achivAvt",
+        req.body.filename
+      ); // Adjust based on your storage setup
+
+      // Delete the image file
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error("Error deleting image:", err);
+        } else {
+          console.log("Image deleted successfully");
+        }
+      });
+      res.redirect(`/home/achiv/new`);
+    } catch (err) {
+      res.redirect(`/home/achiv/new`);
+    }
+  }
+}
 module.exports = {
-  getAchiv,
   setAchivForm,
   setAchivFormDet,
+  handelNewAchiv,
+  handelNewAchivForm,
 };

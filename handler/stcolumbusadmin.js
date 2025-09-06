@@ -4,17 +4,50 @@ const validUser = require("../utils/validate.js");
 const jwt = require("jsonwebtoken");
 const path = require("path");
 const fs = require("fs");
+const Admins = require("../models/admins.js");
+const Achiv=require("../models/achivments.js")
+const Gallery=require('../models/gallery.js')
+const Notice=require("../models/notice.js")
 const moment = require("moment");
 
 async function handleStAdmin(req, res) {
   const Admin = await UserAdmin.find({});
   const jwtData = await jwt.decode(req.cookies.stadminis, process.env.JWTKEYIS);
+  //
+  const admins = await Admins.find({});
+  const admiJsonData = admins.map((admin) => admin.toJSON());
+  //
+  const achivs = await Achiv.find({});
+  const achiJsonData = achivs.map((achiv) => achiv.toJSON());
+  // console.log(jsonData)
+  const gallery = await Gallery.find({});
+  const gallJsonData = gallery.map((gall) => gall.toJSON());
+  
+  // 
+  const notices = await Notice.find({});
+  const noteJsonData = notices.map((notice) => notice.toJSON());
+
+
   if (jwtData.role === "superadmin") {
-    return res.render("AllAdmins.ejs", { data: Admin, supAd: true });
+    return res.render("AllAdmins.ejs", {
+      data: Admin,
+      supAd: true,
+      admins: admiJsonData,
+      achivs: achiJsonData,
+      images: gallJsonData,
+      notices:noteJsonData
+    });
   } else {
     Admin.forEach((member) => {
       if (member._id == jwtData.id) {
-        return res.render("AllAdmins.ejs", { data: [member], supAd: false });
+        return res.render("AllAdmins.ejs", {
+          data: [member],
+          supAd: false,
+          admins: admiJsonData,
+          achivs: achiJsonData,
+          images: gallJsonData,
+          notices: noteJsonData,
+        });
       }
     });
   }
