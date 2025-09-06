@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Notices | St. Columbus Public School</title>
+    <meta name="description"
+        content="Latest notices, announcements and circulars from St. Columbus Public School, Ekdara, Jhajha. Admissions, exams, holidays and important updates.">
+    <link rel="stylesheet" href="/style/notices.css">
+    <script src="/script/notices.js" defer></script>
+</head>
+<body>
+    <!--HEADER  -->
+    <%- include('index.ejs') %>
+
+    <!-- HEADING -->
+    <section class="notices-heading">
+        <div class="notices-overlay"></div>
+        <div class="notices-inner">
+            <h1>Notices & Announcements</h1>
+            <p class="subtitle">All latest school notices, circulars, exam schedules and urgent updates for parents and students.</p>
+        </div>
+    </section>
+    
+    <!-- NOTICE CONTAINER -->
+    <section class="notice-container">
+        <% let notice = [
+            [
+                'School Closed Today Due to Heavy Rain',
+                '18 Jul 2025',
+                'Due to heavy rain and road blockage, the school will remain closed today. Please stay safe.'
+            ],
+
+            [
+                'Science Exhibition 2025',
+                '05 Sep 2025',
+                'The school is organizing its Annual Science Exhibition on 20 September 2025 in the main auditorium. Students from Classes VI to X are encouraged to participate. Themes include Renewable Energy, Artificial Intelligence, and Sustainable Development. Interested students should register at the science lab by 12 September. Parents and guardians are invited to visit the exhibition between 10 AM and 4 PM on the event day.'
+            ],
+
+            [
+                'Educational Tour to Jaipur',
+                '20 Nov 2025',
+                'The school is arranging an educational tour to Jaipur for Classes VII to IX from 10 Dec to 14 Dec 2025. The trip will include visits to Amber Fort, City Palace, Jantar Mantar, and the Science Park. Students willing to join must submit consent letters signed by parents and the tour fee of Rs. 3000 to the class teacher by 28 Nov 2025. Limited seats available on a first-come, first-served basis.'
+            ],
+
+            [
+                'School Closed Today Due to Heavy Rain',
+                '18 Jul 2025',
+                'Due to heavy rain and road blockage, the school will remain closed today. Please stay safe.'
+            ],
+
+            [
+                'Science Exhibition 2025',
+                '05 Sep 2025',
+                'The school is organizing its Annual Science Exhibition on 20 September 2025 in the main auditorium. Students from Classes VI to X are encouraged to participate. Themes include Renewable Energy, Artificial Intelligence, and Sustainable Development. Interested students should register at the science lab by 12 September. Parents and guardians are invited to visit the exhibition between 10 AM and 4 PM on the event day.'
+            ],
+            
+        ]; %>
+
+        <% for(let item=0; item <= 2; item++) { %>
+            <div class="notice-card">
+                <h3><%= notice[item][0] %></h3>
+                <time datetime="<%= notice[item][1] %>"><%= notice[item][1] %></time>
+                <p class="description"><%= notice[item][2] %></p>
+            </div>
+        <% } %>
+    </section>
+
+    <!-- LOAD MORE BUTTON -->
+    <section class="load-more">
+        <button class="load-more-btn">Load More</button>
+        <script>
+            const container = document.querySelector( '.notice-container' );
+            const btn = document.querySelector( '.load-more-btn' );
+            const notices = <%-JSON.stringify( notice )%>;
+            let index = 3;
+
+            btn.addEventListener( 'click', () => {
+                for ( let i = index; i < index + 3 && i < notices.length; i++ ) {
+                    const div = document.createElement( 'div' );
+                    div.className = 'notice-card';
+                    div.innerHTML = `
+                        <h3>${ notices[ i ][ 0 ] }</h3>
+                        <time datetime="${ notices[ i ][ 1 ] }">${ notices[ i ][ 1 ] }</time>
+                        <p>${ notices[ i ][ 2 ] }</p>
+                    `;
+                    container.appendChild( div );
+                }
+                index += 3;
+
+                if ( index >= notices.length ) {
+                    btn.textContent = "No more notices available";
+                    btn.disabled = true;
+                }
+            } );
+        </script>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div class="about-us">
+                <h3>About Us</h3>
+                <div>
+                    <p>St. Columbus Public School is a private English Medium
+                        School established for providing quality education to
+                        students up to High School level with a focus on values,
+                        discipline, and all-round development.</p>
+                </div>
+            </div>
+            <div class="quick-links">
+                <h3>Quick Links</h3>
+                <div><a href="/">Home</a>
+                    <a href="/">About Us</a>
+                    <a href="/">Admission</a>
+                    <a href="/">Gallery</a>
+                    <a href="/">Contact Us</a>
+                </div>
+            </div>
+    
+            <div class="follow-us">
+                <h3>Follow Us</h3>
+                <div>
+                    <a href="#"><i class="fab fa-youtube"></i> YouTube</a>
+                    <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+                    <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                    <a href="#"><i class="fab fa-x-twitter"></i> X</a>
+                </div>
+            </div>
+    
+            <div class="contact-us">
+                <h3>Contact Us</h3>
+                <div>
+                    <p><i class="fas fa-map-marker-alt"></i> <a href="https://maps.google.com/?q=St.+Columbus+Public+School,+Ekdara,+Jhajha,+Jamui+811308+(Bihar),+India"> St. Columbus Public School, Ekdara, &nbsp; &nbsp;&nbsp; Jhajha, Jamui 811308 (Bihar), India</a> </p>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+919812345678">+91-9876543210</a>, <a href="tel:+919812345678">+91-1122334455</a> </p>
+                    <p><i class="fas fa-envelope"></i> <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sudhanshu95084145@gmail.com&su=Hello&body=This%20is%20a%20default%20message" target="_blank">info@gvpschool.edu.in</a> </p>
+                </div>
+            </div>
+    
+        </div>
+        <p class="copy-right">
+            <i class="far fa-copyright"></i> 2025 St. Columbus Public School. All rights reserved. | Developed by
+            <a href="https://www.grabityservices.com" target="_blank">GrabityServices</a>
+        </p>
+    </footer>
+
+</body>
+</html>
+
+
+
+
+

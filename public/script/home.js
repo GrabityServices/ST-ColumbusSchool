@@ -1,13 +1,3 @@
-// Image Container
-// const images = [
-//     '/images/1.jpg',
-//     '/images/2.jpg',
-//     '/images/3.jpg',
-//     '/images/4.jpg',
-//     '/images/5.jpg',
-// ];
-
-
 // For animated text
 const typed = new Typed( '.heart-text', {
     strings: [ "Heart Of Nature", "Roots Of Traditions", "Journey Of Discovery", "Diversity Of Ideas" ],
@@ -22,9 +12,6 @@ const increment = document.querySelector( '.increment' );
 const teacherIncrement = document.querySelector( '.teacher-increment' );
 const school = document.querySelector( '.school' );
 const area = document.querySelector( '.area' );
-// const firstImage = document.querySelector( '.firstImageTag' );
-// const centerImage = document.querySelector( '.centerImageTag' );
-// const lastImage = document.querySelector( '.lastImageTag' );
 let currentIndex = 0;
 
 // For image slider
@@ -100,32 +87,6 @@ setTimeout( () => {
 }, 3000 );
 
 
-
-// // Image Container
-const images = [
-    '/images/1.jpg',
-    '/images/2.jpg',
-    '/images/3.jpg',
-    '/images/4.jpg',
-    '/images/5.jpg',
-];
-
-// Gallery Slider Code
-const firstImage = document.querySelector( '.firstImageTag' );
-const centerImage = document.querySelector( '.centerImageTag' );
-const lastImage = document.querySelector( '.lastImageTag' );
-
-let index = 0;
-function updateImages () {
-    firstImage.setAttribute( 'src', images[ index % images.length ] );
-    centerImage.setAttribute( 'src', images[ ( index + 1 ) % images.length ] );
-    lastImage.setAttribute( 'src', images[ ( index + 2 ) % images.length ] );
-    index++;
-}
-setInterval( updateImages, 2000 );
-updateImages();
-
-
 // Change the image on click at faq section
 const faqs = document.querySelectorAll( '.faq-item' );
 
@@ -153,3 +114,64 @@ faqs.forEach( faq => {
             : '/images/icon-plus.svg';
     } );
 } );
+
+
+// Up Arrow animation
+const upArrow = document.getElementById( 'upArrow' );
+const sliderBox = document.querySelector( '.slider-box' );
+
+upArrow.addEventListener( 'click', () => {
+    sliderBox.scrollIntoView( {
+        behavior: 'smooth',
+        block: 'start' 
+    } );
+} );
+
+
+// SECOND IMAGE SLIDER
+let currentSlide = 0;
+const secondSlides = document.querySelectorAll( '.second-slide' );
+const totalSlides = secondSlides.length;
+
+function updateSlider () {
+    secondSlides.forEach( ( slide, index ) => {
+        slide.classList.remove(
+            'center', 'left', 'right',
+            'leave-left', 'leave-right',
+            'enter-left', 'enter-right'
+        );
+
+        // Each slide’s inner text
+        const innerText = slide.querySelector( '.second-slider-image-inner-text' );
+
+        if ( index === currentSlide ) {
+            slide.classList.add( 'center' );
+            innerText.style.display = 'flex'; 
+        } else {
+            innerText.style.display = 'none';  // Hide others
+            if ( index === ( currentSlide + 1 ) % totalSlides ) {
+                slide.classList.add( 'right' );
+            } else if ( index === ( currentSlide - 1 + totalSlides ) % totalSlides ) {
+                slide.classList.add( 'left' );
+            } else {
+                if (
+                    ( index < currentSlide && currentSlide - index <= totalSlides / 2 ) ||
+                    ( index > currentSlide && index - currentSlide > totalSlides / 2 )
+                ) {
+                    slide.classList.add( 'leave-left' );
+                } else {
+                    slide.classList.add( 'leave-right' );
+                }
+            }
+        }
+    } );
+}
+
+function nextSlide () {
+    currentSlide = ( currentSlide + 1 ) % totalSlides;
+    updateSlider();
+}
+
+updateSlider();
+
+setInterval( nextSlide, 3000 );
