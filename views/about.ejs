@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
-      integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link rel="stylesheet" href="style/style.css" />
-    <link rel="stylesheet" href="style/about.css" />
-  </head>
 
-  <body id="upp">
-    <%- include('index.ejs') %>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+    integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="style/style.css" />
+  <link rel="stylesheet" href="style/about.css" />
+</head>
 
+<body>
+
+  <!-- NAV -->
+  <%- include('index.ejs') %>
     <!-- HEADING AND IMAGE-->
     <section class="academics">
       <div class="academics-overlay"></div>
@@ -357,13 +355,10 @@
 
         <div class="contact-us">
           <h3>Contact Us</h3>
-          <div>
-            <p>
-              <i class="fas fa-map-marker-alt"></i> St. Columbus Public School,
-              Ekdara, &nbsp; &nbsp;&nbsp; Jhajha, Jamui 811308 (Bihar), India
-            </p>
-            <p><i class="fas fa-phone"></i> +91-9876543210, +91-1122334455</p>
-            <p><i class="fas fa-envelope"></i> info@gvpschool.edu.in</p>
+
+            <p><i class="fas fa-map-marker-alt"></i> <a href="https://maps.google.com/?q=St.+Columbus+Public+School,+Ekdara,+Jhajha,+Jamui+811308+(Bihar),+India"> St. Columbus Public School, Ekdara, &nbsp; &nbsp;&nbsp; Jhajha, Jamui 811308 (Bihar), India</a> </p>
+            <p><i class="fas fa-phone"></i> <a href="tel:+919812345678">+91-9876543210</a>, <a href="tel:+919812345678">+91-1122334455</a> </p>
+            <p><i class="fas fa-envelope"></i> <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sudhanshu95084145@gmail.com&su=Hello&body=This%20is%20a%20default%20message" target="_blank">info@gvpschool.edu.in</a> </p>
           </div>
         </div>
       </div>

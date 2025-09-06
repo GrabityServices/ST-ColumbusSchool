@@ -396,6 +396,10 @@ footer {
     gap: 3px;
 }
 
+.contact-us div p a {
+    color: inherit;
+}
+
 .copy-right {
     padding: 10px 0;
 }
