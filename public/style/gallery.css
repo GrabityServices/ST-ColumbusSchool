@@ -159,6 +159,7 @@ footer {
 
 .contact-us div p a {
     color: inherit;
+    text-decoration: none;
 }
 
 .copy-right {
@@ -197,8 +198,7 @@ footer {
         margin-bottom: .5rem;
     }
 
-    p,
-    li {
+    p{
         font-size: 1rem;
     }
 
@@ -260,8 +260,7 @@ footer {
         font-size: 1.1rem;
     }
 
-    p,
-    li {
+    p{
         font-size: 1rem;
     }
 
@@ -291,8 +290,7 @@ footer {
         font-size: 1.1rem;
     }
 
-    p,
-    li {
+    p{
         font-size: 1rem;
     }
 
