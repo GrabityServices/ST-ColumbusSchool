@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | St. Columbus Public School</title>
+    <!-- Font Awesome for Social Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style\contact.css">
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <%- include('index.ejs') %>
+
+        <main>
+            <!-- HEADING -->
+            <section class="contact-heading">
+                <div class="contact-overlay"></div>
+                <div class="contact-inner">
+                    <h1>Contact</h1>
+                    <p class="subtitle">We're here to answer your questions and guide you.</p>
+                </div>
+            </section>
+
+            <!-- TEXT AND IMAGE -->
+            <section class="contact-text-and-image container">
+                <div class="contact-first-container">
+                    <div class="our-location">
+                        <p>Let's Connect</p>
+                        <h1>Our Locations.</h1>
+                    </div>
+                    <div class="address-section">
+                        <p><strong>Address : &nbsp;&nbsp;</strong>St. Columbus Public School, Ekdara, Jhajha, Jamui 811308 (Bihar), India</p>
+                        <p><strong>Phone : &nbsp;&nbsp;</strong>+91-9876543210, +91-1122334455</p>
+                        <p><strong>Email : &nbsp;&nbsp;</strong>info@gvpschool.edu.in</p>
+                        <p><strong>Office Hours : &nbsp;&nbsp;</strong>Mon - Sat (9:00 AM - 4:00 PM)</p>
+                    </div>
+                </div>
+                <div class="contact-second-container">
+                    <div class="contact-image-cnt">
+                        <img src="/images/school-environment.webp" alt="school-environment">
+                    </div>
+                </div>
+            </section>
+
+            <!-- LOCATION -->
+            <section class="map container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2228.2280253458375!2d86.3581412!3d24.8038498!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f179263476a239%3A0xdc897fc5d426ff96!2sSt.%20Columbus%20Public%20School%20Ekdara!5e1!3m2!1sen!2sin!4v1756914783357!5m2!1sen!2sin"
+                        style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </section>
+
+            <!-- CONTACT PAGE -->
+            <section class="contact container">
+                <div class="contact-paragraph">
+                    <h2>We know that sometimes it is tough to find the information you need. So, please go ahead and ask!</h2>
+                </div>
+                <form class="form-container">
+                    <input type="text" required placeholder="NAME">
+                    <input type="email" required placeholder="EMAIL">
+                    <textarea required placeholder="MESSAGE"></textarea>
+                    <button>Send message</button>
+                </form>
+            </section>
+
+            <section class="ring-image">
+                    <img src="/images/pattern-rings.svg" alt="pattern-rings">
+            </section>
+            
+        </main>
+
+        <!-- FOOTER -->
+        <footer>
+            <div class="footer-container">
+                <div class="about-us">
+                    <h3>About Us</h3>
+                    <div>
+                        <p>St. Columbus Public School is a private English Medium
+                            School established for providing quality education to
+                            students up to High School level with a focus on values,
+                            discipline, and all-round development.</p>
+                    </div>
+                </div>
+                <div class="quick-links">
+                    <h3>Quick Links</h3>
+                    <div><a href="/">Home</a>
+                        <a href="/">About Us</a>
+                        <a href="/">Admission</a>
+                        <a href="/">Gallery</a>
+                        <a href="/">Contact Us</a>
+                    </div>
+                </div>
+        
+                <div class="follow-us">
+                    <h3>Follow Us</h3>
+                    <div>
+                        <a href="#"><i class="fab fa-youtube"></i> YouTube</a>
+                        <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+                        <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                        <a href="#"><i class="fab fa-x-twitter"></i> X</a>
+                    </div>
+                </div>
+        
+                <div class="contact-us">
+                    <h3>Contact Us</h3>
+                    <div>
+                        <p><i class="fas fa-map-marker-alt"></i> <a href="https://maps.google.com/?q=St.+Columbus+Public+School,+Ekdara,+Jhajha,+Jamui+811308+(Bihar),+India"> St. Columbus Public School, Ekdara, &nbsp; &nbsp;&nbsp; Jhajha, Jamui 811308 (Bihar), India</a> </p>
+                        <p><i class="fas fa-phone"></i> <a href="tel:+919812345678">+91-9876543210</a>, <a href="tel:+919812345678">+91-1122334455</a> </p>
+                        <p><i class="fas fa-envelope"></i> <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sudhanshu95084145@gmail.com&su=Hello&body=This%20is%20a%20default%20message" target="_blank">info@gvpschool.edu.in</a> </p>
+                    </div>
+                </div>
+        
+            </div>
+            <p class="copy-right">
+                <i class="far fa-copyright"></i> 2025 St. Columbus Public School. All rights reserved. | Developed by
+                <a href="https://www.grabityservices.com" target="_blank">GrabityServices</a>
+            </p>
+        </footer>
+
+</body>
+
+</html>
