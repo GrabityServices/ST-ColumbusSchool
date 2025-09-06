@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <% notices.forEach(notice => { %>
+    <div
+      class="card"
+      style="
+        border: 1px solid black;
+        width: 300px;
+        padding: 5px;
+        background-color: tomato;
+      "
+    >
+      <p><%= notice.messDate %></p>
+      <span> Subject: </span> <span><%=notice.title %></span><br />
+      <span> Notice: </span> <span><%=notice.mess %></span><br />
+      <%if(notice.img) { const regex=/.\.pdf$/i; if(!regex.test(notice.img)){ %>
+      <img
+        style="width: 200px"
+        src="<%= notice.img%>"
+        alt="<%= notice.title%>"
+      />
+      <% }else{ %>
+      <iframe
+        style="width: 100%; overflow: hidden; object-fit: cover"
+        src="<%= notice.img %>"
+        frameborder="0"
+      ></iframe>
+      <a href="<%= notice.img  %>">DowunLoad</a>
+      <% } }%>
+    </div>
+
+    <% }); %>
+  </body>
+</html>

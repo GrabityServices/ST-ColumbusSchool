@@ -1,19 +1,50 @@
+const path = require("path");
+const fs = require("fs");
 const Gallery = require("../models/gallery.js");
-
-async function handelGallery(req, res) {
-  const images = await Gallery.find({});
-  const jsonData = images.map((image) => image.toJSON());
-  res.json(jsonData);
-}
 
 async function setGalleryForm(req, res) {
   if (req.body.uploaded == true) {
     const gallery = await Gallery.findByIdAndUpdate(req.params.id, {
       img: req.body.filename,
+    }).then((AdminIs) => {
+      console.log(AdminIs.img);
+      if (AdminIs.img && AdminIs.img !== "/adminAvt/defaultAvt.png") {
+        try {
+          const imagePath = path.join(__dirname, "../assets", AdminIs.img); // Adjust based on your storage setup
+          // Delete the image file
+          fs.unlink(imagePath, (err) => {
+            if (err) {
+              console.error("Error deleting image:", err);
+            } else {
+              console.log("Image deleted successfully");
+            }
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      }
     });
-    res.redirect("/home/gallery");
+    res.redirect("/stcolumbus/jaj/ekdara/admin#gallery");
   } else {
-    res.redirect(`/home/galleryUpdate/${req.params.id}`);
+    try {
+      const imagePath = path.join(
+        __dirname,
+        "../assets/galleryAvt",
+        req.body.filename
+      ); // Adjust based on your storage setup
+
+      // Delete the image file
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error("Error deleting image:", err);
+        } else {
+          console.log("Image deleted successfully");
+        }
+      });
+      res.redirect(`/home/galleryUpdate/${req.params.id}`);
+    } catch (err) {
+      res.redirect(`/home/galleryUpdate/${req.params.id}`);
+    }
   }
 }
 
@@ -22,12 +53,12 @@ async function setGalleryFormDet(req, res) {
   // console.log(achivIS)
   const title = req.body.title || galleryIs.title;
   const desc = req.body.desc || galleryIs.desc;
-  const EventDate = req.body.EventDate || galleryIs.EventDate;
+  // const EventDate = req.body.EventDate || galleryIs.EventDate;
 
   const newData = {
     title,
     desc,
-    EventDate,
+    // EventDate,
   };
   // console.log(newData)
 
@@ -37,16 +68,18 @@ async function setGalleryFormDet(req, res) {
     { new: true }
   );
   // console.log(data)
-  res.redirect("/home/gallery");
+  res.redirect("/stcolumbus/jaj/ekdara/admin#gallery");
 }
-
-function handelNewGallery(req, res) {
+// ==============================================================================================
+async function handelNewGallery(req, res) {
+  // const disc = await Gallery.distinct("EventDate");
+  // console.log(disc);
   res.render("newGallery.ejs");
 }
 
 async function handelNewGalleryForm(req, res) {
   if (req.body.uploaded) {
-    const {title,desc,EventDate,filename}=req.body
+    const { title, desc, EventDate, filename } = req.body;
     const newGal = await Gallery.create({
       title,
       desc,
@@ -54,12 +87,30 @@ async function handelNewGalleryForm(req, res) {
       img: filename,
     });
     // console.log(newGal);
-    return res.redirect('/home/gallery')
+    return res.redirect("/stcolumbus/jaj/ekdara/admin#admin");
+  } else {
+    try {
+      const imagePath = path.join(
+        __dirname,
+        "../assets/galleryAvt",
+        req.body.filename
+      ); // Adjust based on your storage setup
+
+      // Delete the image file
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error("Error deleting image:", err);
+        } else {
+          console.log("Image deleted successfully");
+        }
+      });
+      res.redirect(`/home/gallery/new`);
+    } catch (err) {
+      res.redirect(`/home/gallery/new`);
+    }
   }
-  res.redirect('/home/gallery/new')
 }
 module.exports = {
-  handelGallery,
   setGalleryForm,
   setGalleryFormDet,
   handelNewGallery,

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /* Add some basic styling to the form */
+      form {
+        max-width: 500px;
+        margin: 40px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      label {
+        display: block;
+        margin-bottom: 10px;
+      }
+      input[type="text"],
+      textarea {
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        width: fit-content;
+        resize: vertical;
+      }
+    </style>
+  </head>
+  <body>
+    <form
+      id="notice-form"
+      action="/home/notice/new"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <label for="title">Title:</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        required
+        minlength="3"
+        maxlength="60"
+      />
+      <br /><br />
+      <label for="mess">Message:</label>
+      <textarea
+        id="mess"
+        name="mess"
+        minlength="3"
+        maxlength="500"
+        cols="50"
+        ,
+        rows="5"
+      ></textarea>
+      <br /><br />
+      <label for="img">Image Or PDF:</label>
+      <input type="file" id="img" name="img" accept=".jpg, .jpeg, .png, .pdf" />
+      <br /><br />
+      <button type="submit">Submit</button>
+    </form>
+    <script>
+      // Get the file input element
+      const fileInput = document.getElementById("img");
+
+      // Add an event listener to check the file type and size
+      fileInput.addEventListener("change", () => {
+        const img = document.getElementById("img");
+        const file = fileInput.files[0];
+        if (file) {
+          const fileType = file.name.split(".").pop().toLowerCase();
+          if (
+            fileType !== "jpg" &&
+            fileType !== "jpeg" &&
+            fileType !== "png" &&
+            fileType !== "pdf"
+          ) {
+            img.style.border = "1px solid red";
+            fileInput.value = "";
+            setTimeout(() => {
+              alert("File type either jpg, jpeg, png or pdf.");
+            }, 100);
+          } else if (file.size > 5 * 1024 * 1024) {
+            fileInput.value = "";
+            img.style.border = "1px solid orange";
+            setTimeout(() => {
+              alert("File size must be less than or Equal to 5MB.");
+            }, 100);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

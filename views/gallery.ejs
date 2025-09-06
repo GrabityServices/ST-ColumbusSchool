@@ -9,14 +9,21 @@
   <body>
 
     <!-- <a href="/home/gallery/new">Set a new Image</a>
-
     <% if (typeof images !== 'undefined' && images && images.length > 0) { %> <%
     images.forEach(image => { %>
+
     <ul>
-      <li><img style="width: 100px;" src="<%= image.img %>" alt="<%= image.name %>" /></li>
+      <li>
+        <img
+          style="width: 100px"
+          src="<%= image.img %>"
+          alt="<%= image.name %>"
+        />
+      </li>
       <li><%= image.title %></li>
       <li><%= image.desc %></li>
       <li><%= image.EventDate %></li>
+
 
         <a href="/home/galleryUpdate/<%=image._id %>">Update Img</a>
         <a href="/home/galleryUpdate/details/<%=image._id %>">details</a>
@@ -93,6 +100,5 @@
         <a href="https://www.grabityservices.com" target="_blank">GrabityServices</a>
       </p>
     </footer>
-
   </body>
 </html>
