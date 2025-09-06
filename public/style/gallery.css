@@ -12,6 +12,9 @@ body {
     line-height: 1.5;
 }
 
+main{
+    margin-top: 90px;
+}
 
 /* CONTAINER & TYPOGRAPHY */
 .container {
@@ -35,8 +38,7 @@ h3 {
     margin-bottom: .5rem;
 }
 
-p,
-li {
+p{
     font-size: 1.1rem;
 }
 
@@ -70,15 +72,23 @@ li {
 }
 
 
-/* GALLERY HEADING */
-.gallery-heading h1{
-    text-transform: uppercase;
+/* GALLERY SECTION */
+.gallery-options {
+    width: 100%;
+    padding: 30px 10px;
+    background-color: thistle;
+    display: flex;
+    justify-content: end;
+    gap: 1rem;
 }
 
-
-
-
-
+.gallery-options a{
+    text-decoration: none;
+    padding: 8px 15px;
+    background-color: teal;
+    color: white;
+    border-radius: 20px;
+}
 
 
 
