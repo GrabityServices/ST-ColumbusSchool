@@ -45,14 +45,11 @@ p {
     font-size: 1.1rem;
 }
 
-a {
-    text-decoration: none;
-}
 
 /* IMAGE SLIDER */
 .slider-box {
-    height: calc(100dvh - 90px);
-    margin-top: 90px;
+    margin-top: 70px;
+    height: calc(100vh - 90px);
 }
 
 .slider {
@@ -231,8 +228,6 @@ a {
 }
 
 
-
-/*  */
 .current-image-position {
     width: 220px;
     height: 50px;
@@ -1047,7 +1042,7 @@ footer {
 
     .slider-box {
         margin-top: 70px;
-        height: calc(100dvh - 70px);
+        height: calc(100vh - 70px);
     }
 
     .welcome-to-st-col {
