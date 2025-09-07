@@ -26,9 +26,7 @@ body {
   background-color: var(--dark);
   color: var(--color);
   font-family: "Poppins", sans-serif;
-  overflow-x: hidden;
 }
-
 
 header {
   width: 100%;
@@ -47,6 +45,10 @@ nav {
   margin: 0 auto;
   max-width: 1700px;
   padding-inline: 20px;
+}
+
+a {
+  text-decoration: none;
 }
 
 .logo {
@@ -69,7 +71,6 @@ nav {
 }
 
 .links a {
-  text-decoration: none;
   font-size: 1.1rem;
   color: var(--font-color);
   transition-duration: 0.3s;
@@ -85,7 +86,6 @@ nav {
 
 .admission a {
   color: var(--color);
-  text-decoration: none;
 }
 
 .admission .arrow-icon {
@@ -203,9 +203,7 @@ nav {
   header {
     height: 70px;
   }
-
-
-
+  
   .logo {
     height: 70px;
     display: flex;

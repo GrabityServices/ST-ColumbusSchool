@@ -22,79 +22,66 @@
         </div>
     </section>
     
-    <!-- NOTICE CONTAINER -->
-    <section class="notice-container">
-        <% let notice = [
-            [
-                'School Closed Today Due to Heavy Rain',
-                '18 Jul 2025',
-                'Due to heavy rain and road blockage, the school will remain closed today. Please stay safe.'
-            ],
+    <main>
+        <!-- NOTICE CONTAINER -->
+        <section class="notice-container">
+            <% let notice=[ [ 'School Closed Today Due to Heavy Rain' , '18 Jul 2025'
+                , 'Due to heavy rain and road blockage, the school will remain closed today. Please stay safe.' ],
+                [ 'Science Exhibition 2025' , '05 Sep 2025'
+                , 'The school is organizing its Annual Science Exhibition on 20 September 2025 in the main auditorium. Students from Classes VI to X are encouraged to participate. Themes include Renewable Energy, Artificial Intelligence, and Sustainable Development. Interested students should register at the science lab by 12 September. Parents and guardians are invited to visit the exhibition between 10 AM and 4 PM on the event day.'
+                ], [ 'Educational Tour to Jaipur' , '20 Nov 2025'
+                , 'The school is arranging an educational tour to Jaipur for Classes VII to IX from 10 Dec to 14 Dec 2025. The trip will include visits to Amber Fort, City Palace, Jantar Mantar, and the Science Park. Students willing to join must submit consent letters signed by parents and the tour fee of Rs. 3000 to the class teacher by 28 Nov 2025. Limited seats available on a first-come, first-served basis.'
+                ], [ 'School Closed Today Due to Heavy Rain' , '18 Jul 2025'
+                , 'Due to heavy rain and road blockage, the school will remain closed today. Please stay safe.' ],
+                [ 'Science Exhibition 2025' , '05 Sep 2025'
+                , 'The school is organizing its Annual Science Exhibition on 20 September 2025 in the main auditorium. Students from Classes VI to X are encouraged to participate. Themes include Renewable Energy, Artificial Intelligence, and Sustainable Development. Interested students should register at the science lab by 12 September. Parents and guardians are invited to visit the exhibition between 10 AM and 4 PM on the event day.'
+                ], ]; %>
+        
+                <% for(let item=0; item <=2; item++) { %>
+                    <div class="notice-card">
+                        <h3>
+                            <%= notice[item][0] %>
+                        </h3>
+                        <time datetime="<%= notice[item][1] %>">
+                            <%= notice[item][1] %>
+                        </time>
+                        <p class="description">
+                            <%= notice[item][2] %>
+                        </p>
+                    </div>
+                    <% } %>
+        </section>
+        
+        <!-- LOAD MORE BUTTON -->
+        <section class="load-more">
+            <button class="load-more-btn">Load More</button>
+            <script>
+                const container = document.querySelector( '.notice-container' );
+                const btn = document.querySelector( '.load-more-btn' );
+                const notices = <% -JSON.stringify( notice ) %>;
+                let index = 3;
 
-            [
-                'Science Exhibition 2025',
-                '05 Sep 2025',
-                'The school is organizing its Annual Science Exhibition on 20 September 2025 in the main auditorium. Students from Classes VI to X are encouraged to participate. Themes include Renewable Energy, Artificial Intelligence, and Sustainable Development. Interested students should register at the science lab by 12 September. Parents and guardians are invited to visit the exhibition between 10 AM and 4 PM on the event day.'
-            ],
+                btn.addEventListener( 'click', () => {
+                    for ( let i = index; i < index + 3 && i < notices.length; i++ ) {
+                        const div = document.createElement( 'div' );
+                        div.className = 'notice-card';
+                        div.innerHTML = `
+                                <h3>${ notices[ i ][ 0 ] }</h3>
+                                <time datetime="${ notices[ i ][ 1 ] }">${ notices[ i ][ 1 ] }</time>
+                                <p>${ notices[ i ][ 2 ] }</p>
+                            `;
+                        container.appendChild( div );
+                    }
+                    index += 3;
 
-            [
-                'Educational Tour to Jaipur',
-                '20 Nov 2025',
-                'The school is arranging an educational tour to Jaipur for Classes VII to IX from 10 Dec to 14 Dec 2025. The trip will include visits to Amber Fort, City Palace, Jantar Mantar, and the Science Park. Students willing to join must submit consent letters signed by parents and the tour fee of Rs. 3000 to the class teacher by 28 Nov 2025. Limited seats available on a first-come, first-served basis.'
-            ],
-
-            [
-                'School Closed Today Due to Heavy Rain',
-                '18 Jul 2025',
-                'Due to heavy rain and road blockage, the school will remain closed today. Please stay safe.'
-            ],
-
-            [
-                'Science Exhibition 2025',
-                '05 Sep 2025',
-                'The school is organizing its Annual Science Exhibition on 20 September 2025 in the main auditorium. Students from Classes VI to X are encouraged to participate. Themes include Renewable Energy, Artificial Intelligence, and Sustainable Development. Interested students should register at the science lab by 12 September. Parents and guardians are invited to visit the exhibition between 10 AM and 4 PM on the event day.'
-            ],
-            
-        ]; %>
-
-        <% for(let item=0; item <= 2; item++) { %>
-            <div class="notice-card">
-                <h3><%= notice[item][0] %></h3>
-                <time datetime="<%= notice[item][1] %>"><%= notice[item][1] %></time>
-                <p class="description"><%= notice[item][2] %></p>
-            </div>
-        <% } %>
-    </section>
-
-    <!-- LOAD MORE BUTTON -->
-    <section class="load-more">
-        <button class="load-more-btn">Load More</button>
-        <script>
-            const container = document.querySelector( '.notice-container' );
-            const btn = document.querySelector( '.load-more-btn' );
-            const notices = <%-JSON.stringify( notice )%>;
-            let index = 3;
-
-            btn.addEventListener( 'click', () => {
-                for ( let i = index; i < index + 3 && i < notices.length; i++ ) {
-                    const div = document.createElement( 'div' );
-                    div.className = 'notice-card';
-                    div.innerHTML = `
-                        <h3>${ notices[ i ][ 0 ] }</h3>
-                        <time datetime="${ notices[ i ][ 1 ] }">${ notices[ i ][ 1 ] }</time>
-                        <p>${ notices[ i ][ 2 ] }</p>
-                    `;
-                    container.appendChild( div );
-                }
-                index += 3;
-
-                if ( index >= notices.length ) {
-                    btn.textContent = "No more notices available";
-                    btn.disabled = true;
-                }
-            } );
-        </script>
-    </section>
+                    if ( index >= notices.length ) {
+                        btn.textContent = "No more notices available";
+                        btn.disabled = true;
+                    }
+                } );
+            </script>
+        </section>
+    </main>
 
     <!-- FOOTER -->
     <footer>

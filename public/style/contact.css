@@ -12,10 +12,6 @@ body {
     line-height: 1.5;
 }
 
-main {
-    margin-top: 90px;
-}
-
 /* CONTAINER & TYPOGRAPHY */
 .container {
     max-width: var(--maxw);
@@ -44,6 +40,7 @@ p {
 
 /* HEADING */
 .contact-heading {
+    margin-top: 90px;
     position: relative;
     height: 380px;
     background: url('/images/school-image.jpg') center/cover no-repeat;
@@ -236,7 +233,6 @@ footer {
 .follow-us div a {
     color: white;
     opacity: 0.8;
-    text-decoration: none;
 }
 
 .quick-links,
@@ -272,7 +268,6 @@ footer {
 
 .copy-right a {
     color: rgb(0, 140, 255);
-    text-decoration: none;
 }
 
 
@@ -353,7 +348,7 @@ footer {
 }
 
 @media (max-width: 700px) {
-    main {
+    .contact-heading {
         margin-top: 70px;
     }
 

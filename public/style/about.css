@@ -16,7 +16,7 @@ main {
     background-color: #000;
 }
 
-/* Container & typography */
+/* CONTAINER AND TYPOGRAPHY */
 .container {
     max-width: var(--maxw);
     margin: 0 auto;
@@ -370,7 +370,6 @@ footer {
 .follow-us div a {
     color: white;
     opacity: 0.8;
-    text-decoration: none;
 }
 
 .quick-links,
@@ -406,11 +405,10 @@ footer {
 
 .copy-right a {
     color: rgb(0, 140, 255);
-    text-decoration: none;
 }
 
 
-/* Responsiveness */
+/* RESPONSIVENESS */
 @media (max-width: 1000px) {
     .why-st {
         flex-direction: column;
