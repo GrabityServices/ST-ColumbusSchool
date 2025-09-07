@@ -44,8 +44,20 @@ app.get("/ft", (req, res) => {
 });
 
 app.get("/", async (req, res) => {
-  const admins = await Admin.find({});
-  res.render("home.ejs", { admins });
+  try {
+    const admins = await Admin.find({});
+    const titles = await Gallery.distinct("title");
+    let gallery = await Promise.all(
+      titles.map(async (tit) => {
+        const data = await Gallery.findOne({ title: tit });
+        return data;
+      })
+    );
+    res.render("home.ejs", { admins, gallery });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error occurred");
+  }
 });
 
 app.get("/academics", async (req, res) => {

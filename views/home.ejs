@@ -12,12 +12,23 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Knewave&family=Leckerli+One&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Knewave&family=Leckerli+One&display=swap" rel="stylesheet">
+<!--  -->
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <!-- Styles and Script -->
     <link rel="stylesheet" href="/style/style.css" />
     <script src="/script/script.js" defer></script>
     <link rel="stylesheet" href="/style/home.css" />
     <script src="/script/home.js" defer></script>
+    <style>
+   
+    </style>
   </head>
 
   <body>
@@ -339,54 +350,78 @@
           </p>
         </div>
 
-
         <div class="second-slider">
           <div class="second-slide center" data-index="0">
             <div class="second-slider-image-container">
-              <img src="/images/1.jpg" alt="">
+              <img src="<%= gallery&&gallery.length >=1?
+              gallery[0].img:"/images/1.jpg"%>" alt="<%= gallery&&gallery.length
+              >=1? gallery[0].title:"img1"%>">
               <div class="second-slider-image-inner-text">
-                <h3>Teacher's Day</h3>
+                <h3>
+                  <%= gallery&&gallery.length >=1?
+              gallery[0].title:"Karma"+" Nature"+"Festival"%>
+                </h3>
               </div>
             </div>
           </div>
-        
+
           <div class="second-slide right" data-index="1">
             <div class="second-slider-image-container">
-              <img src="/images/2.jpg" alt="">
+              <img src="<%= gallery&&gallery.length >=2?
+              gallery[1].img:"/images/2.jpg"%>" alt="<%= gallery&&gallery.length
+              >=2? gallery[1].title:"img2"%>">
               <div class="second-slider-image-inner-text">
-                <h3>Teacher's Day</h3>
+                <h3>
+                  <%= gallery&&gallery.length >=2?
+              gallery[1].title:"Chhath"+"Mahaparv"%>
+                </h3>
               </div>
             </div>
           </div>
-        
+
           <div class="second-slide leave-right" data-index="2">
             <div class="second-slider-image-container">
-              <img src="/images/3.jpg" alt="">
+              <img src="<%= gallery&&gallery.length >=3?
+              gallery[2].img:"/images/3.jpg"%>" alt="<%= gallery&&gallery.length
+              >=3? gallery[2].title:"img3"%>">
               <div class="second-slider-image-inner-text">
-                <h3>Teacher's Day</h3>
+                <h3>
+                  <%= gallery&&gallery.length >=3?
+              gallery[2].title:"Durga"+"Puja"%>
+                </h3>
               </div>
             </div>
           </div>
-        
+
           <div class="second-slide leave-right" data-index="3">
             <div class="second-slider-image-container">
-              <img src="/images/4.jpg" alt="">
+              <img src="<%= gallery&&gallery.length >=4?
+              gallery[3].img:"/images/4.jpg"%>" alt="<%= gallery&&gallery.length
+              >=4? gallery[3].title:"img4"%>">
+
               <div class="second-slider-image-inner-text">
-                <h3>Teacher's Day</h3>
+                <h3>
+                  <%= gallery&&gallery.length >=4?
+              gallery[3].title:"Gandhi"+"Jayanti"%>
+                </h3>
               </div>
             </div>
           </div>
-        
+
           <div class="second-slide left" data-index="4">
             <div class="second-slider-image-container">
-              <img src="/images/5.jpg" alt="">
+              <img src="<%= gallery&&gallery.length >=5?
+              gallery[4].img:"/images/5.jpg"%>" alt="<%= gallery&&gallery.length
+              >=5? gallery[4].title:"img5"%>">
               <div class="second-slider-image-inner-text">
-                <h3>Teacher's Day</h3>
+                <h3>
+                  <%= gallery&&gallery.length >=5?
+              gallery[4].title:"15th"+"August"%>
+              </h3>
               </div>
             </div>
           </div>
         </div>
-        
       </section>
 
       <!-- SEVENTH PAGE -->
@@ -405,7 +440,7 @@
               environmentally conscious schooling that stands as a beacon of
               excellence across India's educational landscape.
             </p>
-            <a href="../views/about.ejs/#about">About Founders</a>
+            <a href="/about#aboutf">About Founders</a>
           </div>
           <div class="founder-right">
             <div class="right-first">
@@ -558,16 +593,34 @@
         <div class="contact-us">
           <h3>Contact Us</h3>
           <div>
-            <p><i class="fas fa-map-marker-alt"></i> <a href="https://maps.google.com/?q=St.+Columbus+Public+School,+Ekdara,+Jhajha,+Jamui+811308+(Bihar),+India">St. Columbus Public School, Ekdara, &nbsp; &nbsp;&nbsp; Jhajha, Jamui 811308 (Bihar), India</a> </p>
-            <p><i class="fas fa-phone"></i> <a href="tel:+919812345678">+91-9876543210</a>, <a href="tel:+919812345678">+91-1122334455</a> </p>
-            <p><i class="fas fa-envelope"></i> <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sudhanshu95084145@gmail.com&su=Hello&body=This%20is%20a%20default%20message" target="_blank">info@gvpschool.edu.in</a> </p>
+            <p>
+              <i class="fas fa-map-marker-alt"></i>
+              <a
+                href="https://maps.google.com/?q=St.+Columbus+Public+School,+Ekdara,+Jhajha,+Jamui+811308+(Bihar),+India"
+                >St. Columbus Public School, Ekdara, &nbsp; &nbsp;&nbsp; Jhajha,
+                Jamui 811308 (Bihar), India</a
+              >
+            </p>
+            <p>
+              <i class="fas fa-phone"></i>
+              <a href="tel:+919812345678">+91-9876543210</a>,
+              <a href="tel:+919812345678">+91-1122334455</a>
+            </p>
+            <p>
+              <i class="fas fa-envelope"></i>
+              <a
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=sudhanshu95084145@gmail.com&su=Hello&body=This%20is%20a%20default%20message"
+                target="_blank"
+                >info@gvpschool.edu.in</a
+              >
+            </p>
           </div>
         </div>
 
         <div class="up-arrow-container" for="up-arrow" id="upArrow">
-          <img src="/images/up-arrow.svg" alt="up-arrow">
+          <img src="/images/up-arrow.svg" alt="up-arrow" />
         </div>
-      </div> 
+      </div>
 
       <p class="copy-right">
         <i class="far fa-copyright"></i> 2025 St. Columbus Public School. All
@@ -579,4 +632,3 @@
     </footer>
   </body>
 </html>
-
