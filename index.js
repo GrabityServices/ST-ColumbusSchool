@@ -65,45 +65,7 @@ app.get("/contact", (req, res) => {
 });
 app.get("/gallery", async (req, res) => {
   let images = await Gallery.find({});
-  // if (req.query.s == "date") {
-  //   let imgArr = [];
-  //   let prv = "";
-  //   images.forEach((img, idx) => {
-  //     // =====================================
-  //     if (prv) {
-  //       if (prv == img.EventDate) {
-  //         imgArr[imgArr.length - 1].push(img);
-  //       } else {
-  //         prv = img.EventDate;
-  //         imgArr.push([img]);
-  //       }
-  //     } else {
-  //       prv = img.EventDate;
-  //       imgArr.push([img]);
-  //     }
-  //     // =====================================
-  //   });
-  //   res.render("gall.ejs", { imgArr, s: "date" });
-  // } else {
-  //   const images = await Gallery.find({}).sort({ title: 1 });
-  //   let imgArr = [];
-  //   let prv = "";
-  //   images.forEach((img, idx) => {
-  //     if (prv) {
-  //       if (prv == img.title.trim()) {
-  //         imgArr[imgArr.length - 1].push(img);
-  //       } else {
-  //         prv = img.title;
-  //         imgArr.push([img]);
-  //       }
-  //     } else {
-  //       prv = img.title;
-  //       imgArr.push([img]);
-  //     }
-  //   });
-  //   res.render("gall.ejs", { imgArr, s: "title" });
-  // }
-  res.render("gall.ejs", { images });
+  res.render("gallery.ejs", { images });
 });
 
 // error handling ----------------
