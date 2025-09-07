@@ -4,44 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/style/gallery.css">
+    <script src="/script/gallery.js" defer></script>
     <title>Gallery</title>
   </head>
   <body>
-
-    <!-- <a href="/home/gallery/new">Set a new Image</a>
-
-    <% if (typeof images !== 'undefined' && images && images.length > 0) { %> <%
-    images.forEach(image => { %>
-    <ul>
-      <li><img style="width: 100px;" src="<%= image.img %>" alt="<%= image.name %>" /></li>
-      <li><%= image.title %></li>
-      <li><%= image.desc %></li>
-      <li><%= image.EventDate %></li>
-
-        <a href="/home/galleryUpdate/<%=image._id %>">Update Img</a>
-        <a href="/home/galleryUpdate/details/<%=image._id %>">details</a>
-
-    </ul> -->
-    <!-- <% }); %> <% } else { %> -->
-    <!-- You can add a message here if admins is not defined or empty -->
-    <!-- <p>No admins found or admins data is not available.</p>
-    <% } %> -->
-
-    <!-- Nav Bar-->
+    <!-- NAV-->
     <%- include('index.ejs') %>
 
-    <main>
-      <!-- HEADING -->
-      <section class="gallery">
-        <div class="gallery-overlay"></div>
-        <div class="gallery-inner">
-          <h1>Gallery</h1>
-          <p class="subtitle">Our gallery highlights moments of learning, creativity, values, and daily discipline, reflecting
-            the balanced growth of our community.</p>
-        </div>
-      </section>
+    <!-- HEADING -->
+    <section class="gallery">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-inner">
+        <h1>Gallery</h1>
+        <p class="subtitle">Our gallery shows learning, creativity, discipline, and values that shape our community.</p>
+      </div>
+    </section>
 
-      <!-- GALLERY SECTION -->
+    <main>
+      <!-- GALLERY OPTIONS -->
       <section class="gallery-heading container">
         <div class="gallery-options">
           <a href="#">All</a>
@@ -51,11 +31,51 @@
           <a href="#">Celebrations</a>
           <a href="#">Others</a>
         </div>
+
+        <!-- GALLERY SECTION -->
+        <% let gallery=[ ["/images/gallery-image-1.jpg", "Teachers' Day" ], ["/images/gallery-image-2.jpg", "Independence Day"
+          ], ["/images/gallery-image-3.jpg", "Picnics and Field Trips" ],
+          ["/images/gallery-image-4.jpg", "Swatch Bharat Abhiyaan" ], ["/images/gallery-image-5.jpg", "Gandhi Jayanti" ],
+          ["/images/gallery-image-6.jpg", "Project Show Case" ], ["/images/gallery-image-7.jpg", "Library" ],
+          ["/images/gallery-image-8.jpg", "Republic Day" ], ["/images/gallery-image-9.jpg", "Holi" ],
+          ["/images/gallery-image-10.jpg", "Quiz Competitions" ], ["/images/gallery-image-11.jpg", "Diwali" ],
+          ["/images/gallery-image-12.jpg", "Children's Day" ], ["/images/gallery-image-13.jpg", "Annual Day" ],
+          ["/images/gallery-image-14.jpg", "Raksha Bandhan" ], ["/images/gallery-image-15.jpg", "Sports Day" ],
+          ["/images/gallery-image-16.png", "Debate and Public Speaking Competitions" ],
+          ["/images/gallery-image-17.jpg", "World Environment Day" ], ["/images/gallery-image-18.png", "International Yoga Day"
+          ] ]; %>
+
+          <section class="gallery-section">
+            <% for(let i=0; i < gallery.length; i++) { %>
+              <div class="gallery-image-card">
+                <img src="<%= gallery[i][0] %>" alt="gallery-image">
+                <div class="gallery-card-inner-text">
+                  <h3>
+                    <%= gallery[i][1] %>
+                  </h3>
+                </div>
+              </div>
+              <% } %>
+          </section>
+
+
+
+      <!-- IMAGE POPUP  -->
+      <div class="popup" id="popup">
+        <div class="popup-container">
+          <div class="close-btn">
+            <img src="/images/close-icon.svg" alt="close-icon">
+          </div>
+          <div class="pop-up-main-image">
+            <img class="popup-img" src="" alt="popup image">
+          </div>
+        </div>
+      </div>
+        
       </section>
     </main>
 
-
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer>
       <div class="footer-container">
         <div class="about-us">
