@@ -88,7 +88,8 @@ p {
     padding: 6px 15px;
     color: white;
     border-radius: 20px;
-    background-color: rgb(23, 116, 116);
+    background-color: #177474;
+    transition-duration: .5s;
 }
 
 

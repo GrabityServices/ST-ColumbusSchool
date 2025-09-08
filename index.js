@@ -40,7 +40,7 @@ app.use("/stcolumbus/admin/manage", adminManagment);
 // webpage routes
 app.get("/ft", (req, res) => {
   console.log(req.user);
-  res.render("about.ejs");
+  res.render("gallery.ejs");
 });
 
 app.get("/", async (req, res) => {
@@ -69,11 +69,11 @@ app.get("/about", async (req, res) => {
   res.render("about.ejs", { admins });
 });
 app.get("/notice", async (req, res) => {
-  const notices = await Notice.find({});
-  res.render("notice.ejs", { notices });
+  const notices = await Notice.find({}).sort({ messDate: -1 });
+  res.render("notices.ejs", { notices });
 });
 app.get("/contact", (req, res) => {
-  res.send("Working contact");
+  res.send("contact.ejs");
 });
 app.get("/gallery", async (req, res) => {
   let images = await Gallery.find({});
