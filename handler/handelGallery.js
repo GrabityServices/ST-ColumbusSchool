@@ -1,6 +1,6 @@
 const path = require("path");
 const fs = require("fs");
-const Gallery = require("../../ddd/models/gallery.js");
+const Gallery = require("../models/gallery.js");
 const { title } = require("process");
 
 async function setGalleryForm(req, res) {

@@ -1,23 +1,23 @@
 const express = require("express");
 const stcolumbus = express.Router();
 const multer = require("multer");
-const adminAvt = require("../../ddd/utils/updateAdmin.js");
-const achivAvt = require("../../ddd/utils/updateAchiv.js");
-const noticeAvt = require("../../ddd/utils/addNotice.js");
-const galleyAvt = require("../../ddd/utils/updateGallery.js");
+const adminAvt = require("../utils/updateAdmin.js");
+const achivAvt = require("../utils/updateAchiv.js");
+const noticeAvt = require("../utils/addNotice.js");
+const galleyAvt = require("../utils/updateGallery.js");
 const path = require("path");
 const fs = require("fs");
 // const UserAdmin = require("../models/userAdmin.js");
-const { checkAdminAsEditor } = require("../../ddd/middleware/checkAdmin.js");
+const { checkAdminAsEditor } = require("../middleware/checkAdmin.js");
 
-const { setAdminForm, setAdminFormDet } = require("../../ddd/handler/handelAdmin.js");
+const { setAdminForm, setAdminFormDet } = require("../handler/handelAdmin.js");
 
 const {
   setAchivForm,
   setAchivFormDet,
   handelNewAchiv,
   handelNewAchivForm,
-} = require("../../ddd/handler/handelAchiv.js");
+} = require("../handler/handelAchiv.js");
 
 const {
   setGalleryForm,
@@ -29,11 +29,11 @@ const {
   handelNoticeForm,
   handelNoticeUpdateDet,
   handelNoticeUpdateImg,
-} = require("../../ddd/handler/notice.js");
+} = require("../handler/notice.js");
 
-const Gallery = require("../../ddd/models/gallery.js");
-const Achivments = require("../../ddd/models/achivments.js");
-const Notice = require("../../ddd/models/notice.js");
+const Gallery = require("../models/gallery.js");
+const Achivments = require("../models/achivments.js");
+const Notice = require("../models/notice.js");
 // ==================================================
 // admin Work
 stcolumbus
