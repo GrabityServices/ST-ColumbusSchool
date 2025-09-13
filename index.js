@@ -80,6 +80,7 @@ app.get("/gallery", async (req, res) => {
   let images = await Gallery.find({});
   res.render("gallery.ejs", { images });
 });
+app.get('/admission',(req,res)=>res.render('admission.ejs'))
 
 app.get("/admission/form", (req, res) => {
   res.render("add.ejs");
