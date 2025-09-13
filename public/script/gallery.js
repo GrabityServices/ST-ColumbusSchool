@@ -20,3 +20,38 @@ popup.addEventListener( 'click', ( e ) => {
         popup.style.display = 'none';
     }
 } );
+
+// GO TO TOP
+const upArrow = document.getElementById( 'upArrow' );
+upArrow.addEventListener( 'click', () => {
+    window.scrollTo( {
+        top: 0,
+        behavior: 'smooth'
+    } );
+} );
+
+
+const as = document.querySelectorAll( ".gallery-options a" );
+const all = document.querySelector( ".all" );
+const bydate = document.querySelector( ".bydate" );
+const byevename = document.querySelector( ".byevename" );
+as.forEach( ( a, idx ) => {
+    a.addEventListener( "click", () => {
+        as.forEach( ( link ) => link.classList.remove( "active" ) );
+        a.classList.add( "active" );
+        const name = a.innerText;
+        if ( name === "All" ) {
+            bydate.style.display = "none";
+            byevename.style.display = "none";
+            all.style.display = "block";
+        } else if ( name == "Arranged by Date" ) {
+            bydate.style.display = "block";
+            byevename.style.display = "none";
+            all.style.display = "none";
+        } else {
+            bydate.style.display = "none";
+            byevename.style.display = "block";
+            all.style.display = "none";
+        }
+    } );
+} );

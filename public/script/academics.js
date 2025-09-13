@@ -1,4 +1,3 @@
-// GO TO TOP
 const upArrow = document.getElementById( 'upArrow' );
 
 upArrow.addEventListener( 'click', () => {

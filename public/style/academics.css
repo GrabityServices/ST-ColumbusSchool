@@ -141,12 +141,38 @@ li {
     border-radius: 12px;
     margin: .25rem;
     cursor: pointer;
+    transition-duration: 0.4s;
 }
 
 .btn--contact {
     background: transparent;
     color: #111;
     border: 1px solid #111;
+}
+
+.btn:hover {
+    box-shadow: 0 0 12px 1px #fff;
+}
+
+
+.imp {
+    font-weight: 700;
+}
+
+li {
+    text-transform: capitalize;
+}
+
+details {
+    font-size: 15px;
+    cursor: pointer;
+    transition-duration: 1s;
+}
+
+details:open {
+    background-color: #222222;
+    padding: 3px 5px;
+    border-radius: 5px;
 }
 
 

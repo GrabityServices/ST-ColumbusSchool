@@ -10,18 +10,10 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="style/style.css" />
   <link rel="stylesheet" href="style/about.css" />
-  <style>
-    .contact-us{
-      a{
-        text-decoration: none;
-        color: #fff;
-        opacity: .8;
-      }
-    }
-  </style>
+  <script src="script/about.js" defer></script>
 </head>
 
-<body>
+<body >
 
   <!-- NAV -->
   <%- include('index.ejs') %>
@@ -77,7 +69,7 @@
       <section class="about-svg container">
         <div class="innovation about-first-card">
           <div class="about-page-vector-image">
-            <img src="/images/ligh-bulb.svg" alt="light-bulb" />
+            <img src="/images/ligh-bulb.svg"  alt="light-bulb" />
           </div>
           <h3>High standards in Innovations</h3>
         </div>
@@ -129,7 +121,7 @@
 
         <div class="why-st-image-container">
           <div class="why-st-images">
-            <img src="/images/children1.jpg" alt="children-image" />
+            <img download src="/images/children1.jpg" alt="children-image" />
           </div>
           <div class="why-st-images">
             <img src="/images/children2.jpg" alt="children-image" />
@@ -363,12 +355,15 @@
 
         <div class="contact-us">
           <h3>Contact Us</h3>
-
+          <div>
             <p><i class="fas fa-map-marker-alt"></i> <a href="https://maps.google.com/?q=St.+Columbus+Public+School,+Ekdara,+Jhajha,+Jamui+811308+(Bihar),+India"> St. Columbus Public School, Ekdara, &nbsp; &nbsp;&nbsp; Jhajha, Jamui 811308 (Bihar), India</a> </p>
             <p><i class="fas fa-phone"></i> <a href="tel:+919812345678">+91-9876543210</a>, <a href="tel:+919812345678">+91-1122334455</a> </p>
             <p><i class="fas fa-envelope"></i> <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sudhanshu95084145@gmail.com&su=Hello&body=This%20is%20a%20default%20message" target="_blank">info@gvpschool.edu.in</a> </p>
           </div>
         </div>
+      </div>
+
+
       </div>
       <p class="copy-right">
         <i class="far fa-copyright"></i> 2025 St. Columbus Public School. All
@@ -376,8 +371,9 @@
         <a href="https://www.grabityservices.com" target="_blank"
           >GrabityServices</a
         >
-        <a style="margin-left: 20px;color: aliceblue;" href="#upp">&uparrow;</a>
+        <a id="upArrow" style="margin-left: 20px;color: aliceblue;" href="#upp">&uparrow;</a>
       </p>
     </footer>
+
   </body>
 </html>

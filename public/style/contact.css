@@ -181,6 +181,19 @@ button {
     align-self: flex-end;
 }
 
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.error {
+    font-size: 0.875rem;
+    color: hsl(0, 100%, 70%);
+    margin-top: 0.5rem;
+    min-height: 1em;
+}
+
+
 
 /* RING */
 .ring-image {
@@ -190,7 +203,7 @@ button {
     margin-left: -170px;
 }
 
-.ring-image img{
+.ring-image img {
     height: 100%;
 }
 

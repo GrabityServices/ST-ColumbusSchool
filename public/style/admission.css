@@ -1,5 +1,5 @@
 :root {
-    --maxw: 1400px;
+    --maxw: 1200px;
 }
 
 * {
@@ -9,27 +9,43 @@
 body {
     margin: 0;
     padding: 0;
-    line-height: 1.5;
+    line-height: 1.4;
 }
 
 
-/* TYPOGRAPHY */
+/* CONTAINER AND TYPOGRAPHY */
+.container {
+    color: #2c3e50;
+    max-width: var(--maxw);
+    margin: 40px auto;
+    padding: 20px;
+}
+
 h1 {
     font-size: 3.5rem;
-    line-height: 1;
+}
+
+h2 {
+    font-size: 1.7rem;
+    margin-block: 1.2rem;
 }
 
 h3 {
-    font-size: 1.35rem;
-    margin-bottom: .5rem;
+    font-size: 1.5rem;
+}
+
+h4 {
+    font-size: 1.3rem;
 }
 
 p {
     font-size: 1.1rem;
 }
 
-/* HEADING */
-.notices-heading {
+
+
+/* HEADING AND IMAGE */
+.admission-container {
     margin-top: 90px;
     position: relative;
     height: 380px;
@@ -38,97 +54,89 @@ p {
     align-items: center;
     justify-content: center;
     text-align: center;
+    border-radius: 0;
 }
 
-.notices-overlay {
+.admission-overlay {
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, .5);
 }
 
-.notices-inner {
+.admission-inner {
     position: relative;
     z-index: 1;
     color: #fff;
     padding: 0 .5rem;
 }
 
-.notices-inner .subtitle {
+.admission-inner .subtitle {
     font-size: 1.1rem;
     opacity: 0.8;
 }
 
-
-/* NOTICE CONTAINER */
-.notice-container {
-    max-width: var(--maxw);
-    margin-inline: auto;
-    padding: 2rem 1rem;
-
+section {
+    margin-block: 40px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(97, 63, 63, 0.1);
 }
 
-.notice-card {
-    margin-top: 30px;
-    background: #000000;
-    border: 1px solid #eeeeee36;
-    padding: 1.5rem;
-    border-radius: 10px;
-    margin-bottom: 1rem;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, .03);
-    border-left: 4px solid #0b6;
+/* Steps */
+.steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
 }
 
-time {
-    opacity: .7;
-    font-size: .8rem;
-}
-
-.description {
-    opacity: .9;
-    margin-block: 5px;
-}
-
-
-/* LOAD MORE BUTTON*/
-.load-more {
-    max-width: var(--maxi);
-    padding: 2rem 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.load-more-btn {
-    border: none;
-    display: inline-block;
-    background-color: #fff;
-    color: #111;
-    padding: .8rem 1.2rem;
-    border-radius: 12px;
-    margin: .25rem;
-    cursor: pointer;
-}
-
-
-.nboard {
-    font-size: 20px;
+.step {
+    background: #69929c;
+    padding: 15px;
+    border-radius: 8px;
     text-align: center;
-    color: #fff;
+    transition: 0.3s;
+}
+
+.step h4 {
+    margin-block: 1.1rem;
+}
+
+.step:hover {
+    background: #dff9fb;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    background: #f1f2f6;
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+/* Fee Structure Table */
+table {
     width: 100%;
-    height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid burlywood;
+    border-collapse: collapse;
+    margin-top: 15px;
 }
 
-.load-more-btn {
-    transition-duration: 0.5s;
+th,
+td {
+    padding: 12px;
+    border: 1px solid #ccc;
+    text-align: center;
 }
 
-.load-more-btn:hover {
-    box-shadow: 0 0 10px 1px #65faff;
+th {
+    background: #2c3e50;
+    color: #725656;
 }
+
+
 
 
 /* FOOTER */
@@ -210,7 +218,7 @@ footer {
 /* RESPONSIVENESS */
 @media (max-width: 800px) {
     body {
-        line-height: 1.4;
+        line-height: 1.2;
     }
 
     .container {
@@ -219,13 +227,14 @@ footer {
 
     h1 {
         font-size: 3rem;
-        line-height: 1;
     }
 
+    h2 {
+        font-size: 1.5rem;
+    }
 
-    h3 {
-        font-size: 1.2rem;
-        margin-bottom: .5rem;
+    h4 {
+        font-size: 1.1rem;
     }
 
     p {
@@ -247,7 +256,7 @@ footer {
         gap: 15px;
     }
 
-    about-us div p,
+    .about-us div p,
     .quick-links div p,
     .follow-us div p,
     .contact-us div p {
@@ -255,40 +264,36 @@ footer {
     }
 }
 
+
 @media (max-width: 700px) {
-    .notices-heading{
+    .admission-container {
         margin-top: 70px;
     }
 }
 
+
 @media (max-width: 500px) {
-    body {
-        line-height: 1.3;
+    .admission-inner .subtitle {
+        font-size: 1rem;
     }
 
     h1 {
         font-size: 2rem;
-        line-height: 1;
     }
 
     h2 {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
     }
 
     p {
         font-size: 1rem;
     }
 
-    .btn {
-        padding: .5rem .8rem;
-        border-radius: 10px;
-    }
 }
-
 
 @media (max-width: 400px) {
     body {
-        line-height: 1.3;
+        line-height: 1.1;
     }
 
     h1 {
@@ -296,12 +301,14 @@ footer {
         line-height: 1;
     }
 
-    h3 {
-        font-size: 1.1rem;
-    }
-
     p {
         font-size: 1rem;
     }
 
+    th,
+    td {
+        padding: 5px;
+    }
+
 }
+

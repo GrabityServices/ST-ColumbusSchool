@@ -95,7 +95,7 @@ p {
 
 /* GALLERY SECTION */
 .gallery-section {
-    column-count: 3;
+    column-count: 4;
     column-gap: 1rem;
 }
 

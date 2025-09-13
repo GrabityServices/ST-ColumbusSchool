@@ -151,10 +151,10 @@
           <h3>Quick Links</h3>
           <div>
             <a href="/">Home</a>
-            <a href="/">About Us</a>
-            <a href="/">Admission</a>
-            <a href="/">Gallery</a>
-            <a href="/">Contact Us</a>
+            <a href="/about">About Us</a>
+            <a href="/admission">Admission</a>
+            <a href="/gallery">Gallery</a>
+            <a href="/contact">Contact Us</a>
           </div>
         </div>
 
@@ -200,36 +200,11 @@
         <i class="far fa-copyright"></i> 2025 St. Columbus Public School. All
         rights reserved. | Developed by
         <a href="https://www.grabityservices.com" target="_blank"
-          >GrabityServices</a
-        >
+          >GrabityServices</a>
+          <a id="upArrow" style="margin-left: 20px;color: aliceblue;" href="#upp">&uparrow;</a>
       </p>
     </footer>
 
-    <script>
-      const as = document.querySelectorAll(".gallery-options a");
-      const all = document.querySelector(".all");
-      const bydate = document.querySelector(".bydate");
-      const byevename = document.querySelector(".byevename");
-      as.forEach((a, idx) => {
-        a.addEventListener("click", () => {
-          as.forEach((link) => link.classList.remove("active"));
-          a.classList.add("active");
-          const name = a.innerText;
-          if (name === "All") {
-            bydate.style.display = "none";
-            byevename.style.display = "none";
-            all.style.display = "block";
-          } else if (name == "Arranged by Date") {
-            bydate.style.display = "block";
-            byevename.style.display = "none";
-            all.style.display = "none";
-          } else {
-            bydate.style.display = "none";
-            byevename.style.display = "block";
-            all.style.display = "none";
-          }
-        });
-      });
-    </script>
+
   </body>
 </html>

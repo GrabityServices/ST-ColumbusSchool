@@ -118,14 +118,13 @@ faqs.forEach( faq => {
 
 // Up Arrow animation
 const upArrow = document.getElementById( 'upArrow' );
-const sliderBox = document.querySelector( '.slider-box' );
-
 upArrow.addEventListener( 'click', () => {
-    sliderBox.scrollIntoView( {
-        behavior: 'smooth',
-        block: 'start' 
+    window.scrollTo( {
+        top: 0,
+        behavior: 'smooth'
     } );
 } );
+
 
 
 // SECOND IMAGE SLIDER
@@ -173,5 +172,7 @@ function nextSlide () {
 }
 
 updateSlider();
-
 setInterval( nextSlide, 3000 );
+
+
+

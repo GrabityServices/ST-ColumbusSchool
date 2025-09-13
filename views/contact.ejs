@@ -8,6 +8,7 @@
     <!-- Font Awesome for Social Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="style\contact.css">
+    <script src="script\contact.js" defer></script>
 </head>
 
 <body>
@@ -62,11 +63,24 @@
                         ask!</h2>
                 </div>
                 <form class="form-container">
-                    <input type="text" required placeholder="NAME">
-                    <input type="email" required placeholder="EMAIL">
-                    <textarea required placeholder="MESSAGE"></textarea>
-                    <button>Send message</button>
+                    <div class="input-group">
+                        <input class="user-name" type="text" required placeholder="NAME">
+                        <span class="error"></span>
+                    </div>
+                
+                    <div class="input-group">
+                        <input class="user-email" type="email" required placeholder="EMAIL">
+                        <span class="error"></span>
+                    </div>
+                
+                    <div class="input-group">
+                        <textarea class="user-message" required placeholder="MESSAGE"></textarea>
+                        <span class="error"></span>
+                    </div>
+                
+                    <button type="submit">Send message</button>
                 </form>
+
             </section>
 
             <section class="ring-image">
@@ -89,10 +103,10 @@
                 <div class="quick-links">
                     <h3>Quick Links</h3>
                     <div><a href="/">Home</a>
-                        <a href="/">About Us</a>
-                        <a href="/">Admission</a>
-                        <a href="/">Gallery</a>
-                        <a href="/">Contact Us</a>
+                        <a href="/about">About Us</a>
+                        <a href="/admission">Admission</a>
+                        <a href="/gallery">Gallery</a>
+                        <a href="/contact">Contact Us</a>
                     </div>
                 </div>
 
@@ -125,6 +139,7 @@
             <p class="copy-right">
                 <i class="far fa-copyright"></i> 2025 St. Columbus Public School. All rights reserved. | Developed by
                 <a href="https://www.grabityservices.com" target="_blank">GrabityServices</a>
+                <a id="upArrow" style="margin-left: 20px;color: aliceblue;" href="#upp">&uparrow;</a>
             </p>
         </footer>
 

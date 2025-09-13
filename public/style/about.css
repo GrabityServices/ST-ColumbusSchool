@@ -9,7 +9,7 @@
 body {
     margin: 0;
     padding: 0;
-    line-height: 1.7;
+    line-height: 1.5;
 }
 
 main {
@@ -20,7 +20,7 @@ main {
 .container {
     max-width: var(--maxw);
     margin: 0 auto;
-    padding: 2.5rem .6rem;
+    padding: 4rem .6rem;
 }
 
 h1 {
@@ -359,19 +359,21 @@ footer {
     max-width: 390px;
     display: flex;
     flex-direction: column;
-    gap: 25px;
 }
 
 .contact-us {
     max-width: 400px;
 }
 
+.about-us div p,
 .quick-links div a,
-.follow-us div a {
-    color: white;
+.follow-us div a,
+.contact-us div p a,i{
+    color: #F0FFFF;
     opacity: 0.8;
 }
 
+.about-us,
 .quick-links,
 .follow-us,
 .contact-us {
@@ -380,12 +382,6 @@ footer {
     gap: 25px;
 }
 
-.about-us div p,
-.quick-links div p,
-.follow-us div p,
-.contact-us div p {
-    opacity: 0.8;
-}
 
 .quick-links div,
 .follow-us div,
@@ -395,9 +391,6 @@ footer {
     gap: 3px;
 }
 
-.contact-us div p a {
-    color: inherit;
-}
 
 .copy-right {
     padding: 10px 0;
