@@ -54,7 +54,7 @@ const AdmissionSchema = mongoose.Schema({
       "7TH",
       "8TH",
       "9TH",
-      "10T",
+      "10TH",
     ],
     default: "LKG",
   },

@@ -40,7 +40,6 @@
         background: #d6eaff;
         padding: 0.5rem 1rem;
         border-radius: 8px;
-        user-select: all;
         box-shadow: 0 4px 12px rgba(41, 128, 185, 0.25);
         display: inline-block;
         transition: background 0.3s ease;
@@ -74,7 +73,7 @@
     <% if (pid && pid !== undefined) { %>
     <div class="process-container">
       <h2>Your Process ID</h2>
-      <div class="process-id" tabindex="0" title="Click to select">
+      <div class="process-id" tabindex="0" title="Click to select your Id">
         <%= pid %>
       </div>
     </div>
@@ -85,10 +84,14 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const pidEl = document.querySelector(".process-id");
+      pidEl.style.color = "green";
       if (pidEl) {
         pidEl.addEventListener("click", () => {
           navigator.clipboard.writeText(pidEl.innerText).then(() => {
-            alert("Process ID copied to clipboard!");
+            pidEl.style.color = "red";
+            setTimeout(() => {
+              pidEl.style.color = "green";
+            }, 5000);
           });
         });
       }
