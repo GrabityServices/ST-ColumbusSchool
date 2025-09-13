@@ -1,22 +1,22 @@
 const express = require("express");
 const adminroute = express.Router();
 const adminManagment = express.Router();
-const adminAccountAvt = require("../utils/updateAdminAccountImg.js");
-const { checkAdminAsSuperadmin } = require("../middleware/checkAdmin.js");
+const adminAccountAvt = require("../../ddd/utils/updateAdminAccountImg.js");
+const { checkAdminAsSuperadmin } = require("../../ddd/middleware/checkAdmin.js");
 // ======================accpunt Handlers==============
 const {
   handleStAdmin,
   hadnleLoginForm,
   handleForgotForm,
   hadnleSignupForm,
-} = require("../handler/stcolumbusadmin.js");
+} = require("../../ddd/handler/stcolumbusadmin.js");
 //==============UserAdmin Updates Handler=============================
 const {
   handleUpdateAdminImg,
   handleUpdateAdminDet,
   handleDeleteAdmin,
   hadnleUpdateBySuperAdmin,
-} = require("../handler/stcolumbusadmin.js");
+} = require("../../ddd/handler/stcolumbusadmin.js");
 //==================admin work=================================
 adminroute.route("").get(handleStAdmin);
 adminroute
@@ -78,4 +78,5 @@ adminManagment.route("/logout").get((req,res)=>{
   });
   res.redirect('/stcolumbus/admin/manage/login')
 })
+
 module.exports = { adminroute, adminManagment };

@@ -1,18 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <h1>New Gallery</h1>
-    <form action="/home/gallery/new" method="post" enctype="multipart/form-data">
-        <input type="file" name="img" required><br>
-        <input type="text" name="title" id="" maxlength="60" minlength="3" placeholder="title" required><br>
-        <input type="text" name="desc" id="" maxlength="500" minlength="3" placeholder="desc"><br>
-        <input type="date" name="EventDate" id="">
-        <button type="submit">Save</button>
+  </head>
+  <body>
+    <h1>New img</h1>
+    <% if(date &&date!=undefined && title&&title!=undefined) {%>
+    <form
+      action="/home/gallery/new"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <input type="file" name="img" required /><br />
+      <input
+        type="text"
+        name="title"
+        id=""
+        maxlength="60"
+        minlength="3"
+        placeholder="title"
+        hidden
+        value="<%=title %>"
+      /><br />
+      <input
+        type="text"
+        name="desc"
+        id=""
+        maxlength="500"
+        minlength="3"
+        placeholder="desc"
+      /><br />
+      <input type="date" name="EventDate" id="" hidden value="<%= date%>" />
+      <button type="submit">Save</button>
     </form>
-</body>
+    <%}else if(title &&title!=undefined ){%>
+    <form
+      action="/home/gallery/new"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <input type="file" name="img" required /><br />
+      <input
+        type="text"
+        name="title"
+        id=""
+        maxlength="60"
+        minlength="3"
+        placeholder="title"
+        required
+        value="<%=title %>"
+        hidden
+      /><br />
+      <input
+        type="text"
+        name="desc"
+        id=""
+        maxlength="500"
+        minlength="3"
+        placeholder="desc"
+      /><br />
+      <input type="date" name="EventDate" id="" />
+      <button type="submit">Save</button>
+    </form>
+    <%}else{%>
+    <form
+      action="/home/gallery/new"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <input type="file" name="img" required /><br />
+      <input
+        type="text"
+        name="title"
+        id=""
+        maxlength="60"
+        minlength="3"
+        placeholder="title"
+        required
+      /><br />
+      <input
+        type="text"
+        name="desc"
+        id=""
+        maxlength="500"
+        minlength="3"
+        placeholder="desc"
+      /><br />
+      <input type="date" name="EventDate" id="" />
+      <button type="submit">Save</button>
+    </form>
+    <%}%>
+  </body>
 </html>

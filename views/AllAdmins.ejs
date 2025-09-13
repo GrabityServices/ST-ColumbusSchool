@@ -301,7 +301,7 @@
 
     <div class="gall-web-section" id="gallery" style="border-bottom: 1px solid">
       <h1 style="font-size: 20px; color: teal">gallery Details for WebPage</h1>
-      <a href="/home/gallery/new">Set a new Image</a>
+      <a href="/home/gallery/new">Set a new Event</a>
       <br /><br />
       <div class="select">
         <label for="byDate">ByDate</label>
@@ -336,6 +336,10 @@
               >
             </div>
             <% }); %>
+            <a
+              href="/home/gallery/new?date=<%=imgs[0].EventDate%>&title=<%=imgs[0].title%>"
+              >Set a new Event</a
+            >
           </div>
         </div>
         <% }); %> <% } else { %>
@@ -368,11 +372,13 @@
               >
               <% if(imgs.length>3) {%>
               <a href="/home/galleryDelete/<%=img._id %>">Delete</a>
-
               <% } %>
-              
             </div>
             <% }); %>
+            <a
+              href="/home/gallery/new?title=<%=imgs[0].title%>"
+              >Set a new Event</a
+            >
           </div>
         </div>
         <% }); %> <% } else { %>

@@ -1,6 +1,7 @@
 const path = require("path");
 const fs = require("fs");
-const Gallery = require("../models/gallery.js");
+const Gallery = require("../../ddd/models/gallery.js");
+const { title } = require("process");
 
 async function setGalleryForm(req, res) {
   if (req.body.uploaded == true) {
@@ -74,7 +75,16 @@ async function setGalleryFormDet(req, res) {
 async function handelNewGallery(req, res) {
   // const disc = await Gallery.distinct("EventDate");
   // console.log(disc);
-  res.render("newGallery.ejs");
+  if (req.query && req.query.title && req.query.date) {
+    res.render("newGallery.ejs", {
+      date: req.query.date,
+      title: req.query.title,
+    });
+  } else if (req.query && req.query.title) {
+    res.render("newGallery.ejs", { date: undefined, title: req.query.title });
+  } else {
+    res.render("newGallery.ejs", { date: undefined, title: undefined });
+  }
 }
 
 async function handelNewGalleryForm(req, res) {
