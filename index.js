@@ -13,8 +13,9 @@ const Gallery = require("./models/gallery.js");
 const Notice = require("./models/notice.js");
 const { checkAdmin } = require("./middleware/checkAdmin.js");
 const { adminManagment } = require("./routes/adminRoutes.js");
+const handleAdmissionForm=require('./handler/handelAdmissionForm.js')
+const Admission=require("./models/admission.js")
 dotenv.config();
-
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -73,13 +74,26 @@ app.get("/notice", async (req, res) => {
   res.render("notices.ejs", { notices });
 });
 app.get("/contact", (req, res) => {
-  res.send("contact.ejs");
+  res.render("contact.ejs");
 });
 app.get("/gallery", async (req, res) => {
   let images = await Gallery.find({});
   res.render("gallery.ejs", { images });
 });
 
+app.get("/admission/form", (req, res) => {
+  res.render("add.ejs");
+});
+app.post("/admission/form", handleAdmissionForm);
+
+
+app.get('/admission/getEnrollIdByEmail/:email',async (req,res)=>{
+  const newAdmission=await Admission.findOne({email:req.params.email})
+  if(newAdmission){
+    return res.render("processid.ejs",{pid:newAdmission.processId})
+  }
+  res.send("No admission filled with email : "+req.params.email)
+})
 // error handling ----------------
 app.use(errorHandler);
 // undefine address
