@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admission Form</title>
+
+    <script>
+      function validateForm() {
+        const mob = document.getElementById("mobNumber").value;
+        const pin = document.getElementById("pincode").value;
+
+        if (!/^\d{10}$/.test(mob)) {
+          alert("Mobile number must be exactly 10 digits.");
+          return false;
+        }
+
+        if (!/^\d{6}$/.test(pin)) {
+          alert("Pincode must be exactly 6 digits.");
+          return false;
+        }
+
+        return true;
+      }
+    </script>
+    <style>
+      /* Basic Reset */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f0f4ff, #d9e4ff);
+        min-height: 100vh;
+        padding: 2rem;
+        animation: fadeIn 1s ease forwards;
+      }
+
+      h1 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 2rem;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+      }
+
+      .cent{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      form {
+        transform: translate(-50%, -50%);
+        background: #ffffff;
+        padding: 2.5rem 3rem;
+        border-radius: 12px;
+        box-shadow: 0 15px 30px rgba(46, 61, 73, 0.15);
+        width: 100%;
+        max-width: 600px;
+        animation: slideUp 0.6s ease forwards;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #34495e;
+        transition: color 0.3s ease;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      input[type="email"],
+      input[type="tel"],
+      select {
+        width: 100%;
+        padding: 0.65rem 1rem;
+        margin-bottom: 1.5rem;
+        border: 2px solid #bdc3c7;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.4s ease, box-shadow 0.4s ease;
+        outline: none;
+        background: #f8f9fb;
+        color: #2c3e50;
+      }
+
+      input[type="text"]:focus,
+      input[type="number"]:focus,
+      input[type="email"]:focus,
+      input[type="tel"]:focus,
+      select:focus {
+        border-color: #2980b9;
+        box-shadow: 0 0 8px #2980b9aa;
+        background: #ffffff;
+      }
+
+      input[readonly] {
+        background: #e9ecef;
+        cursor: not-allowed;
+        border-color: #ced4da;
+        color: #6c757d;
+      }
+
+      .form-section {
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid #e3e6f0;
+      }
+
+      .form-section h3 {
+        margin-bottom: 1.2rem;
+        font-weight: 700;
+        color: #2c3e50;
+        letter-spacing: 0.8px;
+      }
+
+      button {
+        width: 100%;
+        padding: 0.85rem 0;
+        background: linear-gradient(135deg, #2980b9, #6dd5fa);
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 6px 15px rgba(41, 128, 185, 0.5);
+        transition: background 0.4s ease, box-shadow 0.4s ease,
+          transform 0.2s ease;
+      }
+
+      button:hover {
+        background: linear-gradient(135deg, #1c5980, #4bb2e9);
+        box-shadow: 0 8px 20px rgba(28, 89, 128, 0.7);
+        transform: translateY(-3px);
+      }
+
+      button:active {
+        transform: translateY(0);
+        box-shadow: 0 5px 13px rgba(28, 89, 128, 0.5);
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Responsive tweak */
+      @media (max-width: 480px) {
+        form {
+          padding: 1.8rem 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Admission Form</h1>
+
+    <div class="cent">
+      <form action="/admission" method="POST" onsubmit="return validateForm()">
+        <label for="name">Full Name</label>
+        <input
+          type="text"
+          name="name"
+          id="name"
+          required
+          minlength="3"
+          maxlength="60"
+        />
+
+        <label for="age">Age</label>
+        <input type="number" name="age" id="age" required min="3" max="100" />
+
+        <label for="email">Student's Email</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          required
+          minlength="6"
+          maxlength="40"
+        />
+
+        <label for="fname">Father's Name</label>
+        <input
+          type="text"
+          name="fname"
+          id="fname"
+          required
+          minlength="3"
+          maxlength="60"
+        />
+
+        <label for="mobNumber">Father's Mobile Number</label>
+        <input type="tel" name="mobNumber" id="mobNumber" required />
+
+        <label for="mname">Mother's Name</label>
+        <input
+          type="text"
+          name="mname"
+          id="mname"
+          required
+          minlength="3"
+          maxlength="60"
+        />
+
+        <div class="form-section">
+          <h3>Address</h3>
+
+          <label for="vill">Village</label>
+          <input
+            type="text"
+            name="addv"
+            id="vill"
+            required
+            minlength="3"
+            maxlength="60"
+          />
+
+          <label for="town">Town</label>
+          <input
+            type="text"
+            name="addt"
+            id="town"
+            required
+            minlength="3"
+            maxlength="60"
+          />
+
+          <label for="dist">District</label>
+          <input
+            type="text"
+            name="addd"
+            id="dist"
+            value="JAMUI"
+            required
+            minlength="3"
+            maxlength="60"
+            readonly
+          />
+
+          <label for="state">State</label>
+          <input
+            type="text"
+            name="adds"
+            id="state"
+            value="BIHAR"
+            required
+            minlength="3"
+            maxlength="60"
+            readonly
+          />
+
+          <label for="pincode">Pincode</label>
+          <input
+            type="text"
+            name="addp"
+            id="pincode"
+            value="811308"
+            required
+            minlength="6"
+            f
+            maxlength="6"
+            readonly
+          />
+        </div>
+
+        <label for="forClass">Class Applying For</label>
+        <select name="forClass" id="forClass" required>
+          <option value="LKG">LKG</option>
+          <option value="UKG">UKG</option>
+          <option value="NUR">NUR</option>
+          <option value="1ST">1ST</option>
+          <option value="2ND">2ND</option>
+          <option value="3RD">3RD</option>
+          <option value="4TH">4TH</option>
+          <option value="5TH">5TH</option>
+          <option value="6TH">6TH</option>
+          <option value="7TH">7TH</option>
+          <option value="8TH">8TH</option>
+          <option value="9TH">9TH</option>
+          <option value="10TH">10TH</option>
+        </select>
+        <br />
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </body>
+</html>
