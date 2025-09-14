@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      input{
+        color: red;
+        font-size: 20px;
+      }
+      h1{
+        color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- adminUpdate -->
+    <% if(adminUpdate){%>
+    <h1>admin For Web <%= id %></h1>
+    <form
+      action="/home/adminUpdate/<%= id%>"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <input type="file" required name="img" accept="image/*" />
+      <br />
+
+      <button type="submit">Save</button>
+    </form>
+    <!-- userAdminUpdate -->
+    <%} else if(userAdminUpdate){%>
+    <h1>user Admin <%= id %></h1>
+    <form
+      id="uploadForm"
+      action="/stcolumbus/jaj/ekdara/admin/update/img/<%= id %>"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <input
+        type="file"
+        required
+        name="img"
+        accept=".jpg, .jpeg, .png"
+        id="imgInput"
+      />
+      <br />
+
+      <button type="submit">Save</button>
+    </form>
+    <!-- GalleryUpdate -->
+    <% }else if(galleryUpdate){ %>
+    <h1>gallery <%= id %></h1>
+    <form
+      action="/home/galleryUpdate/<%= id%>"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <input type="file" required name="img" accept="image/*" />
+      <br />
+
+      <button type="submit">Save</button>
+    </form>
+    <!-- noticeUpdate -->
+    <%} else if(noticeUpdate){%>
+    <h1>notice <%= id %></h1>
+    <form
+      action="/home/noticeUpdate/<%= id%>"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <input type="file" required name="img" accept="image/*" />
+      <br />
+
+      <button type="submit">Save</button>
+    </form>
+    <% } else{%>
+
+    <h1>No file need</h1>
+    <% } %>
+
+    <!-- script file -->
+      <script>
+      document
+        .getElementById("uploadForm")
+        .addEventListener("submit", function (e) {
+          const fileInput = document.getElementById("imgInput");
+          const file = fileInput.files[0];
+
+          if (!file) return;
+
+          const validTypes = ["image/jpeg", "image/png", "image/jpg"];
+          const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+
+          if (!validTypes.includes(file.type)) {
+            alert("Only JPG, JPEG, or PNG files are allowed.");
+            e.preventDefault();
+            return;
+          }
+
+          if (file.size > maxSize) {
+            alert("File size must not exceed 10MB.");
+            e.preventDefault();
+            return;
+          }
+        });
+    </script>
+  </body>
+</html>

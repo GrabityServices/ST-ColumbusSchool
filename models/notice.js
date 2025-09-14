@@ -1,4 +1,3 @@
-const moment = require("moment");
 const mongoose = require("mongoose");
 
 const noticeSchema = new mongoose.Schema(
@@ -19,7 +18,7 @@ const noticeSchema = new mongoose.Schema(
     },
     messDate: {
       type: String,
-      default: () => moment().format("YYYY-MM-DD HH:MM"),
+      default: () => new Date(Date.now()),
     },
   },
   { timestamps: true }

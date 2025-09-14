@@ -45,7 +45,7 @@ const userAdmin = mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["superadmin", "editor", "moderator"],
+      enum: ["superadmin", "editor"],
       default: "editor",
     },
     permissions: {

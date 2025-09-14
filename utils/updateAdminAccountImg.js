@@ -2,7 +2,7 @@ const multer = require("multer");
 const path = require("path");
 
 const storage = multer.diskStorage({
-  limits: 10 * 10 * 1024,
+  limits: 5 * 10 * 1024,
   destination: function (req, file, cb) {
     cb(null, path.resolve("./assets/adminAccountAvt/"));
   },

@@ -196,6 +196,7 @@
             <p><strong>Last Login:</strong> <%= admin.lastLogin %></p>
           </div>
           <div class="btns">
+            <% if(supAd) {%> <% if(admin.role=="superadmin"){%>
             <button
               type="submit"
               onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/img/<%= admin._id %>'"
@@ -210,7 +211,7 @@
             >
               Update Details
             </button>
-            <% if(supAd) {%>
+            <% } %> <% if(admsc>1&& admin.role!="superadmin") {%>
             <button
               type="submit"
               onclick="location.href='/stcolumbus/jaj/ekdara/admin/delete/<%= admin._id %>'"
@@ -218,6 +219,16 @@
             >
               Delete Admin
             </button>
+            <% }else if(superAdminCount>1){%>
+            <button
+              type="submit"
+              onclick="location.href='/stcolumbus/jaj/ekdara/admin/delete/<%= admin._id %>'"
+              class="link-btn"
+            >
+              Delete Admin
+            </button>
+            <%} %>
+
             <button
               type="submit"
               onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/superadmin/<%= admin._id %>'"
@@ -225,7 +236,22 @@
             >
               Update Access Control Or Block Admin
             </button>
-            <% } %>
+            <% }else{%>
+            <button
+              type="submit"
+              onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/img/<%= admin._id %>'"
+              class="link-btn"
+            >
+              Update Img
+            </button>
+            <button
+              type="submit"
+              onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/<%= admin._id %>'"
+              class="link-btn"
+            >
+              Update Details
+            </button>
+            <%} %>
           </div>
         </div>
         <% }) %> <% } %>
@@ -253,8 +279,10 @@
           <li><%= admin.age %></li>
           <li><%= admin.gender %></li>
 
+          <%if(!supAd){%>
           <a href="/home/adminUpdate/<%=admin._id %>">Update Img</a>
           <a href="/home/adminUpdate/details/<%=admin._id %>">details</a>
+          <%} %>
         </ul>
         <% }); %> <% } else { %>
         <!-- You can add a message here if admins is not defined or empty -->
@@ -264,44 +292,13 @@
     </div>
 
     <!--  -->
-    <div class="achiv-web-section" id="achiv" style="border-bottom: 1px solid">
-      <h1 style="font-size: 20px; color: teal">
-        Achivments Details for WebPage
-      </h1>
-
-      <a href="/home/achiv/new">Add new Achivments</a>
-      <main>
-        <% if (typeof achivs !== 'undefined' && achivs && achivs.length > 0) {
-        %> <% achivs.forEach(achiv => { %>
-        <ul>
-          <li>
-            <img
-              style="width: 100px"
-              src="<%= achiv.img %>"
-              alt="<%= achiv.title %>"
-            />
-          </li>
-          <li><%= achiv.title %></li>
-          <li><%= achiv._id %></li>
-          <li><%= achiv.desc %></li>
-          <li><%= achiv.prizeType %></li>
-
-          <a href="/home/achivUpdate/<%=achiv._id %>">Update Img</a>
-          <a href="/home/achivUpdate/details/<%=achiv._id %>">details</a>
-          <% if(achivs.length>5) {%>
-          <a href="/home/achivDelete/<%=achiv._id %>">Delete</a>
-          <% } %>
-        </ul>
-        <% }); %> <% } else { %>
-        <!-- You can add a message here if admins is not defined or empty -->
-        <p>No admins found or admins data is not available.</p>
-        <% } %>
-      </main>
-    </div>
 
     <div class="gall-web-section" id="gallery" style="border-bottom: 1px solid">
       <h1 style="font-size: 20px; color: teal">gallery Details for WebPage</h1>
+      <%if(!supAd){%>
       <a href="/home/gallery/new">Set a new Event</a>
+
+      <%} %>
       <br /><br />
       <div class="select">
         <label for="byDate">ByDate</label>
@@ -327,19 +324,22 @@
               </div>
               <div class="details">
                 <span><%= img.title %></span><br />
-                <span><%= img.desc %></span><br />
                 <span><%= img.EventDate %></span><br />
               </div>
+
+              <%if(!supAd){%>
               <a href="/home/galleryUpdate/<%=img._id %>">Update Img</a>
               <a href="/home/galleryUpdate/details/<%=img._id %>"
                 >Update details</a
               >
+              <%} %>
             </div>
-            <% }); %>
+            <% }); %> <%if(!supAd){%>
             <a
               href="/home/gallery/new?date=<%=imgs[0].EventDate%>&title=<%=imgs[0].title%>"
               >Set a new Event</a
             >
+            <%} %>
           </div>
         </div>
         <% }); %> <% } else { %>
@@ -363,22 +363,22 @@
               </div>
               <div class="details">
                 <span><%= img.title %></span><br />
-                <span><%= img.desc %></span><br />
                 <span><%= img.EventDate %></span><br />
               </div>
+              <%if(!supAd){%>
               <a href="/home/galleryUpdate/<%=img._id %>">Update Img</a>
               <a href="/home/galleryUpdate/details/<%=img._id %>"
                 >Update details</a
               >
               <% if(imgs.length>3) {%>
               <a href="/home/galleryDelete/<%=img._id %>">Delete</a>
-              <% } %>
+              <% } %> <%} %>
             </div>
-            <% }); %>
-            <a
-              href="/home/gallery/new?title=<%=imgs[0].title%>"
+            <% }); %> <%if(!supAd){%>
+            <a href="/home/gallery/new?title=<%=imgs[0].title%>"
               >Set a new Event</a
             >
+            <% } %>
           </div>
         </div>
         <% }); %> <% } else { %>
@@ -393,7 +393,10 @@
       style="border-bottom: 1px solid"
     >
       <h1 style="font-size: 20px; color: teal">Notices Details for WebPage</h1>
+      <%if(!supAd){%>
       <a href="/home/notice/new">New Notice</a>
+
+      <% } %>
       <main>
         <% notices.forEach(notice => { %>
         <div
@@ -411,11 +414,13 @@
           <span> Notice: </span> <span><%=notice.mess %></span><br />
           <span>Id:</span><span><%= notice._id %></span><br />
 
+          <%if(!supAd){%>
+
           <a href="/home/noticeUpdate/details/<%=notice._id %>"
             >Update details</a
           >
           <a href="/home/noticeDelete/<%=notice._id %>">Delete</a>
-          <%if(notice.img) { const regex=/.\.pdf$/i;
+          <% } %> <%if(notice.img) { const regex=/.\.pdf$/i;
           if(!regex.test(notice.img)){ %>
           <img
             style="width: 200px"
@@ -423,12 +428,15 @@
             alt="<%= notice.title%>"
           />
           <br />
+          <a href="<%= notice.img  %>">DowunLoad</a> <br />
+
+          <%if(!supAd){%>
+
           <a href="/home/noticeUpdate/<%=notice._id %>">
             <% if(notice.img){%>Update Image <%} else {%> Add Image | PDF<%}
             %></a
           >
-
-          <% }else{ %>
+          <% } %> <% }else{ %>
           <iframe
             style="width: 100%; overflow: hidden; object-fit: cover"
             src="<%= notice.img %>"
@@ -436,11 +444,13 @@
           ></iframe
           ><br />
           <a href="<%= notice.img  %>">DowunLoad</a> <br />
+
+          <%if(!supAd){%>
+
           <a href="/home/noticeUpdate/<%=notice._id %>">
             <% if(notice.img){%>Update PDF <%} else {%> Add Image | PDF<%} %></a
           >
-
-          <% } }%>
+          <% } %> <% } }%>
         </div>
         <% }); %>
       </main>

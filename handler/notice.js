@@ -54,7 +54,7 @@ async function handelNoticeUpdateDet(req, res) {
 
 async function handelNoticeUpdateImg(req, res) {
   if (req.body.uploaded == true) {
-    const gallery = await Notice.findByIdAndUpdate(req.params.id, {
+    const notice = await Notice.findByIdAndUpdate(req.params.id, {
       img: req.body.filename,
     }).then((noticeIs) => {
       console.log(noticeIs.img);

@@ -9,17 +9,11 @@ const gallerySchema = new mongoose.Schema(
       minlength: [3, "Admin Name must be at least 3 characters"],
       maxlength: [60, "Admin Name must be at most 30 characters"],
     },
-    desc: {
-      type: String,
-      minlength: [3, "Position must be at least 3 characters"],
-      maxlength: [500, "Position must be at most 30 characters"],
-    },
     img: {
       type: String,
       default: "/adminAvt/defaultAvt.png",
     },
     EventDate: {
-      // type:Date,
       type: String,
       default: () => moment().format("YYYY-MM-DD"),
     },

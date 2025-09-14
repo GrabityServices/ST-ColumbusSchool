@@ -22,7 +22,13 @@ adminroute.route("").get(handleStAdmin);
 adminroute
   .route("/update/img/:id")
   .get((req, res) =>
-    res.render("updateAdminAccountImg.ejs", { id: req.params.id })
+    res.render("takeFile.ejs", {
+      id: req.params.id,
+      adminUpdate: false,
+      userAdminUpdate: true,
+      galleryUpdate: false,
+      noticeUpdate: false,
+    })
   )
   .post(adminAccountAvt.single("img"), handleUpdateAdminImg);
 

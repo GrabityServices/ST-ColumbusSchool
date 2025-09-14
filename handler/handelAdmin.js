@@ -8,7 +8,6 @@ async function setAdminForm(req, res) {
     const useris = await Admins.findByIdAndUpdate(req.params.id, {
       img: req.body.filename,
     }).then((AdminIs) => {
-      console.log(AdminIs.img);
       if (AdminIs.img && AdminIs.img !== "/adminAvt/defaultAvt.png") {
         try {
           const imagePath = path.join(__dirname, "../assets", AdminIs.img); // Adjust based on your storage setup

@@ -8,20 +8,5 @@
   </head>
   <body>
     <h1>Page not found <%= path %></h1>
-    <% if (typeof admins !== 'undefined' && admins && admins.length > 0) { %> <%
-    admins.forEach(admin => { %>
-    <ul>
-      <li><img style="width: 100px;" src="<%= admin.img %>" alt="<%= admin.name %>" /></li>
-      <li><%= admin.name %></li>
-      <li><%= admin._id %></li>
-
-        <a href="/home/adminUpdate/<%=admin._id %>">Update Img</a>
-        <a href="/home/adminUpdate/details/<%=admin._id %>">details</a>
-
-    </ul>
-    <% }); %> <% } else { %>
-    <!-- You can add a message here if admins is not defined or empty -->
-    <p>No admins found or admins data is not available.</p>
-    <% } %>
   </body>
 </html>

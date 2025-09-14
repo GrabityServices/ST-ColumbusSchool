@@ -5,9 +5,8 @@ const jwt = require("jsonwebtoken");
 const path = require("path");
 const fs = require("fs");
 const Admins = require("../models/admins.js");
-const Achiv=require("../models/achivments.js")
-const Gallery=require('../models/gallery.js')
-const Notice=require("../models/notice.js")
+const Gallery = require("../models/gallery.js");
+const Notice = require("../models/notice.js");
 const moment = require("moment");
 
 async function handleStAdmin(req, res) {
@@ -17,25 +16,29 @@ async function handleStAdmin(req, res) {
   const admins = await Admins.find({});
   const admiJsonData = admins.map((admin) => admin.toJSON());
   //
-  const achivs = await Achiv.find({});
-  const achiJsonData = achivs.map((achiv) => achiv.toJSON());
-  // console.log(jsonData)
+
   const gallery = await Gallery.find({});
   const gallJsonData = gallery.map((gall) => gall.toJSON());
-  
-  // 
+
+  //
   const notices = await Notice.find({});
   const noteJsonData = notices.map((notice) => notice.toJSON());
 
+  const superAdminCount = Admin.filter(
+    (user) => user.role === "superadmin"
+  ).length;
 
+  
   if (jwtData.role === "superadmin") {
     return res.render("AllAdmins.ejs", {
       data: Admin,
       supAd: true,
       admins: admiJsonData,
-      achivs: achiJsonData,
       images: gallJsonData,
-      notices:noteJsonData
+      notices: noteJsonData,
+      supId: jwtData.uniqId,
+      superAdminCount,
+      admsc: Admin.length,
     });
   } else {
     Admin.forEach((member) => {
@@ -44,9 +47,9 @@ async function handleStAdmin(req, res) {
           data: [member],
           supAd: false,
           admins: admiJsonData,
-          achivs: achiJsonData,
           images: gallJsonData,
           notices: noteJsonData,
+          supId: undefined,
         });
       }
     });
@@ -191,7 +194,6 @@ async function handleUpdateAdminImg(req, res) {
     const userAdmins = await UserAdmin.findByIdAndUpdate(req.params.id, {
       img: req.body.filename,
     }).then((AdminIs) => {
-      console.log(AdminIs.img);
       if (AdminIs.img && AdminIs.img !== "/adminAvt/defaultAvt.png") {
         try {
           const imagePath = path.join(__dirname, "../assets", AdminIs.img); // Adjust based on your storage setup

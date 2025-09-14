@@ -32,6 +32,11 @@
           <h3><%= notice.title %></h3>
           <time datetime="<%= notice.messDate %>"><%= notice.messDate %></time>
           <p class="description"><%= notice.mess %></p>
+<% if(notice && notice.img) {%>
+            
+          <a href="<%= notice.img  %>">See Notice</a>
+
+            <%}%>
         </div>
         <% }) } else { %>
         <h2 class="nboard">Notice board is empty!</h2>
