@@ -160,17 +160,28 @@
         justify-content: center;
         align-items: center;
       }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+      }
+
+      th,
+      td {
+        padding: 12px;
+        border: 1px solid #ccc;
+        text-align: center;
+      }
+
+      th {
+        background: #2c3e50;
+        color: #725656;
+      }
     </style>
   </head>
   <body>
     <h1>All Admin Users</h1>
-    <button
-      type="button"
-      onclick="location.href='/stcolumbus/admin/manage/signup'"
-      class="link-btn"
-    >
-      Create new Admin
-    </button>
+    
     <button
       type="button"
       onclick="location.href='/stcolumbus/admin/manage/logout'"
@@ -178,6 +189,24 @@
     >
       Logout
     </button>
+    <button
+            type="button"
+            onclick="location.href='/stcolumbus/admin/manage/change/pass'"
+            class="link-btn"
+          >
+
+            Change Pass 
+          </button>
+
+          <% if(supAd){%>
+            <button
+      type="button"
+      onclick="location.href='/stcolumbus/admin/manage/signup'"
+      class="link-btn"
+    >
+      Create new Admin
+    </button>
+            <%} %>
 
     <div class="admin-section" style="border-bottom: 1px solid">
       <h1 style="font-size: 20px; color: teal">Admins Accounts</h1>
@@ -219,6 +248,13 @@
             >
               Delete Admin
             </button>
+             <button
+              type="submit"
+              onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/superadmin/<%= admin._id %>'"
+              class="link-btn"
+            >
+              Update Access Control Or Block Admin
+            </button>
             <% }else if(superAdminCount>1){%>
             <button
               type="submit"
@@ -227,15 +263,16 @@
             >
               Delete Admin
             </button>
-            <%} %>
-
-            <button
+             <button
               type="submit"
               onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/superadmin/<%= admin._id %>'"
               class="link-btn"
             >
               Update Access Control Or Block Admin
             </button>
+            <%} %>
+
+           
             <% }else{%>
             <button
               type="submit"
@@ -251,6 +288,7 @@
             >
               Update Details
             </button>
+            
             <%} %>
           </div>
         </div>
@@ -456,6 +494,132 @@
       </main>
     </div>
 
+    <section class="fee-structure container" id="feestruct">
+      <% const parts = fees.lastChanged.split(/[- :]/); %>
+
+      <h2
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        "
+      >
+        Fees Structure
+        <span style="font-size: 15px"
+          ><%= parts[2] %> - <%= parts[1] %> - <%= parts[0] %></span
+        >
+      </h2>
+      <table>
+        <thead>
+          Tution Fee
+        </thead>
+        <tr>
+          <th>Class</th>
+          <th>Admission Fee</th>
+          <th>Monthly Fee</th>
+        </tr>
+        <tr>
+          <td>Nursery - UKG</td>
+          <td>₹<%=fees.tutionfee.nurUkg.addfee %></td>
+          <td>₹<%=fees.tutionfee.nurUkg.monthly %></td>
+        </tr>
+        <tr>
+          <td>Class I - V</td>
+          <td>₹<%=fees.tutionfee.oneFive.addfee %></td>
+          <td>₹<%=fees.tutionfee.oneFive.monthly %></td>
+        </tr>
+        <tr>
+          <td>Class VI - VIII</td>
+          <td>₹<%=fees.tutionfee.sixEight.addfee %></td>
+          <td>₹<%=fees.tutionfee.sixEight.monthly %></td>
+        </tr>
+        <tr>
+          <td>Class IX - X</td>
+          <td>₹<%=fees.tutionfee.nineTen.addfee %></td>
+          <td>₹<%=fees.tutionfee.nineTen.monthly %></td>
+        </tr>
+      </table>
+      <table>
+        <thead>
+          Transports Fee
+        </thead>
+        <tr>
+          <th>Distance</th>
+          <th>Fees Per Months</th>
+        </tr>
+        <tr>
+          <td>1KM-4KM</td>
+          <td>₹<%=fees.transport.oneKm %></td>
+        </tr>
+        <tr>
+          <td>5KM-10KM</td>
+          <td>₹<%=fees.transport.fiveKm %></td>
+        </tr>
+        <tr>
+          <td>11KM-15KM</td>
+          <td>₹<%=fees.transport.elevenKm %></td>
+        </tr>
+        <tr>
+          <td>16KM-20KM</td>
+          <td>₹<%=fees.transport.sixteenKm %></td>
+        </tr>
+        <tr>
+          <td>20KM+</td>
+          <td>₹<%=fees.transport.twentyPlush %>+50 / 5KM</td>
+        </tr>
+      </table>
+      <table>
+        <thead>
+          School Uniform
+        </thead>
+        <tr>
+          <th>Dress Kit</th>
+          <th>Price</th>
+        </tr>
+        <tr>
+          <td>Regular Dress</td>
+          <td><%=fees.schoolUniform.regular %></td>
+        </tr>
+        <tr>
+          <td>Game Uniform</td>
+          <td><%=fees.schoolUniform.gameUniform %></td>
+        </tr>
+        <tr>
+          <td>Tie</td>
+          <td><%=fees.schoolUniform.tie %></td>
+        </tr>
+        <tr>
+          <td>Belt</td>
+          <td><%=fees.schoolUniform.belt %></td>
+        </tr>
+        <tr>
+          <td>ID card</td>
+          <td><%=fees.schoolUniform.IDcard %></td>
+        </tr>
+        <tr title="If you want to from us">
+          <td>Shoes & Socks Pair</td>
+          <td><%=fees.schoolUniform.shoesSocks %></td>
+        </tr>
+      </table>
+      <% if(!supAd){ %>
+      <a href="/home/feeUpdate">Update Fees</a>
+      <%} %>
+    </section>
+
+    <% if(supAd){ %>
+    <a href="/home/admission/handeladmission/superadmin"
+      >See all admission form</a
+    >
+    <a href="/home/contact/forms/superadmin">See all contact requests</a>
+    <%}else {%>
+    <a href="/home/admission/handeladmission/editor">See all admission form</a>
+    <a href="/home/contact/forms/editor">See all contact requests</a>
+
+    <%} %>
+    <a href="/home/admission/handeladmission/allDone">New Student Details</a>
+
+
+    
     <script>
       const checkbox = document.getElementById("byDate");
       const byDateGallery = document.querySelector(".byDate");

@@ -11,6 +11,7 @@
         align-items: center;
         height: 100vh;
         margin: 0;
+        flex-direction: column;
         background: #f5f7fa;
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         color: #2c3e50;
@@ -70,13 +71,31 @@
     </style>
   </head>
   <body>
-    <% if (pid && pid !== undefined) { %>
+    <% if (data && data !== undefined) { %>
     <div class="process-container">
       <h2>Your Process ID</h2>
       <div class="process-id" tabindex="0" title="Click to select your Id">
-        <%= pid %>
+        <%= data.processId %>
       </div>
     </div>
+    <div class="process-container">
+      <h2>Your email ID</h2>
+      <div class="process-id" tabindex="0" title="Click to select your Id">
+        <%= data.email %>
+      </div>
+    <div class="">
+      <h2>Your Father's Mobile Number</h2>
+      <div class="mobNumber" tabindex="0" >
+        <%= data.mobNumber %>
+      </div>
+    </div>
+    <div class="">
+      <h2>Admission Status</h2>
+      <div class="process-status" tabindex="0" >
+        <%= data.admissionStatus %>
+      </div>
+    </div>
+    <h1>For any query  <a href="/contact">contact us</a></h1>
     <% } else { %>
     <div class="error-msg">Registration Failed. Please try again.</div>
     <% } %>

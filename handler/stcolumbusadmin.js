@@ -8,6 +8,7 @@ const Admins = require("../models/admins.js");
 const Gallery = require("../models/gallery.js");
 const Notice = require("../models/notice.js");
 const moment = require("moment");
+const Feestuct = require("../models/feeStructure.js");
 
 async function handleStAdmin(req, res) {
   const Admin = await UserAdmin.find({});
@@ -24,6 +25,7 @@ async function handleStAdmin(req, res) {
   const notices = await Notice.find({});
   const noteJsonData = notices.map((notice) => notice.toJSON());
 
+  const fees=await Feestuct.findOne({getBy:process.env.GETFEE})
   const superAdminCount = Admin.filter(
     (user) => user.role === "superadmin"
   ).length;
@@ -38,6 +40,7 @@ async function handleStAdmin(req, res) {
       notices: noteJsonData,
       supId: jwtData.uniqId,
       superAdminCount,
+      fees,
       admsc: Admin.length,
     });
   } else {
@@ -50,6 +53,7 @@ async function handleStAdmin(req, res) {
           images: gallJsonData,
           notices: noteJsonData,
           supId: undefined,
+          fees,
         });
       }
     });
@@ -324,3 +328,4 @@ module.exports = {
   handleDeleteAdmin,
   hadnleUpdateBySuperAdmin,
 };
+

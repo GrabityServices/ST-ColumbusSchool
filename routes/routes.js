@@ -4,10 +4,14 @@ const multer = require("multer");
 const adminAvt = require("../utils/updateAdmin.js");
 const noticeAvt = require("../utils/addNotice.js");
 const galleyAvt = require("../utils/updateGallery.js");
+const Feestuct = require("../models/feeStructure.js");
 const path = require("path");
 const fs = require("fs");
 // const UserAdmin = require("../models/userAdmin.js");
-const { checkAdminAsEditor } = require("../middleware/checkAdmin.js");
+const {
+  checkAdminAsEditor,
+  checkAdminAsSuperadmin,
+} = require("../middleware/checkAdmin.js");
 
 const { setAdminForm, setAdminFormDet } = require("../handler/handelAdmin.js");
 
@@ -23,8 +27,11 @@ const {
   handelNoticeUpdateImg,
 } = require("../handler/notice.js");
 
+const { handelFeeSet } = require("../handler/handelFeeSet.js");
 const Gallery = require("../models/gallery.js");
 const Notice = require("../models/notice.js");
+const Admission = require("../models/admission.js");
+const Contact = require("../models/contact.js");
 // ==================================================
 // admin Work
 stcolumbus
@@ -50,8 +57,9 @@ stcolumbus
 stcolumbus
   .route("/galleryUpdate/:id")
   .get(checkAdminAsEditor, (req, res) =>
-    res.render("takeFile.ejs", { id: req.params.id ,
-       adminUpdate: false,
+    res.render("takeFile.ejs", {
+      id: req.params.id,
+      adminUpdate: false,
       userAdminUpdate: false,
       galleryUpdate: true,
       noticeUpdate: false,
@@ -137,6 +145,107 @@ stcolumbus
     }
     res.redirect("/stcolumbus/jaj/ekdara/admin#notice");
   });
-// ===========================================================================
 
+//
+stcolumbus
+  .route("/feeUpdate")
+  .get(checkAdminAsEditor, (req, res) => {
+    res.render("setnewFee.ejs");
+  })
+  .post(checkAdminAsEditor, handelFeeSet);
+
+stcolumbus.route("/admission/handeladmission/:role").get(async (req, res) => {
+  if (req.params.role == "superadmin") {
+    const forms = await Admission.find({ admissionStatus: "DVRL" });
+
+    res.render("allAdmissionFor.ejs", { forms, supAd: true, done: false });
+  } else if (req.params.role === "allDone") {
+    const forms = await Admission.find({ admissionStatus: "DONE" });
+    res.render("allAdmissionFor.ejs", { forms, supAd: false, done: true });
+  } else {
+    const forms = await Admission.find({ admissionStatus: "PACR" });
+    res.render("allAdmissionFor.ejs", { forms, supAd: false, done: false });
+  }
+});
+
+stcolumbus
+  .route("/admission/updateStatus/PACR/:id")
+  .get(checkAdminAsSuperadmin, async (req, res) => {
+    try {
+      await Admission.findByIdAndUpdate(req.params.id, {
+        admissionStatus: "PACR",
+      });
+      res.redirect("/home/admission/handeladmission/superadmin");
+    } catch (err) {
+      res.send("Updation failed | Try letter");
+    }
+  });
+
+stcolumbus
+  .route("/admission/updateStatus/DVRL/:id")
+  .get(checkAdminAsEditor, async (req, res) => {
+    try {
+      await Admission.findByIdAndUpdate(req.params.id, {
+        admissionStatus: "DVRL",
+      });
+      res.redirect("/home/admission/handeladmission/editor");
+    } catch (err) {
+      res.send("Updation failed | Try letter");
+    }
+  });
+
+stcolumbus
+  .route("/admission/updateStatus/DONE/:id")
+  .get(checkAdminAsSuperadmin, async (req, res) => {
+    try {
+      await Admission.findByIdAndUpdate(req.params.id, {
+        admissionStatus: "DONE",
+      });
+      res.redirect("/home/admission/handeladmission/superadmin");
+    } catch (err) {
+      res.send("Updation failed | Try letter");
+    }
+  });
+
+stcolumbus.route("/admission/updateStatus/CANCEL/:id").get(async (req, res) => {
+  try {
+    const data = await Admission.findByIdAndDelete(req.params.id);
+
+    if (data.admissionStatus == "PACR") {
+      return res.redirect("/home/admission/handeladmission/editor");
+    }
+    res.redirect("/home/admission/handeladmission/superadmin");
+  } catch (err) {
+    res.send("Updation failed | Try letter");
+  }
+});
+
+//
+
+stcolumbus.route("/contact/forms/:role").get(async (req, res) => {
+  if (req.params.role == "superadmin") {
+    const contacts = await Contact.find({ status: "CALLED" });
+    res.render("allContact.ejs", { contacts, supAd: true });
+  } else {
+    const contacts = await Contact.find({ status: "ATCARE" });
+    res.render("allContact.ejs", { contacts, supAd: false });
+  }
+});
+
+stcolumbus.route("/contact/updateStatus/CALLED/:id").get(async (req, res) => {
+  try {
+    await Contact.findByIdAndUpdate(req.params.id, { status: "CALLED" });
+  } catch (err) {
+    console.log(err);
+  }
+  res.redirect("/home/contact/forms/editor");
+});
+stcolumbus.route("/contact/delete/:id").get(async (req, res) => {
+  try {
+    await Contact.findByIdAndDelete(req.params.id);
+  } catch (err) {
+    console.log(err);
+  }
+  res.redirect("/home/contact/forms/superadmin");
+});
 module.exports = stcolumbus;

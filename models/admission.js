@@ -1,4 +1,4 @@
-const generateProcessId=require('../utils/uniqueEnroll.js')
+const generateProcessId = require("../utils/uniqueEnroll.js");
 const mongoose = require("mongoose");
 
 const AdmissionSchema = mongoose.Schema({
@@ -92,19 +92,15 @@ const AdmissionSchema = mongoose.Schema({
   },
   admissionStatus: {
     type: String,
-    enum: ["Done", "Document verification", "Pending at counselor"],
-    default: "Pending at counselor",
+    enum: ["DONE", "DVRL", "PACR"],
+    default: "PACR",
   },
   processId: {
     type: String,
     unique: true,
-    match: [
-      /^[A-Z0-9]{10}$/,
-      "Process ID must be 10 alphanumeric characters",
-    ],
+    match: [/^[A-Z0-9]{10}$/, "Process ID must be 10 alphanumeric characters"],
   },
 });
-
 
 AdmissionSchema.pre("save", async function (next) {
   if (!this.processId) {

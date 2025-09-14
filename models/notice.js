@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const getCurrentDateTime = require("../utils/currdate");
 
 const noticeSchema = new mongoose.Schema(
   {
@@ -18,7 +19,7 @@ const noticeSchema = new mongoose.Schema(
     },
     messDate: {
       type: String,
-      default: () => new Date(Date.now()),
+      default: getCurrentDateTime,
     },
   },
   { timestamps: true }
