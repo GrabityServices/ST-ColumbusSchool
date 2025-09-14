@@ -13,8 +13,10 @@ const Gallery = require("./models/gallery.js");
 const Notice = require("./models/notice.js");
 const { checkAdmin } = require("./middleware/checkAdmin.js");
 const { adminManagment } = require("./routes/adminRoutes.js");
-const handleAdmissionForm=require('./handler/handelAdmissionForm.js')
-const Admission=require("./models/admission.js")
+const handleAdmissionForm = require("./handler/handelAdmissionForm.js");
+const Admission = require("./models/admission.js");
+const Feestuct = require("./models/feeStructure.js");
+const Contact = require("./models/contact.js");
 dotenv.config();
 const app = express();
 app.use(express.urlencoded({ extended: false }));
@@ -37,7 +39,7 @@ app.use(uniqueUser);
 app.use("/home", checkAdmin, stcolumbus);
 app.use("/stcolumbus/jaj/ekdara/admin", checkAdmin, adminroute);
 app.use("/stcolumbus/admin/manage", adminManagment);
-app.get('/ft',(req,res)=>res.render(''))
+app.get("/ft", (req, res) => res.render(""));
 // webpage routes
 app.get("/", async (req, res) => {
   try {
@@ -74,27 +76,49 @@ app.get("/notice", async (req, res) => {
 app.get("/contact", (req, res) => {
   res.render("contact.ejs");
 });
+app.post("/contact", async (req, res) => {
+  try {
+    const data = await Contact.create({
+      name: req.body.name,
+      mess: req.body.mess,
+      email: req.body.email,
+      location: req.body.location,
+    });
+    res.redirect("/");
+  } catch (err) {
+    res.redirect("/contact");
+  }
+});
 
 app.get("/gallery", async (req, res) => {
   let images = await Gallery.find({});
   res.render("gallery.ejs", { images });
 });
 
-app.get('/admission',(req,res)=>res.render('admission.ejs'))
+app.get("/admission", async (req, res) => {
+  const fee = await Feestuct.find({});
+  res.render("admission.ejs", { fees: fee[0] });
+});
 
 app.get("/admission/form", (req, res) => {
   res.render("addFrom.ejs");
 });
 app.post("/admission/form", handleAdmissionForm);
 
+app.get("/admission/getEnroll", (req, res) => {
+  res.render("getAdmissionInfo.ejs");
+});
 
-app.get('/admission/getEnrollIdByEmail/:email',async (req,res)=>{
-  const newAdmission=await Admission.findOne({email:req.params.email})
-  if(newAdmission){
-    return res.render("processid.ejs",{pid:newAdmission.processId})
+app.post("/admission/getEnroll", async (req, res) => {
+  const newAdmission = await Admission.findOne({
+    $or: [{ email: req.body.emailorID }, { processId: req.body.emailorID }],
+  });
+
+  if (newAdmission) {
+    return res.render("processid.ejs", { data: newAdmission, editor: false });
   }
-  res.send("No admission filled with email : "+req.params.email)
-})
+  res.send("No admission filled with email : " + req.body.emailorID);
+});
 
 // error handling ----------------
 app.use(errorHandler);

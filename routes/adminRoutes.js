@@ -47,6 +47,8 @@ adminroute
   .post(checkAdminAsSuperadmin,hadnleUpdateBySuperAdmin);
 
 adminroute.route("/delete/:id").get(checkAdminAsSuperadmin, handleDeleteAdmin);
+
+
 //=======================admin login logout section=========================================
 adminManagment
   .route("/login")

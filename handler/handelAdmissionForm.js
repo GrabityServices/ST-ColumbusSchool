@@ -25,10 +25,10 @@ async function handleAdmissionForm (req, res) {
 
     // Save to DB
     const newData = await Admission.create(data);
-    res.render("processid.ejs", { pid: newData.processId });
+    res.render("processid.ejs", { data: newData,editor:false });
   } catch (err) {
     console.error("Error saving admission:", err);
-    res.render("processid.ejs", { pid: undefined });
+    res.render("processid.ejs", { data: undefined,editor:false });
   }
 }
 

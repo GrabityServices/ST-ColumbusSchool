@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Fee Structure Input</title>
+    <style>
+      *{
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f5f7fa;
+        padding: 40px;
+      }
+
+      .container {
+        background: #ffffff;
+        max-width: 700px;
+        margin: auto;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .option-group {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+      }
+
+      .option-group label {
+        cursor: pointer;
+      }
+
+      .form-section {
+        display: none;
+        background: #f9f9f9;
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+
+      .form-section label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+      }
+
+      .form-section input,
+      .form-section select {
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        width: 100%;
+        border: none;
+        outline: none;
+      }
+
+       .form-section input:hover{
+        box-shadow: 0 0 4px 4px azure;
+       }
+         .form-section input:focus {
+        box-shadow: 0 0 4px 4px azure;
+       }
+
+
+      .error {
+        color: red;
+        text-align: center;
+        font-weight: bold;
+        display: none;
+      }
+
+      button {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+      .feeSection {
+        padding: 10px;
+        width:100%;
+        background-color: #91c4f9;
+        margin: 5px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Enter Fee Structure</h2>
+
+      <form id="feeForm" action="" method="">
+        <div class="option-group">
+          <label
+            ><input type="radio" checked name="feeType" value="tuition" />
+            Tuition</label
+          >
+          <label
+            ><input type="radio" name="feeType" value="transport" />
+            Transport</label
+          >
+          <label
+            ><input type="radio" name="feeType" value="uniform" />
+            Uniform</label
+          >
+        </div>
+      </form>
+      <!-- Tuition Section -->
+      <form id="feeForm" action="/home/feeUpdate" method="post">
+        <div id="tuitionSection" class="form-section">
+          <h3>Tuition Fee</h3>
+          <div class="feeSection">
+            <label>NUR-UKG Admission Fee</label>
+            <input type="text" name="tutionfee00" pattern="[0-9]{1,5}" />
+
+            <label>NUR-UKG Monthly Fee</label>
+            <input type="text" name="tutionfee01" pattern="[0-9]{1,5}" />
+          </div>
+
+          <div class="feeSection">
+            <label>Class 1-5 Admission Fee</label>
+            <input type="text" name="tutionfee10" pattern="[0-9]{1,5}" />
+
+            <label>Class 1-5 Monthly Fee</label>
+            <input type="text" name="tutionfee11" pattern="[0-9]{1,5}" />
+          </div>
+          <div class="feeSection">
+            <label>Class 6-8 Admission Fee</label>
+            <input type="text" name="tutionfee20" pattern="[0-9]{1,5}" />
+
+            <label>Class 6-8 Monthly Fee</label>
+            <input type="text" name="tutionfee21" pattern="[0-9]{1,5}" />
+          </div>
+          <div class="feeSection">
+            <label>Class 9-10 Admission Fee</label>
+            <input type="text" name="tutionfee30" pattern="[0-9]{1,5}" />
+
+            <label>Class 9-10 Monthly Fee</label>
+            <input type="text" name="tutionfee31" pattern="[0-9]{1,5}" />
+          </div>
+        </div>
+
+        <!-- Transport Section -->
+        <div id="transportSection" class="form-section">
+          <h3>Transport Fee</h3>
+          <label>1-5 KM</label>
+          <input type="text" name="transport0" pattern="[0-9]{1,5}" />
+
+          <label>6-11 KM</label>
+          <input type="text" name="transport1" pattern="[0-9]{1,5}" />
+
+          <label>12-16 KM</label>
+          <input type="text" name="transport2" pattern="[0-9]{1,5}" />
+
+          <label>16-20 KM</label>
+          <input type="text" name="transport3" pattern="[0-9]{1,5}" />
+          <label>21 & 21+ KM</label>
+          <input type="text" name="transport4" pattern="[0-9]{1,5}" />
+        </div>
+
+        <!-- Uniform Section -->
+        <div id="uniformSection" class="form-section">
+          <h3>Uniform Fee</h3>
+          <label>Regular Uniform</label>
+          <input type="text" name="schoolUniform0" pattern="[0-9]{1,5}" />
+
+          <label>Game Uniform</label>
+          <input type="text" name="schoolUniform1" pattern="[0-9]{1,5}" />
+
+          <label>Tie</label>
+          <input type="text" name="schoolUniform2" pattern="[0-9]{1,5}" />
+
+          <label>Belt</label>
+          <input type="text" name="schoolUniform3" pattern="[0-9]{1,5}" />
+
+          <label>ID Card</label>
+          <input type="text" name="schoolUniform4" pattern="[0-9]{1,5}" />
+
+          <label>Shoes & Socks</label>
+          <input type="text" name="schoolUniform5" pattern="[0-9]{1,5}" />
+        </div>
+
+        <div id="error" class="error">Sorry, no option chosen.</div>
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
+    <script>
+      const form = document.getElementById("feeForm");
+      const tuition = document.getElementById("tuitionSection");
+      const transport = document.getElementById("transportSection");
+      const uniform = document.getElementById("uniformSection");
+      const error = document.getElementById("error");
+      const radios = document.getElementsByName("feeType");
+
+      function hideAllSections() {
+        tuition.style.display = "none";
+        transport.style.display = "none";
+        uniform.style.display = "none";
+        error.style.display = "none";
+      }
+
+      function showSection(value) {
+        hideAllSections();
+        switch (value) {
+          case "tuition":
+            tuition.style.display = "block";
+            break;
+          case "transport":
+            transport.style.display = "block";
+            break;
+          case "uniform":
+            uniform.style.display = "block";
+            break;
+          default:
+            error.style.display = "block";
+        }
+      }
+
+      radios.forEach((radio) => {
+        radio.addEventListener("change", () => {
+          showSection(radio.value);
+        });
+      });
+
+      // On submit
+      form.addEventListener("submit", (e) => {
+        const selected = Array.from(radios).find((r) => r.checked);
+        if (!selected) {
+          e.preventDefault();
+          error.style.display = "block";
+          hideAllSections();
+        }
+      });
+
+      // On page load
+      window.addEventListener("DOMContentLoaded", () => {
+        const selected = Array.from(radios).find((r) => r.checked);
+        if (selected) showSection(selected.value);
+      });
+    </script>
+  </body>
+</html>

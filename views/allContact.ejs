@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <% if(supAd) {%>
+     <% if(contacts && contacts.length >0) {%>
+     <%
+    contacts.forEach((contact)=>{%>
+    <h1><%=contact.name %></h1>
+    <h5><%=contact.email %></h5>
+    <p><%=contact.mess %> </p>
+    <a href="https://www.google.com/search?q=<%=contact.location %>">Search Location</a>
+    <a href="/home/contact/delete/<%= contact._id %>">Delete Request</a>
+    <%}) %>
+     <% }else {%>
+    <h1>No contact request Found</h1>
+    <% } %> <% }else {%> 
+         <% if(contacts && contacts.length >0) {%>
+  <% contacts.forEach((contact)=>{%>
+    <h1><%=contact.name  %></h1>
+    <h1><%=contact.email  %></h1>
+    <a href="/home/contact/updateStatus/CALLED/<%= contact._id %>">Tick to Contacted</a>
+
+    <%}) %>
+  <% }else {%>
+    <h1>No contact request Found</h1>
+    <% } %>
+      <%} %>
+  </body>
+</html>
