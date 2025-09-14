@@ -10,7 +10,8 @@ async function handelNoticeForm(req, res) {
         mess: req.body.mess,
         img: req.body.filename,
       });
-      res.send(notice);
+    res.redirect("/stcolumbus/jaj/ekdara/admin#notice");
+
     } else {
       // ================delete file=================
       const imagePath = path.join(
@@ -34,7 +35,7 @@ async function handelNoticeForm(req, res) {
       title: req.body.title,
       mess: req.body.mess,
     });
-    res.send(notice);
+    res.redirect("/stcolumbus/jaj/ekdara/admin#notice");
   }
 }
 
