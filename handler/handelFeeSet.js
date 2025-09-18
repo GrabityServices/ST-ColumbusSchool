@@ -1,4 +1,5 @@
 const Feestuct = require("../models/feeStructure.js");
+const getCurrentDateTime = require("../utils/currdate.js");
 
 async function handelFeeSet(req, res) {
   try {
@@ -41,6 +42,7 @@ async function handelFeeSet(req, res) {
         IDcard: req.body.schoolUniform4 || pre.schoolUniform.IDcard,
         shoesSocks: req.body.schoolUniform5 || pre.schoolUniform.shoesSocks,
       },
+      lastChanged:getCurrentDateTime()
     };
 
     // Save the updated structure

@@ -141,8 +141,52 @@
                 <% } %>
       </div>
     </section>
-
     <!-- THIRD SECTION -->
+
+  
+    <section class="gallery-section">
+      <div class="gallery-header">
+        <h2>Gallery Section Images</h2>
+        <% if (!supAd) { %>
+          <a class="btn new-event" href="/home/gallery/new">+ Set a new Event</a>
+          <% } %>
+          
+            <div class="event">
+              <% images.forEach(eventGroup=> { %>
+                <!-- eventGroup = one event date with titles inside -->
+                <h1>
+                  <%= eventGroup[0][0].EventDate %>
+                </h1>
+                <div class="datesect" >
+                <% eventGroup.forEach(titleGroup=> { %>
+                    <!-- titleGroup = one title group inside this event date -->
+                    <h3>
+                      <%= titleGroup[0].title %>
+                    </h3>
+                    <div class="images" >
+                      <% titleGroup.forEach(item=> { %>
+                        <div class="img">
+                          <img src="<%= item.img %>" alt="<%= item.title %>">
+                          <% if (!supAd) { %>
+                            <a class="btn" href="/home/galleryUpdate/<%= item._id %>">Update Img</a>
+                            <a class="btn" href="/home/galleryUpdate/details/<%= item._id %>">Update details</a>
+                            <% if (titleGroup.length> 3) { %>
+                              <a class="btn delete" href="/home/galleryDelete/<%= item._id %>">Delete</a>
+                            <% } %>
+                            <% } %>
+                            </div>
+                          <% }) %>
+                            <% if (!supAd) { %>
+                              <a class="btn new-event" href="/home/gallery/new?date=<%= eventGroup[0][0].EventDate%>&title=<%= titleGroup[0].title %>">+ Add Image</a>
+                            <% } %>
+                    </div>
+                    <% }) %>
+                </div>
+                <% }) %>
+            </div>
+
+
+    </section>
 
     <!-- FOURTH PAGE -->
     <section class="fourth-section" id="notice">
@@ -272,6 +316,7 @@
             </tr>
           </table>
       </div>
+
 
       <div class="table-section">
         <h3>School Uniform</h3>
