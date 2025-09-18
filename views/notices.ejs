@@ -34,7 +34,9 @@
           <p class="description"><%= notice.mess %></p>
 <% if(notice && notice.img) {%>
             
-          <a href="<%= notice.img  %>">See Notice</a>
+          <!-- <a href="<%= notice.img  %>" download>See Notice</a> -->
+          <a href="<%= notice.img %>" onclick="openAndDownload(event, this.href)">See Notice</a>
+
 
             <%}%>
         </div>

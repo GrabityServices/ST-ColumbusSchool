@@ -86,6 +86,7 @@ time {
 .description {
     opacity: .9;
     margin-block: 5px;
+    word-wrap: break-word;
 }
 
 

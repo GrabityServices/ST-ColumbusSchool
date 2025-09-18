@@ -22,3 +22,5 @@ if ( checkbox.checked ) {
 }
 
 const toggleGallery = document.getElementById( "toggle-gallery" );
+
+

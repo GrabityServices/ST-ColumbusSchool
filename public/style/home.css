@@ -72,6 +72,7 @@ a {
   height: 100%;
   animation: slide 20s infinite;
   opacity: 0;
+
   .schoolName {
     font-size: 4vmax;
     font-weight: 900;
@@ -79,6 +80,7 @@ a {
     font-weight: 400;
     font-style: normal;
   }
+
   .schooleAdd {
     font-size: 1.5vmax;
     font-weight: 700;
@@ -277,6 +279,7 @@ a {
 }
 
 @keyframes outer-circle {
+
   0%,
   19.99% {
     background-color: rgba(109, 248, 248, 0.815);
@@ -709,8 +712,8 @@ a {
   transition-duration: 0.5s;
 }
 
-.founders a:hover{
-    font-weight: 700;
+.founders a:hover {
+  font-weight: 700;
 }
 
 .founder-right {
@@ -1028,6 +1031,8 @@ footer {
   .right-first,
   .right-second {
     gap: 10px;
+    width: 85%;
+    height: auto;
   }
 
   .right-first-image,
@@ -1050,90 +1055,90 @@ footer {
 }
 
 @media (max-width: 700px) {
-    .controls img {
-        max-width: 50px;
-        padding: 5px 10px;
-    }
+  .controls img {
+    max-width: 50px;
+    padding: 5px 10px;
+  }
 
-    .slider-box {
-        margin-top: 70px;
-        height: calc(100vh - 70px);
-    }
+  .slider-box {
+    margin-top: 70px;
+    height: calc(100vh - 70px);
+  }
 
-    .welcome-to-st-col {
-        padding: 10px 5px;
-    }
+  .welcome-to-st-col {
+    padding: 10px 5px;
+  }
 
-    .Where-learning-blossoms {
-        max-width: 100%;
-    }
+  .Where-learning-blossoms {
+    max-width: 100%;
+  }
 
-    .Where-learning-blossoms h1 {
-        padding: 0 10px;
-    }
+  .Where-learning-blossoms h1 {
+    padding: 0 10px;
+  }
 
-    .Where-learning-blossoms p {
-        padding: 0 10px;
-    }
+  .Where-learning-blossoms p {
+    padding: 0 10px;
+  }
 
-    .Where-learning-blossoms button {
-        padding: 10px 20px;
-    }
+  .Where-learning-blossoms button {
+    padding: 10px 20px;
+  }
 
-    .inner-fact-summary {
-        grid-template-columns: repeat(2, 225px);
-        grid-template-rows: repeat(3, 180px);
-        padding: 20px 10px;
-    }
+  .inner-fact-summary {
+    grid-template-columns: repeat(2, 225px);
+    grid-template-rows: repeat(3, 180px);
+    padding: 20px 10px;
+  }
 
-    .count {
-        width: 225px;
-        height: 180px;
-        border-radius: 5px;
-    }
+  .count {
+    width: 225px;
+    height: 180px;
+    border-radius: 5px;
+  }
 
-    .fact-image {
-        width: 50px;
-        height: 70px;
-    }
+  .fact-image {
+    width: 50px;
+    height: 70px;
+  }
 
-    .fact-image img {
-        width: 100%;
-        height: 100%;
-    }
+  .fact-image img {
+    width: 100%;
+    height: 100%;
+  }
 
-    .our-beliefs {
-        top: 1px;
-        right: 31%;
-    }
+  .our-beliefs {
+    top: 1px;
+    right: 31%;
+  }
 
-    .why-this-school-card-container {
-        grid-template-columns: repeat(2, minmax(100px, 1fr));
-        gap: 10px;
-        padding: 30px 0;
-    }
+  .why-this-school-card-container {
+    grid-template-columns: repeat(2, minmax(100px, 1fr));
+    gap: 10px;
+    padding: 30px 0;
+  }
 
-    .frequently-asked-questions {
-        padding: 20px 10px;
-        gap: 20px;
-    }
+  .frequently-asked-questions {
+    padding: 20px 10px;
+    gap: 20px;
+  }
 
-    .faq-card {
-        padding: 15px;
-    }
+  .faq-card {
+    padding: 15px;
+  }
 
-    .up-arrow-container {
-        width: 50px;
-        height: 50px;
-    }
+  .up-arrow-container {
+    width: 50px;
+    height: 50px;
+  }
 
-    .second-slide {
-        max-width: 100%;
-    }
+  .second-slide {
+    max-width: 100%;
+  }
 
-    .second-slide.center {
-        transform: translate(-50%, -50%) scale(1);
-    }
+  .second-slide.center {
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
 @media (max-width: 500px) {
