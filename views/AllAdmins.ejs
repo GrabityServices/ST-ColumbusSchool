@@ -140,18 +140,16 @@
                 <% } %>
       </div>
     </section>
+  </main>
 
-    <!-- THIRD SECTION -->
+  
     <section class="gallery-section">
       <div class="gallery-header">
         <h2>Gallery Section Images</h2>
-        <% if (!supAd) { %>
-          <a class="btn new-event" href="/home/gallery/new">+ Set a new Event</a>
-          <% } %>
-          
+     
+
             <div class="event">
               <% images.forEach(eventGroup=> { %>
-                <!-- eventGroup = one event date with titles inside -->
                 <h1>
                   <%= eventGroup[0][0].EventDate %>
                 </h1>
@@ -171,8 +169,8 @@
                             <% if (titleGroup.length> 3) { %>
                               <a class="btn delete" href="/home/galleryDelete/<%= item._id %>">Delete</a>
                             <% } %>
-                        </div>
-                        <% } %>
+                            <% } %>
+                            </div>
                           <% }) %>
                             <% if (!supAd) { %>
                               <a class="btn new-event" href="/home/gallery/new?date=<%= eventGroup[0][0].EventDate%>&title=<%= titleGroup[0].title %>">+Add Image</a>
@@ -185,10 +183,6 @@
 
 
     </section>
-
-
-
-  </main>
 
 
   <!-- 

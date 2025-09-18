@@ -16,27 +16,69 @@ async function handleStAdmin(req, res) {
   //
   const admins = await Admins.find({});
   const admiJsonData = admins.map((admin) => admin.toJSON());
-  //
 
-  const gallery = await Gallery.find({});
-  const gallJsonData = gallery.map((gall) => gall.toJSON());
+  const gallery = await Gallery.find().sort({ EventDate: 1 });
 
-  //
+  let gallArr = [];
+  let date = null;
+
+  gallery.forEach((gall) => {
+    if (!date) {
+      // first time initialization
+      date = gall.EventDate;
+      gallArr.push([gall]);
+    } else {
+      if (date.toString() === gall.EventDate.toString()) {
+        // same event date → push into last subarray
+        gallArr[gallArr.length - 1].push(gall);
+      } else {
+        // new event date → create a new subarray
+        date = gall.EventDate;
+        gallArr.push([gall]);
+      }
+    }
+  });
+
+  let titArray = [];
+
+  gallArr.forEach((eventGroup) => {
+    let titleGroups = []; // holds groups of same titles for this event date
+    let currentTitle = null;
+
+    eventGroup.forEach((item) => {
+      if (!currentTitle) {
+        // initialize first title group
+        currentTitle = item.title;
+        titleGroups.push([item]);
+      } else {
+        if (currentTitle.toString() === item.title.toString()) {
+          // same title → push into current group
+          titleGroups[titleGroups.length - 1].push(item);
+        } else {
+          // new title → start new group
+          currentTitle = item.title;
+          titleGroups.push([item]);
+        }
+      }
+    });
+
+    titArray.push(titleGroups); // add the grouped titles for this event date
+  });
+
   const notices = await Notice.find({});
   const noteJsonData = notices.map((notice) => notice.toJSON());
 
-  const fees=await Feestuct.findOne({getBy:process.env.GETFEE})
+  const fees = await Feestuct.findOne({ getBy: process.env.GETFEE });
   const superAdminCount = Admin.filter(
     (user) => user.role === "superadmin"
   ).length;
 
-  
   if (jwtData.role === "superadmin") {
     return res.render("AllAdmins.ejs", {
       data: Admin,
       supAd: true,
       admins: admiJsonData,
-      images: gallJsonData,
+      images: titArray,
       notices: noteJsonData,
       supId: jwtData.uniqId,
       superAdminCount,
@@ -50,7 +92,7 @@ async function handleStAdmin(req, res) {
           data: [member],
           supAd: false,
           admins: admiJsonData,
-          images: gallJsonData,
+          images: titArray,
           notices: noteJsonData,
           supId: undefined,
           fees,
