@@ -39,7 +39,16 @@ async function handleStAdmin(req, res) {
     }
   });
 
+  gallArr = gallArr.map((group) =>
+    group.sort((a, b) => {
+      const titleA = a.title?.toLowerCase() || "";
+      const titleB = b.title?.toLowerCase() || "";
+      return titleA.localeCompare(titleB);
+    })
+  );
+
   let titArray = [];
+  console.log(gallArr);
 
   gallArr.forEach((eventGroup) => {
     let titleGroups = []; // holds groups of same titles for this event date
@@ -370,4 +379,3 @@ module.exports = {
   handleDeleteAdmin,
   hadnleUpdateBySuperAdmin,
 };
-
