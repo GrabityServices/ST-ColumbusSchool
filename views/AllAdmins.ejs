@@ -14,6 +14,7 @@
   <header class="header">
     <h1 class="page-title">Admin Dashboard</h1>
     <nav class="header-nav">
+      <button onclick="location.href='/'" class="head-btn">Home</button>
       <button onclick="location.href='/stcolumbus/admin/manage/logout'" class="head-btn">Logout</button>
       <button onclick="location.href='/stcolumbus/admin/manage/change/pass'" class="head-btn">Change Pass</button>
       <% if(supAd){ %>
@@ -140,246 +141,191 @@
                 <% } %>
       </div>
     </section>
-  </main>
 
-  
-    <section class="gallery-section">
-      <div class="gallery-header">
-        <h2>Gallery Section Images</h2>
-     
+    <!-- THIRD SECTION -->
 
-            <div class="event">
-              <% images.forEach(eventGroup=> { %>
-                <h1>
-                  <%= eventGroup[0][0].EventDate %>
-                </h1>
-                <div class="datesect" >
-                <% eventGroup.forEach(titleGroup=> { %>
-                    <!-- titleGroup = one title group inside this event date -->
-                    <h3>
-                      <%= titleGroup[0].title %>
-                    </h3>
-                    <div class="images" >
-                      <% titleGroup.forEach(item=> { %>
-                        <div class="img">
-                          <img src="<%= item.img %>" alt="<%= item.title %>">
-                          <% if (!supAd) { %>
-                            <a class="btn" href="/home/galleryUpdate/<%= item._id %>">Update Img</a>
-                            <a class="btn" href="/home/galleryUpdate/details/<%= item._id %>">Update details</a>
-                            <% if (titleGroup.length> 3) { %>
-                              <a class="btn delete" href="/home/galleryDelete/<%= item._id %>">Delete</a>
-                            <% } %>
-                            <% } %>
-                            </div>
-                          <% }) %>
-                            <% if (!supAd) { %>
-                              <a class="btn new-event" href="/home/gallery/new?date=<%= eventGroup[0][0].EventDate%>&title=<%= titleGroup[0].title %>">+Add Image</a>
-                            <% } %>
-                    </div>
-                    <% }) %>
-                </div>
-                <% }) %>
-            </div>
+    <!-- FOURTH PAGE -->
+    <section class="fourth-section" id="notice">
+      <div class="fourth-section-heading-and-btn">
+        <h2>Notices Details for WebPage</h2>
+        <% if (!supAd) { %>
+          <a class="new-notice-btn" href="/home/notice/new">+ New Notice</a>
+        <% } %>
+      </div>
 
-
-    </section>
-
-
-  <!-- 
-    <div
-      class="notice-web-section"
-      id="notice"
-      style="border-bottom: 1px solid"
-    >
-      <h1 style="font-size: 20px; color: teal">Notices Details for WebPage</h1>
-      <%if(!supAd){%>
-      <a href="/home/notice/new">New Notice</a>
-
-      <% } %>
-      <main>
+      <div class="fourth-section-outer">  
         <% notices.forEach(notice => { %>
-        <div
-          class="card"
-          style="
-            border: 1px solid black;
-            margin: 10px;
-            width: 300px;
-            padding: 5px;
-            background-color: tomato;
-          "
-        >
-          <p><%= notice.messDate %></p>
-          <span> Subject: </span> <span><%=notice.title %></span><br />
-          <span> Notice: </span> <span><%=notice.mess %></span><br />
-          <span>Id:</span><span><%= notice._id %></span><br />
+          <div class="fourth-section-card">
+            <!-- IMAGE / PDF -->
+            <% if (notice.img) { 
+                const regex = /\.pdf$/i; 
+                if (!regex.test(notice.img)) { %>
+                  <!-- If it's an image -->
+                  <img src="<%= notice.img %>" alt="<%= notice.title %>" class="notice-img"/>
+                  <a class="btn" href="<%= notice.img %>" target="_blank" download="">Download</a>
 
-          <%if(!supAd){%>
+            <% if (!supAd) { %>
+              <a class="btn" href="/home/noticeUpdate/<%= notice._id %>">
+                <% if (notice.img) { %>Update Image<% } else { %>Add Image | PDF<% } %>
+              </a>
+            <% } %>
 
-          <a href="/home/noticeUpdate/details/<%=notice._id %>"
-            >Update details</a
-          >
-          <a href="/home/noticeDelete/<%=notice._id %>">Delete</a>
-          <% } %> <%if(notice.img) { const regex=/.\.pdf$/i;
-          if(!regex.test(notice.img)){ %>
-          <img
-            style="width: 200px"
-            src="<%= notice.img%>"
-            alt="<%= notice.title%>"
-          />
-          <br />
-          <a href="<%= notice.img  %>">DowunLoad</a> <br />
+            <% } else { %>
+                <!-- If it's a PDF -->
+                <iframe class="notice-pdf" src="<%= notice.img %>" frameborder="0"></iframe>
+                <a class="btn" href="<%= notice.img %>" target="_blank">Download</a>
 
-          <%if(!supAd){%>
+            <% if (!supAd) { %>
+              <a class="btn" href="/home/noticeUpdate/<%= notice._id %>">
+                  <% if (notice.img) { %>Update PDF<% } else { %>Add Image | PDF<% } %>
+              </a>
+            <% } %>
+            <% } } %>
 
-          <a href="/home/noticeUpdate/<%=notice._id %>">
-            <% if(notice.img){%>Update Image <%} else {%> Add Image | PDF<%}
-            %></a
-          >
-          <% } %> <% }else{ %>
-          <iframe
-            style="width: 100%; overflow: hidden; object-fit: cover"
-            src="<%= notice.img %>"
-            frameborder="0"
-          ></iframe
-          ><br />
-          <a href="<%= notice.img  %>">DowunLoad</a> <br />
+            <!-- SUBJECT -->
+            <h3 class="notice-title"><%= notice.title %></h3>
 
-          <%if(!supAd){%>
+            <!-- NOTICE MESSAGE -->
+            <p class="notice-text"><%= notice.mess %></p>
 
-          <a href="/home/noticeUpdate/<%=notice._id %>">
-            <% if(notice.img){%>Update PDF <%} else {%> Add Image | PDF<%} %></a
-          >
-          <% } %> <% } }%>
-        </div>
+            <!-- ACTION BUTTONS -->
+            <% if (!supAd) { %>
+              <div class="btn-group">
+                <a class="btn" href="/home/noticeUpdate/details/<%= notice._id %>">Update Details</a>
+                <a class="btn delete" href="/home/noticeDelete/<%= notice._id %>">Delete</a>
+              </div>
+            <% } %>
+
+            <!-- DATE -->
+            <p class="notice-date"><%= notice.messDate %></p>
+
+          </div>
         <% }); %>
-      </main>
-    </div>
-
-    <section class="fee-structure container" id="feestruct">
-      <% const parts = fees.lastChanged.split(/[- :]/); %>
-
-      <h2
-        style="
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        "
-      >
-        Fees Structure
-        <span style="font-size: 15px"
-          ><%= parts[2] %> - <%= parts[1] %> - <%= parts[0] %></span
-        >
-      </h2>
-      <table>
-        <thead>
-          Tution Fee
-        </thead>
-        <tr>
-          <th>Class</th>
-          <th>Admission Fee</th>
-          <th>Monthly Fee</th>
-        </tr>
-        <tr>
-          <td>Nursery - UKG</td>
-          <td>₹<%=fees.tutionfee.nurUkg.addfee %></td>
-          <td>₹<%=fees.tutionfee.nurUkg.monthly %></td>
-        </tr>
-        <tr>
-          <td>Class I - V</td>
-          <td>₹<%=fees.tutionfee.oneFive.addfee %></td>
-          <td>₹<%=fees.tutionfee.oneFive.monthly %></td>
-        </tr>
-        <tr>
-          <td>Class VI - VIII</td>
-          <td>₹<%=fees.tutionfee.sixEight.addfee %></td>
-          <td>₹<%=fees.tutionfee.sixEight.monthly %></td>
-        </tr>
-        <tr>
-          <td>Class IX - X</td>
-          <td>₹<%=fees.tutionfee.nineTen.addfee %></td>
-          <td>₹<%=fees.tutionfee.nineTen.monthly %></td>
-        </tr>
-      </table>
-      <table>
-        <thead>
-          Transports Fee
-        </thead>
-        <tr>
-          <th>Distance</th>
-          <th>Fees Per Months</th>
-        </tr>
-        <tr>
-          <td>1KM-4KM</td>
-          <td>₹<%=fees.transport.oneKm %></td>
-        </tr>
-        <tr>
-          <td>5KM-10KM</td>
-          <td>₹<%=fees.transport.fiveKm %></td>
-        </tr>
-        <tr>
-          <td>11KM-15KM</td>
-          <td>₹<%=fees.transport.elevenKm %></td>
-        </tr>
-        <tr>
-          <td>16KM-20KM</td>
-          <td>₹<%=fees.transport.sixteenKm %></td>
-        </tr>
-        <tr>
-          <td>20KM+</td>
-          <td>₹<%=fees.transport.twentyPlush %>+50 / 5KM</td>
-        </tr>
-      </table>
-      <table>
-        <thead>
-          School Uniform
-        </thead>
-        <tr>
-          <th>Dress Kit</th>
-          <th>Price</th>
-        </tr>
-        <tr>
-          <td>Regular Dress</td>
-          <td><%=fees.schoolUniform.regular %></td>
-        </tr>
-        <tr>
-          <td>Game Uniform</td>
-          <td><%=fees.schoolUniform.gameUniform %></td>
-        </tr>
-        <tr>
-          <td>Tie</td>
-          <td><%=fees.schoolUniform.tie %></td>
-        </tr>
-        <tr>
-          <td>Belt</td>
-          <td><%=fees.schoolUniform.belt %></td>
-        </tr>
-        <tr>
-          <td>ID card</td>
-          <td><%=fees.schoolUniform.IDcard %></td>
-        </tr>
-        <tr title="If you want to from us">
-          <td>Shoes & Socks Pair</td>
-          <td><%=fees.schoolUniform.shoesSocks %></td>
-        </tr>
-      </table>
-      <% if(!supAd){ %>
-      <a href="/home/feeUpdate">Update Fees</a>
-      <%} %>
+      </div>
     </section>
 
-    <% if(supAd){ %>
-    <a href="/home/admission/handeladmission/superadmin"
-      >See all admission form</a
-    >
-    <a href="/home/contact/forms/superadmin">See all contact requests</a>
-    <%}else {%>
-    <a href="/home/admission/handeladmission/editor">See all admission form</a>
-    <a href="/home/contact/forms/editor">See all contact requests</a>
+    <!-- FIFTH PAGE -->
+     <section class="fifth-section">
+      <div class="fifth-section-heading">
+        <% const parts = fees.lastChanged.split(/[- :]/); %>
+        <h2>Fees Structure</h2>
+        <span>Last Update:&nbsp;&nbsp;&nbsp;&nbsp; <%= parts[2] %> - <%= parts[1] %> - <%= parts[0] %></span>
+      </div>
+      
+      <div class="table-section">
+        <h3>Tuition Fee</h3>
+        <table>
+          <tr>
+            <th>Class</th>
+            <th>Admission Fee</th>
+            <th>Monthly Fee</th>
+          </tr>
+          <tr>
+            <td>Nursery - UKG</td>
+            <td>₹<%=fees.tutionfee.nurUkg.addfee %></td>
+            <td>₹<%=fees.tutionfee.nurUkg.monthly %></td>
+          </tr>
+          <tr>
+            <td>Class I - V</td>
+            <td>₹<%=fees.tutionfee.oneFive.addfee %></td>
+            <td>₹<%=fees.tutionfee.oneFive.monthly %></td>
+          </tr>
+          <tr>
+            <td>Class VI - VIII</td>
+            <td>₹<%=fees.tutionfee.sixEight.addfee %></td>
+            <td>₹<%=fees.tutionfee.sixEight.monthly %></td>
+          </tr>
+          <tr>
+            <td>Class IX - X</td>
+            <td>₹<%=fees.tutionfee.nineTen.addfee %></td>
+            <td>₹<%=fees.tutionfee.nineTen.monthly %></td>
+          </tr>
+        </table>
+      </div>
 
-    <%} %>
-    <a href="/home/admission/handeladmission/allDone">New Student Details</a> -->
+      <div class="table-section">
+          <h3>Transports Fee</h3>
+          <table>
+            <tr>
+              <th>Distance</th>
+              <th>Fees Per Months</th>
+            </tr>
+            <tr>
+              <td>1KM-4KM</td>
+              <td>₹<%=fees.transport.oneKm %></td>
+            </tr>
+            <tr>
+              <td>5KM-10KM</td>
+              <td>₹<%=fees.transport.fiveKm %></td>
+            </tr>
+            <tr>
+              <td>11KM-15KM</td>
+              <td>₹<%=fees.transport.elevenKm %></td>
+            </tr>
+            <tr>
+              <td>16KM-20KM</td>
+              <td>₹<%=fees.transport.sixteenKm %></td>
+            </tr>
+            <tr>
+              <td>20KM+</td>
+              <td>₹<%=fees.transport.twentyPlush %>+50 / 5KM</td>
+            </tr>
+          </table>
+      </div>
 
+      <div class="table-section">
+        <h3>School Uniform</h3>
+        <table>
+          <tr>
+            <th>Dress Kit</th>
+            <th>Price</th>
+          </tr>
+          <tr>
+            <td>Regular Dress</td>
+            <td><%=fees.schoolUniform.regular %></td>
+          </tr>
+          <tr>
+            <td>Game Uniform</td>
+            <td><%=fees.schoolUniform.gameUniform %></td>
+          </tr>
+          <tr>
+            <td>Tie</td>
+            <td><%=fees.schoolUniform.tie %></td>
+          </tr>
+          <tr>
+            <td>Belt</td>
+            <td><%=fees.schoolUniform.belt %></td>
+          </tr>
+          <tr>
+            <td>ID card</td>
+            <td><%=fees.schoolUniform.IDcard %></td>
+          </tr>
+          <tr title="If you want to from us">
+            <td>Shoes & Socks Pair</td>
+            <td><%=fees.schoolUniform.shoesSocks %></td>
+          </tr>
+        </table>
+      </div>
 
+      <div class="update-links">
+        <div class="update-link-first">
+          <% if(!supAd){ %>
+            <a href="/home/feeUpdate">Update Fees</a>
+          <%} %>
+        </div>
+        <div class="update-link-second">
+          <% if(supAd){ %>
+            <a href="/home/admission/handeladmission/superadmin">See all admission form</a>
+            <a href="/home/contact/forms/superadmin">See all contact requests</a>
+          <%}else {%>
+            <a href="/home/admission/handeladmission/editor">See all admission form</a>
+            <a href="/home/contact/forms/editor">See all contact requests</a>
+          <%} %>
+            <a href="/home/admission/handeladmission/allDone">New Student Details</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  
 </body>
-
 </html>
