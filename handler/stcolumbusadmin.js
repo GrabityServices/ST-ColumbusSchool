@@ -48,7 +48,6 @@ async function handleStAdmin(req, res) {
   );
 
   let titArray = [];
-  console.log(gallArr);
 
   gallArr.forEach((eventGroup) => {
     let titleGroups = []; // holds groups of same titles for this event date
