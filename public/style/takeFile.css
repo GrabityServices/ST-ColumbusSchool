@@ -1,0 +1,121 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(/images/upload-bg-image.png);
+    background-size: cover;
+    background-position: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.card {
+    width: 100%;
+    max-width: 500px;
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    background-color: #f4f4f4;
+}
+
+.upload-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem;
+    border: 2px dashed #2b2bff80;
+    border-radius: 12px;
+    background-color: rgba(194, 194, 194, 0.15);
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    margin-bottom: 20px;
+}
+
+.upload-box:hover {
+    background-color: rgba(194, 194, 194, 0.25);
+    border-color: #0062ff;
+}
+
+.upload-box img {
+    max-width: 50px;
+    width: 100%;
+    margin-bottom: 0.7rem;
+}
+
+.upload-box span {
+    color: #333;
+    font-size: 1rem;
+}
+
+.upload-limit {
+    color: #555;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 1.5rem;
+}
+
+button {
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #3367d6;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .card {
+        padding: 30px;
+        max-width: 90%;
+    }
+
+    .upload-box {
+        padding: 2rem;
+    }
+
+    .upload-box img {
+        max-width: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    body{
+        margin: 0;
+    }
+    
+    .card {
+        padding: 1.2rem;
+    }
+
+    .upload-box {
+        padding: 1.8rem;
+    }
+
+    .upload-box img {
+        max-width: 70px;
+    }
+}

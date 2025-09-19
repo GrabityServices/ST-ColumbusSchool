@@ -36,7 +36,7 @@ const Contact = require("../models/contact.js");
 // admin Work
 stcolumbus
   .route("/adminUpdate/:id")
-  .get((req, res) =>
+  .get(checkAdminAsEditor,(req, res) =>
     res.render("takeFile.ejs", {
       id: req.params.id,
       adminUpdate: true,
@@ -45,12 +45,12 @@ stcolumbus
       noticeUpdate: false,
     })
   )
-  .post(adminAvt.single("img"), setAdminForm);
+  .post(checkAdminAsEditor,adminAvt.single("img"), setAdminForm);
 
 stcolumbus
   .route("/adminUpdate/details/:id")
-  .get((req, res) => res.render("updateAdminDet.ejs", { id: req.params.id }))
-  .post(setAdminFormDet);
+  .get(checkAdminAsEditor,(req, res) => res.render("updateAdminDet.ejs", { id: req.params.id }))
+  .post(checkAdminAsEditor,setAdminFormDet);
 
 // Gallery work
 

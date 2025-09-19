@@ -1,26 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <h1><%= id %></h1>
-    <form action="/home/galleryUpdate/details/<%= id%>" method="post">
-      <input
-        type="text"
-        name="title"
-        placeholder="title"
-        maxlength="30"
-        minlength="3"
-        title="Unique ID should be alphanumeric and between 3 to 30 characters"
-      />
-      <br />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Update Event Details</title>
+  <style>
+    /* ===== General Reset ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
 
-      <br>
-      <br />
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url(/images/upload-bg-image.png) no-repeat center center/cover;
+      padding: 1rem;
+    }
+
+    .card {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .card h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #222;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #444;
+    }
+
+    .form-group input[type="text"] {
+      padding: 0.9rem;
+      border-radius: 8px;
+      border: 1.8px solid rgba(0, 0, 0, 0.35);
+      font-size: 1rem;
+      outline: none;
+      transition: border 0.3s, box-shadow 0.3s;
+    }
+
+    .form-group input[type="text"]:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 6px rgba(0, 123, 255, 0.25);
+    }
+
+    button {
+      width: 100%;
+      padding: 0.9rem;
+      border: none;
+      border-radius: 12px;
+      background: #007bff;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.1s;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .error-message {
+      margin-top: 0.6rem;
+      font-size: 0.9rem;
+      color: #d9534f;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    @media (max-width: 500px) {
+      body{
+        padding: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Update Heading</h1>
+    <form class="update-form" action="/home/galleryUpdate/details/<%= id %>" method="post">
+      
+      <div class="form-group">
+        <label for="title">Event Title</label>
+        <input 
+          type="text"
+          id="title"
+          name="title"
+          placeholder="Enter event title"
+          maxlength="30"
+          minlength="3"
+          required
+        />
+      </div>
+
       <button type="submit">Save</button>
+      <div class="error-message"></div>
     </form>
-  </body>
+  </div>
+
+  <script>
+    const form = document.querySelector(".update-form");
+    const titleInput = document.getElementById("title");
+    const errorMessage = document.querySelector(".error-message");
+
+    form.addEventListener("submit", (e) => {
+      errorMessage.innerText = "";
+
+      const value = titleInput.value.trim();
+      const regex = /^[a-zA-Z ]{3,30}$/; // Alphanumeric + spaces, 3–30 chars
+
+      if (!regex.test(value)) {
+        e.preventDefault();
+        errorMessage.innerText =
+          "Title must be 3–30 characters and only contain letters or spaces.";
+        titleInput.focus();
+      }
+    });
+  </script>
+</body>
 </html>

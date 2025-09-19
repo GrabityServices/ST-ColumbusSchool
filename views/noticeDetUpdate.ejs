@@ -1,90 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create Notice</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Update Notice</title>
   <style>
+    /* ===== Reset ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+
     body {
-  font-family: Arial, sans-serif;
-}
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url(/images/upload-bg-image.png) no-repeat center center/cover;
+      padding: 1rem;
+    }
 
-.container {
-  max-width: 500px;
-  margin: 40px auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+    /* ===== Card Wrapper ===== */
+    .card {
+      background: #fff;
+      padding: 3rem;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.08);
+    }
 
-.form-group {
-  margin-bottom: 20px;
-}
+    .card h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #222;
+    }
 
-label {
-  display: block;
-  margin-bottom: 10px;
-}
+    /* ===== Form Section ===== */
+    .form-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+    }
 
-input[type="text"], textarea {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-}
+    .input-field,
+    textarea {
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: 8px;
+      border: 1.8px solid rgba(0, 0, 0, 0.35);
+      font-size: 1rem;
+      outline: none;
+      transition: border 0.3s, box-shadow 0.3s;
+    }
 
-input[type="file"] {
-  margin-bottom: 20px;
-}
+    .input-field:focus,
+    textarea:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 6px rgba(0, 123, 255, 0.25);
+    }
 
-button[type="submit"] {
-  background-color: #4CAF50;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+      max-height: 250px;
+    }
 
-button[type="submit"]:hover {
-  background-color: #3e8e41;
-}
+    /* ===== Submit Button ===== */
+    button {
+      margin-top: 1.5rem;
+      width: 100%;
+      padding: 0.9rem;
+      border: none;
+      border-radius: 12px;
+      background: #28a745;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.1s;
+    }
 
-.error {
-  color: #f44336;
-  font-size: 12px;
-  margin-top: 5px;
-}
+    button:hover {
+      background: #218838;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    /* ===== Error Message ===== */
+    .error-message {
+      font-size: 0.9rem;
+      color: #d9534f;
+      font-weight: 500;
+      text-align: left;
+    }
+
+    /* ===== Link ===== */
+    .extra-link {
+      display: block;
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .extra-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 450px) {
+      body{
+        padding: 0.5rem;
+      }
+
+      .card{
+        padding: 1.5rem;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Update  Notice Details</h1>
-    <form id="/home/updateNotice/<%=id %>" method="post">
-      <div class="form-group">
-        <label for="title">Title:</label>
-        <input type="text" id="title" name="title" >
-        <span class="error" id="title-error"></span>
-      </div>
-      <div class="form-group">
-        <label for="mess">Message:</label>
-        <textarea id="mess" name="mess" ></textarea>
-        <span class="error" id="mess-error"></span>
-      </div>
+  
+  <div class="card">
+  <h1>Update Notice Details</h1>
+  <form id="update-notice-form" action="/home/noticeUpdate/details/<%= id %>" method="post">
+    <div class="form-section">
       
-      <button type="submit">Create Notice</button>
-    </form>
-  </div>
+      <!-- Title -->
+      <input 
+        class="input-field" 
+        type="text" 
+        id="title" 
+        name="title"
+        placeholder="Enter Notice Title"
+        required 
+        minlength="3" 
+        maxlength="60"
+        pattern="^[a-zA-Z0-9 ]{3,60}$"
+        title="Title must be 3–60 characters (letters, numbers, spaces only)"
+      />
+      <span class="error-message" id="title-error"></span>
 
-  <a href="/home/noticeUpdate/<%=id %>">Add or Update image|PDF</a>
-  <script src="script.js"></script>
+      <!-- Message -->
+      <textarea 
+        id="mess" 
+        name="mess" 
+        placeholder="Enter Notice Message (max 300 characters)"
+        minlength="3" 
+        maxlength="300" 
+        required
+      ></textarea>
+      <span class="error-message" id="mess-error"></span>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit">Update Notice</button>
+  </form>
+
+  <!-- Link to Image/PDF Upload -->
+  <a href="/home/noticeUpdate/<%= id %>" class="extra-link">
+    Add or Update Image | PDF
+  </a>
+</div>
+
+
+  <script>
+    const form = document.getElementById("update-notice-form");
+    const titleInput = document.getElementById("title");
+    const messageInput = document.getElementById("mess");
+
+    const titleError = document.getElementById("title-error");
+    const messError = document.getElementById("mess-error");
+
+    // Regex: letters, numbers, spaces (3–60 chars)
+    const titleRegex = /^[a-zA-Z ]{3,60}$/;
+
+    form.addEventListener("submit", e => {
+      let valid = true;
+      titleError.innerText = "";
+      messError.innerText = "";
+
+      // Title validation
+      if (!titleRegex.test(titleInput.value)) {
+        titleError.innerText = "Title must be 3–60 characters (letters, numbers, spaces only).";
+        valid = false;
+      }
+
+      // Message validation
+      if (messageInput.value.length < 3 || messageInput.value.length > 500) {
+        messError.innerText = "Message must be 3–300 characters.";
+        valid = false;
+      }
+
+      if (!valid) {
+        e.preventDefault();
+      }
+    });
+  </script>
 </body>
 </html>
-
-
-
-
-

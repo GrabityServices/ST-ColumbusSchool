@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contact Us | St. Columbus Public School</title>
-    <!-- Font Awesome for Social Icons -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
-    <link rel="stylesheet" href="style\contact.css" />
-    <script src="script\contact.js" defer></script>
-  </head>
 
-  <body>
-    <!-- NAV -->
-    <%- include('index.ejs') %>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us | St. Columbus Public School</title>
+  <!-- Font Awesome for Social Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="style\contact.css" />
+  <script src="script\contact.js" defer></script>
+</head>
+
+<body>
+  <!-- NAV -->
+  <%- include('index.ejs') %>
 
     <!-- HEADING -->
     <section class="contact-heading">
@@ -54,10 +52,7 @@
         </div>
         <div class="contact-second-container">
           <div class="contact-image-cnt">
-            <img
-              src="/images/school-environment.webp"
-              alt="school-environment"
-            />
+            <img src="/images/school-environment.webp" alt="school-environment" />
           </div>
         </div>
       </section>
@@ -66,10 +61,7 @@
       <section class="map container">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2228.2280253458375!2d86.3581412!3d24.8038498!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f179263476a239%3A0xdc897fc5d426ff96!2sSt.%20Columbus%20Public%20School%20Ekdara!5e1!3m2!1sen!2sin!4v1756914783357!5m2!1sen!2sin"
-          style="border: 0"
-          allowfullscreen=""
-          loading="lazy"
-        ></iframe>
+          style="border: 0" allowfullscreen="" loading="lazy"></iframe>
       </section>
 
       <!-- CONTACT PAGE -->
@@ -80,41 +72,19 @@
             So, please go ahead and ask!
           </h2>
         </div>
-        <form
-          class="form-container"
-          action="/contact"
-          method="post"
-          id="contactForm"
-        >
+        <form class="form-container" action="/contact" method="post" id="contactForm">
           <div class="input-group">
-            <input
-              class="user-name"
-              type="text"
-              name="name"
-              required
-              placeholder="NAME"
-            />
+            <input class="user-name" type="text" name="name" required placeholder="NAME" />
             <span class="error"></span>
           </div>
 
           <div class="input-group">
-            <input
-              class="user-email"
-              type="email"
-              name="email"
-              required
-              placeholder="EMAIL"
-            />
+            <input class="user-email" type="email" name="email" required placeholder="EMAIL" />
             <span class="error"></span>
           </div>
 
           <div class="input-group">
-            <textarea
-              class="user-message"
-              name="mess"
-              required
-              placeholder="MESSAGE"
-            ></textarea>
+            <textarea class="user-message" name="mess" required placeholder="MESSAGE" rows="5"></textarea>
             <span class="error"></span>
           </div>
 
@@ -171,11 +141,9 @@
             <p>
               <i class="fas fa-map-marker-alt"></i>
               <a
-                href="https://maps.google.com/?q=St.+Columbus+Public+School,+Ekdara,+Jhajha,+Jamui+811308+(Bihar),+India"
-              >
+                href="https://maps.google.com/?q=St.+Columbus+Public+School,+Ekdara,+Jhajha,+Jamui+811308+(Bihar),+India">
                 St. Columbus Public School, Ekdara, &nbsp; &nbsp;&nbsp; Jhajha,
-                Jamui 811308 (Bihar), India</a
-              >
+                Jamui 811308 (Bihar), India</a>
             </p>
             <p>
               <i class="fas fa-phone"></i>
@@ -184,11 +152,8 @@
             </p>
             <p>
               <i class="fas fa-envelope"></i>
-              <a
-                href="https://mail.google.com/mail/?view=cm&fs=1&to=sudhanshu95084145@gmail.com&su=Hello&body=This%20is%20a%20default%20message"
-                target="_blank"
-                >info@gvpschool.edu.in</a
-              >
+              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sudhanshu95084145@gmail.com&su=Hello&body=This%20is%20a%20default%20message"
+                target="_blank">info@gvpschool.edu.in</a>
             </p>
           </div>
         </div>
@@ -196,35 +161,10 @@
       <p class="copy-right">
         <i class="far fa-copyright"></i> 2025 St. Columbus Public School. All
         rights reserved. | Developed by
-        <a href="https://www.grabityservices.com" target="_blank"
-          >GrabityServices</a
-        >
-        <a id="upArrow" style="margin-left: 20px; color: aliceblue" href="#upp"
-          >&uparrow;</a
-        >
+        <a href="https://www.grabityservices.com" target="_blank">GrabityServices</a>
+        <a id="upArrow" style="margin-left: 20px; color: aliceblue" href="#upp">&uparrow;</a>
       </p>
     </footer>
-<script>
-  const form = document.getElementById("contactForm");
-  const locationInput = document.getElementById("userLocation");
+</body>
 
-  form.addEventListener("submit", function (e) {
-    e.preventDefault(); // Temporarily prevent form submission
-
-    // Try to get location on submit
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        locationInput.value = `${lat},${lon}`;
-        form.submit(); // Now submit the form
-      },
-      (error) => {
-        alert("Location permission is required to submit the form.");
-      }
-    );
-  });
-</script>
-
-  </body>
 </html>

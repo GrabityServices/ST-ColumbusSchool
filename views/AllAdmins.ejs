@@ -5,21 +5,21 @@
   <meta charset="UTF-8" />
   <title>All Admins</title>
   <link rel="stylesheet" href="/style/admin.css">
-  <script src="/script/script.js" defer></script>
+  <script src="/script/admin.js" defer></script>
 </head>
 
 <body>
 
   <!-- HEADER -->
   <header class="header">
-    <h1 class="page-title">Admin Dashboard</h1>
+    <h1 class="page-title"> <% if(supAd){%>Admin <%}else{%>Editor <%} %>Dashboard</h1>
     <nav class="header-nav">
       <button onclick="location.href='/'" class="head-btn">Home</button>
-      <button onclick="location.href='/stcolumbus/admin/manage/logout'" class="head-btn">Logout</button>
+      <button id="logout-btn" class="head-btn">Logout</button>
       <button onclick="location.href='/stcolumbus/admin/manage/change/pass'" class="head-btn">Change Pass</button>
       <% if(supAd){ %>
         <button onclick="location.href='/stcolumbus/admin/manage/signup'" class="head-btn">Create New Admin</button>
-        <% } %>
+      <% } %>
     </nav>
   </header>
 
@@ -106,31 +106,31 @@
               </li>
               <div class="inner-dir-and-principle">
                 <li><strong>Name: </strong>
-                  <%= admin.name %>
+                  <span><%= admin.name %></span>
                 </li>
                 <li><strong>Id No: </strong>
-                  <%= admin.unqId %>
+                  <span><%= admin.unqId %></span>
                 </li>
                 <li><strong>Email: </strong>
-                  <%= admin.email %>
+                  <span><%= admin.email %></span>
                 </li>
                 <li><strong>Position: </strong>
-                  <%= admin.position %>
+                  <span><%= admin.position %></span>
                 </li>
                 <li><strong>Qualification: </strong>
-                  <%= admin.quli %>
+                  <span><%= admin.quli %></span>
                 </li>
                 <li><strong>Age: </strong>
-                  <%= admin.age %>
+                  <span><%= admin.age %></span>
                 </li>
                 <li><strong>Gender: </strong>
-                  <%= admin.gender %>
+                  <span><%= admin.gender %></span>
                 </li>
               </div>
               <div class="updated-head-image">
                 <%if(!supAd){%>
                   <a href="/home/adminUpdate/<%=admin._id %>">Update Img</a>
-                  <a href="/home/adminUpdate/details/<%=admin._id %>">details</a>
+                  <a href="/home/adminUpdate/details/<%=admin._id %>">Update details</a>
                   <%} %>
               </div>
             </ul>
@@ -141,51 +141,46 @@
                 <% } %>
       </div>
     </section>
-    <!-- THIRD SECTION -->
 
-  
+    <!-- THIRD SECTION -->
     <section class="gallery-section">
-      <div class="gallery-header">
+      <div class="galley-section-heading">
         <h2>Gallery Section Images</h2>
         <% if (!supAd) { %>
           <a class="btn new-event" href="/home/gallery/new">+ Set a new Event</a>
-          <% } %>
-          
-            <div class="event">
-              <% images.forEach(eventGroup=> { %>
-                <!-- eventGroup = one event date with titles inside -->
-                <h1>
-                  <%= eventGroup[0][0].EventDate %>
-                </h1>
-                <div class="datesect" >
-                <% eventGroup.forEach(titleGroup=> { %>
-                    <!-- titleGroup = one title group inside this event date -->
-                    <h3>
-                      <%= titleGroup[0].title %>
-                    </h3>
-                    <div class="images" >
-                      <% titleGroup.forEach(item=> { %>
-                        <div class="img">
-                          <img src="<%= item.img %>" alt="<%= item.title %>">
-                          <% if (!supAd) { %>
-                            <a class="btn" href="/home/galleryUpdate/<%= item._id %>">Update Img</a>
-                            <a class="btn" href="/home/galleryUpdate/details/<%= item._id %>">Update details</a>
-                            <% if (titleGroup.length> 3) { %>
-                              <a class="btn delete" href="/home/galleryDelete/<%= item._id %>">Delete</a>
-                            <% } %>
-                            <% } %>
-                            </div>
-                          <% }) %>
-                            <% if (!supAd) { %>
-                              <a class="btn new-event" href="/home/gallery/new?date=<%= eventGroup[0][0].EventDate%>&title=<%= titleGroup[0].title %>">+ Add Image</a>
-                            <% } %>
-                    </div>
-                    <% }) %>
+        <% } %>
+      </div>
+      <div class="gallery-header">  
+        <div class="event">
+          <% images.forEach(eventGroup=> { %>
+            <!-- eventGroup = one event date with titles inside -->
+            <h1><%= eventGroup[0][0].EventDate %></h1>
+            <div class="datesect" >
+              <% eventGroup.forEach(titleGroup=> { %>
+              <!-- titleGroup = one title group inside this event date -->
+              <h3><%= titleGroup[0].title %></h3>
+              <div class="images" >
+                <% titleGroup.forEach(item=> { %>
+                <div class="img">
+                  <img src="<%= item.img %>" alt="<%= item.title %>">
+                  <% if (!supAd) { %>
+                    <a class="btn" href="/home/galleryUpdate/<%= item._id %>">Update Img</a>
+                    <a class="btn" href="/home/galleryUpdate/details/<%= item._id %>">Update details</a>
+                    <% if (titleGroup.length> 3) { %>
+                      <a class="btn delete" href="/home/galleryDelete/<%= item._id %>">Delete</a>
+                    <% } %>
+                    <% } %>
                 </div>
-                <% }) %>
+                 <% }) %>
+                  <% if (!supAd) { %>
+                    <a class="btn new-event" href="/home/gallery/new?date=<%= eventGroup[0][0].EventDate%>&title=<%= titleGroup[0].title %>">+ Add Image</a>
+                  <% } %>
+              </div>
+              <% }) %>
             </div>
-
-
+          <% }) %>
+        </div>
+      </div>
     </section>
 
     <!-- FOURTH PAGE -->
@@ -360,17 +355,18 @@
         </div>
         <div class="update-link-second">
           <% if(supAd){ %>
-            <a href="/home/admission/handeladmission/superadmin">See all admission form</a>
-            <a href="/home/contact/forms/superadmin">See all contact requests</a>
+            <a href="/home/admission/handeladmission/superadmin">Request for DV</a>
+            <a href="/home/contact/forms/superadmin">Contact requests Fullfild</a>
           <%}else {%>
-            <a href="/home/admission/handeladmission/editor">See all admission form</a>
-            <a href="/home/contact/forms/editor">See all contact requests</a>
+            <a href="/home/admission/handeladmission/editor">Counceling Request</a>
+            <a href="/home/contact/forms/editor">Contact requests</a>
           <%} %>
-            <a href="/home/admission/handeladmission/allDone">New Student Details</a>
+            <a href="/home/admission/handeladmission/allDone">Admission Completed</a>
         </div>
       </div>
     </section>
   </main>
+  
   
 </body>
 </html>
