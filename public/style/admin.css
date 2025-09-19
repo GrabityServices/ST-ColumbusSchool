@@ -72,6 +72,8 @@ header {
 nav {
     display: flex;
     gap: .6rem;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .head-btn {
@@ -188,6 +190,25 @@ nav {
     padding: 0 0 1rem 0;
 }
 
+.director-principle-container ul li {
+    list-style: none;
+    display: flex;          /* makes strong + span align side by side */
+    align-items: flex-start;
+}
+
+.director-principle-container ul li strong {
+    display: inline-block;
+    width: 140px;           /* fixed width label */
+    flex-shrink: 0;         /* prevents shrinking */
+}
+
+.director-principle-container ul li span {
+    flex: 1;                /* take remaining space */
+    word-break: break-word; /* break long email into multiple lines */
+}
+
+
+
 .school-heads {
     width: 100%;
     height: 300px;
@@ -242,19 +263,30 @@ nav {
 
 /* THIRD SECTION */
 .gallery-section {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 30px 15px;
+    width: 100%;
+    background-color: #3d5742;
+    padding: 2rem .5rem;
+}
+
+.galley-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 2rem;
+}
+
+.galley-section-heading h2 {
+    padding: 0;
 }
 
 .gallery-header {
-    margin-bottom: 25px;
+    padding: 2rem 0;
+    max-width: 1500px;
+    margin-inline: auto;
 }
 
 .gallery-header h2 {
-    font-size: 2rem;
     font-weight: bold;
-    color: #333;
 }
 
 .gallery-header .btn.new-event {
@@ -343,6 +375,7 @@ nav {
     height: 180px;
     object-fit: cover;
     border-bottom: 1px solid #ddd;
+    border-radius: 5px;
 }
 
 .img .btn {
@@ -375,8 +408,10 @@ nav {
 }
 
 .btn.new-event {
-    margin-top: 10px;
-    background-color: #28a745;
+    padding: 10px 20px;
+    background-color: #0077ff;
+    color: white;
+    border-radius: 6px;
 }
 
 .btn.new-event:hover {
@@ -386,8 +421,9 @@ nav {
 
 
 
-/* FOURTH PAGE */
+/* FOURTH SECTION */
 .fourth-section {
+    width: 100%;
     background-color: #553737;
 }
 
@@ -418,6 +454,7 @@ nav {
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
     gap: 25px;
     padding: 2.5rem;
+    width: 100%;
 }
 
 .fourth-section-card {
@@ -546,7 +583,7 @@ table {
     padding: 1rem .5rem;
 }
 
-.update-link-first a{
+.update-link-first a {
     padding: 12px 50px;
     display: inline-block;
     background-color: #495b70;
@@ -557,7 +594,7 @@ table {
     text-align: center;
 }
 
-.update-link-second{
+.update-link-second {
     display: flex;
     justify-content: center;
     gap: 2rem;
@@ -575,33 +612,27 @@ table {
     text-align: center;
 }
 
-
-
 .update-links a:hover {
     background: #005fd1;
 }
 
 @media (max-width: 1000px) {
-    h2{
+    h2 {
         text-align: center;
     }
-    
+
 }
 
 
-@media (max-width: 450px) {
+/* RESPONSIVE */
+@media (max-width: 535px) {
     header {
         flex-direction: column;
         gap: 2rem;
     }
 
-    .fourth-section {
-        width: 100%;
-    }
-
     .fourth-section-outer {
         padding: 0.5rem;
-        width: 100%;
     }
 
     .fourth-section-card {
@@ -621,5 +652,23 @@ table {
     th,
     td {
         padding: 0.5rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .fourth-section-outer {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+
+    .event {
+        padding: 5px;
+    }
+
+    .datesect {
+        padding: 0;
+    }
+
+    .images {
+        padding: 0;
     }
 }

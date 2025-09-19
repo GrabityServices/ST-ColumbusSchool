@@ -68,8 +68,6 @@ async function handelNewGallery(req, res) {
       date: req.query.date,
       title: req.query.title,
     });
-  } else if (req.query && req.query.title) {
-    res.render("newGallery.ejs", { date: undefined, title: req.query.title });
   } else {
     res.render("newGallery.ejs", { date: undefined, title: undefined });
   }

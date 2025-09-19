@@ -4,11 +4,9 @@ const adminsSchema = new mongoose.Schema(
   {
     unqId: {
       type: String,
-      minlength: 3,
-      maxlength: 10,
       required: true,
       unique: true,
-      match: [/^[a-zA-Z0-9]{3,30}$/],
+      match: [/^[A-Z0-9]{5}$/],
     },
     email: {
       type: String,
@@ -18,7 +16,6 @@ const adminsSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      // match: [/^[a-zA-Z]{3,15}\s[a-zA-Z]{3,15}$/],
       minlength: [3, "Admin Name must be at least 3 characters"],
       maxlength: [30, "Admin Name must be at most 30 characters"],
     },

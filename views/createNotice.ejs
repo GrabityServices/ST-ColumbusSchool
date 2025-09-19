@@ -1,96 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <style>
-      /* Add some basic styling to the form */
-      form {
-        max-width: 500px;
-        margin: 40px auto;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-      label {
-        display: block;
-        margin-bottom: 10px;
-      }
-      input[type="text"],
-      textarea {
-        margin-bottom: 20px;
-        padding: 10px;
-        border: 1px solid #ccc;
-        width: fit-content;
-        resize: vertical;
-      }
-    </style>
-  </head>
-  <body>
-    <form
-      id="notice-form"
-      action="/home/notice/new"
-      method="post"
-      enctype="multipart/form-data"
-    >
-      <label for="title">Title:</label>
-      <input
-        type="text"
-        id="title"
-        name="title"
-        required
-        minlength="3"
-        maxlength="60"
-      />
-      <br /><br />
-      <label for="mess">Message:</label>
-      <textarea
-        id="mess"
-        name="mess"
-        minlength="3"
-        maxlength="500"
-        cols="50"
-        ,
-        rows="5"
-      ></textarea>
-      <br /><br />
-      <label for="img">Image Or PDF:</label>
-      <input type="file" id="img" name="img" accept=".jpg, .jpeg, .png, .pdf" />
-      <br /><br />
-      <button type="submit">Submit</button>
-    </form>
-    <script>
-      // Get the file input element
-      const fileInput = document.getElementById("img");
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add New Notice</title>
+  <style>
+    /* ===== Reset ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
 
-      // Add an event listener to check the file type and size
-      fileInput.addEventListener("change", () => {
-        const img = document.getElementById("img");
-        const file = fileInput.files[0];
-        if (file) {
-          const fileType = file.name.split(".").pop().toLowerCase();
-          if (
-            fileType !== "jpg" &&
-            fileType !== "jpeg" &&
-            fileType !== "png" &&
-            fileType !== "pdf"
-          ) {
-            img.style.border = "1px solid red";
-            fileInput.value = "";
-            setTimeout(() => {
-              alert("File type either jpg, jpeg, png or pdf.");
-            }, 100);
-          } else if (file.size > 5 * 1024 * 1024) {
-            fileInput.value = "";
-            img.style.border = "1px solid orange";
-            setTimeout(() => {
-              alert("File size must be less than or Equal to 5MB.");
-            }, 100);
-          }
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url(/images/upload-bg-image.png) no-repeat center center/cover;
+      padding: 1rem;
+    }
+
+    /* ===== Card Wrapper ===== */
+    .card {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .card h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #222;
+    }
+
+    /* ===== Upload Box ===== */
+    .upload-box {
+      margin-top: 1rem;
+      padding: 2rem;
+      border: 2px dashed #bbb;
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      background-color: rgba(194, 194, 194, 0.15);
+      transition: background 0.3s, border-color 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .upload-box:hover {
+      border-color: #007bff;
+      background-color: rgba(194, 194, 194, 0.25);
+    }
+
+    .upload-box img {
+      width: 40px;
+      height: 40px;
+      opacity: 0.7;
+    }
+
+    .upload-box span {
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    /* Hide default file input */
+    .upload-box input[type="file"] {
+      display: none;
+    }
+
+    /* ===== Inputs ===== */
+    .form-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1rem;
+      width: 100%;
+    }
+
+    .input-field,
+    textarea {
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: 8px;
+      border: 1.8px solid rgba(0, 0, 0, 0.35);
+      font-size: 1rem;
+      outline: none;
+      transition: border 0.3s, box-shadow 0.3s;
+    }
+
+    .input-field:focus,
+    textarea:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 6px rgba(0, 123, 255, 0.25);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+      max-height: 250px;
+    }
+
+    /* ===== Upload Limit Info ===== */
+    .upload-limit {
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .upload-limit img {
+      width: 18px;
+      height: 18px;
+      opacity: 0.8;
+    }
+
+    /* ===== Submit Button ===== */
+    button {
+      margin-top: 1.5rem;
+      width: 100%;
+      padding: 0.9rem;
+      border: none;
+      border-radius: 12px;
+      background: #007bff;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.1s;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    /* ===== Error Message ===== */
+    .error-message {
+      margin-top: 0.6rem;
+      font-size: 0.9rem;
+      color: #d9534f;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    @media (max-width: 450px) {
+      body{
+        padding: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Add New Notice</h1>
+    <form id="notice-form" class="upload-form" action="/home/notice/new" method="post" enctype="multipart/form-data">
+      
+      <div class="form-section">
+        <input class="input-field" type="text" id="title" name="title" placeholder="Enter Notice Title"
+          required minlength="3" maxlength="60"
+          title="Title must be 3–60 characters and contain only letters or spaces." />
+
+        <textarea id="mess" name="mess" placeholder="Enter Notice Message (max 300 characters)"
+          minlength="3" maxlength="300"></textarea>
+      </div>
+
+      <label class="upload-box">
+        <img src="/images/icon-upload.svg" alt="upload-icon" id="placeholder-img">
+        <span id="upload-text">Drag and drop or click to upload</span>
+        <input type="file" id="img" name="img" accept=".jpg, .jpeg, .png, .pdf" />
+      </label>
+
+      <div class="upload-limit">
+        <img src="/images/icon-info.svg" alt="upload-limit-icon">
+        Upload JPG, JPEG, PNG, or PDF (max size 5MB)
+      </div>
+
+      <button type="submit">Submit</button>
+      <div class="error-message"></div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('notice-form');
+    const fileInput = document.getElementById("img");
+    const errorMessage = form.querySelector('.error-message');
+    const uploadBox = form.querySelector('.upload-box');
+    const uploadText = uploadBox.querySelector('#upload-text');
+    const titleInput = document.getElementById("title");
+
+    // Regex for title (letters, numbers, spaces; 3–60 chars)
+    const titleRegex = /^[a-zA-Z]{3,60}$/;
+
+    // Drag & drop
+    uploadBox.addEventListener('dragover', e => {
+      e.preventDefault();
+      uploadBox.style.backgroundColor = 'rgba(194,194,194,0.25)';
+    });
+
+    uploadBox.addEventListener('dragleave', e => {
+      e.preventDefault();
+      uploadBox.style.backgroundColor = 'rgba(194,194,194,0.15)';
+    });
+
+    uploadBox.addEventListener('drop', e => {
+      e.preventDefault();
+      fileInput.files = e.dataTransfer.files;
+      showFileName(fileInput.files[0]);
+    });
+
+    fileInput.addEventListener("change", () => {
+      showFileName(fileInput.files[0]);
+    });
+
+    function showFileName(file) {
+      if (!file) return;
+      uploadText.textContent = file.name;
+    }
+
+    // Validation on submit
+    form.addEventListener("submit", e => {
+      errorMessage.innerText = "";
+
+      // Title validation
+      if (!titleRegex.test(titleInput.value)) {
+        errorMessage.innerText = "Title must be 3–60 characters, letters/numbers/spaces only.";
+        e.preventDefault();
+        return;
+      }
+
+      // File validation
+      const file = fileInput.files[0];
+      if (file) {
+        const validTypes = ["jpg", "jpeg", "png", "pdf"];
+        const ext = file.name.split('.').pop().toLowerCase();
+        if (!validTypes.includes(ext)) {
+          errorMessage.innerText = "File type must be JPG, JPEG, PNG, or PDF.";
+          e.preventDefault();
+          return;
         }
-      });
-    </script>
-  </body>
+        if (file.size > 5 * 1024 * 1024) {
+          errorMessage.innerText = "File size must not exceed 5MB.";
+          e.preventDefault();
+          return;
+        }
+      }
+    });
+  </script>
+</body>
 </html>

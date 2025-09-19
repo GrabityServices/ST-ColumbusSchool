@@ -1,92 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Forgot Password</title>
-    <style>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Change Password</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+
+    .forgot-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+      max-width: 500px;
+      width: 100%;
+    }
+
+    .forgot-container h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #333;
+    }
+
+    .input-group {
+      margin-bottom: 18px;
+    }
+
+    .input-group label {
+      font-size: 1.3rem;
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+      color: #444;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    .input-group input:focus {
+      border-color: #4285f4;
+      outline: none;
+      box-shadow: 0 0 6px rgba(66, 133, 244, 0.4);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 12px;
+      color: #fff;
+      background-color: #4285f4;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 1000px) {
+      body {
+        min-height: 85vh;
+      }
+
       .forgot-container {
-        background-color: white;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        width: 350px;
-        font-family: Arial, sans-serif;
+        padding: 50px 40px;
+        max-width: 600px;
+        margin: 10px;
       }
+    }
+  </style>
+</head>
 
-      .input-group {
-        margin-bottom: 15px;
-      }
+<body>
 
-      .input-group label {
-        display: block;
-        margin-bottom: 5px;
-      }
 
-      .input-group input {
-        width: 100%;
-        padding: 8px;
-        box-sizing: border-box;
-      }
+  <div class="forgot-container">
+    <h1>Change Password</h1>
+    <form action="/stcolumbus/admin/manage/forgot/pass" method="post">
+      <div class="input-group">
+        <label for="idOrEmail">Enter your User ID or Email</label>
+        <input type="text" id="idOrEmail" name="idOrEmail" required
+          value="<%= typeof idOrEmail !== 'undefined' ? idOrEmail : '' %>" placeholder="User ID or Email" />
+      </div>
 
-      .submit-btn {
-        width: 100%;
-        padding: 10px;
-        background-color: #4285f4;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-
-      .submit-btn:hover {
-        background-color: #357ae8;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="forgot-container">
-      <h2>Forgot Password</h2>
-      <form action="/stcolumbus/admin/manage/forgot/pass" method="post">
-        <div class="input-group">
-          <label for="idOrEmail">Enter your User ID or Email</label>
-          <input
-            type="text"
-            id="idOrEmail"
-            name="idOrEmail"
-            required
-            value="<%= typeof idOrEmail !== 'undefined' ? idOrEmail : '' %>"
-            placeholder="User ID or Email"
-          />
-        </div>
-
-        <% if (user) { %>
+      <% if (user) { %>
         <div class="input-group">
           <label for="password">New Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            required
-            placeholder="Enter new password"
-          />
+          <input type="password" id="password" name="password" required placeholder="Enter new password" />
         </div>
 
         <div class="input-group">
           <label for="copyPassword">Re-enter New Password</label>
-          <input
-            type="password"
-            id="copyPassword"
-            name="copyPassword"
-            required
-            placeholder="Re-enter password"
-          />
+          <input type="password" id="copyPassword" name="copyPassword" required placeholder="Re-enter password" />
         </div>
         <% } %>
 
-        <button type="submit" class="submit-btn">
-          <% if (user) { %>Reset Password<% } else { %>Verify ID or Email<% } %>
-        </button>
-      </form>
-    </div>
-  </body>
+          <button type="submit" class="submit-btn">
+            <% if (user) { %>Reset Password<% } else { %>Verify ID or Email<% } %>
+          </button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.querySelector( 'form' );
+    const idOrEmailInput = document.getElementById( 'idOrEmail' );
+    const passwordInput = document.getElementById( 'password' );
+    const copyPasswordInput = document.getElementById( 'copyPassword' );
+
+    // Show error below input
+    function showError ( input, message ) {
+      let errorElem = input.nextElementSibling;
+      if ( !errorElem || !errorElem.classList.contains( 'error-message' ) ) {
+        errorElem = document.createElement( 'div' );
+        errorElem.classList.add( 'error-message' );
+        input.parentNode.appendChild( errorElem );
+      }
+      errorElem.innerText = message;
+      input.style.borderColor = 'red';
+    }
+
+    // Clear error
+    function clearError ( input ) {
+      let errorElem = input.nextElementSibling;
+      if ( errorElem && errorElem.classList.contains( 'error-message' ) ) {
+        errorElem.innerText = '';
+      }
+      input.style.borderColor = '#ccc';
+    }
+
+    // Regex rules
+    const regexRules = {
+      email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,  // Standard email
+      userId: /^[A-Z0-9]{5}$/,                                     // Exactly 5 chars, uppercase letters or digits
+      password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/ // 8+ chars, upper+lower+digit+special
+    };
+
+    form.addEventListener( 'submit', function ( e ) {
+      let isValid = true;
+
+      const idOrEmail = idOrEmailInput.value.trim();
+
+      // Validate User ID OR Email
+      if ( !regexRules.email.test( idOrEmail ) && !regexRules.userId.test( idOrEmail ) ) {
+        showError( idOrEmailInput, "Enter a valid User ID (exactly 5 uppercase letters/digits) or Email." );
+        isValid = false;
+      } else {
+        clearError( idOrEmailInput );
+      }
+
+      // Validate password fields if they exist
+      if ( passwordInput ) {
+        const password = passwordInput.value;
+        const confirmPassword = copyPasswordInput.value;
+
+        if ( !regexRules.password.test( password ) ) {
+          showError( passwordInput, "Password must be at least 8 characters, include uppercase, lowercase, number & special character." );
+          isValid = false;
+        } else {
+          clearError( passwordInput );
+        }
+
+        if ( password !== confirmPassword ) {
+          showError( copyPasswordInput, "Passwords do not match." );
+          isValid = false;
+        } else {
+          clearError( copyPasswordInput );
+        }
+      }
+
+      if ( !isValid ) {
+        e.preventDefault(); // Stop submission if invalid
+      }
+    } );
+  </script>
+
+
+</body>
+
 </html>

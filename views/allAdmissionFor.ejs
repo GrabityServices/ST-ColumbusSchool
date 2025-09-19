@@ -1,194 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admission Forms</title>
-    <style>
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admission Forms Request</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: url('/images/upload-bg-image.png') no-repeat center center/cover;
+      padding: 2rem;
+    }
+
+    h2 {
+      text-align: center;
+      color: #fff;
+      margin-bottom: 1.5rem;
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    }
+
+    thead {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    th, td {
+      color: black;
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f1f8ff;
+    }
+
+    tr:nth-child(odd) {
+      background-color: #ffffff;
+    }
+
+    .links-to-take-action{
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+
+    a.action-link {
+      background-color: #007bffc0;
+      padding: 5px;
+      border-radius: 5px;
+      /* color: #ff0000; */
+      text-decoration: none;
+      font-weight: bold;
+      /* margin: 0 5px; */
+    }
+
+    a.action-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
       }
 
-      body {
-        font-family: Arial, sans-serif;
-        padding: 10px;
-        background-color: #f5f5f5;
+      thead tr {
+        display: none;
       }
 
-      .table {
-        width: 100%;
-        border-collapse: collapse;
-        overflow-x: auto;
-      }
-
-      .header,
-      .row {
-        display: flex;
-        flex-wrap: nowrap;
+      tr {
+        margin-bottom: 1rem;
         border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 10px;
+        background-color: rgba(255, 255, 255, 0.9);
       }
 
-      .header {
-        background-color: #333;
-        color: white;
+      td {
+        text-align: left;
+        border: none;
+        padding: 6px 10px;
+        position: relative;
+      }
+
+      td::before {
+        content: attr(data-label);
         font-weight: bold;
+        display: inline-block;
+        width: 120px;
       }
 
-      .cell {
-        flex: 1;
-        padding: 8px;
-        border-right: 1px solid #ccc;
-        text-align: center;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        font-size: 14px;
+      a.action-link {
+        display: block;
+        margin: 2px 0;
       }
+    }
+  </style>
+</head>
 
-      .cell:last-child {
-        border-right: none;
-      }
+<body>
+  <h2><% if(done) {%> Admission Completed <% }else if(supAd){%>  Admission Request (DVRL) <%}else{%>Admission Request (PACR)<%}%></h2>
 
-      .row:nth-child(even) {
-        background-color: #e8f4ff;
-      }
+  <% if (forms && forms.length > 0) { %>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Email</th>
+          <th>Mobile</th>
+          <th>Father</th>
+          <th>Mother</th>
+          <th>Village</th>
+          <th>Town</th>
+          <th>Process ID</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% forms.forEach((form) => { %>
+          <tr>
+            <td data-label="Name"><%= form.name %></td>
+            <td data-label="Age"><%= form.age %></td>
+            <td data-label="Email"><%= form.email %></td>
+            <td data-label="Mobile"><%= form.mobNumber %></td>
+            <td data-label="Father"><%= form.fname %></td>
+            <td data-label="Mother"><%= form.mname %></td>
+            <td data-label="Village"><%= form.add.vill %></td>
+            <td data-label="Town"><%= form.add.town %></td>
+            <td data-label="Process ID"><%= form.processId %></td>
+            <td data-label="Status"><%= form.admissionStatus %></td>
+            <td data-label="Actions" class="links-to-take-action">
+              <a href="https://wa.me/<%= form.mobNumber %>?text=Dear%20<%= form.name %>,%0A%0AYour%20admission%20status%20(Counseling ID <%= form.processId %>)%20has%20been%20updated." target="_blank" class="action-link">WhatsApp</a>
+              <a href="tel:<%= form.mobNumber %>" class="action-link">Call</a>
+              <a href="mailto:<%= form.email %>?subject=Admission Inquiry - <%= form.processId %>&body=Dear Sir/Madam," class="action-link">Mail</a>
+              <a href="/home/admission/updateStatus/CANCEL/<%= form._id %>" class="action-link">Cancel</a>
+              <% if (!supAd) { %>
+                <a href="/home/admission/updateStatus/DVRL/<%= form._id %>" class="action-link">Send To DVRL</a>
+              <% } else { %>
+                <a href="/home/admission/updateStatus/DONE/<%= form._id %>" class="action-link">TICK To DONE</a>
+                <a href="/home/admission/updateStatus/PACR/<%= form._id %>" class="action-link">Send To PACV</a>
+              <% } %>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <p style="text-align:center; color:#fff; text-shadow: 1px 1px 2px #000;">No admission forms available.</p>
+  <% } %>
 
-      .row:nth-child(odd) {
-        background-color: #ffffff;
-      }
-
-      .action-link {
-        color: #007bff;
-        text-decoration: none;
-        font-weight: bold;
-        margin: 0 5px;
-      }
-
-      .action-link:hover {
-        text-decoration: underline;
-      }
-
-      /* Responsive for small screens */
-      @media (max-width: 1423px) {
-        .header,
-        .row {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-
-        .cell {
-          width: 100%;
-          border-right: none;
-          border-bottom: 1px solid #ddd;
-          text-align: left;
-        }
-
-        .cell:last-child {
-          border-bottom: none;
-        }
-      }
-    </style>
-  </head>
-
-  <body>
-    <% if(done){%> <% if (forms && forms.length > 0) { %>
-   
-
-      <!-- Data Rows -->
-      <% forms.forEach((form) => { %>
-      <div class="row">
-        <div class="cell"><%= form.name %></div>
-        <div class="cell"><%= form.age %></div>
-        <div class="cell"><%= form.email %></div>
-        <div class="cell"><%= form.mobNumber %></div>
-        <div class="cell"><%= form.fname %></div>
-        <div class="cell"><%= form.mname %></div>
-        <div class="cell"><%= form.add.vill %></div>
-        <div class="cell"><%= form.add.town %></div>
-        <div class="cell"><%= form.processId %></div>
-        <div class="cell"><%= form.admissionStatus %></div>
-
-        <!-- Actions in one cell -->
-      </div>
-      <% }); %>
-    <% } else { %>
-    <p>No admission forms available.</p>
-    <% } %> <% }else {%> <% if (forms && forms.length > 0) { %>
-    <div class="table">
-      <!-- Header Row -->
-    
-
-      <!-- Data Rows -->
-      <% forms.forEach((form) => { %>
-      <div class="row">
-        <div class="cell"><%= form.name %></div>
-        <div class="cell"><%= form.age %></div>
-        <!-- WhatsApp Link -->
-<div class="cell">
-  <a href="https://wa.me/<%= form.mobNumber %>?text=Dear%20Sir/Madam,%0A%0AI%20would%20like%20to%20inquire%20about%20the%20admission%20status%20for%20the%20student%20<%= form.name %>,%20son/daughter%20of%20<%= form.fname %>.%0AThe%20counseling%20ID%20is%20<%= form.processId %>.%0A%0ARegards." target="_blank">WhatsApp <%= form.mobNumber %></a>
-</div>
-
-        <div class="cell"><a href="tel:<%= form.mobNumber %>">Call <%= form.mobNumber %></a></div>
-<div class="cell">
-
-        <a href="mailto:<%= form.email %>?subject=Admission Inquiry - Counseling ID <%= form.processId %>&body=Dear Sir/Madam,%0D%0A%0D%0AI would like to inquire about the admission status for the student <%= form.studentName %>, son/daughter of <%= form.fatherName %>. The counseling ID is <%= form.processId %>.%0D%0A%0D%0ARegards,">Mail <%= form.email %></a>
-</div>
-        <div class="cell"><%= form.fname %></div>
-        <div class="cell"><%= form.mname %></div>
-        <div class="cell"><%= form.add.vill %></div>
-        <div class="cell"><%= form.add.town %></div>
-        <div class="cell"><%= form.processId %></div>
-        <div class="cell"><%= form.admissionStatus %></div>
-
-        <div class="cell">
-  <a href="https://wa.me/<%=form.mobNumber%>?text=Dear%20<%= form.name %>,%0A%0AYour%20admission%20process%20associated%20with%20Counseling%20ID%20<%= form.processId %>%20has%20been%20cancelled.%0AIf%20you%20have%20any%20questions,%20please%20contact%20the%20administration.%0A%0ARegards." target="_blank">
-     Cancel Message
-  </a>
-</div>
-
-        <!-- Actions in one cell -->
-        <div class="cell">
-          <a
-            href="/home/admission/updateStatus/CANCEL/<%= form._id %>"
-            class="action-link"
-          >
-            Cancel
-          </a>
-        </div>
-        <% if (!supAd) { %>
-        <div class="cell">
-          <a
-            href="/home/admission/updateStatus/DVRL/<%= form._id %>"
-            class="action-link"
-          >
-            Update Status
-          </a>
-        </div>
-        
-        <% } else { %>
-        <div class="cell">
-          <a
-            href="/home/admission/updateStatus/DONE/<%= form._id %>"
-            class="action-link"
-          >
-            Update Status
-          </a>
-        </div>
-        <div class="cell">
-          <a
-            href="/home/admission/updateStatus/PACR/<%= form._id %>"
-            class="action-link"
-          >
-            Send Back
-          </a>
-        </div>
-        <% } %>
-      </div>
-      <% }); %>
-    <% } else { %>
-    <p>No admission forms available.</p>
-    <% } %> <%} %>
-  </body>
+</body>
 </html>

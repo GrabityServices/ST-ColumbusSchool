@@ -51,7 +51,7 @@ async function setAdminForm(req, res) {
 async function setAdminFormDet(req, res) {
   const userIs = await Admins.findById(req.params.id);
   const name = req.body.name || userIs.name;
-  const uniqId = req.body.uniqId || userIs.unqId;
+  const unqId = req.body.unqId || userIs.unqId;
   const email = req.body.email || userIs.email;
   const position = req.body.position || userIs.position;
   const age = req.body.age || userIs.age;
@@ -59,7 +59,7 @@ async function setAdminFormDet(req, res) {
   const quli = req.body.quli || userIs.quli;
   const joingDate = req.body.joingDate || userIs.joingDate;
   const newData = {
-    uniqId,
+    unqId,
     name,
     email,
     position,
@@ -69,12 +69,17 @@ async function setAdminFormDet(req, res) {
     joingDate,
   };
 
-  const data = await Admins.findByIdAndUpdate(
+  try{
+    const data = await Admins.findByIdAndUpdate(
     req.params.id,
     { ...newData },
-    { new: true }
+    { new: true ,runValidators:true}
   );
   res.redirect("/stcolumbus/jaj/ekdara/admin#admin");
+  }catch(err){
+    console.log(err)
+    res.redirect("/home/adminUpdate/details/"+req.params.id)
+  }
 }
 
 module.exports = {

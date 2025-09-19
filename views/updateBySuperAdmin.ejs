@@ -2,88 +2,162 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Update Admin</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f3f3f3;
+    * {
+      box-sizing: border-box;
       margin: 0;
-      padding: 40px;
+      padding: 0;
     }
 
-    .form-container {
-      background-color: #fff;
-      max-width: 600px;
-      margin: auto;
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      background: #f9f9f9;
+    }
+
+    .signup-container {
+      background: #fff;
       padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+      max-width: 500px;
+      width: 100%;
     }
 
-    h2 {
+    .signup-container h1 {
       text-align: center;
-      margin-bottom: 25px;
+      margin-bottom: 2rem;
       color: #333;
     }
 
-    label {
+    .input-group {
+      margin-bottom: 18px;
+    }
+
+    .input-group label {
+      font-size: 1.1rem;
       display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-      color: #555;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #444;
     }
 
-    input, select {
+    .input-group input,
+    .input-group select {
       width: 100%;
-      padding: 10px;
-      margin-bottom: 20px;
+      padding: 10px 12px;
       border: 1px solid #ccc;
-      border-radius: 5px;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-family: inherit;
     }
 
-    select[multiple] {
-      height: 100px;
+    .input-group input:focus,
+    .input-group select:focus {
+      border-color: #4285f4;
+      outline: none;
+      box-shadow: 0 0 6px rgba(66, 133, 244, 0.4);
     }
 
-    button {
-      background-color: #4CAF50;
-      color: white;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+    .signup-btn {
       width: 100%;
+      padding: 12px;
+      color: #fff;
+      background-color: #34a853;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
     }
 
-    button:hover {
-      background-color: #45a049;
+    .signup-btn:hover {
+      background-color: #2c8a46;
+    }
+
+    /* Tablet screens */
+    @media (max-width: 1000px) {
+      body {
+        min-height: 80vh;
+      }
+    }
+
+    /* Mobile screens */
+    @media (max-width: 600px) {
+      .signup-container {
+        max-width: 85%;
+        /* Fit mobile width */
+        padding: 15px;
+        /* Reduce padding */
+        border-radius: 8px;
+      }
+
+      .signup-container h1 {
+        font-size: 0.9rem;
+        /* Slightly smaller heading */
+        margin-bottom: 1.2rem;
+      }
+
+      .input-group label {
+        font-size: 0.9rem;
+      }
+
+      .input-group input,
+      .input-group select {
+        font-size: 0.9rem;
+        padding: 8px 10px;
+        /* Smaller padding */
+      }
+
+      .signup-btn {
+        font-size: 14px;
+        padding: 10px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="form-container">
-    <h2>Update Admin Details</h2>
+
+  <div class="signup-container">
+    <h1>Update Admin Details</h1>
     <form action="/stcolumbus/jaj/ekdara/admin/update/det/superadmin/<%=id%>" method="POST">
-      <label for="ftName">Unique Id</label>
-      <input type="text" name="uniqId" id="ftName"  pattern="[A-Z0-9]{5}"/>
-      
-      <label for="role">Role</label>
-      <select name="role" id="role">
-        <option value="" hidden selected></option>
-        <option value="editor">Editor</option>
-        <option value="superadmin">SuperAdmin</option>
-      </select>
 
+      <!-- Unique ID -->
+      <div class="input-group">
+        <label for="uniqId">Unique Id</label>
+        <input type="text" name="uniqId" id="uniqId" pattern="[A-Z0-9]{5}" placeholder="e.g. ABC12" />
+      </div>
 
-      <label for="activeness">Activeness</label>
-      <select name="blocked" id="activeness">
-        <option value="" hidden selected></option>
-        <option value="true">Non Active</option>
-        <option value="false" >Active</option>
-      </select>
-      <button type="submit">Update Admin</button>
+      <!-- Role -->
+      <div class="input-group">
+        <label for="role">Role</label>
+        <select name="role" id="role">
+          <option value="" hidden selected>Select role</option>
+          <option value="editor">Editor</option>
+          <option value="superadmin">SuperAdmin</option>
+        </select>
+      </div>
+
+      <!-- Status -->
+      <div class="input-group">
+        <label for="activeness">Status</label>
+        <select name="blocked" id="activeness">
+          <option value="" hidden selected>Select status</option>
+          <option value="false">Active</option>
+          <option value="true">Inactive</option>
+        </select>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="signup-btn">Update Admin</button>
     </form>
   </div>
+  
 </body>
 </html>

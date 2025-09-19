@@ -1,62 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <h1><%= id %></h1>
-    <form action="/home/adminUpdate/details/<%= id%>" method="post">
-      <input
-        type="text"
-        name="uniqId"
-        placeholder="Unique ID"
-        pattern="[a-zA-Z0-9]{3,30}"
-        title="Unique ID should be alphanumeric and between 3 to 30 characters"
-        maxlength="30"
-        minlength="3"
-      />
-      <br />
-      <input type="email" name="email" placeholder="Email"  />
-      <br />
-      <input
-        type="text"
-        name="name"
-        placeholder="Name"
-        minlength="3"
-        maxlength="30"
-        title="Name should be between 3 to 30 characters"
-      />
-      <br />
-      <input
-        type="text"
-        name="position"
-        placeholder="Position"
-        pattern="[a-zA-Z]{3,30}"
-        title="Position should be alphabets and between 3 to 30 characters"
-      />
-      <br />
-      <br />
-      <select name="gender">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Update Form</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+
+    body {
+      background: #f4f6f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+      margin-inline: 1rem;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-bottom: 5px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    input,
+    select,
+    button {
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: 0.3s ease;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
+    }
+
+    select {
+      background: #fff;
+    }
+
+    button {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 12px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    @media (max-width: 800px) {
+      body {
+        min-height: 95vh;
+      }
+
+      .container {
+        padding: .7rem;
+      }
+
+      h1 {
+        font-size: 1.3rem;
+      }
+
+      input,
+      select,
+      button {
+        margin-bottom: 5px;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Update Faculty Leadership Details</h1>
+    <form action="/home/adminUpdate/details/<%= id %>" method="post">
+
+      <label for="uniqId">Unique ID</label>
+      <input type="text" id="uniqId" name="unqId" placeholder="Unique ID" pattern="[a-zA-Z0-9]{3,30}"
+        title="Unique ID should be alphanumeric and between 3 to 30 characters" maxlength="30" minlength="3" />
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="Email" />
+
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" placeholder="Name" minlength="3" maxlength="30"
+        title="Name should be between 3 to 30 characters" />
+
+      <label for="position">Position</label>
+      <input type="text" id="position" name="position" placeholder="Position" pattern="[a-zA-Z ]{3,30}"
+        title="Position should only contain alphabets and spaces, 3–30 characters" />
+
+      <label for="gender">Gender</label>
+      <select id="gender" name="gender">
         <option value="">Select Gender</option>
         <option value="male">Male</option>
         <option value="female">Female</option>
         <option value="others">Others</option>
       </select>
-      <br />
-      <input
-        type="text"
-        name="quli"
-        placeholder="Qualification"
-        maxlength="30"
-      />
-      <br />
-      <input type="number" name="age" placeholder="Age" min="20" max="120" />
-      <br />
-      <input type="date" name="joingDate" value="2002-01-10" />
-      <br />
+
+      <label for="quli">Qualification</label>
+      <input type="text" id="quli" name="quli" placeholder="Qualification" maxlength="30" />
+
+      <label for="age">Age</label>
+      <input type="number" id="age" name="age" placeholder="Age" min="20" max="120" />
+
+      <label for="joingDate">Joining Date</label>
+      <input type="date" id="joingDate" name="joingDate"  />
+
       <button type="submit">Save</button>
     </form>
-  </body>
+  </div>
+  <script>
+    // Regex rules
+    const regexRules = {
+      uniqId: /^[a-zA-Z0-9]{5}$/,           // Alphanumeric, 3–30 chars
+      email: /^(?=.{1,35}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,35}$/, // Valid email
+      name: /^[A-Za-z ]{3,30}$/,               // Letters + spaces, 3–30 chars
+      position: /^[A-Za-z ]{3,30}$/,           // Letters + spaces, 3–30 chars
+      qualification: /^.{0,30}$/,              // Any text up to 30 chars
+      age: /^(1[89]|[2-9][0-9]|1[01][0-9]|120)$/, // Age 20–120
+    };
+
+    const form = document.querySelector( "form" );
+
+    function validateField ( field, regex ) {
+      const value = field.value.trim();
+      if ( value === "" ) {
+        // Field is optional → no error
+        field.style.borderColor = "#ccc";
+        return true;
+      }
+
+      if ( !regex.test( value ) ) {
+        field.style.borderColor = "red";
+        return false;
+      } else {
+        field.style.borderColor = "green";
+        return true;
+      }
+    }
+
+    form.addEventListener( "submit", function ( e ) {
+      let isValid = true;
+
+      isValid &= validateField( document.getElementById( "uniqId" ), regexRules.uniqId );
+      isValid &= validateField( document.getElementById( "email" ), regexRules.email );
+      isValid &= validateField( document.getElementById( "name" ), regexRules.name );
+      isValid &= validateField( document.getElementById( "position" ), regexRules.position );
+      isValid &= validateField( document.getElementById( "quli" ), regexRules.qualification );
+      isValid &= validateField( document.getElementById( "age" ), regexRules.age );
+
+      if ( !isValid ) {
+        e.preventDefault(); // stop form submission
+        alert( "Please correct the highlighted fields before submitting." );
+      }
+    } );
+
+    // Real-time validation
+    document.querySelectorAll( "input" ).forEach( ( input ) => {
+      input.addEventListener( "input", () => {
+        const rule = regexRules[ input.id ];
+        if ( rule ) validateField( input, rule );
+      } );
+    } );
+  </script>
+
+</body>
+
 </html>

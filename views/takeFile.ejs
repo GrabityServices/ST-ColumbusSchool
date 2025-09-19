@@ -1,109 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <style>
-      input{
-        color: red;
-        font-size: 20px;
-      }
-      h1{
-        color: green;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- adminUpdate -->
-    <% if(adminUpdate){%>
-    <h1>admin For Web <%= id %></h1>
-    <form
-      action="/home/adminUpdate/<%= id%>"
-      method="post"
-      enctype="multipart/form-data"
-    >
-      <input type="file" required name="img" accept="image/*" />
-      <br />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Update Image</title>
+  <link rel="stylesheet" href="/style/takeFile.css">
+</head>
+<body>
 
-      <button type="submit">Save</button>
-    </form>
-    <!-- userAdminUpdate -->
-    <%} else if(userAdminUpdate){%>
-    <h1>user Admin <%= id %></h1>
-    <form
-      id="uploadForm"
-      action="/stcolumbus/jaj/ekdara/admin/update/img/<%= id %>"
-      method="post"
-      enctype="multipart/form-data"
-    >
-      <input
-        type="file"
-        required
-        name="img"
-        accept=".jpg, .jpeg, .png"
-        id="imgInput"
-      />
-      <br />
+  <% if (adminUpdate) { %>
+    <div class="card">
+      <h1>Upload File</h1>
+      <form class="upload-form" enctype="multipart/form-data" action="/home/adminUpdate/<%= id %>" method="post">
+        <label class="upload-box">
+          <img src="/images/icon-upload.svg" alt="upload-icon" id="placeholder-img">
+          <span id="upload-text">Drag and drop or click to upload</span>
+          <input type="file" name="img" accept="image/jpeg, image/png" required />
+        </label>
+        <div class="upload-limit"><img src="/images/icon-info.svg" alt="upload-limit-icon"> Upload your photo (JPG, JPEG, PNG; max size 10MB)</div>
+        <button type="submit">Save</button>
+        <div class="error-message"></div>
+      </form>
+    </div>
 
-      <button type="submit">Save</button>
-    </form>
-    <!-- GalleryUpdate -->
-    <% }else if(galleryUpdate){ %>
-    <h1>gallery <%= id %></h1>
-    <form
-      action="/home/galleryUpdate/<%= id%>"
-      method="post"
-      enctype="multipart/form-data"
-    >
-      <input type="file" required name="img" accept="image/*" />
-      <br />
+  <% } else if (userAdminUpdate) { %>
+    <div class="card">
+      <h1>Upload File</h1>
+      <form class="upload-form" enctype="multipart/form-data" action="/stcolumbus/jaj/ekdara/admin/update/img/<%= id %>" method="post">
+        <label class="upload-box">
+          <img src="/images/icon-upload.svg" alt="upload-icon">
+          <span id="upload-text">Drag and drop or click to upload</span>
+          <input type="file" name="img" accept="image/jpeg, image/png" required />
+        </label>
+        <div class="upload-limit"><img src="/images/icon-info.svg" alt="upload-limit-icon"> Upload your photo (JPG, JPEG, PNG; max size 10MB)</div>
+        <button type="submit">Save</button>
+        <div class="error-message"></div>
+      </form>
+    </div>
 
-      <button type="submit">Save</button>
-    </form>
-    <!-- noticeUpdate -->
-    <%} else if(noticeUpdate){%>
-    <h1>notice <%= id %></h1>
-    <form
-      action="/home/noticeUpdate/<%= id%>"
-      method="post"
-      enctype="multipart/form-data"
-    >
-      <input type="file" required name="img" accept="image/*" />
-      <br />
+  <% } else if (galleryUpdate) { %>
+    <div class="card">
+      <h1>Upload File</h1>
+      <form class="upload-form" enctype="multipart/form-data" action="/home/galleryUpdate/<%= id %>" method="post">
+        <label class="upload-box">
+          <img src="/images/icon-upload.svg" alt="upload-icon" id="placeholder-img">
+          <span id="upload-text">Drag and drop or click to upload</span>
+          <input type="file" name="img" accept="image/jpeg, image/png" required />
+        </label>
+        <div class="upload-limit"><img src="/images/icon-info.svg" alt="upload-limit-icon"> Upload your photo (JPG, JPEG, PNG; max size 10MB)</div>
+        <button type="submit">Save</button>
+        <div class="error-message"></div>
+      </form>
+    </div>
 
-      <button type="submit">Save</button>
-    </form>
-    <% } else{%>
+  <% } else if (noticeUpdate) { %>
+    <div class="card">
+      <h1>Upload File</h1>
+      <form class="upload-form" enctype="multipart/form-data" action="/home/noticeUpdate/<%= id %>" method="post">
+        <label class="upload-box">
+          <img src="/images/icon-upload.svg" alt="upload-icon" id="placeholder-img">
+          <span id="upload-text">Drag and drop or click to upload</span><!-- ✅ keep the name="img" so backend matches -->
+          <input type="file" name="img" accept="application/pdf,image/jpeg,image/png" required />
+        </label>
+        <div class="upload-limit">
+          <img src="/images/icon-info.svg" alt="upload-limit-icon">Upload your file (PDF, JPG, JPEG, PNG; max size 10MB)</div>
+        <button type="submit">Save</button>
+        <div class="error-message"></div>
+      </form>
+    </div>
 
-    <h1>No file need</h1>
-    <% } %>
+  <% } else { %>
+    <h1>No file needs to be uploaded</h1>
+  <% } %>
 
-    <!-- script file -->
-      <script>
-      document
-        .getElementById("uploadForm")
-        .addEventListener("submit", function (e) {
-          const fileInput = document.getElementById("imgInput");
-          const file = fileInput.files[0];
+  <script>
+    const forms = document.querySelectorAll( '.upload-form' );
 
-          if (!file) return;
+forms.forEach( form => {
+    const fileInput = form.querySelector( 'input[type="file"]' );
+    const errorMessage = form.querySelector( '.error-message' );
+    const uploadBox = form.querySelector( '.upload-box' );
+    const uploadText = uploadBox.querySelector( '#upload-text' );
 
-          const validTypes = ["image/jpeg", "image/png", "image/jpg"];
-          const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+    // Drag & drop
+    uploadBox.addEventListener( 'dragover', e => {
+        e.preventDefault();
+        uploadBox.style.backgroundColor = 'rgba(194,194,194,0.25)';
+    } );
 
-          if (!validTypes.includes(file.type)) {
-            alert("Only JPG, JPEG, or PNG files are allowed.");
+    uploadBox.addEventListener( 'dragleave', e => {
+        e.preventDefault();
+        uploadBox.style.backgroundColor = 'rgba(194,194,194,0.15)';
+    } );
+
+    uploadBox.addEventListener( 'drop', e => {
+        e.preventDefault();
+        fileInput.files = e.dataTransfer.files;
+        showFileName( fileInput.files[ 0 ] );
+    } );
+
+    // Show file name when file is selected
+    fileInput.addEventListener( 'change', () => {
+        showFileName( fileInput.files[ 0 ] );
+    } );
+
+    function showFileName ( file ) {
+        if ( !file ) return;
+        uploadText.textContent = file.name;
+    }
+
+    // Form validation
+    form.addEventListener( 'submit', function ( e ) {
+        errorMessage.innerText = '';
+        const file = fileInput.files[ 0 ];
+
+        if ( !file ) {
+            errorMessage.innerText = 'Please select a file.';
             e.preventDefault();
             return;
-          }
+        }
 
-          if (file.size > maxSize) {
-            alert("File size must not exceed 10MB.");
+        // Check if this is the noticeUpdate form
+        const isNoticeUpdate = form.action.includes( '/home/noticeUpdate/' );
+
+        // Allowed file types
+        let validTypes;
+        if ( isNoticeUpdate ) {
+            validTypes = [ "application/pdf", "image/jpeg", "image/png", "image/jpg" ];
+        } else {
+            validTypes = [ "image/jpeg", "image/png", "image/jpg" ];
+        }
+
+        const maxSize = 10 * 1024 * 1024; // 10MB
+
+        if ( !validTypes.includes( file.type ) ) {
+            errorMessage.innerText = isNoticeUpdate
+                ? 'Only PDF, JPG, JPEG, or PNG files are allowed.'
+                : 'Only JPG, JPEG, or PNG files are allowed.';
             e.preventDefault();
             return;
-          }
-        });
-    </script>
-  </body>
+        }
+
+        if ( file.size > maxSize ) {
+            errorMessage.innerText = 'File size must not exceed 10MB.';
+            e.preventDefault();
+            return;
+        }
+    } );
+} );
+
+  </script>
+
+</body>
 </html>
