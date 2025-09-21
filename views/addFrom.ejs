@@ -1,310 +1,293 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Admission Form</title>
+<html lang="en">
 
-    <script>
-      function validateForm() {
-        const mob = document.getElementById("mobNumber").value;
-        const pin = document.getElementById("pincode").value;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admission Form</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        if (!/^\d{10}$/.test(mob)) {
-          alert("Mobile number must be exactly 10 digits.");
-          return false;
-        }
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f0f4ff, #d9e4ff);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 2rem;
+    }
 
-        if (!/^\d{6}$/.test(pin)) {
-          alert("Pincode must be exactly 6 digits.");
-          return false;
-        }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+    }
 
-        return true;
-      }
-    </script>
-    <style>
-      /* Basic Reset */
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
+    form {
+      background: #ffffff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      max-width: 650px;
+    }
 
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: #34495e;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 0.65rem 1rem;
+      margin-bottom: 0.3rem;
+      border: 2px solid #bdc3c7;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      outline: none;
+      background: #f8f9fb;
+      color: #2c3e50;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #2980b9;
+      box-shadow: 0 0 8px #2980b9aa;
+      background: #ffffff;
+    }
+
+    input.error {
+      border-color: #e74c3c;
+      background: #fdecea;
+    }
+
+    .error-msg {
+      font-size: 0.9rem;
+      color: #e74c3c;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    input[readonly] {
+      background: #e9ecef;
+      cursor: not-allowed;
+      border-color: #ced4da;
+      color: #6c757d;
+    }
+
+    .form-section {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e3e6f0;
+    }
+
+    .form-section h3 {
+      margin-bottom: 1rem;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.85rem;
+      background: linear-gradient(135deg, #2980b9, #6dd5fa);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      box-shadow: 0 6px 15px rgba(41, 128, 185, 0.5);
+      margin-top: 0.5rem;
+    }
+
+    button:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 20px rgba(41, 128, 185, 0.6);
+    }
+
+    /* Responsive */
+    /* Enhanced Responsive for Phones */
+    @media (max-width: 600px) {
       body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #f0f4ff, #d9e4ff);
-        min-height: 100vh;
-        padding: 2rem;
-        animation: fadeIn 1s ease forwards;
-      }
-
-      h1 {
-        text-align: center;
-        color: #2c3e50;
-        margin-bottom: 2rem;
-        font-weight: 700;
-        letter-spacing: 1.2px;
-      }
-
-      .cent{
-        width: 100%;
-        display: flex;
+        padding: 1rem;
         align-items: center;
-        justify-content: center;
+        /* Center form vertically for small screens */
       }
 
       form {
-        transform: translate(-50%, -50%);
-        background: #ffffff;
-        padding: 2.5rem 3rem;
-        border-radius: 12px;
-        box-shadow: 0 15px 30px rgba(46, 61, 73, 0.15);
+        padding: 1rem;
         width: 100%;
-        max-width: 600px;
-        animation: slideUp 0.6s ease forwards;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
       }
 
       label {
-        display: block;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        color: #34495e;
-        transition: color 0.3s ease;
+        font-size: 0.9rem;
       }
 
-      input[type="text"],
-      input[type="number"],
-      input[type="email"],
-      input[type="tel"],
+      input,
       select {
-        width: 100%;
-        padding: 0.65rem 1rem;
-        margin-bottom: 1.5rem;
-        border: 2px solid #bdc3c7;
-        border-radius: 8px;
-        font-size: 1rem;
-        transition: border-color 0.4s ease, box-shadow 0.4s ease;
-        outline: none;
-        background: #f8f9fb;
-        color: #2c3e50;
-      }
-
-      input[type="text"]:focus,
-      input[type="number"]:focus,
-      input[type="email"]:focus,
-      input[type="tel"]:focus,
-      select:focus {
-        border-color: #2980b9;
-        box-shadow: 0 0 8px #2980b9aa;
-        background: #ffffff;
-      }
-
-      input[readonly] {
-        background: #e9ecef;
-        cursor: not-allowed;
-        border-color: #ced4da;
-        color: #6c757d;
-      }
-
-      .form-section {
-        margin-bottom: 2rem;
-        padding-bottom: 1.5rem;
-        border-bottom: 1px solid #e3e6f0;
-      }
-
-      .form-section h3 {
-        margin-bottom: 1.2rem;
-        font-weight: 700;
-        color: #2c3e50;
-        letter-spacing: 0.8px;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
       }
 
       button {
-        width: 100%;
-        padding: 0.85rem 0;
-        background: linear-gradient(135deg, #2980b9, #6dd5fa);
-        border: none;
-        border-radius: 10px;
-        color: #fff;
-        font-size: 1.2rem;
-        font-weight: 700;
-        cursor: pointer;
-        box-shadow: 0 6px 15px rgba(41, 128, 185, 0.5);
-        transition: background 0.4s ease, box-shadow 0.4s ease,
-          transform 0.2s ease;
+        padding: 0.7rem;
+        font-size: 1rem;
       }
 
-      button:hover {
-        background: linear-gradient(135deg, #1c5980, #4bb2e9);
-        box-shadow: 0 8px 20px rgba(28, 89, 128, 0.7);
-        transform: translateY(-3px);
+      .form-section h3 {
+        font-size: 1rem;
       }
+    }
+  </style>
+</head>
 
-      button:active {
-        transform: translateY(0);
-        box-shadow: 0 5px 13px rgba(28, 89, 128, 0.5);
-      }
-
-      /* Animations */
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      @keyframes slideUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      /* Responsive tweak */
-      @media (max-width: 480px) {
-        form {
-          padding: 1.8rem 1.5rem;
-        }
-      }
-    </style>
-  </head>
-  <body>
+<body>
+  <form action="/admission/form" method="POST" onsubmit="return validateForm(event)">
     <h1>Admission Form</h1>
 
-    <div class="cent">
-      <form action="/admission/form" method="POST" onsubmit="return validateForm()">
-        <label for="name">Full Name</label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          required
-          minlength="3"
-          maxlength="60"
-        />
+    <label for="name">Full Name</label>
+    <input type="text" id="name" name="name" required />
+    <div id="name-error" class="error-msg"></div>
 
-        <label for="age">Age</label>
-        <input type="number" name="age" id="age" required min="3" max="100" />
+    <label for="age">Age</label>
+    <input type="number" id="age" name="age" required />
+    <div id="age-error" class="error-msg"></div>
 
-        <label for="email">Student's Email</label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          required
-          minlength="6"
-          maxlength="40"
-        />
+    <label for="email">Student's Email</label>
+    <input type="email" id="email" name="email" required />
+    <div id="email-error" class="error-msg"></div>
 
-        <label for="fname">Father's Name</label>
-        <input
-          type="text"
-          name="fname"
-          id="fname"
-          required
-          minlength="3"
-          maxlength="60"
-        />
+    <label for="fname">Father's Name</label>
+    <input type="text" id="fname" name="fname" required />
+    <div id="fname-error" class="error-msg"></div>
 
-        <label for="mobNumber">Father's Mobile Number</label>
-        <input type="tel" name="mobNumber" id="mobNumber" required />
+    <label for="mobNumber">Father's Mobile Number</label>
+    <input type="tel" id="mobNumber" name="mobNumber" required />
+    <div id="mobNumber-error" class="error-msg"></div>
 
-        <label for="mname">Mother's Name</label>
-        <input
-          type="text"
-          name="mname"
-          id="mname"
-          required
-          minlength="3"
-          maxlength="60"
-        />
+    <label for="mname">Mother's Name</label>
+    <input type="text" id="mname" name="mname" required />
+    <div id="mname-error" class="error-msg"></div>
 
-        <div class="form-section">
-          <h3>Address</h3>
+    <div class="form-section">
+      <h3>Address</h3>
 
-          <label for="vill">Village</label>
-          <input
-            type="text"
-            name="addv"
-            id="vill"
-            required
-            minlength="3"
-            maxlength="60"
-          />
+      <label for="vill">Village</label>
+      <input type="text" id="vill" name="addv" required />
+      <div id="vill-error" class="error-msg"></div>
 
-          <label for="town">Town</label>
-          <input
-            type="text"
-            name="addt"
-            id="town"
-            required
-            minlength="3"
-            maxlength="60"
-          />
+      <label for="town">Town</label>
+      <input type="text" id="town" name="addt" required />
+      <div id="town-error" class="error-msg"></div>
 
-          <label for="dist">District</label>
-          <input
-            type="text"
-            name="addd"
-            id="dist"
-            value="JAMUI"
-            required
-            minlength="3"
-            maxlength="60"
-            readonly
-          />
+      <label for="dist">District</label>
+      <input type="text" id="dist" name="addd" value="JAMUI" readonly />
 
-          <label for="state">State</label>
-          <input
-            type="text"
-            name="adds"
-            id="state"
-            value="BIHAR"
-            required
-            minlength="3"
-            maxlength="60"
-            readonly
-          />
+      <label for="state">State</label>
+      <input type="text" id="state" name="adds" value="BIHAR" readonly />
 
-          <label for="pincode">Pincode</label>
-          <input
-            type="text"
-            name="addp"
-            id="pincode"
-            value="811308"
-            required
-            minlength="6"
-            f
-            maxlength="6"
-            readonly
-          />
-        </div>
-
-        <label for="forClass">Class Applying For</label>
-        <select name="forClass" id="forClass" required>
-          <option value="LKG">LKG</option>
-          <option value="UKG">UKG</option>
-          <option value="NUR">NUR</option>
-          <option value="1ST">1ST</option>
-          <option value="2ND">2ND</option>
-          <option value="3RD">3RD</option>
-          <option value="4TH">4TH</option>
-          <option value="5TH">5TH</option>
-          <option value="6TH">6TH</option>
-          <option value="7TH">7TH</option>
-          <option value="8TH">8TH</option>
-          <option value="9TH">9TH</option>
-          <option value="10TH">10TH</option>
-        </select>
-        <br />
-
-        <button type="submit">Submit</button>
-      </form>
+      <label for="pincode">Pincode</label>
+      <input type="text" id="pincode" name="addp" value="811308" readonly />
     </div>
-  </body>
+
+    <label for="forClass">Class Applying For</label>
+    <select id="forClass" name="forClass" required>
+      <option value="">-- Select Class --</option>
+      <option value="LKG">LKG</option>
+      <option value="UKG">UKG</option>
+      <option value="NUR">NUR</option>
+      <option value="1ST">1ST</option>
+      <option value="2ND">2ND</option>
+      <option value="3RD">3RD</option>
+      <option value="4TH">4TH</option>
+      <option value="5TH">5TH</option>
+      <option value="6TH">6TH</option>
+      <option value="7TH">7TH</option>
+      <option value="8TH">8TH</option>
+      <option value="9TH">9TH</option>
+      <option value="10TH">10TH</option>
+    </select>
+    <div id="forClass-error" class="error-msg"></div>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    const regexRules = {
+      name: /^[A-Za-z\s]{3,40}$/,        // letters + spaces
+      email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/, // email
+      mobNumber: /^[6-9]\d{9}$/,         // 10 digits starting 6-9
+    };
+
+    function validateForm ( event ) {
+      let isValid = true;
+
+      // clear previous errors
+      document.querySelectorAll( ".error-msg" ).forEach( msg => {
+        msg.innerText = '';
+        msg.style.display = 'none';
+      } );
+      document.querySelectorAll( "input, select" ).forEach( inp => inp.classList.remove( "error" ) );
+
+      function showError ( id, msg ) {
+        const elem = document.getElementById( id );
+        elem.classList.add( 'error' );
+        const err = document.getElementById( id + '-error' );
+        err.innerText = msg;
+        err.style.display = 'block';
+        isValid = false;
+      }
+
+      // Name validation
+      if ( !regexRules.name.test( document.getElementById( 'name' ).value.trim() ) ) {
+        showError( 'name', 'Full name must be 3–40 letters.' );
+      }
+      if ( !regexRules.name.test( document.getElementById( 'fname' ).value.trim() ) ) {
+        showError( 'fname', "Father's name must be 3–40 letters." );
+      }
+      if ( !regexRules.name.test( document.getElementById( 'mname' ).value.trim() ) ) {
+        showError( 'mname', "Mother's name must be 3–40 letters." );
+      }
+
+      // Age
+      const age = Number( document.getElementById( 'age' ).value );
+      if ( age < 3 || age > 100 ) showError( 'age', 'Age must be between 3 and 100.' );
+
+      // Email
+      const email = document.getElementById( 'email' ).value.trim();
+      if ( !regexRules.email.test( email ) ) showError( 'email', 'Enter a valid email address.' );
+
+      // Mobile
+      const mob = document.getElementById( 'mobNumber' ).value.trim();
+      if ( !regexRules.mobNumber.test( mob ) ) showError( 'mobNumber', 'Mobile must be 10 digits.' );
+
+      // Class
+      if ( !document.getElementById( 'forClass' ).value ) showError( 'forClass', 'Please select a class.' );
+
+      if ( !isValid ) event.preventDefault();
+      return isValid;
+    }
+  </script>
+</body>
+
 </html>

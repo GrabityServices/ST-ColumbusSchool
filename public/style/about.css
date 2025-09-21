@@ -13,7 +13,7 @@ body {
 }
 
 main {
-    background-color: #000;
+    background-color: #000000;
 }
 
 /* CONTAINER AND TYPOGRAPHY */
@@ -490,7 +490,6 @@ footer {
 
     .founders-card-container {
         flex-wrap: wrap;
-        gap: 50px;
     }
 
     .founder-card-image-section {
@@ -585,10 +584,6 @@ footer {
         height: 50%;
     }
 
-    .founders-card-container {
-        gap: 30px;
-    }
-
     .founder-card-image-section {
         max-width: 180px;
         height: auto;
@@ -626,5 +621,10 @@ footer {
     .why-st-image-container {
         grid-template-rows: repeat(1, 130px);
         grid-template-columns: repeat(1, 180px);
+    }
+
+    .about-svg{
+        flex-wrap: wrap;
+        justify-content: center;
     }
 }

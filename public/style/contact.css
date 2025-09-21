@@ -373,6 +373,16 @@ footer {
     .contact-image-cnt {
         padding: 1rem;
     }
+
+    .form-container{
+        margin-top: 50px;
+        width: 90%;
+        gap: 0;
+    }
+
+    #responseMessage{
+        margin-top: 20px;
+    }
 }
 
 @media (max-width: 500px) {

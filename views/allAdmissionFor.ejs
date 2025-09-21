@@ -10,7 +10,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     }
 
     body {
@@ -119,7 +119,7 @@
 </head>
 
 <body>
-  <h2><% if(done) {%> Admission Completed <% }else if(supAd){%>  Admission Request (DVRL) <%}else{%>Admission Request (PACR)<%}%></h2>
+  <h2><% if(done) {%> Admission Completed <% }else if(supAd){%>  Admission Request <%}else{%>Admission Request <%}%></h2>
 
   <% if (forms && forms.length > 0) { %>
     <table>
@@ -157,10 +157,10 @@
               <a href="mailto:<%= form.email %>?subject=Admission Inquiry - <%= form.processId %>&body=Dear Sir/Madam," class="action-link">Mail</a>
               <a href="/home/admission/updateStatus/CANCEL/<%= form._id %>" class="action-link">Cancel</a>
               <% if (!supAd) { %>
-                <a href="/home/admission/updateStatus/DVRL/<%= form._id %>" class="action-link">Send To DVRL</a>
+                <a href="/home/admission/updateStatus/DVRL/<%= form._id %>" class="action-link" title="Send to principle for document verification.">Send for DV</a>
               <% } else { %>
                 <a href="/home/admission/updateStatus/DONE/<%= form._id %>" class="action-link">TICK To DONE</a>
-                <a href="/home/admission/updateStatus/PACR/<%= form._id %>" class="action-link">Send To PACV</a>
+                <a href="/home/admission/updateStatus/PACR/<%= form._id %>" class="action-link" title="Send to pending." >Send To PAC</a>
               <% } %>
             </td>
           </tr>

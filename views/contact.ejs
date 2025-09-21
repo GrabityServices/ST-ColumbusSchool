@@ -72,26 +72,34 @@
             So, please go ahead and ask!
           </h2>
         </div>
-        <form class="form-container" action="/contact" method="post" id="contactForm">
+        <form class="form-container" id="contactForm">
           <div class="input-group">
-            <input class="user-name" type="text" name="name" required placeholder="NAME" />
+            <input class="user-name" type="text" autocomplete="off" name="name" placeholder="NAME" required />
             <span class="error"></span>
           </div>
-
           <div class="input-group">
-            <input class="user-email" type="email" name="email" required placeholder="EMAIL" />
+            <input class="user-email" type="email" autocomplete="off" name="email" placeholder="EMAIL" required />
             <span class="error"></span>
           </div>
-
           <div class="input-group">
-            <textarea class="user-message" name="mess" required placeholder="MESSAGE" rows="5"></textarea>
+            <textarea class="user-message" name="mess" autocomplete="off" placeholder="MESSAGE" rows="5" required></textarea>
             <span class="error"></span>
           </div>
-
-          <!-- Hidden input for location -->
           <input type="hidden" name="location" id="userLocation" />
+          <button type="submit" id="submitBtn">Send message</button>
 
-          <button type="submit">Send message</button>
+          <!-- Loading and success message -->
+          <div id="loading" style="display:none;">
+            <i style="display:inline-block;vertical-align:middle;width:24px;height:24px;">
+              <svg viewBox="0 0 50 50" style="width:100%;height:100%;">
+                <circle cx="25" cy="25" r="20" fill="none" stroke="#3498db" stroke-width="5" stroke-linecap="round"
+                  stroke-dasharray="31.4 94.2">
+                  <animateTransform attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="1s" repeatCount="indefinite" />
+                </circle>
+              </svg>
+            </i>
+          </div>
+          <div id="responseMessage"></div>
         </form>
       </section>
 

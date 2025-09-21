@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -32,8 +33,9 @@
       gap: 1.5rem;
       background-color: #0d57a5c2;
       border-radius: 12px;
-      max-width: 1200px;
-      width: 100%;
+      min-width: 85%;
+      min-height: 75vh;
+      /* width: 100%; */
       padding: 2rem;
       flex-wrap: wrap;
       align-items: center;
@@ -88,7 +90,19 @@
     }
 
     /* Responsive adjustments */
-    @media(max-width: 500px){
+    @media(max-width: 500px) {
+      h1{
+        font-size: 2rem;
+      }
+      
+      body {
+        padding: 0.5rem;
+      }
+
+      .container {
+        padding: 2.5rem 1rem;
+      }
+
       .card {
         padding: 1rem 1.2rem;
       }
@@ -98,53 +112,57 @@
         padding: 0.4rem 0.8rem;
       }
     }
-
-    @media (max-width: 500px) {
-      body{
-        padding: 0.5rem;
-      }
-
-      .container{
-        padding: 1rem;
-      }
-    }
   </style>
 </head>
+
 <body>
   <h1>Contact Requests</h1>
   <div class="container">
     <% if(supAd) { %>
-      <% if(contacts && contacts.length > 0) { %>
-        <% contacts.forEach((contact) => { %>
+      <% if(contacts && contacts.length> 0) { %>
+        <% contacts.forEach((contact)=> { %>
           <div class="card">
-            <p><strong>Name:</strong> <%= contact.name %></p>
-            <p><strong>Email:</strong> <%= contact.email %></p>
-            <p><strong>Message:</strong> <%= contact.mess %></p>
+            <p><strong>Name:</strong>
+              <%= contact.name %>
+            </p>
+            <p><strong>Email:</strong>
+              <%= contact.email %>
+            </p>
+            <p><strong>Message:</strong>
+              <%= contact.mess %>
+            </p>
             <div class="actions">
               <a href="https://www.google.com/search?q=<%= contact.location %>" target="_blank">Search Location</a>
               <a href="/home/contact/delete/<%= contact._id %>">Delete Request</a>
             </div>
           </div>
-        <% }) %>
-      <% } else { %>
-        <div class="no-data">No contact request found</div>
-      <% } %>
-    <% } else { %>
-      <% if(contacts && contacts.length > 0) { %>
-        <% contacts.forEach((contact) => { %>
-          <div class="card">
-            <p><strong>Name: </strong><%= contact.name %></p>
-            <p><strong>Email:</strong> <%= contact.email %></p>
-            <p><strong>Message:</strong> <%= contact.mess %></p>
-            <div class="actions">
-              <a href="/home/contact/updateStatus/CALLED/<%= contact._id %>">Mark as Contacted</a>
-            </div>
-          </div>
-        <% }) %>
-      <% } else { %>
-        <div class="no-data">No contact request found</div>
-      <% } %>
-    <% } %>
+          <% }) %>
+            <% } else { %>
+              <div class="no-data">No contact request found</div>
+              <% } %>
+                <% } else { %>
+                  <% if(contacts && contacts.length> 0) { %>
+                    <% contacts.forEach((contact)=> { %>
+                      <div class="card">
+                        <p><strong>Name: </strong>
+                          <%= contact.name %>
+                        </p>
+                        <p><strong>Email:</strong>
+                          <%= contact.email %>
+                        </p>
+                        <p><strong>Message:</strong>
+                          <%= contact.mess %>
+                        </p>
+                        <div class="actions">
+                          <a href="/home/contact/updateStatus/CALLED/<%= contact._id %>">Mark as Contacted</a>
+                        </div>
+                      </div>
+                      <% }) %>
+                        <% } else { %>
+                          <div class="no-data">No contact request found</div>
+                          <% } %>
+                            <% } %>
   </div>
 </body>
+
 </html>

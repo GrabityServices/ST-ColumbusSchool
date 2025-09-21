@@ -7,36 +7,11 @@ const typed = new Typed( '.heart-text', {
     loop: true
 } )
 
-const slides = document.querySelectorAll( '.slide' );
 const increment = document.querySelector( '.increment' );
 const teacherIncrement = document.querySelector( '.teacher-increment' );
 const school = document.querySelector( '.school' );
 const area = document.querySelector( '.area' );
-let currentIndex = 0;
 
-// For image slider
-function goToSlide ( index ) {
-    slides.forEach( ( slide, i ) => {
-        // Reset animation
-        slide.style.animation = "none";
-        slide.offsetHeight; // force reflow
-        slide.style.animation = "";
-        slide.style.animation = "slide 12s infinite";
-        slide.style.animationDelay = ( ( i - index ) * 3 ) + "s";
-    } );
-}
-
-// Previous button
-document.getElementById( 'prev' ).addEventListener( 'click', () => {
-    currentIndex = ( currentIndex - 1 + slides.length ) % slides.length;
-    goToSlide( currentIndex );
-} );
-
-// Next button
-document.getElementById( 'next' ).addEventListener( 'click', () => {
-    currentIndex = ( currentIndex + 1 ) % slides.length;
-    goToSlide( currentIndex );
-} );
 
 // Number increment for students
 setTimeout( () => {
