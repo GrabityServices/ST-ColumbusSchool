@@ -1,22 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/style/gallery.css" />
-    <script src="/script/gallery.js" defer></script>
-    <title>Gallery</title>
-    <style>
-      .gallery-options {
-        .active {
-          background-color: #0a5e49;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <!-- NAV-->
-    <%- include('index.ejs') %>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/style/gallery.css" />
+  <script src="/script/gallery.js" defer></script>
+  <title>Gallery</title>
+</head>
+
+<body>
+  <!-- NAV-->
+  <%- include('index.ejs') %>
 
     <!-- HEADING -->
     <section class="gallery">
@@ -30,102 +25,102 @@
       </div>
     </section>
 
+    <!-- GALLERY SECTION -->
     <main>
-      <!-- GALLERY OPTIONS -->
       <section class="gallery-heading container">
         <div class="gallery-options">
-          <a href="#all" class="active">All</a>
-          <a href="#abd">Arranged by Date</a>
-          <a href="#abe">Arranged by Event Name</a>
+          <a href="#" class="active" data-filter="all">All</a>
+          <a href="#" data-filter="date">Arranged by Date</a>
+          <a href="#" data-filter="title">Arranged by Event Name</a>
         </div>
 
-        <!-- GALLERY SECTION -->
-
+        <!-- ALL IMAGES (Flat Grid) -->
         <section class="gallery-section all">
-          <% images.forEach(img => {%>
-          <div class="gallery-image-card">
-            <img src="<%= img.img %>" alt="<%= img.title %>" />
-            <div class="gallery-card-inner-text">
-              <h3><%= img.title %></h3>
+          <% // Reverse the array so first image shows last 
+            const allImages=images.slice().reverse();
+            allImages.forEach(img=> {%>
+            <div class="gallery-image-card">
+              <img src="<%= img.img %>" alt="<%= img.title %>" />
+              <div class="gallery-card-inner-text">
+                <h3><%= img.title %></h3>
+              </div>
             </div>
-          </div>
-          <% }); %>
+            <% }); %>
         </section>
 
-        <!-- by date............................... -->
-        <div class="bydate" style="display: none">
-          <% if (typeof images !== 'undefined' && images && images.length > 0) {
-          images = images.sort((a, b) =>
-          a.EventDate.localeCompare(b.EventDate));%> <% let imgArr = []; let prv
-          = ""; images.forEach((img, idx) => { if (prv) { if (prv ==
-          img.EventDate) { imgArr[imgArr.length - 1].push(img); } else { prv =
-          img.EventDate; imgArr.push([img]); } } else { prv = img.EventDate;
-          imgArr.push([img]); } }); %> <% imgArr.forEach((imgs, idx) => { const
-          date = imgs[0].EventDate.split('-'); %>
+        <!-- GROUPED BY DATE -->
+        <section class="gallery-section bydate" style="display: none;">
+          <% if (images && images.length> 0) {
+            // Sort images by EventDate descending (recent first)
+            const sortedByDate = images.slice().sort((a,b) => b.EventDate.localeCompare(a.EventDate));
+            let grouped = {};
+            sortedByDate.forEach(img => {
+            grouped[img.EventDate] = grouped[img.EventDate] || [];
+            grouped[img.EventDate].push(img);
+            });
 
-          <h1
-            style="
-              padding: 1rem 0.5rem;
-              margin-top: 2rem;
-              border-left: 2px solid;
-              border-top: 2px solid;
-              font-size: 2vmax;
-              border-radius: 0 0 0 15px;
-            "
-          >
-            Gallery | <%= `${date[2]}-${date[1]}-${date[0]}` %>
-          </h1>
-          <section class="gallery-section">
-            <% imgs.forEach(img => {%>
-            <div class="gallery-image-card">
-              <img src="<%= img.img %>" alt="<%= img.title %>" />
-              <div class="gallery-card-inner-text">
-                <h3><%= img.title %></h3>
+            // Sort dates descending
+            const dates = Object.keys(grouped).sort((a,b) => b.localeCompare(a));
+
+            dates.forEach(date => {
+            const imgs = grouped[date];
+            const d = date.split('-');
+            %>
+            <div class="gallery-card-group">
+              <h2 class="group-heading">Gallery | <%= `${d[2]}-${d[1]}-${d[0]}` %>
+              </h2>
+              <div class="group-images">
+                <% imgs.reverse().forEach(img=> { %>
+                  <div class="gallery-image-card">
+                    <img src="<%= img.img %>" alt="<%= img.title %>" />
+                    <div class="gallery-card-inner-text">
+                      <h3><%= img.title %></h3>
+                    </div>
+                  </div>
+                  <% }); %>
               </div>
             </div>
-            <% }); %>
-          </section>
-          <% });} %>
-        </div>
+            <% }); } %>
+        </section>
 
-        <div class="byevename" style="display: none">
-          <% if (typeof images !== 'undefined' && images && images.length > 0) {
-          %> <% images = images.sort((a, b) => a.title.localeCompare(b.title));
-          let imgArr = []; let prv = ""; images.forEach((img, idx) => { if (prv)
-          { if (prv == img.title) { imgArr[imgArr.length - 1].push(img); } else
-          { prv = img.title; imgArr.push([img]); } } else { prv = img.title;
-          imgArr.push([img]); } }); %> <% imgArr.forEach((imgs, idx) => { %>
-          <h1
-            style="
-              padding: 1rem 0.5rem;
-              margin-top: 2rem;
-              border-left: 2px solid;
-              border-top: 2px solid;
-              font-size: 2vmax;
-              border-radius: 0 0 0 15px;
-            "
-          >
-            Gallery | <%=imgs[0].title %>
-          </h1>
-          <section class="gallery-section">
-            <% imgs.forEach(img => {%>
-            <div class="gallery-image-card">
-              <img src="<%= img.img %>" alt="<%= img.title %>" />
-              <div class="gallery-card-inner-text">
-                <h3><%= img.title %></h3>
+        <!-- GROUPED BY EVENT NAME -->
+        <section class="gallery-section bytitle" style="display: none;">
+          <% if (images && images.length> 0) {
+            const sortedByTitle = images.slice().sort((a,b) => a.title.localeCompare(b.title));
+            let groupedTitle = {};
+            sortedByTitle.forEach(img => {
+            groupedTitle[img.title] = groupedTitle[img.title] || [];
+            groupedTitle[img.title].push(img);
+            });
+
+            const titles = Object.keys(groupedTitle).sort(); // alphabetically
+            titles.forEach(title => {
+            const imgs = groupedTitle[title];
+            %>
+            <div class="gallery-card-group">
+              <h2 class="group-heading">Gallery | <%= title %>
+              </h2>
+              <div class="group-images">
+                <% imgs.forEach(img=> { %>
+                  <div class="gallery-image-card">
+                    <img src="<%= img.img %>" alt="<%= img.title %>" />
+                    <div class="gallery-card-inner-text">
+                      <h3><%= img.title %></h3>
+                    </div>
+                  </div>
+                  <% }); %>
               </div>
             </div>
-            <% }); %>
-          </section>
-          <% });}%>
-        </div>
-        <!-- IMAGE POPUP  -->
+            <% }); } %>
+        </section>
+
+        <!-- IMAGE POPUP -->
         <div class="popup" id="popup">
           <div class="popup-container">
             <div class="close-btn">
-              <img src="/images/close-icon.svg" alt="close-icon" />
+              <img src="/images/close-icon.svg" alt="close" />
             </div>
-            <div class="pop-up-main-image">
+            <div class="popup-content">
               <img class="popup-img" src="" alt="popup image" />
             </div>
           </div>
@@ -174,11 +169,9 @@
             <p>
               <i class="fas fa-map-marker-alt"></i>
               <a
-                href="https://maps.google.com/?q=St.+Columbus+Public+School,+Ekdara,+Jhajha,+Jamui+811308+(Bihar),+India"
-              >
+                href="https://maps.google.com/?q=St.+Columbus+Public+School,+Ekdara,+Jhajha,+Jamui+811308+(Bihar),+India">
                 St. Columbus Public School, Ekdara, &nbsp; &nbsp;&nbsp; Jhajha,
-                Jamui 811308 (Bihar), India</a
-              >
+                Jamui 811308 (Bihar), India</a>
             </p>
             <p>
               <i class="fas fa-phone"></i>
@@ -187,11 +180,8 @@
             </p>
             <p>
               <i class="fas fa-envelope"></i>
-              <a
-                href="https://mail.google.com/mail/?view=cm&fs=1&to=sudhanshu95084145@gmail.com&su=Hello&body=This%20is%20a%20default%20message"
-                target="_blank"
-                >info@gvpschool.edu.in</a
-              >
+              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sudhanshu95084145@gmail.com&su=Hello&body=This%20is%20a%20default%20message"
+                target="_blank">info@gvpschool.edu.in</a>
             </p>
           </div>
         </div>
@@ -199,12 +189,12 @@
       <p class="copy-right">
         <i class="far fa-copyright"></i> 2025 St. Columbus Public School. All
         rights reserved. | Developed by
-        <a href="https://www.grabityservices.com" target="_blank"
-          >GrabityServices</a>
-          <a id="upArrow" style="margin-left: 20px;color: aliceblue;" href="#upp">&uparrow;</a>
+        <a href="https://www.grabityservices.com" target="_blank">GrabityServices</a>
+        <a id="upArrow" style="margin-left: 20px;color: aliceblue;" href="#upp">&uparrow;</a>
       </p>
     </footer>
 
 
-  </body>
+</body>
+
 </html>

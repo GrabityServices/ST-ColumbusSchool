@@ -3,13 +3,171 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Check Admission Status</title>
+  <style>
+    /* ===== Reset & Base ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url('/images/upload-bg-image.png') no-repeat center center/cover;
+      padding: 1rem;
+    }
+
+    /* ===== Card ===== */
+    .card {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .card h1 {
+      margin-bottom: 1.5rem;
+      color: #222;
+    }
+
+    /* ===== Input Field ===== */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      text-align: left;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: 8px;
+      border: 1.8px solid rgba(0, 0, 0, 0.3);
+      font-size: 1rem;
+      outline: none;
+      transition: border 0.3s, box-shadow 0.3s;
+    }
+
+    .form-input:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 6px rgba(0, 123, 255, 0.25);
+    }
+
+    /* ===== Button ===== */
+    button {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.9rem;
+      border: none;
+      border-radius: 12px;
+      background: #007bff;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.1s;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    /* ===== Error Message ===== */
+    .error-message {
+      margin-top: 0.6rem;
+      font-size: 0.9rem;
+      color: #d9534f;
+      font-weight: 500;
+    }
+
+    @media (max-width: 450px) {
+      body {
+        padding: 0.5rem;
+      }
+
+      .card {
+        padding: 1.2rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <form action="/admission/getEnroll" method="post">
-    <label for="emailOrId">Email Or porcessId</label><br>
-    <input type="text" name="emailorID" placeholder="STC2500000" id="emailOrId" maxlength="40" minlength="10"><br>
-    <button type="submit">Check</button>
-  </form>
+  <div class="card">
+    <h1>Check Admission Status</h1>
+    <form id="statusForm" action="/admission/getEnroll" method="post" novalidate>
+      <div class="form-group">
+        <label for="emailOrId">Email or Process ID</label>
+        <input type="text" class="form-input" name="emailorID" id="emailOrId" placeholder="STC2500000 or example@mail.com" maxlength="40" minlength="10" required>
+        <div class="error-message"></div>
+      </div>
+      <button type="submit">Check</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('statusForm');
+    const emailOrIdInput = document.getElementById('emailOrId');
+    const errorMessage = emailOrIdInput.nextElementSibling;
+
+    // Regex Rules
+    const regexRules = {
+      email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, // email
+      processId: /^STC\d{7,10}$/ // e.g. STC2500000
+    };
+
+    function showError(input, message) {
+      errorMessage.innerText = message;
+      input.style.borderColor = "red";
+    }
+
+    function clearError(input) {
+      errorMessage.innerText = "";
+      input.style.borderColor = "#ccc";
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const value = emailOrIdInput.value.trim();
+      let isValid = false;
+
+      if (value.includes('@')) {
+        if (regexRules.email.test(value)) {
+          isValid = true;
+          clearError(emailOrIdInput);
+        } else {
+          showError(emailOrIdInput, "Enter a valid email address.");
+        }
+      } else {
+        if (regexRules.processId.test(value)) {
+          isValid = true;
+          clearError(emailOrIdInput);
+        } else {
+          showError(emailOrIdInput, "Enter a valid Process ID (e.g. STC2500000).");
+        }
+      }
+
+      if (isValid) {
+        form.submit();
+      }
+    });
+  </script>
 </body>
 </html>

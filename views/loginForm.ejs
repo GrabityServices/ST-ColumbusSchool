@@ -99,6 +99,12 @@
         text-decoration: underline;
       }
 
+      .error-message {
+        color: red;
+        font-size: 0.9rem;
+        margin-top: 5px;
+      }
+
       @media (max-width: 1000px) {
         body {
           min-height: 85vh;
@@ -114,7 +120,7 @@
   <body>
     <div class="login-container">
       <h1>Login</h1>
-      <form action="/stcolumbus/admin/manage/login" method="post">
+      <form id="loginForm" action="/stcolumbus/admin/manage/login" method="post">
         <div class="input-group">
           <label for="idOrEmail">User ID or Email</label>
           <input type="text" id="idOrEmail" name="idOrEmail" required />
@@ -128,15 +134,75 @@
         <button type="submit" class="login-btn">Login</button>
 
         <div class="links">
-          <button
-            type="button"
-            onclick="location.href='/stcolumbus/admin/manage/forgot/pass'"
-            class="link-btn"
-          >
-            Forgot Password?
-          </button>
+          <button type="button" onclick="location.href='/stcolumbus/admin/manage/forgot/pass'" class="link-btn">Forgot Password?</button>
         </div>
       </form>
     </div>
+
+    <script>
+      const form = document.getElementById('loginForm');
+      const idOrEmail = document.getElementById('idOrEmail');
+      const password = document.getElementById('password');
+
+      function showError(input, message) {
+        let errorElem = input.nextElementSibling;
+        if (!errorElem || !errorElem.classList.contains('error-message')) {
+          errorElem = document.createElement('div');
+          errorElem.classList.add('error-message');
+          input.parentNode.appendChild(errorElem);
+        }
+        errorElem.innerText = message;
+        input.style.borderColor = 'red';
+      }
+
+      function clearError(input) {
+        let errorElem = input.nextElementSibling;
+        if (errorElem && errorElem.classList.contains('error-message')) {
+          errorElem.innerText = '';
+        }
+        input.style.borderColor = '#ccc';
+      }
+
+      const regexRules = {
+        userId: /^[A-Z0-9]{5}$/, // 5 uppercase letters/digits
+        email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, // valid email
+        password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/ // min 8 chars, upper+lower+digit+special
+      };
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        let isValid = true;
+        const value = idOrEmail.value.trim();
+
+        // Check if input is email or User ID
+        if (value.includes('@')) {
+          if (!regexRules.email.test(value)) {
+            showError(idOrEmail, "Enter a valid email address.");
+            isValid = false;
+          } else {
+            clearError(idOrEmail);
+          }
+        } else {
+          if (!regexRules.userId.test(value)) {
+            showError(idOrEmail, "User ID must be exactly 5 characters (uppercase letters or digits).");
+            isValid = false;
+          } else {
+            clearError(idOrEmail);
+          }
+        }
+
+        // Password validation
+        if (!regexRules.password.test(password.value)) {
+          showError(password, "Password must be at least 8 characters and include uppercase, lowercase, digit & special character.");
+          isValid = false;
+        } else {
+          clearError(password);
+        }
+
+        if (isValid) {
+          form.submit();
+        }
+      });
+    </script>
   </body>
 </html>

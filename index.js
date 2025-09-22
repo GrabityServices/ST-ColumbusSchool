@@ -76,17 +76,30 @@ app.get("/notice", async (req, res) => {
 app.get("/contact", (req, res) => {
   res.render("contact.ejs");
 });
+
 app.post("/contact", async (req, res) => {
   try {
-    const data = await Contact.create({
-      name: req.body.name,
-      mess: req.body.mess,
-      email: req.body.email,
-      location: req.body.location,
-    });
-    res.redirect("/");
+    const { name, email, mess, location } = req.body;
+
+    // Basic validation
+    if (!name || !email || !mess) {
+      return res.status(400).json({ message: "All fields are required." });
+    }
+
+    // Check if email already submitted
+    const existingContact = await Contact.findOne({ email: email.trim() });
+    if (existingContact) {
+      return res.status(400).json({ message: "This email has already submitted a form." });
+    }
+
+    // Save to DB
+    await Contact.create({ name, email, mess, location });
+
+    // Send success response
+    res.status(200).json({ message: "Message sent successfully!" });
   } catch (err) {
-    res.redirect("/contact");
+    console.error(err);
+    res.status(500).json({ message: "Failed to send message. Please try again." });
   }
 });
 

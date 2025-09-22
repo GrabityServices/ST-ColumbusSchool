@@ -1,101 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ST ColumbusSchool</title>
-    <!-- Icons -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
-      integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <!-- fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Knewave&family=Leckerli+One&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Knewave&family=Leckerli+One&display=swap" rel="stylesheet">
-<!--  -->
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <!-- Styles and Script -->
-    <link rel="stylesheet" href="/style/style.css" />
-    <script src="/script/script.js" defer></script>
-    <link rel="stylesheet" href="/style/home.css" />
-    <script src="/script/home.js" defer></script>
-    <style>
-   
-    </style>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ST ColumbusSchool</title>
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+    integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 
-  <body>
-    <!-- Nav bar -->
-    <%- include('index.ejs') %>
+  <!-- STYLE -->
+  <link rel="stylesheet" href="/style/home.css" />
+
+  <!-- SCRIPT -->
+  <script src="/script/home.js" defer></script>
+  <script src="/script/image-slider.js" defer></script>
+</head>
+<body>
+  <!-- Nav bar -->
+  <%- include('index.ejs') %>
     <!-- write Home page code here -->
 
     <!-- IMAGE SLIDER -->
-    <div class="slider-box">
-      <div class="slider">
-        <div class="slide">
-          <p class="schoolName">ST. COLUMBUS SCHOOL</p>
-          <p class="schooleAdd">Ekdara, Jhajha (811308)</p>
-        </div>
-        <div class="slide">
-          <p class="schoolName">ST. COLUMBUS SCHOOL</p>
-          <p class="schooleAdd">Ekdara, Jhajha (811308)</p>
-        </div>
-        <div class="slide">
-          <p class="schoolName">ST. COLUMBUS SCHOOL</p>
-          <p class="schooleAdd">Ekdara, Jhajha (811308)</p>
-        </div>
-        <div class="slide">
-          <p class="schoolName">ST. COLUMBUS SCHOOL</p>
-          <p class="schooleAdd">Ekdara, Jhajha (811308)</p>
+    <div class="image-container mt-5">
+      <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+        <!-- Indicators -->
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+            aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+            aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+            aria-label="Slide 3"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
+            aria-label="Slide 4"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4"
+            aria-label="Slide 5"></button>
         </div>
 
-        <div class="social-icons">
-          <div class="facebook">
-            <a href="/">
-              <img src="/images/facebook.svg" alt="" />
-            </a>
+        <!-- Slides -->
+        <div class="carousel-inner">
+          <!-- First Slide -->
+          <div class="carousel-item active">
+            <img src="/images/1.jpg" class="d-block w-100 img-fluid" alt="First Slide">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>First Slide Label</h5>
+              <p>This is the first slide caption text.</p>
+            </div>
           </div>
-          <div class="youtube">
-            <a href="/">
-              <img src="/images/youtube.svg" alt="" />
-            </a>
+
+          <!-- Second Slide -->
+          <div class="carousel-item">
+            <img src="/images/2.jpg" class="d-block w-100 img-fluid" alt="Second Slide">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Second Slide Label</h5>
+              <p>This is the second slide caption text.</p>
+            </div>
           </div>
-          <div class="instagram">
-            <a href="/">
-              <img src="/images/instagram.svg" alt="" />
-            </a>
+
+          <!-- Third Slide -->
+          <div class="carousel-item">
+            <img src="/images/3.jpg" class="d-block w-100 img-fluid" alt="Third Slide">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Third Slide Label</h5>
+              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+            </div>
+          </div>
+
+          <!-- Fourth Slide -->
+          <div class="carousel-item">
+            <img src="/images/4.jpg" class="d-block w-100 img-fluid" alt="Third Slide">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Third Slide Label</h5>
+              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+            </div>
+          </div>
+
+          <!-- Fifth Slide -->
+          <div class="carousel-item">
+            <img src="/images/5.jpg" class="d-block w-100 img-fluid" alt="Third Slide">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Third Slide Label</h5>
+              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+            </div>
           </div>
         </div>
 
-        <div class="current-image-position">
-          <div class="image-position-circle">
-            <div class="image-position-circle-inner"></div>
-          </div>
-          <div class="image-position-circle">
-            <div class="image-position-circle-inner"></div>
-          </div>
-          <div class="image-position-circle">
-            <div class="image-position-circle-inner"></div>
-          </div>
-          <div class="image-position-circle">
-            <div class="image-position-circle-inner"></div>
-          </div>
-          <div class="image-position-circle">
-            <div class="image-position-circle-inner"></div>
-          </div>
-        </div>
-
-        <div class="controls">
-          <img src="/images/previous-arrow.svg" id="prev" />
-          <img src="/images/next-arrow.svg" id="next" />
-        </div>
+        <!-- Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden"></span>
+        </button>
       </div>
     </div>
 
@@ -354,71 +356,66 @@
           <div class="second-slide center" data-index="0">
             <div class="second-slider-image-container">
               <img src="<%= gallery&&gallery.length >=1?
-              gallery[0].img:"/images/1.jpg"%>" alt="<%= gallery&&gallery.length
-              >=1? gallery[0].title:"img1"%>">
-              <div class="second-slider-image-inner-text">
-                <h3>
-                  <%= gallery&&gallery.length >=1?
-              gallery[0].title:"Karma"+" Nature"+"Festival"%>
-                </h3>
-              </div>
+              gallery[0].img:" /images/1.jpg"%>" alt="<%= gallery&&gallery.length>=1? gallery[0].title:"img1"%>">
+                <div class="second-slider-image-inner-text">
+                  <h3>
+                    <%= gallery&&gallery.length>=1?
+                      gallery[0].title:"Karma"+" Nature"+"Festival"%>
+                  </h3>
+                </div>
             </div>
           </div>
 
           <div class="second-slide right" data-index="1">
             <div class="second-slider-image-container">
               <img src="<%= gallery&&gallery.length >=2?
-              gallery[1].img:"/images/2.jpg"%>" alt="<%= gallery&&gallery.length
-              >=2? gallery[1].title:"img2"%>">
-              <div class="second-slider-image-inner-text">
-                <h3>
-                  <%= gallery&&gallery.length >=2?
-              gallery[1].title:"Chhath"+"Mahaparv"%>
-                </h3>
-              </div>
+              gallery[1].img:" /images/2.jpg"%>" alt="<%= gallery&&gallery.length>=2? gallery[1].title:"img2"%>">
+                <div class="second-slider-image-inner-text">
+                  <h3>
+                    <%= gallery&&gallery.length>=2?
+                      gallery[1].title:"Chhath"+"Mahaparv"%>
+                  </h3>
+                </div>
             </div>
           </div>
 
           <div class="second-slide leave-right" data-index="2">
             <div class="second-slider-image-container">
               <img src="<%= gallery&&gallery.length >=3?
-              gallery[2].img:"/images/3.jpg"%>" alt="<%= gallery&&gallery.length
-              >=3? gallery[2].title:"img3"%>">
-              <div class="second-slider-image-inner-text">
-                <h3>
-                  <%= gallery&&gallery.length >=3?
-              gallery[2].title:"Durga"+"Puja"%>
-                </h3>
-              </div>
+              gallery[2].img:" /images/3.jpg"%>" alt="<%= gallery&&gallery.length>=3? gallery[2].title:"img3"%>">
+                <div class="second-slider-image-inner-text">
+                  <h3>
+                    <%= gallery&&gallery.length>=3?
+                      gallery[2].title:"Durga"+"Puja"%>
+                  </h3>
+                </div>
             </div>
           </div>
 
           <div class="second-slide leave-right" data-index="3">
             <div class="second-slider-image-container">
               <img src="<%= gallery&&gallery.length >=4?
-              gallery[3].img:"/images/4.jpg"%>" alt="<%= gallery&&gallery.length
-              >=4? gallery[3].title:"img4"%>">
+              gallery[3].img:" /images/4.jpg"%>" alt="<%= gallery&&gallery.length>=4? gallery[3].title:"img4"%>">
 
-              <div class="second-slider-image-inner-text">
-                <h3>
-                  <%= gallery&&gallery.length >=4?
-              gallery[3].title:"Gandhi"+"Jayanti"%>
-                </h3>
-              </div>
+                <div class="second-slider-image-inner-text">
+                  <h3>
+                    <%= gallery&&gallery.length>=4?
+                      gallery[3].title:"Gandhi"+"Jayanti"%>
+                  </h3>
+                </div>
             </div>
           </div>
 
           <div class="second-slide left" data-index="4">
             <div class="second-slider-image-container">
               <img src="<%= gallery&&gallery.length >=5?
-              gallery[4].img:"/images/5.jpg"%>" alt="<%= gallery&&gallery.length
-              >=5? gallery[4].title:"img5"%>">
-              <div class="second-slider-image-inner-text">
-                <h3>
-                  <%= gallery&&gallery.length >=5?
-              gallery[4].title:"15th"+"August"%>
-              </h3>
-              </div>
+              gallery[4].img:" /images/5.jpg"%>" alt="<%= gallery&&gallery.length>=5? gallery[4].title:"img5"%>">
+                <div class="second-slider-image-inner-text">
+                  <h3>
+                    <%= gallery&&gallery.length>=5?
+                      gallery[4].title:"15th"+"August"%>
+                  </h3>
+                </div>
             </div>
           </div>
         </div>
@@ -447,15 +444,23 @@
               <div class="right-first-image">
                 <img src="<%=admins[0].img%>" alt="" />
               </div>
-              <h3><%=admins[0].name %></h3>
-              <p><%= admins[0].position%></p>
+              <h3>
+                <%=admins[0].name %>
+              </h3>
+              <p>
+                <%= admins[0].position%>
+              </p>
             </div>
             <div class="right-second">
               <div class="right-second-image">
                 <img src="<%=admins[1].img%>" alt="" />
               </div>
-              <h3><%=admins[1].name %></h3>
-              <p><%= admins[1].position%></p>
+              <h3>
+                <%=admins[1].name %>
+              </h3>
+              <p>
+                <%= admins[1].position%>
+              </p>
             </div>
           </div>
         </div>
@@ -597,10 +602,9 @@
             <p>
               <i class="fas fa-map-marker-alt"></i>
               <a
-                href="https://maps.google.com/?q=St.+Columbus+Public+School,+Ekdara,+Jhajha,+Jamui+811308+(Bihar),+India"
-                >St. Columbus Public School, Ekdara, &nbsp; &nbsp;&nbsp; Jhajha,
-                Jamui 811308 (Bihar), India</a
-              >
+                href="https://maps.google.com/?q=St.+Columbus+Public+School,+Ekdara,+Jhajha,+Jamui+811308+(Bihar),+India">St.
+                Columbus Public School, Ekdara, &nbsp; &nbsp;&nbsp; Jhajha,
+                Jamui 811308 (Bihar), India</a>
             </p>
             <p>
               <i class="fas fa-phone"></i>
@@ -609,11 +613,8 @@
             </p>
             <p>
               <i class="fas fa-envelope"></i>
-              <a
-                href="https://mail.google.com/mail/?view=cm&fs=1&to=sudhanshu95084145@gmail.com&su=Hello&body=This%20is%20a%20default%20message"
-                target="_blank"
-                >info@gvpschool.edu.in</a
-              >
+              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sudhanshu95084145@gmail.com&su=Hello&body=This%20is%20a%20default%20message"
+                target="_blank">info@gvpschool.edu.in</a>
             </p>
           </div>
         </div>
@@ -626,10 +627,8 @@
       <p class="copy-right">
         <i class="far fa-copyright"></i> 2025 St. Columbus Public School. All
         rights reserved. | Developed by
-        <a href="https://www.grabityservices.com" target="_blank"
-          >GrabityServices</a
-        >
+        <a href="https://www.grabityservices.com" target="_blank">GrabityServices</a>
       </p>
     </footer>
-  </body>
+</body>
 </html>

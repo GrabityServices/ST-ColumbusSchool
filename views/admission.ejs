@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admission</title>
-    <link rel="stylesheet" href="style/admission.css" />
-    <script src="script/admission.js" defer></script>
-  </head>
-  <body>
-    <!-- NAV -->
-    <%- include('index.ejs') %>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admission</title>
+  <link rel="stylesheet" href="style/admission.css" />
+  <script src="script/admission.js" defer></script>
+</head>
+
+<body>
+  <!-- NAV -->
+  <%- include('index.ejs') %>
 
     <!-- HEADING -->
     <section class="admission-container">
@@ -24,6 +26,13 @@
     </section>
 
     <main>
+
+      <!-- Admission Buttons -->
+      <section d="sec"  class="admission-buttons">
+        <a href="/admission/form" class="btn-secondary">EnrollNow</a>
+        <a href="/admission/getEnroll" class="btn-primary">Check Status</a>
+      </section>
+
       <!-- Admission Process -->
       <section class="admission-process container">
         <h2>Admission Process</h2>
@@ -76,101 +85,120 @@
 
       <!-- Fee Structure -->
       <section class="fee-structure container">
-        <% const parts = fees.lastChanged.split(/[- :]/); %>
+        <% const parts=fees.lastChanged.split(/[- :]/); %>
 
-        <h2 style="display: flex; align-items: center; justify-content: space-between;">Fees Structure <span style="font-size: 15px;"><%= parts[2] %> - <%= parts[1] %> - <%= parts[0] %></span></h2>
-        <table>
-          <thead>
-            Tution Fee
-          </thead>
-          <tr>
-            <th>Class</th>
-            <th>Admission Fee</th>
-            <th>Monthly Fee</th>
-          </tr>
-          <tr>
-            <td>Nursery - UKG</td>
-            <td>₹<%=fees.tutionfee.nurUkg.addfee %></td>
-            <td>₹<%=fees.tutionfee.nurUkg.monthly %></td>
-          </tr>
-          <tr>
-            <td>Class I - V</td>
-            <td>₹<%=fees.tutionfee.oneFive.addfee %></td>
-            <td>₹<%=fees.tutionfee.oneFive.monthly %></td>
-          </tr>
-          <tr>
-            <td>Class VI - VIII</td>
-            <td>₹<%=fees.tutionfee.sixEight.addfee %></td>
-            <td>₹<%=fees.tutionfee.sixEight.monthly %></td>
-          </tr>
-          <tr>
-            <td>Class IX - X</td>
-            <td>₹<%=fees.tutionfee.nineTen.addfee %></td>
-            <td>₹<%=fees.tutionfee.nineTen.monthly %></td>
-          </tr>
-        </table>
-        <table>
-          <thead>
-            Transports Fee
-          </thead>
-          <tr>
-            <th>Distance</th>
-            <th>Fees Per Months</th>
-          </tr>
-          <tr>
-            <td>1KM-4KM</td>
-            <td>₹<%=fees.transport.oneKm %></td>
-          </tr>
-          <tr>
-            <td>5KM-10KM</td>
-            <td>₹<%=fees.transport.fiveKm %></td>
-          </tr>
-          <tr>
-            <td>11KM-15KM</td>
-            <td>₹<%=fees.transport.elevenKm %></td>
-          </tr>
-          <tr>
-            <td>16KM-20KM</td>
-            <td>₹<%=fees.transport.sixteenKm %></td>
-          </tr>
-          <tr>
-            <td>20KM+</td>
-            <td>₹<%=fees.transport.twentyPlush %>+50 / 5KM</td>
-          </tr>
-        </table>
-        <table style="opacity: 0.8">
-          <thead>
-            School Uniform
-          </thead>
-          <tr>
-            <th>Dress Kit</th>
-            <th>Price</th>
-          </tr>
-          <tr>
-            <td>Regular Dress</td>
-            <td><%=fees.schoolUniform.regular %></td>
-          </tr>
-          <tr>
-            <td>Game Uniform</td>
-            <td><%=fees.schoolUniform.gameUniform %></td>
-          </tr>
-          <tr>
-            <td>Tie</td>
-            <td><%=fees.schoolUniform.tie %></td>
-          </tr>
-          <tr>
-            <td>Belt</td>
-            <td><%=fees.schoolUniform.belt %></td>
-          </tr>
-          <tr>
-            <td>ID card</td>
-            <td><%=fees.schoolUniform.IDcard %></td>
-          </tr>
-          <tr style="opacity: 0.5" title="If you want to from us">
-            <td>Shoes & Socks Pair</td>
-            <td><%=fees.schoolUniform.shoesSocks %></td>
-          </tr>
-        </table>
+          <h2>Fees Structure 
+            <span>Last Update:&nbsp;&nbsp; <%= parts[2] %> - <%= parts[1] %> - <%= parts[0] %></span></h2>
+          <table>
+            <div class="heading">Tuition Fee</div>
+            <tr>
+              <th>Class</th>
+              <th>Admission Fee</th>
+              <th>Monthly Fee</th>
+            </tr>
+            <tr>
+              <td>Nursery - UKG</td>
+              <td>₹<%=fees.tutionfee.nurUkg.addfee %>
+              </td>
+              <td>₹<%=fees.tutionfee.nurUkg.monthly %>
+              </td>
+            </tr>
+            <tr>
+              <td>Class I - V</td>
+              <td>₹<%=fees.tutionfee.oneFive.addfee %>
+              </td>
+              <td>₹<%=fees.tutionfee.oneFive.monthly %>
+              </td>
+            </tr>
+            <tr>
+              <td>Class VI - VIII</td>
+              <td>₹<%=fees.tutionfee.sixEight.addfee %>
+              </td>
+              <td>₹<%=fees.tutionfee.sixEight.monthly %>
+              </td>
+            </tr>
+            <tr>
+              <td>Class IX - X</td>
+              <td>₹<%=fees.tutionfee.nineTen.addfee %>
+              </td>
+              <td>₹<%=fees.tutionfee.nineTen.monthly %>
+              </td>
+            </tr>
+          </table>
+          <table>
+            <div class="heading">Transports Fee</div>
+            <tr>
+              <th>Distance</th>
+              <th>Fees Per Months</th>
+            </tr>
+            <tr>
+              <td>1KM-4KM</td>
+              <td>₹<%=fees.transport.oneKm %>
+              </td>
+            </tr>
+            <tr>
+              <td>5KM-10KM</td>
+              <td>₹<%=fees.transport.fiveKm %>
+              </td>
+            </tr>
+            <tr>
+              <td>11KM-15KM</td>
+              <td>₹<%=fees.transport.elevenKm %>
+              </td>
+            </tr>
+            <tr>
+              <td>16KM-20KM</td>
+              <td>₹<%=fees.transport.sixteenKm %>
+              </td>
+            </tr>
+            <tr>
+              <td>20KM+</td>
+              <td>₹<%=fees.transport.twentyPlush %>+50 / 5KM</td>
+            </tr>
+          </table>
+          <table>
+            <div class="heading">School Uniform</div>
+            <tr>
+              <th>Dress Kit</th>
+              <th>Price</th>
+            </tr>
+            <tr>
+              <td>Regular Dress</td>
+              <td>
+                <%=fees.schoolUniform.regular %>
+              </td>
+            </tr>
+            <tr>
+              <td>Game Uniform</td>
+              <td>
+                <%=fees.schoolUniform.gameUniform %>
+              </td>
+            </tr>
+            <tr>
+              <td>Tie</td>
+              <td>
+                <%=fees.schoolUniform.tie %>
+              </td>
+            </tr>
+            <tr>
+              <td>Belt</td>
+              <td>
+                <%=fees.schoolUniform.belt %>
+              </td>
+            </tr>
+            <tr>
+              <td>ID card</td>
+              <td>
+                <%=fees.schoolUniform.IDcard %>
+              </td>
+            </tr>
+            <tr title="If you want to from us">
+              <td>Shoes & Socks Pair</td>
+              <td>
+                <%=fees.schoolUniform.shoesSocks %>
+              </td>
+            </tr>
+          </table>
       </section>
 
       <!-- Important Dates -->
@@ -183,6 +211,13 @@
           <li><strong>Session Begins:</strong> 10th April 2025</li>
         </ul>
       </section>
+
+      <!-- Admission Buttons -->
+      <section id="sec" class="admission-buttons-second">
+        <a href="/admission/form" class="btn-secondary">EnrollNow</a>
+        <a href="/admission/getEnroll" class="btn-primary">Check Status</a>
+      </section>
+
     </main>
 
     <!-- FOOTER -->
@@ -226,11 +261,9 @@
             <p>
               <i class="fas fa-map-marker-alt"></i>
               <a
-                href="https://maps.google.com/?q=St.+Columbus+Public+School,+Ekdara,+Jhajha,+Jamui+811308+(Bihar),+India"
-              >
+                href="https://maps.google.com/?q=St.+Columbus+Public+School,+Ekdara,+Jhajha,+Jamui+811308+(Bihar),+India">
                 St. Columbus Public School, Ekdara, &nbsp; &nbsp;&nbsp; Jhajha,
-                Jamui 811308 (Bihar), India</a
-              >
+                Jamui 811308 (Bihar), India</a>
             </p>
             <p>
               <i class="fas fa-phone"></i>
@@ -239,11 +272,8 @@
             </p>
             <p>
               <i class="fas fa-envelope"></i>
-              <a
-                href="https://mail.google.com/mail/?view=cm&fs=1&to=sudhanshu95084145@gmail.com&su=Hello&body=This%20is%20a%20default%20message"
-                target="_blank"
-                >info@gvpschool.edu.in</a
-              >
+              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sudhanshu95084145@gmail.com&su=Hello&body=This%20is%20a%20default%20message"
+                target="_blank">info@gvpschool.edu.in</a>
             </p>
           </div>
         </div>
@@ -251,13 +281,10 @@
       <p class="copy-right">
         <i class="far fa-copyright"></i> 2025 St. Columbus Public School. All
         rights reserved. | Developed by
-        <a href="https://www.grabityservices.com" target="_blank"
-          >GrabityServices</a
-        >
-        <a id="upArrow" style="margin-left: 20px; color: aliceblue" href=""
-          >&uparrow;</a
-        >
+        <a href="https://www.grabityservices.com" target="_blank">GrabityServices</a>
+        <a id="upArrow" style="margin-left: 20px; color: aliceblue" href="">&uparrow;</a>
       </p>
     </footer>
-  </body>
+</body>
+
 </html>

@@ -1,119 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Process ID Display</title>
-    <style>
-      body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        flex-direction: column;
-        background: #f5f7fa;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        color: #2c3e50;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Process ID Display</title>
+  <style>
+    /* ===== Reset & Base ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url('/images/upload-bg-image.png') no-repeat center center/cover;
+      padding: 1rem;
+      color: #2c3e50;
+    }
+
+    /* ===== Card ===== */
+    .card {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.12);
+      max-width: 500px;
+      width: 100%;
+      animation: fadeInScale 0.6s ease forwards;
+    }
+
+    .card h2 {
+      font-size: 1.6rem;
+      margin-bottom: 1.2rem;
+      text-align: center;
+      color: #222;
+    }
+
+    /* ===== Info Rows ===== */
+    .info-row {
+      margin-bottom: 1.2rem;
+    }
+
+    .info-row h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #444;
+    }
+
+    .info-value {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #2980b9;
+      background: #f0f8ff;
+      padding: 0.6rem 1rem;
+      border-radius: 10px;
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(41, 128, 185, 0.15);
+      transition: transform 0.2s, background 0.3s;
+      cursor: pointer;
+      user-select: all;
+      user-select: none;
+    }
+
+    .info-value:hover {
+      background: #d6eaff;
+      transform: scale(1.03);
+    }
+
+    /* ===== Admission Status Colors ===== */
+    .status-approved {
+      color: #27ae60;
+      background: #e6f9ee;
+      box-shadow: 0 4px 10px rgba(39, 174, 96, 0.2);
+    }
+
+    .status-rejected {
+      color: #e74c3c;
+      background: #fdecea;
+      box-shadow: 0 4px 10px rgba(231, 76, 60, 0.2);
+    }
+
+    .status-pending {
+      color: #f39c12;
+      background: #fff6e5;
+      box-shadow: 0 4px 10px rgba(243, 156, 18, 0.2);
+    }
+
+    /* ===== Contact ===== */
+    .contact {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 1rem;
+    }
+
+    .contact a {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .contact a:hover {
+      text-decoration: underline;
+    }
+
+    /* ===== Error Message ===== */
+    .error-msg {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      color: #e74c3c;
+      font-weight: 600;
+      text-align: center;
+      box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    /* ===== Popup (Copied) ===== */
+    .popup {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #2ecc71;
+      color: #fff;
+      padding: 0.8rem 1.2rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+
+    .popup.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 480px) {
+      .card {
+        padding: 1.5rem;
       }
 
-      .process-container {
-        background: white;
-        padding: 2rem 3rem;
-        border-radius: 12px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        max-width: 400px;
-        width: 90%;
-        animation: fadeInScale 0.6s ease forwards;
+      .info-value {
+        font-size: 1rem;
       }
 
-      .process-container h2 {
-        font-size: 1.75rem;
-        margin-bottom: 1rem;
-        letter-spacing: 1.1px;
+      .card h2 {
+        font-size: 1.3rem;
       }
+    }
+  </style>
+</head>
+<body>
+  <% if (data && data !== undefined) { %>
+    <div class="card">
+      <h2>Admission Details</h2>
 
-      .process-id {
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: #2980b9;
-        background: #d6eaff;
-        padding: 0.5rem 1rem;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(41, 128, 185, 0.25);
-        display: inline-block;
-        transition: background 0.3s ease;
-        cursor: text;
-      }
+      <div class="info-row">
+        <h3>Process ID</h3>
+        <div class="info-value" title="Click to copy">
+          <%= data.processId %>
+        </div>
+      </div>
 
-      .process-id:hover {
-        background: #a9d0ff;
-      }
+      <div class="info-row">
+        <h3>Email ID</h3>
+        <div class="info-value" title="Click to copy">
+          <%= data.email %>
+        </div>
+      </div>
 
-      @keyframes fadeInScale {
-        from {
-          opacity: 0;
-          transform: scale(0.85);
-        }
-        to {
-          opacity: 1;
-          transform: scale(1);
-        }
-      }
+      <div class="info-row">
+        <h3>Father's Mobile Number</h3>
+        <div class="info-value" title="Click to copy">
+          <%= data.mobNumber %>
+        </div>
+      </div>
 
-      .error-msg {
-        font-size: 1.5rem;
-        color: #e74c3c;
-        font-weight: 600;
-        text-align: center;
-      }
-    </style>
-  </head>
-  <body>
-    <% if (data && data !== undefined) { %>
-    <div class="process-container">
-      <h2>Your Process ID</h2>
-      <div class="process-id" tabindex="0" title="Click to select your Id">
-        <%= data.processId %>
+      <div class="info-row">
+        <h3>Admission Status</h3>
+        <div class="info-value <% if(data.admissionStatus === 'Approved'){ %>status-approved<% } else if(data.admissionStatus === 'Rejected'){ %>status-rejected<% } else { %>status-pending<% } %>">
+          <%= data.admissionStatus %>
+        </div>
+      </div>
+
+      <div class="contact">
+        For any query, <a href="/contact">contact us</a>
       </div>
     </div>
-    <div class="process-container">
-      <h2>Your email ID</h2>
-      <div class="process-id" tabindex="0" title="Click to select your Id">
-        <%= data.email %>
-      </div>
-    <div class="">
-      <h2>Your Father's Mobile Number</h2>
-      <div class="mobNumber" tabindex="0" >
-        <%= data.mobNumber %>
-      </div>
-    </div>
-    <div class="">
-      <h2>Admission Status</h2>
-      <div class="process-status" tabindex="0" >
-        <%= data.admissionStatus %>
-      </div>
-    </div>
-    <h1>For any query  <a href="/contact">contact us</a></h1>
-    <% } else { %>
+  <% } else { %>
     <div class="error-msg">Registration Failed. Please try again.</div>
-    <% } %>
-  </body>
+  <% } %>
+
+  <!-- Popup -->
+  <div class="popup" id="copyPopup">Copied!</div>
+
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const pidEl = document.querySelector(".process-id");
-      pidEl.style.color = "green";
-      if (pidEl) {
-        pidEl.addEventListener("click", () => {
-          navigator.clipboard.writeText(pidEl.innerText).then(() => {
-            pidEl.style.color = "red";
+      const copyableEls = document.querySelectorAll(".info-value");
+      const popup = document.getElementById("copyPopup");
+
+      copyableEls.forEach(el => {
+        el.addEventListener("click", () => {
+          navigator.clipboard.writeText(el.innerText).then(() => {
+            // Show popup
+            popup.classList.add("show");
             setTimeout(() => {
-              pidEl.style.color = "green";
-            }, 5000);
+              popup.classList.remove("show");
+            }, 1500);
           });
         });
-      }
+      });
     });
   </script>
+</body>
 </html>

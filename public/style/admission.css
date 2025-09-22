@@ -4,11 +4,11 @@
 
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    margin: 0;
-    padding: 0;
     line-height: 1.4;
 }
 
@@ -41,8 +41,6 @@ h4 {
 p {
     font-size: 1.1rem;
 }
-
-
 
 /* HEADING AND IMAGE */
 .admission-container {
@@ -82,6 +80,31 @@ section {
     box-shadow: 0 4px 10px rgba(97, 63, 63, 0.1);
 }
 
+/* BUTTONS */
+.admission-buttons,
+.admission-buttons-second {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: var(--maxw);
+    margin: 0 auto;
+    background-color: transparent;
+}
+
+.admission-buttons-second {
+    justify-content: end;
+}
+
+.admission-buttons a,
+.admission-buttons-second a {
+    padding: 12px 25px;
+    margin: 10px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
 /* Steps */
 .steps {
     display: grid;
@@ -117,11 +140,22 @@ ul li {
     border-radius: 6px;
 }
 
-/* Fee Structure Table */
+/* FEE STRUCTURE */
+.fee-structure h1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 15px;
+}
+
+thead {
+    background-color: red;
+    color: blue;
 }
 
 th,
@@ -131,11 +165,11 @@ td {
     text-align: center;
 }
 
-th {
-    background: #2c3e50;
-    color: #725656;
+.heading {
+    margin: 30px 0 0 10px;
+    color: #000000;
+    font-size: 1.3rem;
 }
-
 
 
 
@@ -266,8 +300,23 @@ footer {
 
 
 @media (max-width: 700px) {
+    .container{
+        margin: 20px;
+    }
+
     .admission-container {
         margin-top: 70px;
+    }
+
+    .admission-buttons,
+    .admission-buttons-second {
+        justify-content: center;
+    }
+
+    .admission-buttons a,
+    .admission-buttons-second a {
+        padding: 10px 20px;
+        margin: 10px;
     }
 }
 
@@ -311,4 +360,3 @@ footer {
     }
 
 }
-
