@@ -17,7 +17,7 @@
           <span id="upload-text">Drag and drop or click to upload</span>
           <input type="file" name="img" accept="image/jpeg, image/png" required />
         </label>
-        <div class="upload-limit"><img src="/images/icon-info.svg" alt="upload-limit-icon"> Upload your photo (JPG, JPEG, PNG; max size 10MB)</div>
+        <div class="upload-limit"><img src="/images/icon-info.svg" alt="upload-limit-icon"> Upload your photo (JPG, JPEG, PNG; max size 5MB)</div>
         <button type="submit">Save</button>
         <div class="error-message"></div>
       </form>
@@ -32,7 +32,7 @@
           <span id="upload-text">Drag and drop or click to upload</span>
           <input type="file" name="img" accept="image/jpeg, image/png" required />
         </label>
-        <div class="upload-limit"><img src="/images/icon-info.svg" alt="upload-limit-icon"> Upload your photo (JPG, JPEG, PNG; max size 10MB)</div>
+        <div class="upload-limit"><img src="/images/icon-info.svg" alt="upload-limit-icon"> Upload your photo (JPG, JPEG, PNG; max size 5MB)</div>
         <button type="submit">Save</button>
         <div class="error-message"></div>
       </form>
@@ -47,7 +47,7 @@
           <span id="upload-text">Drag and drop or click to upload</span>
           <input type="file" name="img" accept="image/jpeg, image/png" required />
         </label>
-        <div class="upload-limit"><img src="/images/icon-info.svg" alt="upload-limit-icon"> Upload your photo (JPG, JPEG, PNG; max size 10MB)</div>
+        <div class="upload-limit"><img src="/images/icon-info.svg" alt="upload-limit-icon"> Upload your photo (JPG, JPEG, PNG; max size 5MB)</div>
         <button type="submit">Save</button>
         <div class="error-message"></div>
       </form>
@@ -59,11 +59,11 @@
       <form class="upload-form" enctype="multipart/form-data" action="/home/noticeUpdate/<%= id %>" method="post">
         <label class="upload-box">
           <img src="/images/icon-upload.svg" alt="upload-icon" id="placeholder-img">
-          <span id="upload-text">Drag and drop or click to upload</span><!-- ✅ keep the name="img" so backend matches -->
+          <span id="upload-text">Drag and drop or click to upload</span><!-- keep the name="img" so backend matches -->
           <input type="file" name="img" accept="application/pdf,image/jpeg,image/png" required />
         </label>
         <div class="upload-limit">
-          <img src="/images/icon-info.svg" alt="upload-limit-icon">Upload your file (PDF, JPG, JPEG, PNG; max size 10MB)</div>
+          <img src="/images/icon-info.svg" alt="upload-limit-icon">Upload your file (PDF, JPG, JPEG, PNG; max size 5MB)</div>
         <button type="submit">Save</button>
         <div class="error-message"></div>
       </form>
@@ -131,7 +131,7 @@ forms.forEach( form => {
             validTypes = [ "image/jpeg", "image/png", "image/jpg" ];
         }
 
-        const maxSize = 10 * 1024 * 1024; // 10MB
+        const maxSize = 5 * 1024 * 1024; // 5MB
 
         if ( !validTypes.includes( file.type ) ) {
             errorMessage.innerText = isNoticeUpdate
@@ -142,7 +142,7 @@ forms.forEach( form => {
         }
 
         if ( file.size > maxSize ) {
-            errorMessage.innerText = 'File size must not exceed 10MB.';
+            errorMessage.innerText = 'File size must not exceed 5MB.';
             e.preventDefault();
             return;
         }
