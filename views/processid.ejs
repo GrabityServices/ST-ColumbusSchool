@@ -202,7 +202,7 @@
       <div class="info-row">
         <h3>Admission Status</h3>
         <div class="info-value <% if(data.admissionStatus === 'Approved'){ %>status-approved<% } else if(data.admissionStatus === 'Rejected'){ %>status-rejected<% } else { %>status-pending<% } %>">
-          <%= data.admissionStatus %>
+          <% if(data.admissionStatus == 'PACR'){%>Pending At Counselor<%} else if(data.admissionStatus == 'DVRL'){%>Document Verification<%}else{%>Admission Done<%}%>
         </div>
       </div>
 

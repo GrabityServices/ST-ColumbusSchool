@@ -193,7 +193,7 @@
 
         <div class="upload-limit-first">
           <img src="/images/icon-info.svg" alt="upload-limit-icon">
-          Upload your event image (JPG, JPEG, PNG; max size 10MB)
+          Upload your event image (JPG, JPEG, PNG; max size 5MB)
         </div>
         <button type="submit">Save</button>
         <div class="error-message"></div>
@@ -215,8 +215,7 @@
                 placeholder="Enter event title" required />
               <input type="date" name="EventDate" />
 
-              <div class="upload-limit"><img src="/images/icon-info.svg" alt="upload-limit-icon">Upload your event image
-                (JPG, JPEG, PNG; max size 10MB)</div>
+              <div class="upload-limit"><img src="/images/icon-info.svg" alt="upload-limit-icon">Upload your event image (JPG, JPEG, PNG; max size 5MB)</div>
               <button type="submit">Save</button>
               <div class="error-message"></div>
             </div>
@@ -273,7 +272,7 @@
             }
 
             const validTypes = [ "image/jpeg", "image/png", "image/jpg" ];
-            const maxSize = 10 * 1024 * 1024; // 10MB
+            const maxSize = 5 * 1024 * 1024; // 5MB
 
             if ( !validTypes.includes( file.type ) ) {
               errorMessage.innerText = 'Only JPG, JPEG, or PNG files are allowed.';
@@ -282,7 +281,7 @@
             }
 
             if ( file.size > maxSize ) {
-              errorMessage.innerText = 'File size must not exceed 10MB.';
+              errorMessage.innerText = 'File size must not exceed 5MB.';
               e.preventDefault();
               return;
             }

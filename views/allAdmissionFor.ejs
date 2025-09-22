@@ -157,7 +157,6 @@
               <a href="mailto:<%= form.email %>?subject=Admission Inquiry - <%= form.processId %>&body=Dear Sir/Madam," class="action-link">Mail</a>
               <a href="/home/admission/updateStatus/CANCEL/<%= form._id %>" class="action-link">Cancel</a>
               <% if (!supAd) { %>
-                <a href="/home/admission/updateStatus/DVRL/<%= form._id %>" class="action-link" title="Send to principle for document verification.">Send for DV</a>
               <% } else { %>
                 <a href="/home/admission/updateStatus/DONE/<%= form._id %>" class="action-link">TICK To DONE</a>
                 <a href="/home/admission/updateStatus/PACR/<%= form._id %>" class="action-link" title="Send to pending." >Send To PAC</a>
