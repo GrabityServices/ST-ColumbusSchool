@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -115,93 +116,83 @@
     }
 
     @media (max-width: 450px) {
-      body{
+      body {
         padding: 0.5rem;
       }
 
-      .card{
+      .card {
         padding: 1.5rem;
       }
     }
   </style>
 </head>
+
 <body>
-  
+
   <div class="card">
-  <h1>Update Notice Details</h1>
-  <form id="update-notice-form" action="/home/noticeUpdate/details/<%= id %>" method="post">
-    <div class="form-section">
-      
-      <!-- Title -->
-      <input 
-        class="input-field" 
-        type="text" 
-        id="title" 
-        name="title"
-        placeholder="Enter Notice Title"
-        required 
-        minlength="3" 
-        maxlength="60"
-        pattern="^[a-zA-Z0-9 ]{3,60}$"
-        title="Title must be 3–60 characters (letters, numbers, spaces only)"
-      />
-      <span class="error-message" id="title-error"></span>
+    <h1>Update Notice Details</h1>
+    <form id="update-notice-form" action="/home/noticeUpdate/details/<%= id %>" method="post">
+      <div class="form-section">
 
-      <!-- Message -->
-      <textarea 
-        id="mess" 
-        name="mess" 
-        placeholder="Enter Notice Message (max 300 characters)"
-        minlength="3" 
-        maxlength="300" 
-        required
-      ></textarea>
-      <span class="error-message" id="mess-error"></span>
-    </div>
+        <!-- Title -->
+        <input class="input-field" type="text" id="title" name="title"
+          placeholder="Enter Notice Title (max 60 characters)" required minlength="3" maxlength="60"
+          pattern="^[a-zA-Z0-9 ]{3,60}$" title="Title must be 3–60 characters (letters, numbers, spaces only)" />
+        <span class="error-message" id="title-error"></span>
 
-    <!-- Submit Button -->
-    <button type="submit">Update Notice</button>
-  </form>
+        <!-- Message -->
+        <textarea id="mess" name="mess" placeholder="Enter Notice Message (max 300 characters)" minlength="3"
+          maxlength="300" required></textarea>
+        <span class="error-message" id="mess-error"></span>
+      </div>
 
-  <!-- Link to Image/PDF Upload -->
-  <a href="/home/noticeUpdate/<%= id %>" class="extra-link">
-    Add or Update Image | PDF
-  </a>
-</div>
+      <!-- Submit Button -->
+      <button type="submit">Update Notice</button>
+    </form>
+
+    <!-- Link to Image/PDF Upload -->
+    <a href="/home/noticeUpdate/<%= id %>" class="extra-link">
+      Add or Update Image | PDF
+    </a>
+  </div>
 
 
   <script>
-    const form = document.getElementById("update-notice-form");
-    const titleInput = document.getElementById("title");
-    const messageInput = document.getElementById("mess");
+    const form = document.getElementById( "update-notice-form" );
+    const titleInput = document.getElementById( "title" );
+    const messageInput = document.getElementById( "mess" );
 
-    const titleError = document.getElementById("title-error");
-    const messError = document.getElementById("mess-error");
+    const titleError = document.getElementById( "title-error" );
+    const messError = document.getElementById( "mess-error" );
 
     // Regex: letters, numbers, spaces (3–60 chars)
     const titleRegex = /^[a-zA-Z ]{3,60}$/;
+    const messageRegex = /^[a-zA-Z \s.,!?;:'"()\-\&%]{3,300}$/;
 
-    form.addEventListener("submit", e => {
+
+    form.addEventListener( "submit", e => {
       let valid = true;
       titleError.innerText = "";
       messError.innerText = "";
 
       // Title validation
-      if (!titleRegex.test(titleInput.value)) {
-        titleError.innerText = "Title must be 3–60 characters (letters, numbers, spaces only).";
+      if ( !titleRegex.test( titleInput.value ) ) {
+        titleError.innerText = "Title must be 3–60 characters letters and spaces only.";
         valid = false;
       }
 
       // Message validation
-      if (messageInput.value.length < 3 || messageInput.value.length > 500) {
-        messError.innerText = "Message must be 3–300 characters.";
+      if ( !messageRegex.test( messageInput.value ) ) {
+        messError.innerText =
+          "Message can contain letters, numbers, spaces, and basic punctuation (3–300 chars).";
         valid = false;
       }
 
-      if (!valid) {
+      if ( !valid ) {
         e.preventDefault();
       }
-    });
+    } );
   </script>
 </body>
+
 </html>

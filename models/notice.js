@@ -19,7 +19,7 @@ const noticeSchema = new mongoose.Schema(
     },
     messDate: {
       type: String,
-      default: getCurrentDateTime(),
+      default: getCurrentDateTime,
     },
   },
   { timestamps: true }

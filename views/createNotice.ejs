@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -156,24 +157,25 @@
     }
 
     @media (max-width: 450px) {
-      body{
+      body {
         padding: 0.5rem;
       }
     }
   </style>
 </head>
+
 <body>
   <div class="card">
     <h1>Add New Notice</h1>
     <form id="notice-form" class="upload-form" action="/home/notice/new" method="post" enctype="multipart/form-data">
-      
+
       <div class="form-section">
-        <input class="input-field" type="text" id="title" name="title" placeholder="Enter Notice Title"
-          required minlength="3" maxlength="60"
+        <input class="input-field" type="text" id="title" name="title"
+          placeholder="Enter Notice Title (max 60 characters)" required minlength="3" maxlength="60"
           title="Title must be 3–60 characters and contain only letters or spaces." />
 
-        <textarea id="mess" name="mess" placeholder="Enter Notice Message (max 300 characters)"
-          minlength="3" maxlength="300"></textarea>
+        <textarea id="mess" name="mess" placeholder="Enter Notice Message (max 300 characters)" minlength="3"
+          maxlength="300"></textarea>
       </div>
 
       <label class="upload-box">
@@ -193,70 +195,82 @@
   </div>
 
   <script>
-    const form = document.getElementById('notice-form');
-    const fileInput = document.getElementById("img");
-    const errorMessage = form.querySelector('.error-message');
-    const uploadBox = form.querySelector('.upload-box');
-    const uploadText = uploadBox.querySelector('#upload-text');
-    const titleInput = document.getElementById("title");
+    const form = document.getElementById( 'notice-form' );
+    const fileInput = document.getElementById( "img" );
+    const errorMessage = form.querySelector( '.error-message' );
+    const uploadBox = form.querySelector( '.upload-box' );
+    const uploadText = uploadBox.querySelector( '#upload-text' );
+    const titleInput = document.getElementById( "title" );
 
     // Regex for title (letters, numbers, spaces; 3–60 chars)
-    const titleRegex = /^[a-zA-Z]{3,60}$/;
+    const titleRegex = /^[a-zA-Z ]{3,60}$/;
+    const messageRegex = /^[a-zA-Z \s.,!?;:'"()\-\&%]{3,300}$/;
+
 
     // Drag & drop
-    uploadBox.addEventListener('dragover', e => {
+    uploadBox.addEventListener( 'dragover', e => {
       e.preventDefault();
       uploadBox.style.backgroundColor = 'rgba(194,194,194,0.25)';
-    });
+    } );
 
-    uploadBox.addEventListener('dragleave', e => {
+    uploadBox.addEventListener( 'dragleave', e => {
       e.preventDefault();
       uploadBox.style.backgroundColor = 'rgba(194,194,194,0.15)';
-    });
+    } );
 
-    uploadBox.addEventListener('drop', e => {
+    uploadBox.addEventListener( 'drop', e => {
       e.preventDefault();
       fileInput.files = e.dataTransfer.files;
-      showFileName(fileInput.files[0]);
-    });
+      showFileName( fileInput.files[ 0 ] );
+    } );
 
-    fileInput.addEventListener("change", () => {
-      showFileName(fileInput.files[0]);
-    });
+    fileInput.addEventListener( "change", () => {
+      showFileName( fileInput.files[ 0 ] );
+    } );
 
-    function showFileName(file) {
-      if (!file) return;
+    function showFileName ( file ) {
+      if ( !file ) return;
       uploadText.textContent = file.name;
     }
 
     // Validation on submit
-    form.addEventListener("submit", e => {
+    form.addEventListener( "submit", e => {
       errorMessage.innerText = "";
 
       // Title validation
-      if (!titleRegex.test(titleInput.value)) {
-        errorMessage.innerText = "Title must be 3–60 characters, letters/numbers/spaces only.";
+      if ( !titleRegex.test( titleInput.value ) ) {
+        errorMessage.innerText = "Title must be 3–60 characters, letters and spaces only.";
         e.preventDefault();
         return;
       }
 
+      // Message validation
+      const messageInput = document.getElementById( "mess" );
+      if ( messageInput.value.trim() && !messageRegex.test( messageInput.value ) ) {
+        errorMessage.innerText = "Message can contain letters, spaces, and special characters (3–300 chars).";
+        e.preventDefault();
+        return;
+      }
+
+
       // File validation
-      const file = fileInput.files[0];
-      if (file) {
-        const validTypes = ["jpg", "jpeg", "png", "pdf"];
-        const ext = file.name.split('.').pop().toLowerCase();
-        if (!validTypes.includes(ext)) {
+      const file = fileInput.files[ 0 ];
+      if ( file ) {
+        const validTypes = [ "jpg", "jpeg", "png", "pdf" ];
+        const ext = file.name.split( '.' ).pop().toLowerCase();
+        if ( !validTypes.includes( ext ) ) {
           errorMessage.innerText = "File type must be JPG, JPEG, PNG, or PDF.";
           e.preventDefault();
           return;
         }
-        if (file.size > 5 * 1024 * 1024) {
+        if ( file.size > 5 * 1024 * 1024 ) {
           errorMessage.innerText = "File size must not exceed 5MB.";
           e.preventDefault();
           return;
         }
       }
-    });
+    } );
   </script>
 </body>
+
 </html>
