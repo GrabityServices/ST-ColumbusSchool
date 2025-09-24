@@ -82,10 +82,7 @@ a {
   gap: 5px;
   border-radius: 50px;
   align-items: center;
-}
-
-.admission a {
-  color: var(--color);
+  color: white;
 }
 
 .admission .arrow-icon {
