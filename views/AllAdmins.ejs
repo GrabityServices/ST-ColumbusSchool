@@ -152,7 +152,7 @@
       </div>
       <div class="gallery-header">  
         <div class="event">
-          <% images.forEach(eventGroup=> { %>
+          <% images.slice().reverse().forEach(eventGroup=> { %>
             <!-- eventGroup = one event date with titles inside -->
             <h1><%= eventGroup[0][0].EventDate %></h1>
             <div class="datesect" >

@@ -18,7 +18,7 @@ setTimeout( () => {
     let i = 0;
     let interval = setInterval( () => {
         increment.innerText = `${ i }+`;
-        if ( i >= 2000 ) {
+        if ( i >= 700 ) {
             clearInterval( interval );
         }
         i++;
@@ -30,7 +30,7 @@ setTimeout( () => {
     let i = 0;
     let interval = setInterval( () => {
         teacherIncrement.innerText = `${ i }+`;
-        if ( i >= 50 ) {
+        if ( i >= 20 ) {
             clearInterval( interval );
         }
         i++;
