@@ -21,7 +21,9 @@ dotenv.config();
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
+const cors = require('cors');
+const allowedOrigin = process.env.ALLOWED_ORIGNI;
+const {logUnauthorizedOrigin} = require("./middleware/logUnauthorizedOrigin");
 app.set("view engine", "ejs");
 
 app.set("views", Path.join(__dirname, "views"));
@@ -33,7 +35,21 @@ app.use(cookieParser());
 // app middelwares---------------------------------------
 app.use(logging);
 app.use(uniqueUser);
-
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like curl or mobile apps)
+    if (!origin) return callback(null, true);
+    comsole.log("Request origin:", origin);
+    if (origin === allowedOrigin) {
+      callback(null, true); // Allow your site
+    } else {
+      callback(new Error('Not allowed by Grabity Services')); // Block all others
+      logUnauthorizedOrigin(origin);
+    }
+  },
+  methods: ['GET', 'POST'], // Add other methods if needed (PUT, DELETE, etc.)
+  credentials: true, // Optional: if you send cookies/auth headers
+}));
 // app apis for manage data --------------------------------------------
 
 app.use("/home", checkAdmin, stcolumbus);
