@@ -249,12 +249,7 @@ stcolumbus.route("/contact/delete/:id").get(async (req, res) => {
 });
 
 stcolumbus.route("/video/embedded/new").get( async (req, res) => {
-
-//videoEmbed
-
-stcolumbus.route("/video/embedded").get( async (req, res) => {
   res.render("setVideoEmbeded.ejs");
-
 }).post( async (req, res) => {
   const videoEmbed = req.body.videoEmbed.trim();
   if(videoEmbed && videoEmbed!=""&& videoEmbed.length>10){
@@ -280,9 +275,6 @@ stcolumbus.route("/video/embedded").get( async (req, res) => {
 })
 
 stcolumbus.route("/video/embedded/delete/:id").get( async (req, res) => {
-
-
-stcolumbus.route("/video/delete/:id").get( async (req, res) => {
   try {
     await VideoGall.findByIdAndDelete(req.params.id);
     res.redirect("/stcolumbus/jaj/ekdara/admin#video");
@@ -292,8 +284,6 @@ stcolumbus.route("/video/delete/:id").get( async (req, res) => {
 
 })
 stcolumbus.route("/video/embedded/update/:id").get( async (req, res) => {
-
-stcolumbus.route("/video/update/:id").get( async (req, res) => {
   res.render("updateVideoEmbeded.ejs",{id:req.params.id});
 })
 .post(async (req, res) => {
@@ -318,6 +308,4 @@ stcolumbus.route("/video/update/:id").get( async (req, res) => {
  else {
       return res.status(400).json({ message: "Video embed code is required.",code:"req" });
     }})
-
-
 module.exports = stcolumbus;
