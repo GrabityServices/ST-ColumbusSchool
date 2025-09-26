@@ -248,8 +248,11 @@ stcolumbus.route("/contact/delete/:id").get(async (req, res) => {
   res.redirect("/home/contact/forms/superadmin");
 });
 
+//videoEmbed
+
 stcolumbus.route("/video/embedded").get( async (req, res) => {
   res.render("setVideoEmbeded.ejs");
+
 }).post( async (req, res) => {
   const videoEmbed = req.body.videoEmbed.trim();
   if(videoEmbed && videoEmbed!=""&& videoEmbed.length>10){
@@ -274,6 +277,7 @@ stcolumbus.route("/video/embedded").get( async (req, res) => {
   } 
 })
 
+
 stcolumbus.route("/video/delete/:id").get( async (req, res) => {
   try {
     await videoGall.findByIdAndDelete(req.params.id);
@@ -282,6 +286,7 @@ stcolumbus.route("/video/delete/:id").get( async (req, res) => {
     res.status(500).json({ message: "Failed to delete video embed code. Please try again."});
   }   
 })
+
 stcolumbus.route("/video/update/:id").get( async (req, res) => {
   res.render("updateVideoEmbeded.ejs",{id:req.params.id});
 })
@@ -307,4 +312,6 @@ stcolumbus.route("/video/update/:id").get( async (req, res) => {
  else {
       return res.status(400).json({ message: "Video embed code is required." });
     }})
+
+
 module.exports = stcolumbus;
