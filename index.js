@@ -39,6 +39,10 @@ app.use(cors({
   origin: function (origin, callback) {
     // Allow requests with no origin (like curl or mobile apps)
     if (!origin) return callback(null, true);
+ backend
+
+    console.log("Request origin:", origin);
+
     if (origin === allowedOrigin) {
       callback(null, true); // Allow your site
     } else {

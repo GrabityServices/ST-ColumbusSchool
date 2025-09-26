@@ -49,4 +49,152 @@
         });
     </script>
   </body>
+=======
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Set New Video</title>
+  <style>
+    /* ===== General Reset ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url(/images/upload-bg-image.png) no-repeat center center/cover;
+      padding: 1rem;
+    }
+
+    /* ===== Card Wrapper ===== */
+    .card {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .card h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #222;
+    }
+
+    /* ===== Input Section ===== */
+    .form-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: 8px;
+      border: 1.8px solid rgba(0, 0, 0, 0.35);
+      font-size: 1rem;
+      outline: none;
+      transition: border 0.3s, box-shadow 0.3s;
+    }
+
+    .form-input:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 6px rgba(0, 123, 255, 0.25);
+    }
+
+    /* ===== Submit Button ===== */
+    button {
+      margin-top: 1.5rem;
+      width: 100%;
+      padding: 0.9rem;
+      border: none;
+      border-radius: 12px;
+      background: #007bff;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.1s;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    /* ===== Error Message ===== */
+    .error-message {
+      margin-top: 0.6rem;
+      font-size: 0.9rem;
+      color: #d9534f;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    @media (max-width: 450px) {
+      body {
+        padding: 0.5rem;
+      }
+
+      .card {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>Set New Video to Gallery</h1>
+    <form id="video-form" action="/home/video/embedded" method="POST">
+      <div class="form-section">
+        <label for="video">New Embed Code</label>
+        <input type="text" name="videoEmbed" id="video" class="form-input"
+          placeholder="Enter video embed link" required minlength="5" />
+      </div>
+      <button type="submit">Set Video</button>
+      <div class="error-message" id="error"></div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById("video-form");
+    const videoInput = document.getElementById("video");
+    const errorMessage = document.getElementById("error");
+
+    form.addEventListener("submit", (e) => {
+      errorMessage.innerText = "";
+
+      if (!videoInput.value.trim()) {
+        e.preventDefault();
+        errorMessage.innerText = "Please enter a video embed link.";
+        return;
+      }
+
+      // Optional: simple check for iframe or URL structure
+      const iframeRegex = /^<iframe.*<\/iframe>$/i;
+      const urlRegex = /^https?:\/\/.+/;
+
+      if (!iframeRegex.test(videoInput.value) && !urlRegex.test(videoInput.value)) {
+        e.preventDefault();
+        errorMessage.innerText = "Enter a valid embed code or video URL.";
+      }
+    });
+  </script>
+</body>
+
 </html>
