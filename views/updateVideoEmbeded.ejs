@@ -1,15 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <h1>Set new video to gallery</h1>
-  <form action="/home/video/update/<%=id  %>" method="POST">
-    <label for="video">New Embed Code</label>
-    <input type="text" name="videoEmbed" id="video" placeholder="Enter video embed link" >
-    <button type="submit">Set Video</button>
-  </form>
+<html>
+  <head>
+    <title>Update Video</title>
+  </head>
+  <body>
+    <h1>Update Embedded Video</h1>
+    <form id="updateForm">
+      <textarea
+        name="videoEmbed"
+        id="videoEmbed"
+        rows="6"
+        cols="60"
+        placeholder="Paste updated iframe embed code here..."
+      ></textarea>
+      <br /><br />
+      <button type="submit">Update</button>
+    </form>
+    <div id="message" style="margin-top: 10px"></div>
+
+    <script>
+      document
+        .getElementById("updateForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const videoEmbed = document.getElementById("videoEmbed").value.trim();
+          const messageBox = document.getElementById("message");
+
+          try {
+            const response = await fetch(`/home/video/embedded/update/<%= id %>`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ videoEmbed }),
+            });
+            const result = await response.json();
+            console.log(result);
+
+            if (response.ok ) {
+              window.location.href = "/stcolumbus/jaj/ekdara/admin#video";
+            } else {
+              messageBox.innerText = result.message+" (Error Code: "+(result.code || result.status) +")";
+              messageBox.style.color = "red";
+            }
+          } catch (err) {
+            messageBox.innerText = "An error occurred. Please try again.";
+            messageBox.style.color = "red";
+          }
+        });
+    </script>
+  </body>
 </html>

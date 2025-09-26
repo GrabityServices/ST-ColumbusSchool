@@ -5,7 +5,7 @@ const noticeAvt = require("../utils/addNotice.js");
 const galleyAvt = require("../utils/updateGallery.js");
 const path = require("path");
 const fs = require("fs");
-const videoGall=require("../models/videoEmbedded.js");
+const VideoGall=require("../models/videoEmbedded.js");
 // const UserAdmin = require("../models/userAdmin.js");
 const {
   checkAdminAsEditor,
@@ -248,41 +248,42 @@ stcolumbus.route("/contact/delete/:id").get(async (req, res) => {
   res.redirect("/home/contact/forms/superadmin");
 });
 
-stcolumbus.route("/video/embedded").get( async (req, res) => {
+stcolumbus.route("/video/embedded/new").get( async (req, res) => {
   res.render("setVideoEmbeded.ejs");
 }).post( async (req, res) => {
   const videoEmbed = req.body.videoEmbed.trim();
   if(videoEmbed && videoEmbed!=""&& videoEmbed.length>10){
     try{
-      await videoGall.create({videoEmbed:videoEmbed});
-    res.status(200).json({ message: "Video embed code saved successfully!" });
+      await VideoGall.create({videoEmbed:videoEmbed});
+      res.json({ code:"ok" });
     }catch(err){
       if(err.code===11000){
-        return res.status(400).json({ message: "This video embed code already exists." });
+        return res.status(400).json({ message: "This video embed code already exists.",code:"exist" });
       }else if(err.name==="ValidationError"){ 
-        return res.status(400).json({ message: "Invalid video embed code format." });
+        return res.status(400).json({ message: "Invalid video embed code format.",code:"invalid"});
         }
 
 
       else{
         console.error(err);
-        return res.status(500).json({ message: "Failed to save video embed code. Please try again." });
+        return res.status(500).json({ message: "Failed to save video embed code. Please try again.",code:"serror" });
       }       
   }
 }else {
-    return res.status(400).json({ message: "Video embed code is required." });
+    return res.status(400).json({ message: "Video embed code is required.",code:"req" });
   } 
 })
 
-stcolumbus.route("/video/delete/:id").get( async (req, res) => {
+stcolumbus.route("/video/embedded/delete/:id").get( async (req, res) => {
   try {
-    await videoGall.findByIdAndDelete(req.params.id);
+    await VideoGall.findByIdAndDelete(req.params.id);
     res.redirect("/stcolumbus/jaj/ekdara/admin#video");
   } catch (err) { console.log(err);
-    res.status(500).json({ message: "Failed to delete video embed code. Please try again."});
+    res.status(500).json({ message: "Failed to delete video embed code. Please try again.",code:"serror"});
   }   
+
 })
-stcolumbus.route("/video/update/:id").get( async (req, res) => {
+stcolumbus.route("/video/embedded/update/:id").get( async (req, res) => {
   res.render("updateVideoEmbeded.ejs",{id:req.params.id});
 })
 .post(async (req, res) => {
@@ -290,21 +291,21 @@ stcolumbus.route("/video/update/:id").get( async (req, res) => {
   if(newEmbed && newEmbed!=""&& newEmbed.length>10){
     try{ 
 
-        await videoGall.findByIdAndUpdate(req.params.id,{videoEmbed:newEmbed},{new:true,runValidators:true});
-        return res.status(200).json({ message: "Video embed code updated successfully!" });
+        await VideoGall.findByIdAndUpdate(req.params.id,{videoEmbed:newEmbed},{new:true,runValidators:true});
+        return res.json({ code:"ok" });
   
      }catch(err){   
       if(err.code===11000){
-        return res.status(400).json({ message: "This video embed code already exists." });
+        return res.status(400).json({ message: "This video embed code already exists.",code:"exist" });
       } else if(err.name==="ValidationError"){
-        return res.status(400).json({ message: "Invalid video embed code format." });
+        return res.status(400).json({ message: "Invalid video embed code format.",code:"invalid" });
       } else{
       console.error(err);
-      return res.status(500).json({ message: "Failed to update video embed code. Please try again." });
+      return res.status(500).json({ message: "Failed to update video embed code. Please try again.",code:"serror" });
      }} 
     
 }
  else {
-      return res.status(400).json({ message: "Video embed code is required." });
+      return res.status(400).json({ message: "Video embed code is required.",code:"req" });
     }})
 module.exports = stcolumbus;

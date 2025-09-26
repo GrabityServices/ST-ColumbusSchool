@@ -9,6 +9,7 @@ const Gallery = require("../models/gallery.js");
 const Notice = require("../models/notice.js");
 const moment = require("moment");
 const Feestuct = require("../models/feeStructure.js");
+const VideoGall = require("../models/videoEmbedded.js");
 
 async function handleStAdmin(req, res) {
   const Admin = await UserAdmin.find({});
@@ -77,6 +78,7 @@ async function handleStAdmin(req, res) {
   const noteJsonData = notices.map((notice) => notice.toJSON());
 
   const fees = await Feestuct.findOne({ getBy: process.env.GETFEE });
+  const videoEmbed= await VideoGall.find({});
   const superAdminCount = Admin.filter(
     (user) => user.role === "superadmin"
   ).length;
@@ -92,6 +94,7 @@ async function handleStAdmin(req, res) {
       superAdminCount,
       fees,
       admsc: Admin.length,
+      videoEmbed
     });
   } else {
     Admin.forEach((member) => {
@@ -104,6 +107,7 @@ async function handleStAdmin(req, res) {
           notices: noteJsonData,
           supId: undefined,
           fees,
+          videoEmbed
         });
       }
     });

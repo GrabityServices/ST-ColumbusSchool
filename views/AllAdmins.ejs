@@ -1,225 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>All Admins</title>
+    <link rel="stylesheet" href="/style/admin.css" />
+    <script src="/script/admin.js" defer></script>
+    
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <title>All Admins</title>
-  <link rel="stylesheet" href="/style/admin.css">
-  <script src="/script/admin.js" defer></script>
-</head>
-
-<body>
-
-  <!-- HEADER -->
-  <header class="header">
-    <h1 class="page-title"> <% if(supAd){%>Admin <%}else{%>Editor <%} %>Dashboard</h1>
-    <nav class="header-nav">
-      <button onclick="location.href='/'" class="head-btn">Home</button>
-      <button id="logout-btn" class="head-btn">Logout</button>
-      <button onclick="location.href='/stcolumbus/admin/manage/change/pass'" class="head-btn">Change Pass</button>
-      <% if(supAd){ %>
-        <button onclick="location.href='/stcolumbus/admin/manage/signup'" class="head-btn">Create New Admin</button>
-      <% } %>
-    </nav>
-  </header>
-
-  <main>
-    <!-- FIRST SECTION -->
-    <section class="first-section">
-      <h2>Admins Accounts</h2>
-      <div class="card-container">
-        <% if (!data && data.length <=0) { %>
-          <p>No admins found.</p>
-          <% } else { %>
-            <% data.forEach(admin=> { %>
-              <div class="admin-card">
-                <img src="<%= admin.img %>" alt="<%= admin.name %>'s avatar" />
-                <div class="admin-details">
-                  <p><strong>Name:</strong>
-                    <%= admin.name %>
-                  </p>
-                  <p><strong>Email:</strong>
-                    <%= admin.email %>
-                  </p>
-                  <p><strong>Unique ID:</strong>
-                    <%= admin.uniqId %>
-                  </p>
-                  <p><strong>Role :</strong>
-                    <%= admin.role.toUpperCase() %>
-                  </p>
-                  <p><strong>Blocked:</strong>
-                    <%= admin.blocked ? "Yes" : "No" %>
-                  </p>
-                  <p><strong>Last Login:</strong>
-                    <%= admin.lastLogin %>
-                  </p>
-                </div>
-                <div class="btns">
-                  <% if(supAd) {%>
-                    <% if(admin.role=="superadmin" ){%>
-                      <button type="submit"
-                        onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/img/<%= admin._id %>'"
-                        class="link-btn">Update Img</button>
-                      <button type="submit"
-                        onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/<%= admin._id %>'"
-                        class="link-btn">Update Details</button>
-                      <% } %>
-                        <% if(admsc>1&& admin.role!="superadmin") {%>
-                          <button type="submit"
-                            onclick="location.href='/stcolumbus/jaj/ekdara/admin/delete/<%= admin._id %>'"
-                            class="link-btn">Delete Admin</button>
-                          <button type="submit"
-                            onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/superadmin/<%= admin._id %>'"
-                            class="link-btn">Update Access Control Or Block Admin</button>
-                          <% }else if(superAdminCount>1){%>
-                            <button type="submit"
-                              onclick="location.href='/stcolumbus/jaj/ekdara/admin/delete/<%= admin._id %>'"
-                              class="link-btn">Delete Admin</button>
-                            <button type="submit"
-                              onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/superadmin/<%= admin._id %>'"
-                              class="link-btn">Update Access Control Or Block Admin</button>
-                            <%} %>
-                              <% }else{%>
-                                <button type="submit"
-                                  onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/img/<%= admin._id %>'"
-                                  class="link-btn">Update Img</button>
-                                <button type="submit"
-                                  onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/<%= admin._id %>'"
-                                  class="link-btn">Update Details</button>
-                                <%} %>
-                </div>
-              </div>
-              <% }) %>
-                <% } %>
-      </div>
-    </section>
-
-    <!-- SECOND SECTION -->
-    <section class="second-section" id="admin">
-      <h2>Principal & Director Information</h2>
-      <div class="director-principle-container">
-        <% if (typeof admins !=='undefined' && admins && admins.length> 0) {
-          %> <% admins.forEach(admin=> { %>
-            <ul>
-              <li class="school-heads">
-                <img src="<%= admin.img %>" alt="<%= admin.name %>" />
-              </li>
-              <div class="inner-dir-and-principle">
-                <li><strong>Name: </strong>
-                  <span><%= admin.name %></span>
-                </li>
-                <li><strong>Id No: </strong>
-                  <span><%= admin.unqId %></span>
-                </li>
-                <li><strong>Email: </strong>
-                  <span><%= admin.email %></span>
-                </li>
-                <li><strong>Position: </strong>
-                  <span><%= admin.position %></span>
-                </li>
-                <li><strong>Qualification: </strong>
-                  <span><%= admin.quli %></span>
-                </li>
-                <li><strong>Age: </strong>
-                  <span><%= admin.age %></span>
-                </li>
-                <li><strong>Gender: </strong>
-                  <span><%= admin.gender %></span>
-                </li>
-              </div>
-              <div class="updated-head-image">
-                <%if(!supAd){%>
-                  <a href="/home/adminUpdate/<%=admin._id %>">Update Img</a>
-                  <a href="/home/adminUpdate/details/<%=admin._id %>">Update details</a>
-                  <%} %>
-              </div>
-            </ul>
-            <% }); %>
-              <% } else { %>
-                <!-- You can add a message here if admins is not defined or empty -->
-                <p>No admins found or admins data is not available.</p>
-                <% } %>
-      </div>
-    </section>
-
-    <!-- THIRD SECTION -->
-    <section class="gallery-section">
-      <div class="galley-section-heading">
-        <h2>Gallery Section Images</h2>
-        <% if (!supAd) { %>
-          <a class="btn new-event" href="/home/gallery/new">+ Set a new Event</a>
+  <body>
+    <!-- HEADER -->
+    <header class="header">
+      <h1 class="page-title">
+        <% if(supAd){%>Admin <%}else{%>Editor <%} %>Dashboard
+      </h1>
+      <nav class="header-nav">
+        <button onclick="location.href='/'" class="head-btn">Home</button>
+        <button id="logout-btn" class="head-btn">Logout</button>
+        <button
+          onclick="location.href='/stcolumbus/admin/manage/change/pass'"
+          class="head-btn"
+        >
+          Change Pass
+        </button>
+        <% if(supAd){ %>
+        <button
+          onclick="location.href='/stcolumbus/admin/manage/signup'"
+          class="head-btn"
+        >
+          Create New Admin
+        </button>
         <% } %>
-      </div>
-      <div class="gallery-header">  
-        <div class="event">
-          <% images.slice().reverse().forEach(eventGroup=> { %>
+      </nav>
+    </header>
+
+    <main>
+      <!-- FIRST SECTION -->
+      <section class="first-section">
+        <h2>Admins Accounts</h2>
+        <div class="card-container">
+          <% if (!data && data.length <=0) { %>
+          <p>No admins found.</p>
+          <% } else { %> <% data.forEach(admin=> { %>
+          <div class="admin-card">
+            <img src="<%= admin.img %>" alt="<%= admin.name %>'s avatar" />
+            <div class="admin-details">
+              <p>
+                <strong>Name:</strong>
+                <%= admin.name %>
+              </p>
+              <p>
+                <strong>Email:</strong>
+                <%= admin.email %>
+              </p>
+              <p>
+                <strong>Unique ID:</strong>
+                <%= admin.uniqId %>
+              </p>
+              <p>
+                <strong>Role :</strong>
+                <%= admin.role.toUpperCase() %>
+              </p>
+              <p>
+                <strong>Blocked:</strong>
+                <%= admin.blocked ? "Yes" : "No" %>
+              </p>
+              <p>
+                <strong>Last Login:</strong>
+                <%= admin.lastLogin %>
+              </p>
+            </div>
+            <div class="btns">
+              <% if(supAd) {%> <% if(admin.role=="superadmin" ){%>
+              <button
+                type="submit"
+                onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/img/<%= admin._id %>'"
+                class="link-btn"
+              >
+                Update Img
+              </button>
+              <button
+                type="submit"
+                onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/<%= admin._id %>'"
+                class="link-btn"
+              >
+                Update Details
+              </button>
+              <% } %> <% if(admsc>1&& admin.role!="superadmin") {%>
+              <button
+                type="submit"
+                onclick="location.href='/stcolumbus/jaj/ekdara/admin/delete/<%= admin._id %>'"
+                class="link-btn"
+              >
+                Delete Admin
+              </button>
+              <button
+                type="submit"
+                onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/superadmin/<%= admin._id %>'"
+                class="link-btn"
+              >
+                Update Access Control Or Block Admin
+              </button>
+              <% }else if(superAdminCount>1){%>
+              <button
+                type="submit"
+                onclick="location.href='/stcolumbus/jaj/ekdara/admin/delete/<%= admin._id %>'"
+                class="link-btn"
+              >
+                Delete Admin
+              </button>
+              <button
+                type="submit"
+                onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/superadmin/<%= admin._id %>'"
+                class="link-btn"
+              >
+                Update Access Control Or Block Admin
+              </button>
+              <%} %> <% }else{%>
+              <button
+                type="submit"
+                onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/img/<%= admin._id %>'"
+                class="link-btn"
+              >
+                Update Img
+              </button>
+              <button
+                type="submit"
+                onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/<%= admin._id %>'"
+                class="link-btn"
+              >
+                Update Details
+              </button>
+              <%} %>
+            </div>
+          </div>
+          <% }) %> <% } %>
+        </div>
+      </section>
+
+      <!-- SECOND SECTION -->
+      <section class="second-section" id="admin">
+        <h2>Principal & Director Information</h2>
+        <div class="director-principle-container">
+          <% if (typeof admins !=='undefined' && admins && admins.length> 0) {
+          %> <% admins.forEach(admin=> { %>
+          <ul>
+            <li class="school-heads">
+              <img src="<%= admin.img %>" alt="<%= admin.name %>" />
+            </li>
+            <div class="inner-dir-and-principle">
+              <li>
+                <strong>Name: </strong>
+                <span><%= admin.name %></span>
+              </li>
+              <li>
+                <strong>Id No: </strong>
+                <span><%= admin.unqId %></span>
+              </li>
+              <li>
+                <strong>Email: </strong>
+                <span><%= admin.email %></span>
+              </li>
+              <li>
+                <strong>Position: </strong>
+                <span><%= admin.position %></span>
+              </li>
+              <li>
+                <strong>Qualification: </strong>
+                <span><%= admin.quli %></span>
+              </li>
+              <li>
+                <strong>Age: </strong>
+                <span><%= admin.age %></span>
+              </li>
+              <li>
+                <strong>Gender: </strong>
+                <span><%= admin.gender %></span>
+              </li>
+            </div>
+            <div class="updated-head-image">
+              <%if(!supAd){%>
+              <a href="/home/adminUpdate/<%=admin._id %>">Update Img</a>
+              <a href="/home/adminUpdate/details/<%=admin._id %>"
+                >Update details</a
+              >
+              <%} %>
+            </div>
+          </ul>
+          <% }); %> <% } else { %>
+          <!-- You can add a message here if admins is not defined or empty -->
+          <p>No admins found or admins data is not available.</p>
+          <% } %>
+        </div>
+      </section>
+
+      <!-- THIRD SECTION -->
+      <section class="gallery-section">
+        <div class="galley-section-heading">
+          <h2>Gallery Section Images</h2>
+          <% if (!supAd) { %>
+          <a class="btn new-event" href="/home/gallery/new"
+            >+ Set a new Event</a
+          >
+          <% } %>
+        </div>
+        <div class="gallery-header">
+          <div class="event">
+            <% images.slice().reverse().forEach(eventGroup=> { %>
             <!-- eventGroup = one event date with titles inside -->
             <h1><%= eventGroup[0][0].EventDate %></h1>
-            <div class="datesect" >
+            <div class="datesect">
               <% eventGroup.forEach(titleGroup=> { %>
               <!-- titleGroup = one title group inside this event date -->
               <h3><%= titleGroup[0].title %></h3>
-              <div class="images" >
+              <div class="images">
                 <% titleGroup.forEach(item=> { %>
                 <div class="img">
-                  <img src="<%= item.img %>" alt="<%= item.title %>">
+                  <img src="<%= item.img %>" alt="<%= item.title %>" />
                   <% if (!supAd) { %>
-                    <a class="btn" href="/home/galleryUpdate/<%= item._id %>">Update Img</a>
-                    <a class="btn" href="/home/galleryUpdate/details/<%= item._id %>">Update details</a>
-                    <% if (titleGroup.length> 3) { %>
-                      <a class="btn delete" href="/home/galleryDelete/<%= item._id %>">Delete</a>
-                    <% } %>
-                    <% } %>
+                  <a class="btn" href="/home/galleryUpdate/<%= item._id %>"
+                    >Update Img</a
+                  >
+                  <a
+                    class="btn"
+                    href="/home/galleryUpdate/details/<%= item._id %>"
+                    >Update details</a
+                  >
+                  <% if (titleGroup.length> 3) { %>
+                  <a
+                    class="btn delete"
+                    href="/home/galleryDelete/<%= item._id %>"
+                    >Delete</a
+                  >
+                  <% } %> <% } %>
                 </div>
-                 <% }) %>
-                  <% if (!supAd) { %>
-                    <a class="btn new-event" href="/home/gallery/new?date=<%= eventGroup[0][0].EventDate%>&title=<%= titleGroup[0].title %>">+ Add Image</a>
-                  <% } %>
+                <% }) %> <% if (!supAd) { %>
+                <a
+                  class="btn new-event"
+                  href="/home/gallery/new?date=<%= eventGroup[0][0].EventDate%>&title=<%= titleGroup[0].title %>"
+                  >+ Add Image</a
+                >
+                <% } %>
               </div>
               <% }) %>
             </div>
-          <% }) %>
+            <% }) %>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- FOURTH PAGE -->
-    <section class="fourth-section" id="notice">
-      <div class="fourth-section-heading-and-btn">
-        <h2>Notices Details for WebPage</h2>
-        <% if (!supAd) { %>
+      <!-- FOURTH PAGE -->
+      <section class="fourth-section" id="notice">
+        <div class="fourth-section-heading-and-btn">
+          <h2>Notices Details for WebPage</h2>
+          <% if (!supAd) { %>
           <a class="new-notice-btn" href="/home/notice/new">+ New Notice</a>
-        <% } %>
-      </div>
+          <% } %>
+        </div>
 
-      <div class="fourth-section-outer">  
-        <% notices.forEach(notice => { %>
+        <div class="fourth-section-outer">
+          <% notices.forEach(notice => { %>
           <div class="fourth-section-card">
             <!-- IMAGE / PDF -->
-            <% if (notice.img) { 
-                const regex = /\.pdf$/i; 
-                if (!regex.test(notice.img)) { %>
-                  <!-- If it's an image -->
-                  <img src="<%= notice.img %>" alt="<%= notice.title %>" class="notice-img"/>
-                  <a class="btn" href="<%= notice.img %>" target="_blank" download="">Download</a>
+            <% if (notice.img) { const regex = /\.pdf$/i; if
+            (!regex.test(notice.img)) { %>
+            <!-- If it's an image -->
+            <img
+              src="<%= notice.img %>"
+              alt="<%= notice.title %>"
+              class="notice-img"
+            />
+            <a class="btn" href="<%= notice.img %>" target="_blank" download=""
+              >Download</a
+            >
 
             <% if (!supAd) { %>
-              <a class="btn" href="/home/noticeUpdate/<%= notice._id %>">
-                <% if (notice.img) { %>Update Image<% } else { %>Add Image | PDF<% } %>
-              </a>
-            <% } %>
-
-            <% } else { %>
-                <!-- If it's a PDF -->
-                <iframe class="notice-pdf" src="<%= notice.img %>" frameborder="0"></iframe>
-                <a class="btn" href="<%= notice.img %>" target="_blank">Download</a>
+            <a class="btn" href="/home/noticeUpdate/<%= notice._id %>">
+              <% if (notice.img) { %>Update Image<% } else { %>Add Image | PDF<%
+              } %>
+            </a>
+            <% } %> <% } else { %>
+            <!-- If it's a PDF -->
+            <iframe
+              class="notice-pdf"
+              src="<%= notice.img %>"
+              frameborder="0"
+            ></iframe>
+            <a class="btn" href="<%= notice.img %>" target="_blank">Download</a>
 
             <% if (!supAd) { %>
-              <a class="btn" href="/home/noticeUpdate/<%= notice._id %>">
-                  <% if (notice.img) { %>Update PDF<% } else { %>Add Image | PDF<% } %>
-              </a>
-            <% } %>
-            <% } } %>
+            <a class="btn" href="/home/noticeUpdate/<%= notice._id %>">
+              <% if (notice.img) { %>Update PDF<% } else { %>Add Image | PDF<% }
+              %>
+            </a>
+            <% } %> <% } } %>
 
             <!-- SUBJECT -->
             <h3 class="notice-title"><%= notice.title %></h3>
@@ -229,60 +303,66 @@
 
             <!-- ACTION BUTTONS -->
             <% if (!supAd) { %>
-              <div class="btn-group">
-                <a class="btn" href="/home/noticeUpdate/details/<%= notice._id %>">Update Details</a>
-                <a class="btn delete" href="/home/noticeDelete/<%= notice._id %>">Delete</a>
-              </div>
+            <div class="btn-group">
+              <a class="btn" href="/home/noticeUpdate/details/<%= notice._id %>"
+                >Update Details</a
+              >
+              <a class="btn delete" href="/home/noticeDelete/<%= notice._id %>"
+                >Delete</a
+              >
+            </div>
             <% } %>
 
             <!-- DATE -->
             <p class="notice-date"><%= notice.messDate %></p>
-
           </div>
-        <% }); %>
-      </div>
-    </section>
+          <% }); %>
+        </div>
+      </section>
 
-    <!-- FIFTH PAGE -->
-     <section class="fifth-section">
-      <div class="fifth-section-heading">
-        <% const parts = fees.lastChanged.split(/[- :]/); %>
-        <h2>Fees Structure</h2>
-        <span>Last Update:&nbsp;&nbsp;&nbsp;&nbsp; <%= parts[2] %> - <%= parts[1] %> - <%= parts[0] %></span>
-      </div>
-      
-      <div class="table-section">
-        <h3>Tuition Fee</h3>
-        <table>
-          <tr>
-            <th>Class</th>
-            <th>Admission Fee</th>
-            <th>Monthly Fee</th>
-          </tr>
-          <tr>
-            <td>Nursery - UKG</td>
-            <td>₹<%=fees.tutionfee.nurUkg.addfee %></td>
-            <td>₹<%=fees.tutionfee.nurUkg.monthly %></td>
-          </tr>
-          <tr>
-            <td>Class I - V</td>
-            <td>₹<%=fees.tutionfee.oneFive.addfee %></td>
-            <td>₹<%=fees.tutionfee.oneFive.monthly %></td>
-          </tr>
-          <tr>
-            <td>Class VI - VIII</td>
-            <td>₹<%=fees.tutionfee.sixEight.addfee %></td>
-            <td>₹<%=fees.tutionfee.sixEight.monthly %></td>
-          </tr>
-          <tr>
-            <td>Class IX - X</td>
-            <td>₹<%=fees.tutionfee.nineTen.addfee %></td>
-            <td>₹<%=fees.tutionfee.nineTen.monthly %></td>
-          </tr>
-        </table>
-      </div>
+      <!-- FIFTH PAGE -->
+      <section class="fifth-section">
+        <div class="fifth-section-heading">
+          <% const parts = fees.lastChanged.split(/[- :]/); %>
+          <h2>Fees Structure</h2>
+          <span
+            >Last Update:&nbsp;&nbsp;&nbsp;&nbsp; <%= parts[2] %> - <%= parts[1]
+            %> - <%= parts[0] %></span
+          >
+        </div>
 
-      <div class="table-section">
+        <div class="table-section">
+          <h3>Tuition Fee</h3>
+          <table>
+            <tr>
+              <th>Class</th>
+              <th>Admission Fee</th>
+              <th>Monthly Fee</th>
+            </tr>
+            <tr>
+              <td>Nursery - UKG</td>
+              <td>₹<%=fees.tutionfee.nurUkg.addfee %></td>
+              <td>₹<%=fees.tutionfee.nurUkg.monthly %></td>
+            </tr>
+            <tr>
+              <td>Class I - V</td>
+              <td>₹<%=fees.tutionfee.oneFive.addfee %></td>
+              <td>₹<%=fees.tutionfee.oneFive.monthly %></td>
+            </tr>
+            <tr>
+              <td>Class VI - VIII</td>
+              <td>₹<%=fees.tutionfee.sixEight.addfee %></td>
+              <td>₹<%=fees.tutionfee.sixEight.monthly %></td>
+            </tr>
+            <tr>
+              <td>Class IX - X</td>
+              <td>₹<%=fees.tutionfee.nineTen.addfee %></td>
+              <td>₹<%=fees.tutionfee.nineTen.monthly %></td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="table-section">
           <h3>Transports Fee</h3>
           <table>
             <tr>
@@ -310,63 +390,118 @@
               <td>₹<%=fees.transport.twentyPlush %>+50 / 5KM</td>
             </tr>
           </table>
-      </div>
+        </div>
 
+        <div class="table-section">
+          <h3>School Uniform</h3>
+          <table>
+            <tr>
+              <th>Dress Kit</th>
+              <th>Price</th>
+            </tr>
+            <tr>
+              <td>Regular Dress</td>
+              <td><%=fees.schoolUniform.regular %></td>
+            </tr>
+            <tr>
+              <td>Game Uniform</td>
+              <td><%=fees.schoolUniform.gameUniform %></td>
+            </tr>
+            <tr>
+              <td>Tie</td>
+              <td><%=fees.schoolUniform.tie %></td>
+            </tr>
+            <tr>
+              <td>Belt</td>
+              <td><%=fees.schoolUniform.belt %></td>
+            </tr>
+            <tr>
+              <td>ID card</td>
+              <td><%=fees.schoolUniform.IDcard %></td>
+            </tr>
+            <tr title="If you want to from us">
+              <td>Shoes & Socks Pair</td>
+              <td><%=fees.schoolUniform.shoesSocks %></td>
+            </tr>
+          </table>
+        </div>
 
-      <div class="table-section">
-        <h3>School Uniform</h3>
-        <table>
-          <tr>
-            <th>Dress Kit</th>
-            <th>Price</th>
-          </tr>
-          <tr>
-            <td>Regular Dress</td>
-            <td><%=fees.schoolUniform.regular %></td>
-          </tr>
-          <tr>
-            <td>Game Uniform</td>
-            <td><%=fees.schoolUniform.gameUniform %></td>
-          </tr>
-          <tr>
-            <td>Tie</td>
-            <td><%=fees.schoolUniform.tie %></td>
-          </tr>
-          <tr>
-            <td>Belt</td>
-            <td><%=fees.schoolUniform.belt %></td>
-          </tr>
-          <tr>
-            <td>ID card</td>
-            <td><%=fees.schoolUniform.IDcard %></td>
-          </tr>
-          <tr title="If you want to from us">
-            <td>Shoes & Socks Pair</td>
-            <td><%=fees.schoolUniform.shoesSocks %></td>
-          </tr>
-        </table>
-      </div>
-
-      <div class="update-links">
-        <div class="update-link-first">
-          <% if(!supAd){ %>
+        <div class="update-links">
+          <div class="update-link-first">
+            <% if(!supAd){ %>
             <a href="/home/feeUpdate">Update Fees</a>
-          <%} %>
+            <%} %>
+          </div>
+          <div class="update-link-second">
+            <% if(supAd){ %>
+            <a
+              href="/home/admission/handeladmission/superadmin"
+              title="Click to view all request for document verification."
+              >Request for DV</a
+            >
+            <a
+              href="/home/contact/forms/superadmin"
+              title="Click to view all contact requests."
+              >Contact requests fulfilled</a
+            >
+            <%}else {%>
+            <a
+              href="/home/admission/handeladmission/editor"
+              title="Click to view counseling requests assigned to you as an editor."
+              >Counseling Request</a
+            >
+            <a
+              href="/home/contact/forms/editor"
+              title="Click to view all contact requests submitted through the website."
+              >Contact requests</a
+            >
+            <%} %>
+            <a
+              href="/home/admission/handeladmission/allDone"
+              title="Click to view all student who successfully get the admission."
+              >Admission Completed</a
+            >
+          </div>
         </div>
-        <div class="update-link-second">
-          <% if(supAd){ %>
-            <a href="/home/admission/handeladmission/superadmin" title="Click to view all request for document verification.">Request for DV</a>
-            <a href="/home/contact/forms/superadmin" title="Click to view all contact requests.">Contact requests fulfilled</a>
-          <%}else {%>
-            <a href="/home/admission/handeladmission/editor" title="Click to view counseling requests assigned to you as an editor.">Counseling Request</a>
-            <a href="/home/contact/forms/editor" title="Click to view all contact requests submitted through the website.">Contact requests</a>
-          <%} %>
-            <a href="/home/admission/handeladmission/allDone" title="Click to view all student who successfully get the admission.">Admission Completed</a>
+      </section>
+
+      <!-- SIXTH PAGE -->
+      <section class="sixth-section" id="video">
+        <div class="sixth-section-heading">
+          <h2>Video Embed Codes</h2>
+          <% if (!supAd) { %>
+          <a class="new-video-btn" href="/home/video/embedded/new"
+            >+ New Video Embed Code</a
+          >
+          <% } %>
         </div>
-      </div>
-    </section>
-  </main>
-  
-  
-</body>
+
+        <div class="sixth-section-outer">
+          <% videoEmbed.forEach(video => { %>
+          <div class="sixth-section-card">
+            <!-- VIDEO EMBED CODE -->
+            <div class="video-embed"><%- video.videoEmbed %></div>
+
+            <!-- ACTION BUTTONS -->
+            <% if (!supAd) { %>
+            <div class="btn-group">
+              <a class="btn" href="/home/video/embedded/update/<%= video._id %>"
+                >Update Embed Code</a
+              >
+              <a class="btn delete" href="/home/video/embedded/delete/<%= video._id %>"
+                >Delete</a
+              >
+            </div>
+            <% } %>
+            <!-- DATE -->
+            <p class="video-date">
+              Added on: <%= video.updatedAt.toLocaleDateString("en-US", { year:
+              'numeric', month: 'long', day: 'numeric' }) %>
+            </p>
+          </div>
+          <% }); %>
+        </div>
+      </section>
+    </main>
+  </body>
 </html>
