@@ -3,9 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/style/gallery.css" />
-  <script src="/script/gallery.js" defer></script>
   <title>Gallery</title>
+
+  <!-- ICONS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+    integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+
+  <!-- STYLE -->
+  <link rel="stylesheet" href="/style/style.css" />
+  <link rel="stylesheet" href="/style/gallery.css" />
+  <link rel="stylesheet" href="/style/footer.css" />
+
+  <!-- SCRIPT -->
+  <script src="/script/gallery.js" defer></script>
+
 </head>
 <body>
   <!-- NAV-->
@@ -16,10 +30,7 @@
       <div class="gallery-overlay"></div>
       <div class="gallery-inner">
         <h1>Gallery</h1>
-        <p class="subtitle">
-          Our gallery shows learning, creativity, discipline, and values that
-          shape our community.
-        </p>
+        <p class="subtitle">Our gallery shows learning, creativity, discipline, and values that shape our community.</p>
       </div>
     </section>
 
@@ -30,6 +41,7 @@
           <a href="#" class="active" data-filter="all">All</a>
           <a href="#" data-filter="date">Arranged by Date</a>
           <a href="#" data-filter="title">Arranged by Event Name</a>
+          <a href="#" data-filter="video">Video</a>
         </div>
 
         <!-- ALL IMAGES (Flat Grid) -->
@@ -116,82 +128,31 @@
         <div class="popup" id="popup">
           <div class="popup-container">
             <div class="close-btn">
-              <img src="/images/close-icon.svg" alt="close" />
+              <img src="/images/icons/close-icon.svg" alt="close" />
             </div>
             <div class="popup-content">
               <img class="popup-img" src="" alt="popup image" />
             </div>
           </div>
         </div>
+
+        <!-- VIDEO -->
+        <section class="gallery-section video">
+            <% videos.forEach(video => { %>
+              <div class="sixth-section-card">
+              <!-- VIDEO EMBED CODE -->
+              <div class="video-embed"><%- video.videoEmbed %></div>
+              </div>
+            <% }); %>
+          </div>
+        </section>
+
         
       </section>
     </main>
 
     <!-- FOOTER -->
-    <footer>
-      <div class="footer-container">
-        <div class="about-us">
-          <h3>About Us</h3>
-          <div>
-            <p>
-              St. Columbus Public School is a private English Medium School
-              established for providing quality education to students up to High
-              School level with a focus on values, discipline, and all-round
-              development.
-            </p>
-          </div>
-        </div>
-        <div class="quick-links">
-          <h3>Quick Links</h3>
-          <div>
-            <a href="/">Home</a>
-            <a href="/about">About Us</a>
-            <a href="/admission">Admission</a>
-            <a href="/gallery">Gallery</a>
-            <a href="/contact">Contact Us</a>
-          </div>
-        </div>
-
-        <div class="follow-us">
-          <h3>Follow Us</h3>
-          <div>
-            <a href="#"><i class="fab fa-youtube"></i> YouTube</a>
-            <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
-            <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
-            <a href="#"><i class="fab fa-x-twitter"></i> X</a>
-          </div>
-        </div>
-
-        <div class="contact-us">
-          <h3>Contact Us</h3>
-          <div>
-            <p>
-              <i class="fas fa-map-marker-alt"></i>
-              <a
-                href="https://maps.google.com/?q=St.+Columbus+Public+School,+Ekdara,+Jhajha,+Jamui+811308+(Bihar),+India">
-                St. Columbus Public School, Ekdara, &nbsp; &nbsp;&nbsp; Jhajha,
-                Jamui 811308 (Bihar), India</a>
-            </p>
-            <p>
-              <i class="fas fa-phone"></i>
-              <a href="tel:+919812345678">+91-9876543210</a>,
-              <a href="tel:+919812345678">+91-1122334455</a>
-            </p>
-            <p>
-              <i class="fas fa-envelope"></i>
-              <a href="#" onclick="if(/Mobi|Android/i.test(navigator.userAgent)){location.href='mailto:school@example.com?subject=School%20Enquiry&body=Hello,%20I%20would%20like%20to%20know%20more%20about%20the%20school.'}else{window.open('https://mail.google.com/mail/?view=cm&fs=1&to=school@example.com&su=School%20Enquiry&body=Hello,%20I%20would%20like%20to%20know%20more%20about%20the%20school.')}">info@gvpschool.edu.in</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <p class="copy-right">
-        <i class="far fa-copyright"></i> 2025 St. Columbus Public School. All
-        rights reserved. | Developed by
-        <a>GrabityServices</a>
-        <a id="upArrow" style="margin-left: 20px;color: aliceblue;" href="#upp">&uparrow;</a>
-      </p>
-    </footer>
-
+    <%- include('footer.ejs') %>
 
 </body>
 </html>

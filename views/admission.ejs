@@ -5,8 +5,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admission</title>
+
+  <!-- ICONS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+    integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+  <!-- STYLE -->
+  <link rel="stylesheet" href="style/style.css" />
   <link rel="stylesheet" href="style/admission.css" />
+  <link rel="stylesheet" href="style/footer.css" />
+
+  <!-- SCRIPT -->
   <script src="script/admission.js" defer></script>
+
 </head>
 
 <body>
@@ -28,8 +41,8 @@
     <main>
 
       <!-- Admission Buttons -->
-      <section d="sec"  class="admission-buttons">
-        <a href="/admission/form" class="btn-secondary">EnrollNow</a>
+      <section d="sec" class="admission-buttons">
+        <a href="/admission/form" class="btn-secondary">Enroll Now</a>
         <a href="/admission/getEnroll" class="btn-primary">Check Status</a>
       </section>
 
@@ -39,22 +52,43 @@
         <div class="steps">
           <div class="step">
             <h4>Step 1</h4>
-            <p>Collect admission form from office.</p>
+            <p>Get the form from the office or fill it online.</p>
           </div>
           <div class="step">
             <h4>Step 2</h4>
-            <p>Submit form with required documents.</p>
+            <p>Submit the form with documents.</p>
           </div>
           <div class="step">
             <h4>Step 3</h4>
-            <p>Attend short interaction/entrance.</p>
+            <p>Attend the interaction or test.</p>
           </div>
           <div class="step">
             <h4>Step 4</h4>
-            <p>Confirm admission after fee payment.</p>
+            <p>Pay the fee to confirm admission.</p>
           </div>
         </div>
       </section>
+
+      <!-- RTE Admission -->
+      <section class="rte-admission container">
+        <h2>RTE Admission</h2>
+        <p>
+          We provide admissions under the Right to Education (RTE) quota for eligible children.
+          RTE admissions ensure access to quality education for all.
+        </p>
+        <ul>
+          <li>Eligibility: Children from economically weaker sections</li>
+          <li>Documents Required:
+            <ul>
+              <li>Income Certificate</li>
+              <li>Residence Proof</li>
+              <li>Birth Certificate</li>
+            </ul>
+          </li>
+          <li>Quota: 25% of total seats are reserved under RTE</li>
+        </ul>
+      </section>
+
 
       <!-- Eligibility -->
       <section class="eligibility container">
@@ -84,7 +118,7 @@
       </section>
 
       <!-- Fee Structure -->
-      <section class="fee-structure container">
+      <!-- <section class="fee-structure container">
         <% const parts=fees.lastChanged.split(/[- :]/); %>
 
           <h2>Fees Structure 
@@ -199,13 +233,13 @@
               </td>
             </tr>
           </table>
-      </section>
+      </section> -->
 
       <!-- Important Dates -->
       <section class="important-dates container">
         <h2>Important Dates</h2>
         <ul>
-          <li><strong>Admission Starts From :</strong>&nbsp;&nbsp; January </li>
+          <li><strong>Admission Starts From :</strong>&nbsp;&nbsp; February </li>
           <li><strong>Admission Ends On :</strong>&nbsp;&nbsp; March </li>
           <li><strong>Entrance Test / Interaction :</strong>&nbsp;&nbsp; During Admission </li>
           <li><strong>Session Begins :</strong>&nbsp;&nbsp; 2nd April </li>
@@ -221,70 +255,7 @@
     </main>
 
     <!-- FOOTER -->
-    <footer>
-      <div class="footer-container">
-        <div class="about-us">
-          <h3>About Us</h3>
-          <div>
-            <p>
-              St. Columbus Public School is a private English Medium School
-              established for providing quality education to students up to High
-              School level with a focus on values, discipline, and all-round
-              development.
-            </p>
-          </div>
-        </div>
-        <div class="quick-links">
-          <h3>Quick Links</h3>
-          <div>
-            <a href="/">Home</a>
-            <a href="/about">About Us</a>
-            <a href="/admission">Admission</a>
-            <a href="/gallery">Gallery</a>
-            <a href="/contact">Contact Us</a>
-          </div>
-        </div>
-
-        <div class="follow-us">
-          <h3>Follow Us</h3>
-          <div>
-            <a href="#"><i class="fab fa-youtube"></i> YouTube</a>
-            <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
-            <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
-            <a href="#"><i class="fab fa-x-twitter"></i> X</a>
-          </div>
-        </div>
-
-        <div class="contact-us">
-          <h3>Contact Us</h3>
-          <div>
-            <p>
-              <i class="fas fa-map-marker-alt"></i>
-              <a
-                href="https://maps.google.com/?q=St.+Columbus+Public+School,+Ekdara,+Jhajha,+Jamui+811308+(Bihar),+India">
-                St. Columbus Public School, Ekdara, &nbsp; &nbsp;&nbsp; Jhajha,
-                Jamui 811308 (Bihar), India</a>
-            </p>
-            <p>
-              <i class="fas fa-phone"></i>
-              <a href="tel:+919812345678">+91-9876543210</a>,
-              <a href="tel:+919812345678">+91-1122334455</a>
-            </p>
-            <p>
-              <i class="fas fa-envelope"></i>
-              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sudhanshu95084145@gmail.com&su=Hello&body=This%20is%20a%20default%20message"
-                target="_blank">info@gvpschool.edu.in</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <p class="copy-right">
-        <i class="far fa-copyright"></i> 2025 St. Columbus Public School. All
-        rights reserved. | Developed by
-        <a href="https://www.grabityservices.com" target="_blank">GrabityServices</a>
-        <a id="upArrow" style="margin-left: 20px; color: aliceblue" href="">&uparrow;</a>
-      </p>
-    </footer>
+    <%- include('footer.ejs') %>
 </body>
 
 </html>

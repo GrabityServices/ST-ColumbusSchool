@@ -4,15 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Academics | St. Columbus Public School</title>
-    <meta
-      name="description"
-      content="Academics at St. Columbus Public School, Ekdara, Jhajha (Jamui, Bihar): curriculum stages, subjects offered, teaching approach, assessment policy, library and playground."
-    />
-    <link rel="stylesheet" href="/style/academics.css" />
-    <script src="script/academics.js" defer></script>
-  </head>
 
-  <body>
+    <!-- ICONS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+    integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- STYLE -->
+    <link rel="stylesheet" href="/style/style.css" />
+    <link rel="stylesheet" href="/style/academics.css" />
+    <link rel="stylesheet" href="/style/footer.css">
+
+    <!-- SCRIPT -->
+    <script src="script/academics.js" defer></script>
+</head>
+<body>
     <!-- Nav Bar-->
     <%- include('index.ejs') %>
 
@@ -21,15 +27,13 @@
       <div class="academics-overlay"></div>
       <div class="academics-inner">
         <h1>Academics</h1>
-        <p class="subtitle">
-          Balanced learning with values, Reading, and daily discipline.
-        </p>
+        <p class="subtitle">Balanced learning with values, Reading, and daily discipline.</p>
       </div>
     </section>
 
     <main>
       <!-- CURRICULUM OVERVIEW -->
-      <section class="container">
+      <section class="academic-first container">
         <h2>Curriculum Overview</h2>
         <p>
           At St. Columbus Public School, Ekdara, our academic programme builds
@@ -54,7 +58,7 @@
             <li>Good habits & daily routines</li>
             <li>Games | Musics | Dance</li>
             <li class="imp">Morals</li>
-            <li class="imp">Good use of Computers, Phones and electonic devics</li>
+            <li class="imp">Good use of Computers, Phones and electronic devices</li>
             <li class="imp">Local cultural Knowledge [ Language | Dance | Musics etc.. ]</li>
           </ul>
         </article>
@@ -69,9 +73,9 @@
             <li>English, Hindi, Mathematics, EVS</li>
             <li>Handwriting, spelling, tables practice</li>
             <li>Library periods & morning assembly</li>
-            <li>Local culturals Knowledge [ Language | Dance | Musics etc.. ]</li>
-            <li class="imp">Basic Computer Oprating</li>
-            <li class="imp">Computer Searchs</li>
+            <li>Local culture Knowledge [ Language | Dance | Musics etc.. ]</li>
+            <li class="imp">Basic Computer Operating</li>
+            <li class="imp">Computer Search</li>
             <li class="imp">Basic works in Computer [ MS-Office | AI-Uses ]</li>
           </ul>
         </article>
@@ -86,7 +90,7 @@
             <li>English, Hindi, Mathematics, Science, Social Science</li>
             <li>Project work with charts, maps, and presentations</li>
             <li>Physical education & house activities</li>
-            <li class="imp">Basic Digital electonics</li>
+            <li class="imp">Basic Digital electronic</li>
             <li class="imp">Computer Knowledge [ 0_Level to ADCA_level | Programming | Graphics Design etc... ]</li>
           </ul>
         </article>
@@ -122,7 +126,7 @@
               <li>Hindi (varnmala, oral)</li>
               <li>Number readiness</li>
               <li>Rhymes, stories, craft</li>
-              <li>Morals & Local culturals</li>
+              <li>Morals & Local Cultural</li>
               <li>Good Use of Computers & Phones</li>
             </ul>
           </div>
@@ -170,7 +174,7 @@
                 <details>
                   <summary>Computer</summary>
                   (Advance Programming, Concept of Full-Stack, Software
-                  Enginerring, Microchip-Coding and many More...)
+                  Engineering, Microchip-Coding and many More...)
                 </details>
               </li>
             </ul>
@@ -201,7 +205,7 @@
           <!-- Example only — customize or hide -->
           <ul class="muted">
             <p>
-              <strong>Example weightage:</strong> Periodic Tests 40%,
+              <strong>Example weight:</strong> Periodic Tests 40%,
               Classwork/Notebook 30%, Projects 20%, Attendance/Conduct 10%
             </p>
           </ul>
@@ -255,69 +259,6 @@
     </main>
 
     <!-- Footer -->
-    <footer>
-      <div class="footer-container">
-        <div class="about-us">
-          <h3>About Us</h3>
-          <div>
-            <p>
-              St. Columbus Public School is a private English Medium School
-              established for providing quality education to students up to High
-              School level with a focus on values, discipline, and all-round
-              development.
-            </p>
-          </div>
-        </div>
-        <div class="quick-links">
-          <h3>Quick Links</h3>
-          <div>
-            <a href="/">Home</a>
-            <a href="/about">About Us</a>
-            <a href="/admission">Admission</a>
-            <a href="/gallery">Gallery</a>
-            <a href="/contact">Contact Us</a>
-          </div>
-        </div>
-
-        <div class="follow-us">
-          <h3>Follow Us</h3>
-          <div>
-            <a href="#"><i class="fab fa-youtube"></i> YouTube</a>
-            <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
-            <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
-            <a href="#"><i class="fab fa-x-twitter"></i> X</a>
-          </div>
-        </div>
-
-        <div class="contact-us">
-          <h3>Contact Us</h3>
-          <div>
-            <p>
-              <i class="fas fa-map-marker-alt"></i>
-              <a
-                href="https://maps.google.com/?q=St.+Columbus+Public+School,+Ekdara,+Jhajha,+Jamui+811308+(Bihar),+India"
-                >St. Columbus Public School, Ekdara, &nbsp; &nbsp;&nbsp; Jhajha,
-                Jamui 811308 (Bihar), India</a
-              >
-            </p>
-            <p>
-              <i class="fas fa-phone"></i>
-              <a href="tel:+919812345678">+91-9876543210</a>,
-              <a href="tel:+919812345678">+91-1122334455</a>
-            </p>
-            <p>
-              <i class="fas fa-envelope"></i>
-              <a href="#" onclick="if(/Mobi|Android/i.test(navigator.userAgent)){location.href='mailto:school@example.com?subject=School%20Enquiry&body=Hello,%20I%20would%20like%20to%20know%20more%20about%20the%20school.'}else{window.open('https://mail.google.com/mail/?view=cm&fs=1&to=school@example.com&su=School%20Enquiry&body=Hello,%20I%20would%20like%20to%20know%20more%20about%20the%20school.')}">info@gvpschool.edu.in</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <p class="copy-right">
-        <i class="far fa-copyright"></i> 2025 St. Columbus Public School. All
-        rights reserved. | Developed by
-        <a>GrabityServices</a>
-          <a id="upArrow" style="margin-left: 20px;color: aliceblue;" href="#upp">&uparrow;</a>
-      </p>
-    </footer>
+    <%- include('footer.ejs') %>
   </body>
 </html>

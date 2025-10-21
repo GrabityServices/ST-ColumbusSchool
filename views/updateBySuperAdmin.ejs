@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Update Admin</title>
   <style>
+    :root{
+        --main-bg-color: radial-gradient(125% 125% at 50% 10%, #000000 40%, #010133 100%);
+        --form-bg-color: linear-gradient(135deg, rgba(42, 42, 42, 0.8) 0%, rgba(74, 74, 74, 0.6) 100%);
+        --label-text-color: rgba(255, 255, 255, 0.87);
+        --input-bg-color: #0000004d;;
+        --input-text-color: white;
+        --input-border-color: rgba(255, 255, 255, 0.5);
+      }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -17,22 +26,23 @@
       align-items: center;
       min-height: 100vh;
       font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-      background: #f9f9f9;
+      background-color: #000;
+      background-image: var(--main-bg-color);
     }
 
     .signup-container {
-      background: #fff;
+      background-image: var(--form-bg-color);
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
       max-width: 500px;
       width: 100%;
+      color: var(--input-text-color);
     }
 
     .signup-container h1 {
       text-align: center;
       margin-bottom: 2rem;
-      color: #333;
     }
 
     .input-group {
@@ -44,17 +54,19 @@
       display: block;
       margin-bottom: 8px;
       font-weight: 600;
-      color: #444;
+      color: var(--label-text-color);
     }
 
     .input-group input,
     .input-group select {
       width: 100%;
       padding: 10px 12px;
-      border: 1px solid #ccc;
+      border: 1px solid var(--input-border-color);
       border-radius: 6px;
       font-size: 1rem;
       font-family: inherit;
+      background-color: var(--input-bg-color);
+      color: var(--input-text-color);
     }
 
     .input-group input:focus,

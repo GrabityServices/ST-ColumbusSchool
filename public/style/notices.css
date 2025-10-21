@@ -1,4 +1,11 @@
 :root {
+    --bg-dark: #000000;
+
+    /* TEXT */
+    --text-primary: #FFFFFF;
+    --text-secondary: #E0E0E0;
+    --text-light: #dbdbdbc9;
+
     --maxw: 1400px;
 }
 
@@ -10,30 +17,68 @@ body {
     margin: 0;
     padding: 0;
     line-height: 1.5;
+    scroll-behavior: smooth;
+    color: var(--text-primary);
+    background-color: var(--bg-dark);
 }
 
+/* CONTAINER AND TYPOGRAPHY */
+.container {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 2rem 0.5rem;
+}
 
-/* TYPOGRAPHY */
 h1 {
     font-size: 3.5rem;
     line-height: 1;
+    color: var(--text-primary);
+    margin: 0 0 1rem 0;
+
+}
+
+h2 {
+    font-size: 2.5rem;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem 0;
+    letter-spacing: 3px;
+
 }
 
 h3 {
     font-size: 1.35rem;
-    margin-bottom: .5rem;
+    color: var(--text-secondary);
+    margin: 0 0 0.5rem 0;
+    letter-spacing: 2px;
 }
 
 p {
     font-size: 1.1rem;
+    color: var(--text-light);
+    margin: 0 0 0.5rem 0;
 }
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+}
+
+b {
+    letter-spacing: 1px;
+}
+
+main{
+    background-image: radial-gradient(125% 125% at 50% 10%, #000000 40%, #010133 100%);
+}
+
 
 /* HEADING */
 .notices-heading {
     margin-top: 90px;
     position: relative;
     height: 380px;
-    background: url('/images/school-image.jpg') center/cover no-repeat;
+    background: url('/images/school-image-1.JPG') center/cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -75,7 +120,7 @@ p {
     border-radius: 10px;
     margin-bottom: 1rem;
     box-shadow: 0 6px 18px rgba(0, 0, 0, .03);
-    border-left: 4px solid #0b6;
+    border-left: 4px solid rgb(0, 112, 187);
 }
 
 time {
@@ -87,6 +132,11 @@ time {
     opacity: .9;
     margin-block: 5px;
     word-wrap: break-word;
+}
+
+.notice-card a{
+    color: rgb(38, 0, 255);
+    font-size: 1.1rem;
 }
 
 
@@ -132,82 +182,6 @@ time {
 }
 
 
-/* FOOTER */
-footer {
-    width: 100%;
-    background-color: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 20px 5px;
-    border-top: 1px solid rgba(155, 150, 150, 0.425);
-}
-
-.footer-container {
-    max-width: 1400px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 80px;
-    padding: 20px 0;
-    border-bottom: 1px solid rgb(155, 150, 150);
-}
-
-.about-us {
-    max-width: 390px;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-}
-
-.contact-us {
-    max-width: 400px;
-}
-
-.quick-links div a,
-.follow-us div a {
-    color: white;
-    opacity: 0.8;
-}
-
-.quick-links,
-.follow-us,
-.contact-us {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-}
-
-.about-us div p,
-.quick-links div p,
-.follow-us div p,
-.contact-us div p {
-    opacity: 0.8;
-}
-
-.quick-links div,
-.follow-us div,
-.contact-us div {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-}
-
-.contact-us div p a {
-    color: inherit;
-}
-
-.copy-right {
-    padding: 10px 0;
-}
-
-.copy-right a {
-    color: rgb(0, 140, 255);
-}
-
-
 /* RESPONSIVENESS */
 @media (max-width: 800px) {
     body {
@@ -232,32 +206,10 @@ footer {
     p {
         font-size: 1rem;
     }
-
-
-    .footer-container {
-        gap: 40px;
-    }
-
-    .about-us {
-        gap: 15px;
-    }
-
-    .quick-links,
-    .follow-us,
-    .contact-us {
-        gap: 15px;
-    }
-
-    about-us div p,
-    .quick-links div p,
-    .follow-us div p,
-    .contact-us div p {
-        margin-top: 5px;
-    }
 }
 
 @media (max-width: 700px) {
-    .notices-heading{
+    .notices-heading {
         margin-top: 70px;
     }
 }

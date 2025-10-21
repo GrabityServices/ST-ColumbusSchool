@@ -54,7 +54,7 @@ setTimeout( () => {
     let i = 0;
     let interval = setInterval( () => {
         area.innerText = `${ i }+`;
-        if ( i >= 10 ) {
+        if ( i >= 5 ) {
             clearInterval( interval );
         }
         i++;
@@ -71,7 +71,7 @@ faqs.forEach( faq => {
         faqs.forEach( f => {
             if ( f !== faq ) {
                 f.classList.remove( 'active' );
-                f.querySelector( 'img' ).src = '/images/icon-plus.svg';
+                f.querySelector( 'img' ).src = '/images/icons/icon-plus.svg';
                 f.querySelector( '.faq-answer' ).style.maxHeight = 0;
             }
         } );
@@ -85,8 +85,8 @@ faqs.forEach( faq => {
 
         // Toggle icon
         faq.querySelector( 'img' ).src = faq.classList.contains( 'active' )
-            ? '/images/icon-minus.svg'
-            : '/images/icon-plus.svg';
+            ? '/images/icons/icon-minus.svg'
+            : '/images/icons/icon-plus.svg';
     } );
 } );
 
