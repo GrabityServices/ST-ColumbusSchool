@@ -3,7 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gallery</title>
+
+  <!-- SEO META TAGS -->
+  <title>Gallery | St. Columbus Public School</title>
+  <meta name="description" content="View photos of campus life, events, and student activities at St. Columbus Public School, Jhajha.">
+  <meta name="keywords" content="St. Columbus Public School, Gallery, Photos, Campus Life, Events, Jhajha School">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0d47a1">
+
+  <!-- OPEN GRAPH -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Gallery | St. Columbus Public School">
+  <meta property="og:description" content="Snapshots of student activities, school events, and campus experiences at St. Columbus Public School.">
+  <meta property="og:image" content="https://www.stcolumbusschooljhajha.in/images/favicon_io/android-chrome-512x512.png">
+  <meta property="og:url" content="https://www.stcolumbusschooljhajha.in/gallery">
+
+  <!-- CANONICAL -->
+  <link rel="canonical" href="https://www.stcolumbusschooljhajha.in/gallery">
+
+  <!-- FAVICON -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon_io/favicon-16x16.png">
+  <link rel="manifest" href="/images/favicon_io/site.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon_io/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/images/favicon_io/android-chrome-512x512.png">
+  <link rel="shortcut icon" href="/images/favicon_io/favicon.ico" type="image/x-icon">
 
   <!-- ICONS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
@@ -16,9 +41,11 @@
   <link rel="stylesheet" href="/style/style.css" />
   <link rel="stylesheet" href="/style/gallery.css" />
   <link rel="stylesheet" href="/style/footer.css" />
+  <link rel="stylesheet" href="/style/animation.css" />
 
   <!-- SCRIPT -->
   <script src="/script/gallery.js" defer></script>
+  <script src="/script/animation.js" defer></script>
 
 </head>
 <body>
@@ -28,7 +55,7 @@
     <!-- HEADING -->
     <section class="gallery">
       <div class="gallery-overlay"></div>
-      <div class="gallery-inner">
+      <div class="gallery-inner animate slide-in-bottom">
         <h1>Gallery</h1>
         <p class="subtitle">Our gallery shows learning, creativity, discipline, and values that shape our community.</p>
       </div>
@@ -37,7 +64,7 @@
     <!-- GALLERY SECTION -->
     <main>
       <section class="gallery-heading container">
-        <div class="gallery-options">
+        <div class="gallery-options animate slide-in-bottom">
           <a href="#" class="active" data-filter="all">All</a>
           <a href="#" data-filter="date">Arranged by Date</a>
           <a href="#" data-filter="title">Arranged by Event Name</a>
@@ -46,11 +73,10 @@
 
         <!-- ALL IMAGES (Flat Grid) -->
         <section class="gallery-section all">
-          <% // Reverse the array so first image shows last 
-            const allImages=images.slice().reverse();
+          <% const allImages=images.slice().reverse();
             allImages.forEach(img=> {%>
             <div class="gallery-image-card">
-              <img src="<%= img.img %>" alt="<%= img.title %>" />
+              <img loading="lazy" src="<%= img.img %>" alt="<%= img.title %>" />
               <div class="gallery-card-inner-text">
                 <h3><%= img.title %></h3>
               </div>
@@ -82,7 +108,7 @@
               <div class="group-images">
                 <% imgs.reverse().forEach(img=> { %>
                   <div class="gallery-image-card">
-                    <img src="<%= img.img %>" alt="<%= img.title %>" />
+                    <img loading="lazy" src="<%= img.img %>" alt="<%= img.title %>" />
                     <div class="gallery-card-inner-text">
                       <h3><%= img.title %></h3>
                     </div>
@@ -113,7 +139,7 @@
               <div class="group-images">
                 <% imgs.forEach(img=> { %>
                   <div class="gallery-image-card">
-                    <img src="<%= img.img %>" alt="<%= img.title %>" />
+                    <img loading="lazy"  src="<%= img.img %>" alt="<%= img.title %>" />
                     <div class="gallery-card-inner-text">
                       <h3><%= img.title %></h3>
                     </div>
@@ -128,7 +154,7 @@
         <div class="popup" id="popup">
           <div class="popup-container">
             <div class="close-btn">
-              <img src="/images/icons/close-icon.svg" alt="close" />
+              <img  src="/images/icons/close-icon.svg" alt="close" />
             </div>
             <div class="popup-content">
               <img class="popup-img" src="" alt="popup image" />
@@ -146,7 +172,6 @@
             <% }); %>
           </div>
         </section>
-
         
       </section>
     </main>

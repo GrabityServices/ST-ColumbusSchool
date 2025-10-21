@@ -689,7 +689,7 @@ b {
 
 .why-this-school h1 {
   text-align: center;
-  padding: 20px 0;
+  padding: 40px 0 20px 0;
 }
 
 .why-this-school p {
@@ -702,7 +702,7 @@ b {
   display: grid;
   grid-template-columns: repeat(3, minmax(200px, 1fr));
   gap: 20px;
-  padding: 70px 0;
+  padding: 40px 0;
 }
 
 .why-card {

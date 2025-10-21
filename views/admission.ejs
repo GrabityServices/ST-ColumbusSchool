@@ -4,7 +4,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admission</title>
+  
+  <!-- SEO META TAGS -->
+  <title>Admission | St. Columbus Public School</title>
+  <meta name="description" content="Admission process for St. Columbus Public School, Jhajha. Learn about enrollment, requirements, and application procedures for Pre-Primary to Class 8.">
+  <meta name="keywords" content="St. Columbus Public School, Admission, Enrollment, Application, Classes, Jhajha School, English Medium School">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0d47a1">
+
+  <!-- OPEN GRAPH -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Admission | St. Columbus Public School">
+  <meta property="og:description" content="Step-by-step guide for admissions at St. Columbus Public School, Jhajha. Apply online or in-person for Pre-Primary to Class 8.">
+  <meta property="og:image" content="https://www.stcolumbusschooljhajha.in/images/favicon_io/android-chrome-512x512.png">
+  <meta property="og:url" content="https://www.stcolumbusschooljhajha.in/admission">
+
+  <!-- CANONICAL -->
+  <link rel="canonical" href="https://www.stcolumbusschooljhajha.in/admission">
+
+  <!-- FAVICON -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon_io/favicon-16x16.png">
+  <link rel="manifest" href="/images/favicon_io/site.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon_io/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/images/favicon_io/android-chrome-512x512.png">
+  <link rel="shortcut icon" href="/images/favicon_io/favicon.ico" type="image/x-icon">
 
   <!-- ICONS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
@@ -13,12 +38,14 @@
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 
   <!-- STYLE -->
-  <link rel="stylesheet" href="style/style.css" />
-  <link rel="stylesheet" href="style/admission.css" />
-  <link rel="stylesheet" href="style/footer.css" />
+  <link rel="stylesheet" href="/style/style.css" />
+  <link rel="stylesheet" href="/style/admission.css" />
+  <link rel="stylesheet" href="/style/footer.css" />
+  <link rel="stylesheet" href="/style/animation.css" />
 
   <!-- SCRIPT -->
-  <script src="script/admission.js" defer></script>
+  <script src="/script/admission.js" defer></script>
+  <script src="/script/animation.js" defer></script>
 
 </head>
 
@@ -29,7 +56,7 @@
     <!-- HEADING -->
     <section class="admission-container">
       <div class="admission-overlay"></div>
-      <div class="admission-inner">
+      <div class="admission-inner animate slide-in-bottom">
         <h1>Admission</h1>
         <p class="subtitle">
           We welcome applications from parents who wish to provide their
@@ -38,8 +65,7 @@
       </div>
     </section>
 
-    <main>
-
+    <main class="animate scale-in-bottom">
       <!-- Admission Buttons -->
       <section d="sec" class="admission-buttons">
         <a href="/admission/form" class="btn-secondary">Enroll Now</a>
@@ -48,21 +74,21 @@
 
       <!-- Admission Process -->
       <section class="admission-process container">
-        <h2>Admission Process</h2>
+        <h2 class="animate slide-in-bottom">Admission Process</h2>
         <div class="steps">
-          <div class="step">
+          <div class="step animate slide-in-right">
             <h4>Step 1</h4>
             <p>Get the form from the office or fill it online.</p>
           </div>
-          <div class="step">
+          <div class="step animate slide-in-right">
             <h4>Step 2</h4>
             <p>Submit the form with documents.</p>
           </div>
-          <div class="step">
+          <div class="step animate slide-in-right">
             <h4>Step 3</h4>
             <p>Attend the interaction or test.</p>
           </div>
-          <div class="step">
+          <div class="step animate slide-in-right">
             <h4>Step 4</h4>
             <p>Pay the fee to confirm admission.</p>
           </div>
@@ -256,6 +282,6 @@
 
     <!-- FOOTER -->
     <%- include('footer.ejs') %>
-</body>
 
+</body>
 </html>
