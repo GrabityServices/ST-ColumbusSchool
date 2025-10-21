@@ -3,7 +3,32 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <!-- SEO META TAGS -->
   <title>Notices | St. Columbus Public School</title>
+  <meta name="description" content="Stay updated with school notices, circulars, and important announcements from St. Columbus Public School, Jhajha.">
+  <meta name="keywords" content="St. Columbus Public School, Notices, Announcements, Circulars, Jhajha School">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0d47a1">
+
+  <!-- OPEN GRAPH -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Notices | St. Columbus Public School">
+  <meta property="og:description" content="Important updates, notices, and announcements for students and parents at St. Columbus Public School.">
+  <meta property="og:image" content="https://www.stcolumbusschooljhajha.in/images/favicon_io/android-chrome-512x512.png">
+  <meta property="og:url" content="https://www.stcolumbusschooljhajha.in/notice">
+
+  <!-- CANONICAL -->
+  <link rel="canonical" href="https://www.stcolumbusschooljhajha.in/notice">
+
+  <!-- FAVICON -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon_io/favicon-16x16.png">
+  <link rel="manifest" href="/images/favicon_io/site.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon_io/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/images/favicon_io/android-chrome-512x512.png">
+  <link rel="shortcut icon" href="/images/favicon_io/favicon.ico" type="image/x-icon">
 
   <!-- ICONS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
@@ -15,9 +40,11 @@
   <link rel="stylesheet" href="/style/style.css" />
   <link rel="stylesheet" href="/style/notices.css" />
   <link rel="stylesheet" href="/style/footer.css" />
+  <link rel="stylesheet" href="/style/animation.css" />
 
   <!-- SCRIPT -->
   <script src="/script/notices.js" defer></script>
+  <script src="/script/animation.js" defer></script>
 
 </head>
 <body>
@@ -27,7 +54,7 @@
     <!-- HEADING -->
     <section class="notices-heading">
       <div class="notices-overlay"></div>
-      <div class="notices-inner">
+      <div class="notices-inner animate slide-in-bottom">
         <h1>Notices & Announcements</h1>
         <p class="subtitle">
           All latest school notices, circulars, exam schedules and urgent
@@ -38,19 +65,16 @@
 
     <main>
       <!-- NOTICE CONTAINER -->
-      <section class="notice-container">
+      <section class="notice-container ">
         <% if(notices && notices.length > 0){ notices.forEach((notice,idx)=>{ %>
-        <div class="notice-card"style="border-color:<%= idx==0?"#0b6":"" %>">
+        <div class="notice-card animate slide-in-top"style="border-color:<%= idx==0?"#0b6":"" %>">
           <h3><%= notice.title %></h3>
           <time datetime="<%= notice.messDate %>"><%= notice.messDate %></time>
-          <p class="description"><%= notice.mess %></p>
-<% if(notice && notice.img) {%>
+          <p class="description"><%= notice.mess %></p><% if(notice && notice.img) {%>
             
           <!-- <a href="<%= notice.img  %>" download>See Notice</a> -->
           <a href="<%= notice.img %>" onclick="openAndDownload(event, this.href)">See Notice</a>
-
-
-            <%}%>
+            <% } %>
         </div>
         <% }) } else { %>
         <h2 class="nboard">Notice board is empty!</h2>

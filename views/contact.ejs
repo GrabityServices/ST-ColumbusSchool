@@ -3,19 +3,46 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- SEO META TAGS -->
   <title>Contact Us | St. Columbus Public School</title>
+  <meta name="description" content="Get in touch with St. Columbus Public School, Jhajha. Contact numbers, email, and school address for admissions or general inquiries.">
+  <meta name="keywords" content="St. Columbus Public School, Contact, Address, Phone, Email, Jhajha School">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0d47a1">
+
+  <!-- OPEN GRAPH -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Contact Us | St. Columbus Public School">
+  <meta property="og:description" content="Reach St. Columbus Public School for admissions, inquiries, or general information.">
+  <meta property="og:image" content="https://www.stcolumbusschooljhajha.in/images/favicon_io/android-chrome-512x512.png">
+  <meta property="og:url" content="https://www.stcolumbusschooljhajha.in/contact">
+
+  <!-- CANONICAL -->
+  <link rel="canonical" href="https://www.stcolumbusschooljhajha.in/contact">
+
+  <!-- FAVICON -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon_io/favicon-16x16.png">
+  <link rel="manifest" href="/images/favicon_io/site.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon_io/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/images/favicon_io/android-chrome-512x512.png">
+  <link rel="shortcut icon" href="/images/favicon_io/favicon.ico" type="image/x-icon">
 
    <!--ICONS  -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 
   <!-- STYLE -->
-  <link rel="stylesheet" href="style/style.css" />
-  <link rel="stylesheet" href="style/contact.css" />
-  <link rel="stylesheet" href="style/footer.css" />
+  <link rel="stylesheet" href="/style/style.css" />
+  <link rel="stylesheet" href="/style/contact.css" />
+  <link rel="stylesheet" href="/style/footer.css" />
+  <link rel="stylesheet" href="/style/animation.css" />
 
   <!-- SCRIPT -->
-  <script src="script/contact.js" defer></script>
+  <script src="/script/contact.js" defer></script>
+  <script src="/script/animation.js" defer></script>
 
 </head>
 <body>
@@ -26,7 +53,7 @@
     <!-- HEADING -->
     <section class="contact-heading">
       <div class="contact-overlay"></div>
-      <div class="contact-inner">
+      <div class="contact-inner animate slide-in-bottom">
         <h1>Contact</h1>
         <p class="subtitle">
           We're here to answer your questions and guide you.
@@ -36,7 +63,7 @@
 
     <main>
       <!-- TEXT AND IMAGE -->
-      <section class="contact-text-and-image container">
+      <section class="contact-text-and-image container animate slide-in-bottom">
         <div class="contact-first-container">
           <div class="our-location">
             <p>Let's Connect</p>
@@ -56,14 +83,14 @@
       </section>
 
       <!-- LOCATION -->
-      <section class="map container">
+      <section class="map container animate slide-in-bottom">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2228.2280253458375!2d86.3581412!3d24.8038498!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f179263476a239%3A0xdc897fc5d426ff96!2sSt.%20Columbus%20Public%20School%20Ekdara!5e1!3m2!1sen!2sin!4v1756914783357!5m2!1sen!2sin"
           style="border: 0" allowfullscreen="" loading="lazy"></iframe>
       </section>
 
       <!-- CONTACT PAGE -->
-      <section class="contact container">
+      <section class="contact container animate slide-in-bottom">
         <div class="contact-paragraph">
           <h2>
             We know that sometimes it is tough to find the information you need.
@@ -107,57 +134,7 @@
     </main>
 
     <!-- FOOTER -->
-    <footer>
-      <div class="footer-container">
-        <div class="about-us">
-          <h3>About Us</h3>
-          <div>
-            <p>
-              St. Columbus Public School is a private English Medium School
-              established for providing quality education to students up to High
-              School level with a focus on values, discipline, and all-round
-              development.
-            </p>
-          </div>
-        </div>
-        <div class="quick-links">
-          <h3>Quick Links</h3>
-          <div>
-            <a href="/">Home</a>
-            <a href="/about">About Us</a>
-            <a href="/admission">Admission</a>
-            <a href="/gallery">Gallery</a>
-            <a href="/contact">Contact Us</a>
-            <a href="/stcolumbus/admin/manage/login">Admin Login</a>
-          </div>
-        </div>
+    <%- include('footer.ejs') %>
 
-        <div class="follow-us">
-          <h3>Follow Us</h3>
-          <div>
-            <a href="https://www.youtube.com/@DilipKumar-rf4rx/videos"><i class="fab fa-youtube"></i> YouTube</a>
-            <a href="https://www.facebook.com/share/1H5Z3RhMEb/"><i class="fab fa-facebook"></i> Facebook</a>
-            <a href="https://www.instagram.com/columbusschooljhajha?igsh=MWJzd3lqMzg2c2EzaA=="><i class="fab fa-instagram"></i> Instagram</a>
-            <a href="https://x.com/stcolumbus2002?t=wpjunzJ_kTp-5TJ-82pGJg&s=09"><i class="fab fa-x-twitter"></i> X</a>
-          </div>
-        </div>
-
-        <div class="contact-us">
-          <h3>Contact Us</h3>
-          <div>
-            <p><i class="fas fa-map-marker-alt"></i><a href="https://maps.google.com/?q=St.+Columbus+Public+School,+Ekdara,+Jhajha,+Jamui+811308+(Bihar),+India"> St. Columbus Public School, Ekdara, &nbsp; &nbsp;&nbsp; Jhajha, Jamui 811308 (Bihar), India</a></p>
-            <p><i class="fas fa-phone"></i><a href="tel:+918541083858"> +91-8541083858</a>,<a href="tel:+918864023465"> +91-8864023465</a></p>
-            <p><i class="fas fa-envelope"></i><a href="#" onclick="if(/Mobi|Android/i.test(navigator.userAgent)){location.href='mailto:st.columbus2002@gmail.com?subject=School%20Enquiry&body=Hello,%20I%20would%20like%20to%20know%20more%20about%20the%20school.'}else{window.open('https://mail.google.com/mail/?view=cm&fs=1&to=st.columbus2002@gmail.com&su=School%20Enquiry&body=Hello,%20I%20would%20like%20to%20know%20more%20about%20the%20school.')}"> st.columbus2002@gmail.com</a></p>
-          </div>
-        </div>
-      </div>
-      <p class="copy-right">
-        <i class="far fa-copyright"></i> 2025 St. Columbus Public School. All
-        rights reserved. | Developed by
-        <a>GravityServices</a>
-        <a id="upArrow" style="margin-left: 20px; color: aliceblue" href="#upp">&uparrow;</a>
-      </p>
-    </footer>
 </body>
-
 </html>

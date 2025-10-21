@@ -1,0 +1,159 @@
+/* 0. BASE ANIMATION STYLING */
+.animate {
+    opacity: 0;
+    transform: translateX(-100px);
+    transition: all 1s ease;
+    will-change: transform, opacity;
+    filter: blur(4px);
+}
+
+.animate.show {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+}
+
+
+/* 1. FADE IN  fade-in  */
+.animate.fade-in {
+    transform: none;
+    transition: opacity 0.5s ease;
+}
+
+.animate.fade-in.show {
+    opacity: 1;
+}
+
+
+/* 2. SLIDE IN FROM LEFT  slide-in-left  */
+.animate.slide-in-left {
+    transform: translateX(-50%);
+}
+
+.animate.slide-in-left.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+
+/* 3. SLIDE IN FROM RIGHT  slide-in-right  */
+.animate.slide-in-right {
+    transform: translateX(50%);
+}
+
+.animate.slide-in-right.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+
+/* 4. SLIDE IN FROM TOP  slide-in-top  */
+.animate.slide-in-top {
+    transform: translateY(-50%);
+}
+
+.animate.slide-in-top.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+
+/* 5. SLIDE IN FROM BOTTOM  slide-in-bottom  */
+.animate.slide-in-bottom {
+    transform: translateY(50%);
+}
+
+.animate.slide-in-bottom.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+
+/* 6. ZOOM IN  zoom-in  */
+.animate.zoom-in {
+    transform: scale(0.8);
+}
+
+.animate.zoom-in.show {
+    transform: scale(1);
+    opacity: 1;
+}
+
+
+/* 7. ZOOM OUT  zoom-out  */
+.animate.zoom-out {
+    transform: scale(1.2);
+}
+
+.animate.zoom-out.show {
+    transform: scale(1);
+    opacity: 1;
+}
+
+
+/* 8. ROTATE IN  rotate-in  */
+.animate.rotate-in {
+    transform: rotate(-45deg);
+}
+
+.animate.rotate-in.show {
+    transform: rotate(0);
+    opacity: 1;
+}
+
+
+/* 9. ROTATE IN FROM RIGHT  rotate-in-right  */
+.animate.rotate-in-right {
+    transform: rotate(45deg);
+}
+
+.animate.rotate-in-right.show {
+    transform: rotate(0);
+    opacity: 1;
+}
+
+
+/* 10. FLIP IN HORIZONTAL  flip-in-x  */
+.animate.flip-in-x {
+    transform: perspective(600px) rotateX(90deg);
+    transform-origin: top;
+}
+
+.animate.flip-in-x.show {
+    transform: perspective(600px) rotateX(0);
+    opacity: 1;
+}
+
+
+/* 11. FLIP IN VERTICAL  flip-in-y  */
+.animate.flip-in-y {
+    transform: perspective(600px) rotateY(90deg);
+    transform-origin: left;
+}
+
+.animate.flip-in-y.show {
+    transform: perspective(600px) rotateY(0);
+    opacity: 1;
+}
+
+
+/* 12. SCALE UP FROM BOTTOM  scale-up  */
+.animate.scale-up {
+    transform: scale(0.5) translateY(50%);
+}
+
+.animate.scale-up.show {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+
+/* 13. SCALE DOWN FROM TOP  scale-down  */
+.animate.scale-down {
+    transform: scale(1.5) translateY(-50%);
+}
+
+.animate.scale-down.show {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}

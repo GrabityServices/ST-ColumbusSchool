@@ -3,7 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About</title>
+  
+  <!-- SEO META TAGS -->
+  <title>About Us | St. Columbus Public School</title>
+  <meta name="description" content="Learn about St. Columbus Public School's mission, vision, values, and history. Empowering students with knowledge, discipline, and holistic development since 2002.">
+  <meta name="keywords" content="St. Columbus Public School, About Us, Mission, Vision, Values, Jhajha School, English Medium School, Best School in Jamui">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0d47a1">
+
+  <!-- OPEN GRAPH -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="About Us | St. Columbus Public School">
+  <meta property="og:description" content="Discover St. Columbus Public School's mission, vision, and values shaping young learners in Jhajha, Bihar.">
+  <meta property="og:image" content="https://www.stcolumbusschooljhajha.in/images/favicon_io/android-chrome-512x512.png">
+  <meta property="og:url" content="https://www.stcolumbusschooljhajha.in/about">
+
+  <!-- CANONICAL -->
+  <link rel="canonical" href="https://www.stcolumbusschooljhajha.in/about">
+
+  <!-- FAVICON -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon_io/favicon-16x16.png">
+  <link rel="manifest" href="/images/favicon_io/site.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon_io/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/images/favicon_io/android-chrome-512x512.png">
+  <link rel="shortcut icon" href="/images/favicon_io/favicon.ico" type="image/x-icon">
 
   <!-- ICONS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
@@ -11,12 +36,15 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- STYLE -->
-  <link rel="stylesheet" href="style/style.css" />
-  <link rel="stylesheet" href="style/about.css" />
-  <link rel="stylesheet" href="style/footer.css" />
+  <link rel="stylesheet" href="/style/style.css" />
+  <link rel="stylesheet" href="/style/about.css" />
+  <link rel="stylesheet" href="/style/footer.css" />
+  <link rel="stylesheet" href="/style/animation.css" />
 
   <!-- SCRIPT -->
-  <script src="script/about.js" defer></script>
+  <script src="/script/script.js" defer></script>
+  <script src="/script/about.js" defer></script>
+  <script src="/script/animation.js" defer></script>
 </head>
 <body>
 
@@ -26,7 +54,7 @@
   <!-- HEADING AND IMAGE-->
   <section class="academics">
       <div class="academics-overlay"></div>
-      <div class="academics-inner">
+      <div class="academics-inner animate slide-in-bottom">
         <h1>About</h1>
         <p class="subtitle">Balanced learning with values, reading, and daily discipline.</p>
       </div>
@@ -34,7 +62,7 @@
 
   <main>
       <!-- HEADING AND PARAGRAPH -->
-      <section class="about-heading container">
+      <section class="about-heading container animate slide-in-bottom">
         <!-- ABOUT HEADING -->
         <h1>St. Columbus Public School</h1>
         <div class="paragraph-container">
@@ -67,19 +95,19 @@
 
       <!-- FIRST SVG -->
       <section class="about-svg container">
-        <div class="innovation about-first-card">
+        <div class="innovation about-first-card animate flip-in-y">
           <div class="about-page-vector-image">
             <img src="/images/icons/ligh-bulb.svg"  alt="light-bulb" />
           </div>
           <h3>High standards in Innovations</h3>
         </div>
-        <div class="discipline about-first-card">
+        <div class="discipline about-first-card animate flip-in-y">
           <div class="about-page-vector-image about-first-card">
             <img src="/images/icons/people.svg" alt="people" />
           </div>
           <h3>Safety and Discipline</h3>
         </div>
-        <div class="shield about-first-card">
+        <div class="shield about-first-card animate flip-in-y">
           <div class="about-page-vector-image">
             <img src="/images/icons/shield.svg" alt="shield" />
           </div>
@@ -88,7 +116,7 @@
       </section>
 
       <!-- WHY ST -->
-      <section class="why-st container">
+      <section class="why-st container animate fade-out">
         <div class="why-st-text">
           <div class="why-st-text-top">
             <p>Where Excellence Meets Values in the Lap of Nature</p>
@@ -121,22 +149,22 @@
 
         <div class="why-st-image-container">
           <div class="why-st-images">
-            <img download src="/images/children1.jpg" alt="children-image" />
+            <img loading="lazy" src="/images/children1.jpg" alt="children-image" />
           </div>
           <div class="why-st-images">
-            <img src="/images/children2.jpg" alt="children-image" />
+            <img loading="lazy" src="/images/children2.jpg" alt="children-image" />
           </div>
           <div class="why-st-images">
-            <img src="/images/children3.jpg" alt="children-image" />
+            <img loading="lazy" src="/images/children3.jpg" alt="children-image" />
           </div>
           <div class="why-st-images">
-            <img src="/images/children4.jpeg" alt="children-image" />
+            <img loading="lazy" src="/images/children4.jpeg" alt="children-image" />
           </div>
         </div>
       </section>
 
       <!-- PLACE -->
-      <section class="the-place container">
+      <section class="the-place container animate fade-out">
         <div class="the-place-first-part">
           <h1>The Place</h1>
           <p>Ekdara, Jhajha is a village in the Jamui district of Bihar, known
@@ -155,14 +183,14 @@
           </p>
         </div>
         <div class="the-place-second-part">
-          <img src="/images/school-place-and-history-min.jpg" alt="school-environment" />
+          <img loading="lazy" src="/images/school-place-and-history-min.jpg" alt="school-environment" />
         </div>
       </section>
 
       <!-- HISTORY -->
-      <section class="history container">
+      <section class="history container animate fade-out">
         <div class="history-first-part">
-          <img src="/images/school-place-and-history-min.jpg" alt="school-environment" />
+          <img loading="lazy" src="/images/school-place-and-history-min.jpg" alt="school-environment" />
         </div>
         <div class="history-second-part">
           <h1>History</h1>
@@ -187,11 +215,11 @@
 
       <!-- FOUNDER -->
       <section  id="aboutf" class="founders container">
-        <h1 id="about ">From The Founder's</h1>
+        <h1 id="about" class="animate fade-in">From The Founder's</h1>
         <div class="founders-card-container">
-          <div class="founders-card-container-first">
+          <div class="founders-card-container-first animate slide-in-left ">
             <div class="founder-card-image-section">
-              <img src="<%= admins[0].img%>" alt="<%=admins[0].position%>" />
+              <img loading="lazy" src="<%= admins[0].img%>" alt="<%=admins[0].position%>" />
             </div>
             <b>St. Columbus Public School is a high-achieving, happy, vibrant,
               and forward-thinking school in which children excel themselves,
@@ -218,9 +246,9 @@
               <p>St. Columbus Public School</p>
             </div>
           </div>
-          <div class="founders-card-container-second">
+          <div class="founders-card-container-second animate slide-in-right">
             <div class="founder-card-image-section">
-              <img src="<%= admins[1].img%>" alt="principle" />
+              <img loading="lazy" src="<%= admins[1].img%>" alt="principle" />
             </div>
             <b>Education is a shared commitment between dedicated teachers,
               motivated students and enthusiastic parents with high expected
@@ -252,53 +280,53 @@
       </section>
 
       <!-- AWARDS AND CERTIFICATES-->
-      <section class="awards-and-certificate container">
+      <section class="awards-and-certificate container animate slide-in-right">
         <h1 class="awards-heading">Awards</h1>
         <div class="scroll-container">
           <div class="group">
             <div class="card">
-              <img src="/images/certificates/Certificate-1-min.JPG" alt="award-one" />
+              <img loading="lazy" src="/images/certificates/Certificate-1-min.JPG" alt="award-one" />
             </div>
             <div class="card">
-              <img src="/images/certificates/Certificate-2-min.JPG" alt="award-two" />
+              <img loading="lazy" src="/images/certificates/Certificate-2-min.JPG" alt="award-two" />
             </div>
             <div class="card">
-              <img src="/images/certificates/Certificate-3-min.JPG" alt="award-three" />
+              <img loading="lazy" src="/images/certificates/Certificate-3-min.JPG" alt="award-three" />
             </div>
             <div class="card">
-              <img src="/images/certificates/Certificate-4-min.JPG" alt="award-four" />
+              <img loading="lazy" src="/images/certificates/Certificate-4-min.JPG" alt="award-four" />
             </div>
             <div class="card">
-              <img src="/images/certificates/Certificate-5-min.JPG" alt="award-five" />
+              <img loading="lazy" src="/images/certificates/Certificate-5-min.JPG" alt="award-five" />
             </div>
             <div class="card">
-              <img src="/images/certificates/Certificate-6-min.JPG" alt="award-six" />
+              <img loading="lazy" src="/images/certificates/Certificate-6-min.JPG" alt="award-six" />
             </div>
             <div class="card">
-              <img src="/images/certificates/Certificate-7-min.JPG" alt="award-seven" />
+              <img loading="lazy" src="/images/certificates/Certificate-7-min.JPG" alt="award-seven" />
             </div>
           </div>
           <div aria-hidden class="group">
             <div class="card">
-              <img src="/images/certificates/Certificate-1-min.JPG" alt="award-one" />
+              <img loading="lazy" src="/images/certificates/Certificate-1-min.JPG" alt="award-one" />
             </div>
             <div class="card">
-              <img src="/images/certificates/Certificate-2-min.JPG" alt="award-two" />
+              <img loading="lazy" src="/images/certificates/Certificate-2-min.JPG" alt="award-two" />
             </div>
             <div class="card">
-              <img src="/images/certificates/Certificate-3-min.JPG" alt="award-three" />
+              <img loading="lazy" src="/images/certificates/Certificate-3-min.JPG" alt="award-three" />
             </div>
             <div class="card">
-              <img src="/images/certificates/Certificate-4-min.JPG" alt="award-four" />
+              <img loading="lazy" src="/images/certificates/Certificate-4-min.JPG" alt="award-four" />
             </div>
             <div class="card">
-              <img src="/images/certificates/Certificate-5-min.JPG" alt="award-five" />
+              <img loading="lazy" src="/images/certificates/Certificate-5-min.JPG" alt="award-five" />
             </div>
             <div class="card">
-              <img src="/images/certificates/Certificate-6-min.JPG" alt="award-six" />
+              <img loading="lazy" src="/images/certificates/Certificate-6-min.JPG" alt="award-six" />
             </div>
             <div class="card">
-              <img src="/images/certificates/Certificate-7-min.JPG" alt="award-seven" />
+              <img loading="lazy" src="/images/certificates/Certificate-7-min.JPG" alt="award-seven" />
             </div>
           </div>
         </div>

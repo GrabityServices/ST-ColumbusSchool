@@ -1,201 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>All Admins</title>
-    <link rel="stylesheet" href="/style/admin.css" />
-    <script src="/script/admin.js" defer></script>
-    
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <title>All Admins</title>
+  <link rel="stylesheet" href="/style/admin.css" />
+  <script src="/script/admin.js" defer></script> 
+</head>
+<body>
 
-  <body>
-    <!-- HEADER -->
-    <header class="header">
-      <h1 class="page-title">
-        <% if(supAd){%>Admin <%}else{%>Editor <%} %>Dashboard
-      </h1>
+  <!-- HEADER -->
+  <header class="header">
+      <h1 class="page-title"><% if(supAd){%>Admin <%}else{%>Editor <%} %>Dashboard</h1>
       <nav class="header-nav">
         <button onclick="location.href='/'" class="head-btn">Home</button>
         <button id="logout-btn" class="head-btn">Logout</button>
-        <button
-          onclick="location.href='/stcolumbus/admin/manage/change/pass'"
-          class="head-btn"
-        >
-          Change Pass
-        </button>
+        <button onclick="location.href='/stcolumbus/admin/manage/change/pass'" class="head-btn">Change Pass</button>
         <% if(supAd){ %>
-        <button
-          onclick="location.href='/stcolumbus/admin/manage/signup'"
-          class="head-btn"
-        >
-          Create New Admin
-        </button>
+        <button onclick="location.href='/stcolumbus/admin/manage/signup'"class="head-btn">Create New Admin</button>
         <% } %>
       </nav>
-    </header>
+  </header>
 
-    <main>
-      <!-- FIRST SECTION -->
-      <section class="first-section">
-        <h2>Admins Accounts</h2>
-        <div class="card-container">
-          <% if (!data && data.length <=0) { %>
-          <p>No admins found.</p>
-          <% } else { %> <% data.forEach(admin=> { %>
-          <div class="admin-card">
-            <img src="<%= admin.img %>" alt="<%= admin.name %>'s avatar" />
-            <div class="admin-details">
-              <p>
-                <strong>Name:</strong>
-                <%= admin.name %>
-              </p>
-              <p>
-                <strong>Email:</strong>
-                <%= admin.email %>
-              </p>
-              <p>
-                <strong>Unique ID:</strong>
-                <%= admin.uniqId %>
-              </p>
-              <p>
-                <strong>Role :</strong>
-                <%= admin.role.toUpperCase() %>
-              </p>
-              <p>
-                <strong>Blocked:</strong>
-                <%= admin.blocked ? "Yes" : "No" %>
-              </p>
-              <p>
-                <strong>Last Login:</strong>
-                <%= admin.lastLogin %>
-              </p>
-            </div>
-            <div class="btns">
-              <% if(supAd) {%> <% if(admin.role=="superadmin" ){%>
-              <button
-                type="submit"
-                onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/img/<%= admin._id %>'"
-                class="link-btn"
-              >
-                Update Img
-              </button>
-              <button
-                type="submit"
-                onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/<%= admin._id %>'"
-                class="link-btn"
-              >
-                Update Details
-              </button>
-              <% } %> <% if(admsc>1&& admin.role!="superadmin") {%>
-              <button
-                type="submit"
-                onclick="location.href='/stcolumbus/jaj/ekdara/admin/delete/<%= admin._id %>'"
-                class="link-btn"
-              >
-                Delete Admin
-              </button>
-              <button
-                type="submit"
-                onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/superadmin/<%= admin._id %>'"
-                class="link-btn"
-              >
-                Update Access Control Or Block Admin
-              </button>
-              <% }else if(superAdminCount>1){%>
-              <button
-                type="submit"
-                onclick="location.href='/stcolumbus/jaj/ekdara/admin/delete/<%= admin._id %>'"
-                class="link-btn"
-              >
-                Delete Admin
-              </button>
-              <button
-                type="submit"
-                onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/superadmin/<%= admin._id %>'"
-                class="link-btn"
-              >
-                Update Access Control Or Block Admin
-              </button>
-              <%} %> <% }else{%>
-              <button
-                type="submit"
-                onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/img/<%= admin._id %>'"
-                class="link-btn"
-              >
-                Update Img
-              </button>
-              <button
-                type="submit"
-                onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/<%= admin._id %>'"
-                class="link-btn"
-              >
-                Update Details
-              </button>
+  <main>
+    <!-- FIRST SECTION -->
+    <section class="first-section">
+      <h2>Admins Accounts</h2>
+      <div class="card-container">
+      <% if (!data && data.length <=0) { %>
+        <p>No admins found.</p>
+        <% } else { %> <% data.forEach(admin=> { %>
+        <div class="admin-card">
+          <img  src="<%= admin.img %>" alt="<%= admin.name %>'s avatar" />
+          <div class="admin-details">
+            <p><strong>Name:</strong><%= admin.name %></p>
+            <p><strong>Email:</strong><%= admin.email %></p>
+            <p><strong>Unique ID:</strong><%= admin.uniqId %></p>
+            <p><strong>Role :</strong><%= admin.role.toUpperCase() %></p>
+            <p><strong>Blocked:</strong><%= admin.blocked ? "Yes" : "No" %></p>
+            <p><strong>Last Login:</strong><%= admin.lastLogin %></p>
+          </div>
+          <div class="btns">
+            <% if(supAd) {%> <% if(admin.role=="superadmin" ){%>
+              <button type="submit"onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/img/<%= admin._id %>'" class="link-btn">Update Img</button>
+              <button type="submit" onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/<%= admin._id %>'" class="link-btn">Update Details</button>
+            <% } %> <% if(admsc>1&& admin.role!="superadmin") {%><button type="submit"onclick="location.href='/stcolumbus/jaj/ekdara/admin/delete/<%= admin._id %>'"class="link-btn">Delete Admin</button>
+              <button type="submit" onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/superadmin/<%= admin._id %>'"class="link-btn">Update Access Control Or Block Admin</button>
+            <% }else if(superAdminCount>1){%>
+              <button type="submit" onclick="location.href='/stcolumbus/jaj/ekdara/admin/delete/<%= admin._id %>'" class="link-btn">Delete Admin</button>
+              <button type="submit" onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/superadmin/<%= admin._id %>'" class="link-btn">Update Access Control Or Block Admin</button>
+            <%} %> <% }else{%>
+              <button type="submit" onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/img/<%= admin._id %>'" class="link-btn">Update Img</button>
+              <button type="submit" onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/<%= admin._id %>'" class="link-btn">Update Details</button>
               <%} %>
             </div>
           </div>
-          <% }) %> <% } %>
-        </div>
-      </section>
+      <% }) %> <% } %>
+      </div>
+    </section>
 
-      <!-- SECOND SECTION -->
-      <section class="second-section" id="admin">
-        <h2>Principal & Director Information</h2>
-        <div class="director-principle-container">
-          <% if (typeof admins !=='undefined' && admins && admins.length> 0) {
-          %> <% admins.forEach(admin=> { %>
-          <ul>
-            <li class="school-heads">
-              <img src="<%= admin.img %>" alt="<%= admin.name %>" />
-            </li>
-            <div class="inner-dir-and-principle">
-              <li>
-                <strong>Name: </strong>
-                <span><%= admin.name %></span>
-              </li>
-              <li>
-                <strong>Id No: </strong>
-                <span><%= admin.unqId %></span>
-              </li>
-              <li>
-                <strong>Email: </strong>
-                <span><%= admin.email %></span>
-              </li>
-              <li>
-                <strong>Position: </strong>
-                <span><%= admin.position %></span>
-              </li>
-              <li>
-                <strong>Qualification: </strong>
-                <span><%= admin.quli %></span>
-              </li>
-              <li>
-                <strong>Age: </strong>
-                <span><%= admin.age %></span>
-              </li>
-              <li>
-                <strong>Gender: </strong>
-                <span><%= admin.gender %></span>
-              </li>
+    <!-- SECOND SECTION -->
+    <section class="second-section" id="admin">
+      <h2>Principal & Director Information</h2>
+      <div class="director-principle-container">
+        <% if (typeof admins !=='undefined' && admins && admins.length> 0) {%> <% admins.forEach(admin=> { %>
+        <ul>
+          <li class="school-heads"><img src="<%= admin.img %>" alt="<%= admin.name %>" /></li>
+          <div class="inner-dir-and-principle">
+              <li><strong>Name: </strong><span><%= admin.name %></span></li>
+              <li><strong>Id No: </strong><span><%= admin.unqId %></span></li>
+              <li><strong>Email: </strong><span><%= admin.email %></span></li>
+              <li><strong>Position: </strong><span><%= admin.position %></span></li>
+              <li><strong>Qualification: </strong><span><%= admin.quli %></span></li>
+              <li><strong>Age: </strong><span><%= admin.age %></span></li>
+              <li><strong>Gender: </strong><span><%= admin.gender %></span></li>
             </div>
             <div class="updated-head-image">
               <%if(!supAd){%>
               <a href="/home/adminUpdate/<%=admin._id %>">Update Img</a>
-              <a href="/home/adminUpdate/details/<%=admin._id %>"
-                >Update details</a
-              >
+              <a href="/home/adminUpdate/details/<%=admin._id %>">Update details</a>
               <%} %>
             </div>
           </ul>
           <% }); %> <% } else { %>
-          <!-- You can add a message here if admins is not defined or empty -->
           <p>No admins found or admins data is not available.</p>
           <% } %>
         </div>
-      </section>
+    </section>
 
-      <!-- THIRD SECTION -->
-      <section class="gallery-section">
+    <!-- THIRD SECTION -->
+    <section class="gallery-section">
         <div class="galley-section-heading">
           <h2>Gallery Section Images</h2>
           <% if (!supAd) { %>
@@ -216,11 +109,9 @@
               <div class="images">
                 <% titleGroup.forEach(item=> { %>
                 <div class="img">
-                  <img src="<%= item.img %>" alt="<%= item.title %>" />
+                  <img loading="lazy" src="<%= item.img %>" alt="<%= item.title %>" />
                   <% if (!supAd) { %>
-                  <a class="btn" href="/home/galleryUpdate/<%= item._id %>"
-                    >Update Img</a
-                  >
+                  <a class="btn" href="/home/galleryUpdate/<%= item._id %>">Update Img</a>
                   <a
                     class="btn"
                     href="/home/galleryUpdate/details/<%= item._id %>"
@@ -247,12 +138,12 @@
             <% }) %>
           </div>
         </div>
-      </section>
+    </section>
 
-      <!-- FOURTH PAGE -->
-      <section class="fourth-section" id="notice">
+    <!-- FOURTH PAGE -->
+    <section class="fourth-section" id="notice">
         <div class="fourth-section-heading-and-btn">
-          <h2>Notices Details for WebPage</h2>
+          <h2>Notices Section</h2>
           <% if (!supAd) { %>
           <a class="new-notice-btn" href="/home/notice/new">+ New Notice</a>
           <% } %>
@@ -265,7 +156,7 @@
             <% if (notice.img) { const regex = /\.pdf$/i; if
             (!regex.test(notice.img)) { %>
             <!-- If it's an image -->
-            <img
+            <img loading="lazy" 
               src="<%= notice.img %>"
               alt="<%= notice.title %>"
               class="notice-img"
@@ -318,10 +209,10 @@
           </div>
           <% }); %>
         </div>
-      </section>
+    </section>
 
-      <!-- FIFTH PAGE -->
-      <!-- <section class="fifth-section">
+    <!-- FIFTH PAGE -->
+    <!-- <section class="fifth-section">
         <div class="fifth-section-heading">
           <% const parts = fees.lastChanged.split(/[- :]/); %>
           <h2>Fees Structure</h2>
@@ -465,8 +356,8 @@
         </div>
       </section> -->
 
-      <!-- SIXTH PAGE -->
-      <section class="sixth-section" id="video">
+    <!-- SIXTH PAGE -->
+    <section class="sixth-section" id="video">
         <div class="sixth-section-heading">
           <h2>Videos</h2>
           <% if (!supAd) { %>
@@ -499,7 +390,8 @@
           </div>
           <% }); %>
         </div>
-      </section>
-    </main>
-  </body>
+    </section>
+  </main>
+
+</body>
 </html>

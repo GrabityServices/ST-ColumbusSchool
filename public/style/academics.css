@@ -29,6 +29,7 @@ body {
     scroll-behavior: smooth;
     color: var(--text-primary);
     background-color: var(--bg-dark);
+    overflow-x: hidden;
 }
 
 /* CONTAINER AND TYPOGRAPHY */
