@@ -1,14 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Notices | St. Columbus Public School</title>
-    <meta name="description" content="Latest notices, announcements and circulars from St. Columbus Public School, Ekdara, Jhajha. Admissions, exams, holidays and important updates."/>
-    <link rel="stylesheet" href="/style/notices.css" />
-    <script src="/script/notices.js" defer></script>
-  </head>
-  <body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Notices | St. Columbus Public School</title>
+
+  <!-- ICONS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+    integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+  <!-- STYLE -->
+  <link rel="stylesheet" href="/style/style.css" />
+  <link rel="stylesheet" href="/style/notices.css" />
+  <link rel="stylesheet" href="/style/footer.css" />
+
+  <!-- SCRIPT -->
+  <script src="/script/notices.js" defer></script>
+
+</head>
+<body>
     <!--HEADER  -->
     <%- include('index.ejs') %>
 
@@ -28,7 +40,7 @@
       <!-- NOTICE CONTAINER -->
       <section class="notice-container">
         <% if(notices && notices.length > 0){ notices.forEach((notice,idx)=>{ %>
-        <div class="notice-card"style="border-color:<%= idx==0?"red":"" %>">
+        <div class="notice-card"style="border-color:<%= idx==0?"#0b6":"" %>">
           <h3><%= notice.title %></h3>
           <time datetime="<%= notice.messDate %>"><%= notice.messDate %></time>
           <p class="description"><%= notice.mess %></p>
@@ -55,71 +67,7 @@
     </main>
 
     <!-- FOOTER -->
-    <footer>
-      <div class="footer-container">
-        <div class="about-us">
-          <h3>About Us</h3>
-          <div>
-            <p>
-              St. Columbus Public School is a private English Medium School
-              established for providing quality education to students up to High
-              School level with a focus on values, discipline, and all-round
-              development.
-            </p>
-          </div>
-        </div>
-        <div class="quick-links">
-          <h3>Quick Links</h3>
-          <div>
-            <a href="/">Home</a>
-            <a href="/about">About Us</a>
-            <a href="/admission">Admission</a>
-            <a href="/gallery">Gallery</a>
-            <a href="/contact">Contact Us</a>
-          </div>
-        </div>
+    <%- include('footer.ejs') %>
 
-        <div class="follow-us">
-          <h3>Follow Us</h3>
-          <div>
-            <a href="#"><i class="fab fa-youtube"></i> YouTube</a>
-            <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
-            <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
-            <a href="#"><i class="fab fa-x-twitter"></i> X</a>
-          </div>
-        </div>
-
-        <div class="contact-us">
-          <h3>Contact Us</h3>
-          <div>
-            <p>
-              <i class="fas fa-map-marker-alt"></i>
-              <a
-                href="https://maps.google.com/?q=St.+Columbus+Public+School,+Ekdara,+Jhajha,+Jamui+811308+(Bihar),+India"
-              >
-                St. Columbus Public School, Ekdara, &nbsp; &nbsp;&nbsp; Jhajha,
-                Jamui 811308 (Bihar), India</a
-              >
-            </p>
-            <p>
-              <i class="fas fa-phone"></i>
-              <a href="tel:+919812345678">+91-9876543210</a>,
-              <a href="tel:+919812345678">+91-1122334455</a>
-            </p>
-            <p>
-              <i class="fas fa-envelope"></i>
-              <a href="#" onclick="if(/Mobi|Android/i.test(navigator.userAgent)){location.href='mailto:school@example.com?subject=School%20Enquiry&body=Hello,%20I%20would%20like%20to%20know%20more%20about%20the%20school.'}else{window.open('https://mail.google.com/mail/?view=cm&fs=1&to=school@example.com&su=School%20Enquiry&body=Hello,%20I%20would%20like%20to%20know%20more%20about%20the%20school.')}">info@gvpschool.edu.in</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <p class="copy-right">
-        <i class="far fa-copyright"></i> 2025 St. Columbus Public School. All rights reserved. | Developed by
-        <a>GrabityServices</a>
-        <a id="upArrow" style="margin-left: 20px;color: aliceblue;" href="#upp">&uparrow;</a>
-      </p>
-    </footer>
-    <script>
-    </script>
-  </body>
+</body>
 </html>

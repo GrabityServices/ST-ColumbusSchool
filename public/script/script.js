@@ -1,24 +1,23 @@
-const link = document.querySelector( ".links" );
-const menuIcon = document.getElementById( "menu-bar" );
-const admission = document.querySelector( ".admission" );
+const link = document.querySelector(".links");
+const menuIcon = document.getElementById("menu-icon");
+const admission = document.querySelector(".admission");
 
-menuIcon.addEventListener( "click", () => {
-    if ( menuIcon.classList.contains( "fa-bars" ) ) {
-        menuIcon.classList.add( "fa-xmark" );
-        menuIcon.classList.remove( "fa-bars" );
+menuIcon.addEventListener("click", () => {
+    const isOpen = link.classList.contains("active");
 
+    if (!isOpen) {
+        // Open menu
         link.style.display = "flex";
         admission.style.display = "flex";
-
-        requestAnimationFrame( () => {
-            link.classList.add( "active" );
-            admission.classList.add( "active" );
-        } );
+        requestAnimationFrame(() => {
+            link.classList.add("active");
+            admission.classList.add("active");
+        });
+        menuIcon.src = "/images/icons/close.svg"; // close icon
     } else {
-        menuIcon.classList.remove( "fa-xmark" );
-        menuIcon.classList.add( "fa-bars" );
-
-        link.classList.remove( "active" );
-        admission.classList.remove( "active" );
+        // Close menu
+        link.classList.remove("active");
+        admission.classList.remove("active");
+        menuIcon.src = "/images/icons/menu.svg"; // menu icon
     }
-} );
+});

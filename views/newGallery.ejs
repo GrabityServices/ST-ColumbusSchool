@@ -4,9 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Add New Event</title>
+  <title>Add New Esdfsdfvent</title>
   <style>
-    /* ===== General Reset ===== */
     * {
       margin: 0;
       padding: 0;
@@ -183,7 +182,7 @@
       <h1>Add New Image</h1>
       <form class="upload-form" enctype="multipart/form-data" action="/home/gallery/new" method="post">
         <label class="upload-box">
-          <img src="/images/icon-upload.svg" alt="upload-icon" id="placeholder-img">
+          <img src="/images/icons/icon-upload.svg" alt="upload-icon" id="placeholder-img">
           <span id="upload-text">Drag and drop or click to upload</span>
           <input type="file" name="img" accept="image/jpeg, image/png" required />
         </label>
@@ -192,7 +191,7 @@
         <input type="date" required name="EventDate" value="<%= date %>" hidden />
 
         <div class="upload-limit-first">
-          <img src="/images/icon-info.svg" alt="upload-limit-icon">
+          <img src="/images/icons/icon-info.svg" alt="upload-limit-icon">
           Upload your event image (JPG, JPEG, PNG; max size 5MB)
         </div>
         <button type="submit">Save</button>
@@ -205,17 +204,18 @@
         <h1>Add New Event</h1>
         <form class="upload-form" enctype="multipart/form-data" action="/home/gallery/new" method="post">
           <label class="upload-box">
-            <img src="/images/icon-upload.svg" alt="upload-icon">
+            <img src="/images/icons/icon-upload.svg" alt="upload-icon">
             <span id="upload-text">Drag and drop or click to upload</span>
             <input type="file" name="img" accept="image/jpeg, image/png" required />
           </label>
 
           <div class="add-event-second-section">
-            <input class="add-event-input" type="text" name="title"
-              placeholder="Enter event title" minlength="3" maxlength="30" required />
+            <input class="add-event-input" type="text" name="title" placeholder="Enter event title" minlength="3"
+              maxlength="30" required />
             <input type="date" required name="EventDate" />
 
-            <div class="upload-limit"><img src="/images/icon-info.svg" alt="upload-limit-icon">Upload your event image
+            <div class="upload-limit"><img src="/images/icons/icon-info.svg" alt="upload-limit-icon">Upload your event
+              image
               (JPG, JPEG, PNG; max size 5MB)</div>
             <button type="submit">Save</button>
             <div class="error-message"></div>
@@ -224,98 +224,96 @@
         </form>
       </div>
 
-      
+
       <% } %>
 
         <script>
-          const forms = document.querySelectorAll( '.upload-form' );
+          const forms = document.querySelectorAll('.upload-form');
 
-          forms.forEach( form => {
-            const fileInput = form.querySelector( 'input[type="file"]' );
-            const errorMessage = form.querySelector( '.error-message' );
-            const uploadBox = form.querySelector( '.upload-box' );
-            const uploadText = uploadBox.querySelector( '#upload-text' );
+          forms.forEach(form => {
+            const fileInput = form.querySelector('input[type="file"]');
+            const titleInput = form.querySelector('input[name="title"]');
+            const dateInput = form.querySelector('input[name="EventDate"]');
+            const errorMessage = form.querySelector('.error-message');
+            const uploadBox = form.querySelector('.upload-box');
+            const uploadText = uploadBox.querySelector('#upload-text');
 
-            // Drag & drop
-            uploadBox.addEventListener( 'dragover', e => {
+            // ===== Drag & Drop Handling =====
+            uploadBox.addEventListener('dragover', e => {
               e.preventDefault();
               uploadBox.style.backgroundColor = 'rgba(194,194,194,0.25)';
-            } );
+            });
 
-            uploadBox.addEventListener( 'dragleave', e => {
+            uploadBox.addEventListener('dragleave', e => {
               e.preventDefault();
               uploadBox.style.backgroundColor = 'rgba(194,194,194,0.15)';
-            } );
+            });
 
-            uploadBox.addEventListener( 'drop', e => {
+            uploadBox.addEventListener('drop', e => {
               e.preventDefault();
-              fileInput.files = e.dataTransfer.files;
-              showFileName( fileInput.files[ 0 ] );
-            } );
+              if (e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                showFileName(fileInput.files[0]);
+              }
+            });
 
-            // Show file name
-            fileInput.addEventListener( 'change', () => {
-              showFileName( fileInput.files[ 0 ] );
-            } );
+            // ===== File Selection via Click =====
+            fileInput.addEventListener('change', () => {
+              showFileName(fileInput.files[0]);
+            });
 
-            function showFileName ( file ) {
-              if ( !file ) return;
+            function showFileName(file) {
+              if (!file) return;
               uploadText.textContent = file.name;
             }
 
-            // Validation
-            form.addEventListener( 'submit', e => {
+            // ===== Unified Validation =====
+            form.addEventListener('submit', e => {
               errorMessage.innerText = '';
-              const file = fileInput.files[ 0 ];
 
-              if ( !file ) {
-                errorMessage.innerText = 'Please select a file.';
-                e.preventDefault();
-                return;
-              }
-
-              const validTypes = [ "image/jpeg", "image/png", "image/jpg" ];
+              // 1️⃣ File validation
+              const file = fileInput.files[0];
+              const validTypes = ["image/jpeg", "image/png", "image/jpg"];
               const maxSize = 5 * 1024 * 1024; // 5MB
 
-              if ( !validTypes.includes( file.type ) ) {
+              if (!file) {
+                e.preventDefault();
+                errorMessage.innerText = 'Please select a file.';
+                return;
+              }
+
+              if (!validTypes.includes(file.type)) {
+                e.preventDefault();
                 errorMessage.innerText = 'Only JPG, JPEG, or PNG files are allowed.';
-                e.preventDefault();
                 return;
               }
 
-              if ( file.size > maxSize ) {
+              if (file.size > maxSize) {
+                e.preventDefault();
                 errorMessage.innerText = 'File size must not exceed 5MB.';
-                e.preventDefault();
                 return;
               }
-            } );
-          } );
 
-          const form = document.querySelector( '.upload-form' );
-          const titleInput = form.querySelector( 'input[name="title"]' );
-          const errorMessage = form.querySelector( '.error-message' );
+              // 2️⃣ Title validation (if input exists)
+              if (titleInput) {
+                const titleRegex = /^[a-zA-Z ]{3,30}$/;
+                if (!titleInput.value || !titleRegex.test(titleInput.value)) {
+                  e.preventDefault();
+                  errorMessage.innerText = 'Title must be 3–30 characters, only letters or spaces allowed.';
+                  return;
+                }
+              }
 
-          form.addEventListener( 'submit', e => {
-            errorMessage.innerText = '';
-
-            // Regex for title
-            const titleRegex = /^[a-zA-Z ]{3,30}$/;
-
-            // Validate title
-            if ( !titleInput.value || !titleRegex.test( titleInput.value ) ) {
-              e.preventDefault();
-              errorMessage.innerText = "Title must be 3–30 characters, only letters or spaces allowed.";
-              return;
-            }
-
-            // Validate date
-            if ( !dateInput.value ) {
-              e.preventDefault();
-              errorMessage.innerText = "Event date is required.";
-              return;
-            }
-          } );
+              // 3️⃣ Date validation (if input exists)
+              if (dateInput && !dateInput.value) {
+                e.preventDefault();
+                errorMessage.innerText = 'Event date is required.';
+                return;
+              }
+            });
+          });
         </script>
+
 
 </body>
 

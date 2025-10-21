@@ -6,7 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>User Update Form</title>
   <style>
-    /* General Reset */
+    :root {
+      --main-bg-color: radial-gradient(125% 125% at 50% 10%, #000000 40%, #010133 100%);
+      --form-bg-color: linear-gradient(135deg, rgba(42, 42, 42, 0.8) 0%, rgba(74, 74, 74, 0.6) 100%);
+      --input-text-color: white;
+      --label-text-color: rgba(255, 255, 255, 0.87);
+      --input-bg-color: #0000004d;
+      --input-border-color: rgba(255, 255, 255, 0.5);
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -20,22 +28,24 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
+      background-color: #000;
+      background-image: var(--main-bg-color);
     }
 
     .container {
-      background: #fff;
       padding: 30px 40px;
       border-radius: 10px;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
       width: 100%;
       max-width: 500px;
       margin-inline: 1rem;
+      background-image: var(--form-bg-color);
+      color: var(--input-text-color);
     }
 
     h1 {
       text-align: center;
       margin-bottom: 20px;
-      color: #333;
     }
 
     form {
@@ -46,7 +56,7 @@
     label {
       margin-bottom: 5px;
       font-size: 14px;
-      color: #555;
+      color: var(--label-text-color);
     }
 
     input,
@@ -54,10 +64,20 @@
     button {
       margin-bottom: 15px;
       padding: 10px;
-      border: 1px solid #ccc;
+      border: 1px solid var(--input-border-color);
       border-radius: 6px;
       font-size: 14px;
       transition: 0.3s ease;
+      background-color: var(--input-bg-color);
+      color: var(--input-text-color);
+    }
+
+    select {
+      background: var(--input-bg-color);
+    }
+
+    select option {
+      background-color: var(--input-bg-color);
     }
 
     input:focus,
@@ -65,10 +85,6 @@
       border-color: #007bff;
       outline: none;
       box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
-    }
-
-    select {
-      background: #fff;
     }
 
     button {
@@ -143,7 +159,7 @@
       <input type="number" id="age" name="age" placeholder="Age" min="20" max="120" />
 
       <label for="joingDate">Joining Date</label>
-      <input type="date" id="joingDate" name="joingDate"  />
+      <input type="date" id="joingDate" name="joingDate" />
 
       <button type="submit">Save</button>
     </form>
@@ -159,17 +175,17 @@
       age: /^(1[89]|[2-9][0-9]|1[01][0-9]|120)$/, // Age 20–120
     };
 
-    const form = document.querySelector( "form" );
+    const form = document.querySelector("form");
 
-    function validateField ( field, regex ) {
+    function validateField(field, regex) {
       const value = field.value.trim();
-      if ( value === "" ) {
+      if (value === "") {
         // Field is optional → no error
         field.style.borderColor = "#ccc";
         return true;
       }
 
-      if ( !regex.test( value ) ) {
+      if (!regex.test(value)) {
         field.style.borderColor = "red";
         return false;
       } else {
@@ -178,29 +194,29 @@
       }
     }
 
-    form.addEventListener( "submit", function ( e ) {
+    form.addEventListener("submit", function (e) {
       let isValid = true;
 
-      isValid &= validateField( document.getElementById( "uniqId" ), regexRules.uniqId );
-      isValid &= validateField( document.getElementById( "email" ), regexRules.email );
-      isValid &= validateField( document.getElementById( "name" ), regexRules.name );
-      isValid &= validateField( document.getElementById( "position" ), regexRules.position );
-      isValid &= validateField( document.getElementById( "quli" ), regexRules.qualification );
-      isValid &= validateField( document.getElementById( "age" ), regexRules.age );
+      isValid &= validateField(document.getElementById("uniqId"), regexRules.uniqId);
+      isValid &= validateField(document.getElementById("email"), regexRules.email);
+      isValid &= validateField(document.getElementById("name"), regexRules.name);
+      isValid &= validateField(document.getElementById("position"), regexRules.position);
+      isValid &= validateField(document.getElementById("quli"), regexRules.qualification);
+      isValid &= validateField(document.getElementById("age"), regexRules.age);
 
-      if ( !isValid ) {
+      if (!isValid) {
         e.preventDefault(); // stop form submission
-        alert( "Please correct the highlighted fields before submitting." );
+        alert("Please correct the highlighted fields before submitting.");
       }
-    } );
+    });
 
     // Real-time validation
-    document.querySelectorAll( "input" ).forEach( ( input ) => {
-      input.addEventListener( "input", () => {
-        const rule = regexRules[ input.id ];
-        if ( rule ) validateField( input, rule );
-      } );
-    } );
+    document.querySelectorAll("input").forEach((input) => {
+      input.addEventListener("input", () => {
+        const rule = regexRules[input.id];
+        if (rule) validateField(input, rule);
+      });
+    });
   </script>
 
 </body>

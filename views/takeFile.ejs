@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Update Image</title>
+  <title>Upload Image</title>
   <link rel="stylesheet" href="/style/takeFile.css">
 </head>
 <body>
@@ -13,11 +13,11 @@
       <h1>Upload File</h1>
       <form class="upload-form" enctype="multipart/form-data" action="/home/adminUpdate/<%= id %>" method="post">
         <label class="upload-box">
-          <img src="/images/icon-upload.svg" alt="upload-icon" id="placeholder-img">
+          <img src="/images/icons/icon-upload.svg" alt="upload-icon" id="placeholder-img">
           <span id="upload-text">Drag and drop or click to upload</span>
           <input type="file" name="img" accept="image/jpeg, image/png" required />
         </label>
-        <div class="upload-limit"><img src="/images/icon-info.svg" alt="upload-limit-icon"> Upload your photo (JPG, JPEG, PNG; max size 5MB)</div>
+        <div class="upload-limit"><img src="/images/icons/icon-info.svg" alt="upload-limit-icon"> Upload your photo (JPG, JPEG, PNG; max size 5MB)</div>
         <button type="submit">Save</button>
         <div class="error-message"></div>
       </form>
@@ -28,11 +28,11 @@
       <h1>Upload File</h1>
       <form class="upload-form" enctype="multipart/form-data" action="/stcolumbus/jaj/ekdara/admin/update/img/<%= id %>" method="post">
         <label class="upload-box">
-          <img src="/images/icon-upload.svg" alt="upload-icon">
+          <img src="/images/icons/icon-upload.svg" alt="upload-icon">
           <span id="upload-text">Drag and drop or click to upload</span>
           <input type="file" name="img" accept="image/jpeg, image/png" required />
         </label>
-        <div class="upload-limit"><img src="/images/icon-info.svg" alt="upload-limit-icon"> Upload your photo (JPG, JPEG, PNG; max size 5MB)</div>
+        <div class="upload-limit"><img src="/images/icons/icon-info.svg" alt="upload-limit-icon"> Upload your photo (JPG, JPEG, PNG; max size 5MB)</div>
         <button type="submit">Save</button>
         <div class="error-message"></div>
       </form>
@@ -43,11 +43,11 @@
       <h1>Upload File</h1>
       <form class="upload-form" enctype="multipart/form-data" action="/home/galleryUpdate/<%= id %>" method="post">
         <label class="upload-box">
-          <img src="/images/icon-upload.svg" alt="upload-icon" id="placeholder-img">
+          <img src="/images/icons/icon-upload.svg" alt="upload-icon" id="placeholder-img">
           <span id="upload-text">Drag and drop or click to upload</span>
           <input type="file" name="img" accept="image/jpeg, image/png" required />
         </label>
-        <div class="upload-limit"><img src="/images/icon-info.svg" alt="upload-limit-icon"> Upload your photo (JPG, JPEG, PNG; max size 5MB)</div>
+        <div class="upload-limit"><img src="/images/icons/icon-info.svg" alt="upload-limit-icon"> Upload your photo (JPG, JPEG, PNG; max size 5MB)</div>
         <button type="submit">Save</button>
         <div class="error-message"></div>
       </form>
@@ -58,12 +58,12 @@
       <h1>Upload File</h1>
       <form class="upload-form" enctype="multipart/form-data" action="/home/noticeUpdate/<%= id %>" method="post">
         <label class="upload-box">
-          <img src="/images/icon-upload.svg" alt="upload-icon" id="placeholder-img">
+          <img src="/images/icons/icon-upload.svg" alt="upload-icon" id="placeholder-img">
           <span id="upload-text">Drag and drop or click to upload</span><!-- keep the name="img" so backend matches -->
           <input type="file" name="img" accept="application/pdf,image/jpeg,image/png" required />
         </label>
         <div class="upload-limit">
-          <img src="/images/icon-info.svg" alt="upload-limit-icon">Upload your file (PDF, JPG, JPEG, PNG; max size 5MB)</div>
+          <img src="/images/icons/icon-info.svg" alt="upload-limit-icon">Upload your file (PDF, JPG, JPEG, PNG; max size 5MB)</div>
         <button type="submit">Save</button>
         <div class="error-message"></div>
       </form>

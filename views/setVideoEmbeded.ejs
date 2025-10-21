@@ -1,52 +1,170 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Add New Video</title>
-  </head>
-  <body>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add New Video</title>
+  <style>
+    /* ===== General Reset ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url(/images/upload-bg-image.png) no-repeat center center/cover;
+      padding: 1rem;
+    }
+
+    /* ===== Card Wrapper ===== */
+    .card {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .card h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #222;
+    }
+
+    /* ===== Form Section ===== */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: 8px;
+      border: 1.8px solid rgba(0, 0, 0, 0.35);
+      font-size: 1rem;
+      outline: none;
+      resize: none;
+      transition: border 0.3s, box-shadow 0.3s;
+    }
+
+    textarea:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 6px rgba(0, 123, 255, 0.25);
+    }
+
+    button {
+      padding: 0.9rem;
+      border: none;
+      border-radius: 12px;
+      background: #007bff;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.1s;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    /* ===== Message ===== */
+    #message {
+      margin-top: 0.6rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    @media (max-width: 450px) {
+      body {
+        padding: 0.5rem;
+      }
+
+      .card {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
     <h1>Add New Embedded Video</h1>
     <form id="videoForm">
-      <textarea
-        name="videoEmbed"
-        id="videoEmbed"
-        rows="6"
-        cols="60"
-        placeholder="Paste iframe embed code here..."
-      ></textarea>
-      <br /><br />
+      <textarea name="videoEmbed" id="videoEmbed" rows="6" placeholder="Paste iframe embed code here..."
+        required></textarea>
       <button type="submit">Submit</button>
+      <div id="message"></div>
     </form>
-    <div id="message" style="margin-top: 10px"></div>
+  </div>
 
-    <script>
-      document
-        .getElementById("videoForm")
-        .addEventListener("submit", async function (e) {
-          e.preventDefault();
+  <script>
+    const form = document.getElementById( "videoForm" );
+    const textarea = document.getElementById( "videoEmbed" );
+    const messageBox = document.getElementById( "message" );
 
-          const videoEmbed = document.getElementById("videoEmbed").value.trim();
-          const messageBox = document.getElementById("message");
-          try {
-            const response = await fetch("/home/video/embedded/new", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ videoEmbed }),
-            });
+    form.addEventListener( "submit", async ( e ) => {
+      e.preventDefault();
+      messageBox.innerText = "";
+      messageBox.style.color = "black";
 
-            const result = await response.json();
-            if (response.ok || result.code === "ok") {
-              window.location.href = "/stcolumbus/jaj/ekdara/admin#video";
-            } else {
-              messageBox.innerText = result.message+" (Error Code: "+(result.code||result.status)+")";
-              messageBox.style.color = "red";
-            }
-          } catch (err) {
-            messageBox.innerText = "An error occurred. Please try again.";
-            messageBox.style.color = "red";
-          }
-        });
-    </script>
-  </body>
+      const videoEmbed = textarea.value.trim();
+
+      // ===== Validation =====
+      if ( !videoEmbed ) {
+        messageBox.innerText = "Please enter the embed code.";
+        messageBox.style.color = "red";
+        return;
+      }
+
+      // Simple iframe regex validation
+      const iframeRegex = /^<iframe.*<\/iframe>$/i;
+      const urlRegex = /^https?:\/\/.+/;
+
+      if ( !iframeRegex.test( videoEmbed ) && !urlRegex.test( videoEmbed ) ) {
+        messageBox.innerText = "Enter a valid iframe embed code or YouTube URL.";
+        messageBox.style.color = "red";
+        return;
+      }
+
+      // ===== Submit via fetch =====
+      try {
+        const response = await fetch( "/home/video/embedded/new", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify( { videoEmbed } ),
+        } );
+
+        const result = await response.json();
+        if ( response.ok || result.code === "ok" ) {
+          window.location.href = "/stcolumbus/jaj/ekdara/admin#video";
+        } else {
+          messageBox.innerText = result.message + " (Error Code: " + ( result.code || result.status ) + ")";
+          messageBox.style.color = "red";
+        }
+      } catch ( err ) {
+        messageBox.innerText = "An error occurred. Please try again.";
+        messageBox.style.color = "red";
+      }
+    } );
+  </script>
+</body>
+
 </html>

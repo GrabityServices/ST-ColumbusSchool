@@ -1,5 +1,4 @@
 const upArrow = document.getElementById( 'upArrow' );
-
 upArrow.addEventListener( 'click', () => {
     window.scrollTo( {
         top: 0,

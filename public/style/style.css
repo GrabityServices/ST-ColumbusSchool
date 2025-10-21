@@ -34,11 +34,15 @@ header {
   position: fixed;
   top: 0;
   z-index: 100;
-  background-color: thistle;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);          
+  -webkit-backdrop-filter: blur(10px);   
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); 
   font-weight: 500;
 }
 
 nav {
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -52,14 +56,25 @@ a {
 }
 
 .logo {
-  height: 90px;
+  display: flex;
+  align-items: center;   
+  justify-content: center;  
+  height: 80px;             
   min-width: 80px;
   margin-right: 15px;
 }
 
+.logo a {
+  display: block;          
+  height: 100%;             
+  width: auto;              
+}
+
 .logo img {
-  width: 100%;
-  height: 100%;
+  height: 100%;             
+  width: auto;             
+  object-fit: contain;      
+  display: block;          
 }
 
 .links {
@@ -74,6 +89,10 @@ a {
   font-size: 1.1rem;
   color: var(--font-color);
   transition-duration: 0.3s;
+}
+
+.links a:hover {
+  color: #0129ddce;
 }
 
 .admission {
@@ -103,34 +122,28 @@ a {
   width: 100%;
 }
 
-.links a:hover {
-  color: #0129ddce;
-}
-
 .hamburger {
   width: 40px;
   height: 35px;
-  display: flex;
-  justify-content: space-around;
+  display: none;          
+  justify-content: center;
   align-items: center;
-  flex-direction: column;
   cursor: pointer;
   overflow: hidden;
-  display: none;
-
-  i {
-    transition-delay: 0.3s;
-    transition-duration: 0.5s;
-    color: wheat;
-    font-size: 25px;
-  }
-
+  z-index: 20;
 }
+
+.hamburger img,
+.hamburger svg {
+  width: 35px;
+  height: 35px;
+  transition: transform 0.3s ease-in-out;
+}
+
 
 @media (max-width: 915px) {
   .hamburger {
     display: flex;
-    z-index: 10;
   }
 
   .links {
@@ -200,16 +213,9 @@ a {
   header {
     height: 70px;
   }
-  
-  .logo {
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 
-  .logo img {
-    height: 80%;
+  .logo {
+    height: 60px;
   }
 
   .links {
@@ -219,5 +225,13 @@ a {
   .admission {
     top: 370px;
   }
+}
 
+@media (max-width: 400px) {
+  .hamburger img,
+  .hamburger svg {
+    width: 30px;
+    height: 30px;
+    transition: transform 0.3s ease-in-out;
+  }
 }
