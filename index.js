@@ -23,7 +23,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 const cors = require('cors');
 const allowedOrigin = process.env.ALLOWED_ORIGNI;
-const {logUnauthorizedOrigin} = require("./middleware/logUnauthorizedOrigin");
+const { logUnauthorizedOrigin } = require("./middleware/logUnauthorizedOrigin");
+const VideoGall = require("./models/videoEmbedded.js");
 app.set("view engine", "ejs");
 
 app.set("views", Path.join(__dirname, "views"));
@@ -120,7 +121,8 @@ app.post("/contact", async (req, res) => {
 
 app.get("/gallery", async (req, res) => {
   let images = await Gallery.find({});
-  res.render("gallery.ejs", { images });
+  const videos = await VideoGall.find({})
+  res.render("gallery.ejs", { images, videos });
 });
 
 app.get("/admission", async (req, res) => {
