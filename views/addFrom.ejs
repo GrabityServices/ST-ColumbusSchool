@@ -2,11 +2,25 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admission Form</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    /* Reset */
+    :root {
+      --primary-color: #4285f4;
+      --primary-light: #8ab4f8;
+      --bg-color: linear-gradient(140deg, #000000, #00072e);
+      --surface-color: #1e1e1e;
+      --text-primary: #e8eaed;
+      --text-secondary: #b0b0b0;
+      --border-color: #333333;
+      --error-color: #ea4335;
+      --shadow: 0 2px 8px 0 rgba(0, 0, 0, .4), 0 2px 4px 0 rgba(0, 0, 0, .2);
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -14,277 +28,327 @@
     }
 
     body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #f0f4ff, #d9e4ff);
+      font-family: 'Roboto', sans-serif;
+      background: var(--bg-color);
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
-      padding: 2rem;
+      align-items: center;
+      padding: 24px;
+      color: var(--text-primary);
+    }
+
+    .form-container {
+      background: var(--surface-color);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 32px 24px;
+      width: 100%;
+      max-width: 800px;
     }
 
     h1 {
       text-align: center;
-      color: #2c3e50;
-      margin-bottom: 1.5rem;
-      font-weight: 700;
-      letter-spacing: 1.2px;
+      color: var(--text-primary);
+      font-size: 22px;
+      font-weight: 400;
+      margin-bottom: 24px;
+      letter-spacing: 0.25px;
     }
 
-    form {
-      background: #ffffff;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-      width: 100%;
-      max-width: 650px;
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .form-row.full {
+      grid-template-columns: 1fr;
+    }
+
+    .form-group {
+      margin-bottom: 0;
     }
 
     label {
       display: block;
-      font-weight: 600;
-      margin-bottom: 0.4rem;
-      color: #34495e;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
     }
 
     input,
     select {
       width: 100%;
-      padding: 0.65rem 1rem;
-      margin-bottom: 0.3rem;
-      border: 2px solid #bdc3c7;
-      border-radius: 8px;
-      font-size: 1rem;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      padding: 10px 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 15px;
+      font-family: inherit;
+      transition: border-color 0.2s ease;
       outline: none;
-      background: #f8f9fb;
-      color: #2c3e50;
+      background: #2a2a2a;
+      color: var(--text-primary);
     }
 
     input:focus,
     select:focus {
-      border-color: #2980b9;
-      box-shadow: 0 0 8px #2980b9aa;
-      background: #ffffff;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+      background: #333333;
     }
 
-    input.error {
-      border-color: #e74c3c;
-      background: #fdecea;
+    input.error,
+    select.error {
+      border-color: var(--error-color);
+      background: #2a2a2a;
     }
 
     .error-msg {
-      font-size: 0.9rem;
-      color: #e74c3c;
-      margin-bottom: 1rem;
+      font-size: 12px;
+      color: var(--error-color);
+      margin-top: 4px;
       display: none;
+      font-weight: 400;
     }
 
     input[readonly] {
-      background: #e9ecef;
+      background: #1e1e1e;
+      color: var(--text-secondary);
       cursor: not-allowed;
-      border-color: #ced4da;
-      color: #6c757d;
     }
 
     .form-section {
-      margin-bottom: 1.5rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid #e3e6f0;
+      margin-bottom: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
     }
 
     .form-section h3 {
-      margin-bottom: 1rem;
-      font-weight: 700;
-      color: #2c3e50;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+
+    .address-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .address-grid.full {
+      grid-template-columns: 1fr;
+    }
+
+    .address-grid .form-group {
+      margin-bottom: 12px;
     }
 
     button {
       width: 100%;
-      padding: 0.85rem;
-      background: linear-gradient(135deg, #2980b9, #6dd5fa);
+      padding: 10px;
+      background: var(--primary-color);
       border: none;
-      border-radius: 10px;
-      color: #fff;
-      font-size: 1.2rem;
-      font-weight: 700;
+      border-radius: 6px;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 500;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.3s ease;
-      box-shadow: 0 6px 15px rgba(41, 128, 185, 0.5);
-      margin-top: 0.5rem;
+      transition: background-color 0.2s ease;
+      margin-top: 8px;
     }
 
     button:hover {
-      transform: scale(1.03);
-      box-shadow: 0 8px 20px rgba(41, 128, 185, 0.6);
+      background: var(--primary-light);
     }
 
     /* Responsive */
-    /* Enhanced Responsive for Phones */
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       body {
-        padding: 1rem;
-        align-items: center;
-        /* Center form vertically for small screens */
+        padding: 16px;
       }
 
-      form {
-        padding: 1rem;
-        width: 100%;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      .form-container {
+        padding: 24px 16px;
+        box-shadow: none;
+        border-radius: 0;
       }
 
       h1 {
-        font-size: 1.4rem;
-        margin-bottom: 1rem;
+        font-size: 20px;
+        margin-bottom: 20px;
       }
 
-      label {
-        font-size: 0.9rem;
-      }
-
-      input,
-      select {
-        padding: 0.5rem 0.75rem;
-        font-size: 0.9rem;
-      }
-
-      button {
-        padding: 0.7rem;
-        font-size: 1rem;
-      }
-
-      .form-section h3 {
-        font-size: 1rem;
+      .form-row,
+      .address-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
       }
     }
   </style>
 </head>
 
 <body>
-  <form action="/admission/form" method="POST" onsubmit="return validateForm(event)">
-    <h1>Admission Form</h1>
+  <div class="form-container">
+    <form action="/admission/form" method="POST" onsubmit="return validateForm(event)">
+      <h1>Create Admission</h1>
 
-    <label for="name">Full Name</label>
-    <input type="text" id="name" name="name" required />
-    <div id="name-error" class="error-msg"></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Full name</label>
+          <input type="text" id="name" name="name" required>
+          <div id="name-error" class="error-msg"></div>
+        </div>
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input type="number" id="age" name="age" required min="3" max="100">
+          <div id="age-error" class="error-msg"></div>
+        </div>
+      </div>
 
-    <label for="age">Age</label>
-    <input type="number" id="age" name="age" required />
-    <div id="age-error" class="error-msg"></div>
+      <div class="form-row full">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+          <div id="email-error" class="error-msg"></div>
+        </div>
+      </div>
 
-    <label for="email">Student's Email</label>
-    <input type="email" id="email" name="email" required />
-    <div id="email-error" class="error-msg"></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="fname">Father's name</label>
+          <input type="text" id="fname" name="fname" required>
+          <div id="fname-error" class="error-msg"></div>
+        </div>
+        <div class="form-group">
+          <label for="mobNumber">Father's phone</label>
+          <input type="tel" id="mobNumber" name="mobNumber" required>
+          <div id="mobNumber-error" class="error-msg"></div>
+        </div>
+      </div>
 
-    <label for="fname">Father's Name</label>
-    <input type="text" id="fname" name="fname" required />
-    <div id="fname-error" class="error-msg"></div>
+      <div class="form-row full">
+        <div class="form-group">
+          <label for="mname">Mother's name</label>
+          <input type="text" id="mname" name="mname" required>
+          <div id="mname-error" class="error-msg"></div>
+        </div>
+      </div>
 
-    <label for="mobNumber">Father's Mobile Number</label>
-    <input type="tel" id="mobNumber" name="mobNumber" required />
-    <div id="mobNumber-error" class="error-msg"></div>
+      <div class="form-section">
+        <h3>Address</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="vill">Village</label>
+            <input type="text" id="vill" name="addv" required>
+            <div id="vill-error" class="error-msg"></div>
+          </div>
+          <div class="form-group">
+            <label for="town">Town</label>
+            <input type="text" id="town" name="addt" required>
+            <div id="town-error" class="error-msg"></div>
+          </div>
+        </div>
+        <div class="address-grid">
+          <div class="form-group">
+            <label for="dist">District</label>
+            <input type="text" id="dist" name="addd" value="JAMUI" readonly>
+          </div>
+          <div class="form-group">
+            <label for="state">State</label>
+            <input type="text" id="state" name="adds" value="BIHAR" readonly>
+          </div>
+          <div class="form-group">
+            <label for="pincode">Pincode</label>
+            <input type="text" id="pincode" name="addp" value="811308" readonly>
+          </div>
+        </div>
+      </div>
 
-    <label for="mname">Mother's Name</label>
-    <input type="text" id="mname" name="mname" required />
-    <div id="mname-error" class="error-msg"></div>
+      <div class="form-row full">
+        <div class="form-group">
+          <label for="forClass">Class applying for</label>
+          <select id="forClass" name="forClass" required>
+            <option value="">Select</option>
+            <option value="LKG">LKG</option>
+            <option value="UKG">UKG</option>
+            <option value="NUR">NUR</option>
+            <option value="1ST">1st</option>
+            <option value="2ND">2nd</option>
+            <option value="3RD">3rd</option>
+            <option value="4TH">4th</option>
+            <option value="5TH">5th</option>
+            <option value="6TH">6th</option>
+            <option value="7TH">7th</option>
+            <option value="8TH">8th</option>
+            <option value="9TH">9th</option>
+            <option value="10TH">10th</option>
+          </select>
+          <div id="forClass-error" class="error-msg"></div>
+        </div>
+      </div>
 
-    <div class="form-section">
-      <h3>Address</h3>
-
-      <label for="vill">Village</label>
-      <input type="text" id="vill" name="addv" required />
-      <div id="vill-error" class="error-msg"></div>
-
-      <label for="town">Town</label>
-      <input type="text" id="town" name="addt" required />
-      <div id="town-error" class="error-msg"></div>
-
-      <label for="dist">District</label>
-      <input type="text" id="dist" name="addd" value="JAMUI" readonly />
-
-      <label for="state">State</label>
-      <input type="text" id="state" name="adds" value="BIHAR" readonly />
-
-      <label for="pincode">Pincode</label>
-      <input type="text" id="pincode" name="addp" value="811308" readonly />
-    </div>
-
-    <label for="forClass">Class Applying For</label>
-    <select id="forClass" name="forClass" required>
-      <option value="">-- Select Class --</option>
-      <option value="LKG">LKG</option>
-      <option value="UKG">UKG</option>
-      <option value="NUR">NUR</option>
-      <option value="1ST">1ST</option>
-      <option value="2ND">2ND</option>
-      <option value="3RD">3RD</option>
-      <option value="4TH">4TH</option>
-      <option value="5TH">5TH</option>
-      <option value="6TH">6TH</option>
-      <option value="7TH">7TH</option>
-      <option value="8TH">8TH</option>
-      <option value="9TH">9TH</option>
-      <option value="10TH">10TH</option>
-    </select>
-    <div id="forClass-error" class="error-msg"></div>
-
-    <button type="submit">Submit</button>
-  </form>
+      <button type="submit">Create</button>
+    </form>
+  </div>
 
   <script>
     const regexRules = {
-      name: /^[A-Za-z\s]{3,40}$/,        // letters + spaces
-      email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/, // email
-      mobNumber: /^[6-9]\d{9}$/,         // 10 digits starting 6-9
+      name: /^[A-Za-z\s]{3,40}$/,
+      email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/,
+      mobNumber: /^[6-9]\d{9}$/,
     };
 
-    function validateForm ( event ) {
+    function validateForm(event) {
       let isValid = true;
 
-      // clear previous errors
-      document.querySelectorAll( ".error-msg" ).forEach( msg => {
+      document.querySelectorAll('.error-msg').forEach(msg => {
         msg.innerText = '';
         msg.style.display = 'none';
-      } );
-      document.querySelectorAll( "input, select" ).forEach( inp => inp.classList.remove( "error" ) );
+      });
+      document.querySelectorAll('input, select').forEach(inp => inp.classList.remove('error'));
 
-      function showError ( id, msg ) {
-        const elem = document.getElementById( id );
-        elem.classList.add( 'error' );
-        const err = document.getElementById( id + '-error' );
+      function showError(id, msg) {
+        const elem = document.getElementById(id);
+        elem.classList.add('error');
+        const err = document.getElementById(id + '-error');
         err.innerText = msg;
         err.style.display = 'block';
         isValid = false;
       }
 
-      // Name validation
-      if ( !regexRules.name.test( document.getElementById( 'name' ).value.trim() ) ) {
-        showError( 'name', 'Full name must be 3–40 letters.' );
-      }
-      if ( !regexRules.name.test( document.getElementById( 'fname' ).value.trim() ) ) {
-        showError( 'fname', "Father's name must be 3–40 letters." );
-      }
-      if ( !regexRules.name.test( document.getElementById( 'mname' ).value.trim() ) ) {
-        showError( 'mname', "Mother's name must be 3–40 letters." );
-      }
+      const name = document.getElementById('name').value.trim();
+      if (!regexRules.name.test(name)) showError('name', 'Name must contain 3-40 letters only.');
 
-      // Age
-      const age = Number( document.getElementById( 'age' ).value );
-      if ( age < 3 || age > 100 ) showError( 'age', 'Age must be between 3 and 100.' );
+      const fname = document.getElementById('fname').value.trim();
+      if (!regexRules.name.test(fname)) showError('fname', "Father's name must contain 3-40 letters only.");
 
-      // Email
-      const email = document.getElementById( 'email' ).value.trim();
-      if ( !regexRules.email.test( email ) ) showError( 'email', 'Enter a valid email address.' );
+      const mname = document.getElementById('mname').value.trim();
+      if (!regexRules.name.test(mname)) showError('mname', "Mother's name must contain 3-40 letters only.");
 
-      // Mobile
-      const mob = document.getElementById( 'mobNumber' ).value.trim();
-      if ( !regexRules.mobNumber.test( mob ) ) showError( 'mobNumber', 'Mobile must be 10 digits.' );
+      const age = Number(document.getElementById('age').value);
+      if (age < 3 || age > 100) showError('age', 'Age must be between 3 and 100.');
 
-      // Class
-      if ( !document.getElementById( 'forClass' ).value ) showError( 'forClass', 'Please select a class.' );
+      const email = document.getElementById('email').value.trim();
+      if (!regexRules.email.test(email)) showError('email', 'Enter a valid email.');
 
-      if ( !isValid ) event.preventDefault();
+      const mob = document.getElementById('mobNumber').value.trim();
+      if (!regexRules.mobNumber.test(mob)) showError('mobNumber', 'Phone must be 10 digits starting with 6-9.');
+
+      const vill = document.getElementById('vill').value.trim();
+      if (!vill) showError('vill', 'Village is required.');
+
+      const town = document.getElementById('town').value.trim();
+      if (!town) showError('town', 'Town is required.');
+
+      const forClass = document.getElementById('forClass').value;
+      if (!forClass) showError('forClass', 'Please select a class.');
+
+      if (!isValid) event.preventDefault();
       return isValid;
     }
   </script>
