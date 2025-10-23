@@ -9,7 +9,7 @@ footer {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 20px 0 5px;
+    padding: 20px 10px;
     border-top: 1px solid rgba(155, 150, 150, 0.425);
 }
 
@@ -85,6 +85,7 @@ footer {
 
 @media (max-width: 800px) {
     .footer-container {
+        padding: 20px 0;
         gap: 40px;
     }
 

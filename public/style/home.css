@@ -62,7 +62,7 @@ body {
 .container {
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: 2rem 0.5rem;
+  padding: 2rem 1rem;
 }
 
 h1 {
@@ -474,6 +474,7 @@ b {
 
 .Where-learning-blossoms h2 {
   text-align: center;
+  padding: 5px;
   color: var(--text-secondary);
   border-left: 1px solid hotpink;
 }
@@ -1076,7 +1077,7 @@ footer {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 20px 0 5px;
+  padding: 20px 10px;
   border-top: 1px solid rgba(155, 150, 150, 0.425);
 }
 
@@ -1211,7 +1212,7 @@ footer {
   }
 
   .container {
-    padding: 1rem 0.5rem;
+    padding: 1rem 0.8rem;
   }
 
   h1 {
@@ -1423,15 +1424,10 @@ footer {
   .faq-question img {
     width: 25px;
     height: 25px;
-    background: rgb(0, 110, 255);
   }
 
   .faq-item {
     padding: 10px 0;
-  }
-
-  footer {
-    padding: 5px;
   }
 
   .footer-container {

@@ -36,7 +36,8 @@ body {
 .container {
     max-width: var(--maxw);
     margin: 0 auto;
-    padding: 2rem 0.5rem;
+    padding: 2rem 1rem;
+    overflow-x: hidden;
 }
 
 h1 {
@@ -119,6 +120,7 @@ main {
     display: grid;
     gap: 1rem;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    overflow-x: hidden;
 }
 
 .card {
@@ -221,7 +223,7 @@ details:open {
     }
 
     .container {
-        padding: 1rem .5rem;
+        padding: 1rem 0.8rem;
     }
 
     h1 {
