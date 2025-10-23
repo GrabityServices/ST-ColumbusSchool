@@ -28,7 +28,7 @@ body {
 .container {
     max-width: var(--maxw);
     margin: 0 auto;
-    padding: 2rem 0.5rem;
+    padding: 2rem 1rem;
 }
 
 h1 {
@@ -264,7 +264,7 @@ button {
     }
 
     .container {
-        padding: 1rem .5rem;
+        padding: 1rem .8rem;
     }
 
     h1 {

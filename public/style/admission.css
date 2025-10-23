@@ -45,13 +45,15 @@
 }
 
 body {
+    width: 100%;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
     line-height: 1.5;
-    scroll-behavior: smooth;
     color: var(--text-primary);
     background-color: var(--bg-dark);
-    overflow-x: hidden;
+    background-image: var(--main-bg-linear-color);
+
 }
 
 /* CONTAINER AND TYPOGRAPHY */
@@ -109,8 +111,8 @@ li {
     color: var(--text-light);
 }
 
-body {
-    background-image: var(--main-bg-linear-color);
+main{
+    width: 100%;
 }
 
 
@@ -191,6 +193,11 @@ section {
 
 
 /* STEPS */
+.admission-process{
+    /* width: 100%; */
+    /* overflow-x: hidden; */
+}
+
 .admission-process h2,
 .eligibility h2,
 .documents h2,
