@@ -8,8 +8,13 @@
 
     /* HOME IMAGE SLIDER */
     --maxw: 1400px;
-
 }
+
+::selection {
+    background: #d67063;
+    color: white;
+}
+
 
 * {
     box-sizing: border-box;

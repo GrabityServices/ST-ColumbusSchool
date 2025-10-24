@@ -33,6 +33,12 @@
     font-weight: normal;
 }
 
+::selection {
+    background: #d67063;
+    color: white;
+}
+
+
 * {
     box-sizing: border-box;
     margin: 0;

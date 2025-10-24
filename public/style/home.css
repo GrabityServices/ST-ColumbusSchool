@@ -49,6 +49,12 @@
   box-sizing: border-box;
 }
 
+::selection {
+    background: #d67063;
+    color: white;
+}
+
+
 body {
   margin: 0;
   padding: 0;
@@ -752,10 +758,8 @@ b {
 
 .achievement h1 {
   text-align: center;
-  font-weight: 400;
-  font-style: italic;
-  font-size: 3vmax;
   word-wrap: break-word;
+  font-weight: 400;
 }
 
 .achievement p {

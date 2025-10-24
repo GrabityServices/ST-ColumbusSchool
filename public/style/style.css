@@ -21,6 +21,12 @@
   padding: 0;
 }
 
+::selection {
+    background: #d67063;
+    color: white;
+}
+
+
 body {
   width: 100%;
   min-width: 250px;
@@ -62,8 +68,6 @@ a {
   align-items: center;
   justify-content: center;
   height: 80px;
-  min-width: 80px;
-  margin-right: 15px;
 }
 
 .logo a {
@@ -81,7 +85,7 @@ a {
 
 .links {
   background-color: var(--light-bg-color);
-  padding: 18px 60px;
+  padding: 15px 60px;
   display: flex;
   gap: 30px;
   border-radius: 50px;
