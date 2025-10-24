@@ -18,6 +18,12 @@
     --second-linear-gradient: radial-gradient(circle at 50% 50%, rgba(1, 1, 51, 0.25) 20%, rgba(0, 0, 0, 0.1) 50%, #000000 100%), linear-gradient(180deg, #0a0a0a 0%, #010133 100%);
 }
 
+::selection {
+    background: #d67063;
+    color: white;
+}
+
+
 * {
     box-sizing: border-box;
 }
