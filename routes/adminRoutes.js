@@ -9,6 +9,7 @@ const {
   hadnleLoginForm,
   handleForgotForm,
   hadnleSignupForm,
+  setNewPass,
 } = require("../handler/stcolumbusadmin.js");
 //==============UserAdmin Updates Handler=============================
 const {
@@ -17,6 +18,8 @@ const {
   handleDeleteAdmin,
   hadnleUpdateBySuperAdmin,
 } = require("../handler/stcolumbusadmin.js");
+const handleForgot = require("../handler/auth.controller.js");
+const { storeOtp, getOtp } = require("../utils/redis.js");
 //==================admin work=================================
 adminroute.route("").get(handleStAdmin);
 adminroute
@@ -65,12 +68,42 @@ adminManagment
   .get(checkAdminAsSuperadmin, (req, res) => res.render("signupForm.ejs"))
   .post(checkAdminAsSuperadmin, hadnleSignupForm);
 
-adminManagment.route("/forgot/userid").get((req, res) => res.send("By Id"));
-adminManagment.route("/forgot/email").get((req, res) => res.send("By email"));
 adminManagment
   .route("/forgot/pass")
   .get((req, res) => res.render("forgotAdminPass.ejs", { user: false }))
   .post(handleForgotForm);
+
+  adminManagment.route("/verify/email/:id")
+  .get(async (req,res)=>{
+    let otp=await getOtp(req.params.id);
+    if(!otp){
+      otp=await handleForgot(req.params.id)
+      if(otp){
+        storeOtp(req.params.id,otp)
+        res.render("Otp.ejs",{email:req.params.id,reenter:false})
+      }
+      else{
+        res.redirect("http://localhost:3000/stcolumbus/admin/manage/forgot/pass")
+      }
+    }else{
+      res.render("Otp.ejs",{email:req.params.id,reenter:false})
+    }
+  })
+  .post(async (req,res)=>{
+    const id=req.params.id
+    const otp=await getOtp(id)
+    if(otp==req.body.fotp){
+      res.render("forgotAdminPass.ejs", {
+          user: true,
+          idOrEmail:id
+        });
+    }else{
+          res.render("Otp.ejs",{email:id,reenter:true})
+    }
+  })
+  
+adminManagment.route("/forgot/pass/setpass").post(setNewPass)
+
 
 adminManagment.route("/change/pass").get((req, res) => {
   res.render("forgotAdminPass.ejs", { user: true });

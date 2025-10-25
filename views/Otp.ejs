@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forgot Password</title>
+ <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    form {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+      font-size: 1.5em;
+      text-transform: uppercase;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      margin-bottom: 5px;
+      text-align: left;
+      color: #555;
+      font-weight: bold;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      box-sizing: border-box; /* Ensures padding doesn't affect width */
+      transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus {
+      border-color: #007bff;
+      outline: none; /* Removes the default outline */
+    }
+
+    /* Style for invalid input based on the pattern */
+    input[type="text"]:invalid:not(:placeholder-shown) {
+      border-color: #dc3545; /* Red border for invalid input */
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    button:active {
+      transform: translateY(1px); /* Slight press effect */
+    }
+  </style>
+</head>
+<body>
+
+    <form action="/stcolumbus/admin/manage/verify/email/<%= email %>" method="post">
+      <h2><%= email %></h2>
+      <label for="otp"><% if(reenter){%>Re-Enter OTP<%}else{%>Enter OTP <%}%></label>
+      <input type="text" name="fotp" id="otp"  minlength="4" maxlength="4" pattern="[0-9]{4}">
+      <button type="submit">Save</button>
+    </form>
+</body>
+</html>

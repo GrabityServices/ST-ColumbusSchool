@@ -10,6 +10,7 @@ const Notice = require("../models/notice.js");
 const moment = require("moment");
 const Feestuct = require("../models/feeStructure.js");
 const VideoGall = require("../models/videoEmbedded.js");
+const e = require("cors");
 
 async function handleStAdmin(req, res) {
   const Admin = await UserAdmin.find({});
@@ -198,54 +199,57 @@ async function hadnleSignupForm(req, res) {
 }
 
 async function handleForgotForm(req, res) {
-  const { idOrEmail, password, copyPassword } = req.body;
+  const { idOrEmail } = req.body;
 
   try {
     // Phase 1: Check if user exists
-    if (!password && !copyPassword) {
       const existingUser = await UserAdmin.findOne({
         $or: [{ email: idOrEmail }, { uniqId: idOrEmail }],
       });
-
+      
       if (existingUser) {
-        return res.render("forgotAdminPass.ejs", {
-          user: true,
-          idOrEmail,
-        });
+        return res.redirect("/stcolumbus/admin/manage/verify/email/"+existingUser.email)
       } else {
         return res.render("forgotAdminPass.ejs", {
           user: false,
           idOrEmail,
         });
-      }
     }
 
     // Phase 2: Reset password
-    if (password !== copyPassword) {
-      return res.redirect("/stcolumbus/admin/manage/forgot/pass");
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const updatedUser = await UserAdmin.findOneAndUpdate(
-      {
-        $or: [{ email: idOrEmail }, { uniqId: idOrEmail }],
-      },
-      { password: hashedPassword }
-    );
-
-    if (!updatedUser) {
-      return res.redirect(
-        "/stcolumbus/admin/manage/forgot/pass?error=usernotfound"
-      );
-    }
-
-    res.redirect("/stcolumbus/jaj/ekdara/admin?reset=success");
+    
   } catch (error) {
     console.error("Error in handleForgotForm:", error);
     res.status(500).send("Internal Server Error");
   }
 }
+
+async function setNewPass(req,res){
+  const {idOrEmail,password,copyPassword}=req.body
+  if (password !== copyPassword) {
+      return res.redirect("/stcolumbus/admin/manage/forgot/pass");
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+   try{
+     const updatedUser = await UserAdmin.findOneAndUpdate(
+      {
+        $or: [{ email: idOrEmail }, { uniqId: idOrEmail }],
+      },
+      { password: hashedPassword }
+    );
+    if (!updatedUser) {
+      return res.redirect(
+        "/stcolumbus/admin/manage/forgot/pass?error=usernotfound"
+      );
+    }
+   }catch(err){
+    console.log(err.message)
+   }
+    res.redirect("/stcolumbus/jaj/ekdara/admin?reset=success");
+
+} 
 
 async function handleUpdateAdminImg(req, res) {
   if (req.body.uploaded) {
@@ -381,4 +385,5 @@ module.exports = {
   handleUpdateAdminDet,
   handleDeleteAdmin,
   hadnleUpdateBySuperAdmin,
+  setNewPass
 };
