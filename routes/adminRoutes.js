@@ -3,6 +3,7 @@ const adminroute = express.Router();
 const adminManagment = express.Router();
 const adminAccountAvt = require("../utils/updateAdminAccountImg.js");
 const { checkAdminAsSuperadmin } = require("../middleware/checkAdmin.js");
+const jwt = require("jsonwebtoken")
 // ======================accpunt Handlers==============
 const {
   handleStAdmin,
@@ -20,6 +21,7 @@ const {
 } = require("../handler/stcolumbusadmin.js");
 const handleForgot = require("../handler/auth.controller.js");
 const { storeOtp, getOtp } = require("../utils/redis.js");
+const UserAdmin = require("../models/userAdmin.js");
 //==================admin work=================================
 adminroute.route("").get(handleStAdmin);
 adminroute
@@ -37,9 +39,20 @@ adminroute
 
 adminroute
   .route("/update/det/:id")
-  .get((req, res) =>
-    res.render("updateAdminAccountDet.ejs", { id: req.params.id })
-  )
+  .get(async (req, res) =>{
+  const data= await jwt.verify(req.cookies.stadminis,process.env.JWTKEYIS)
+  let fname=""
+  let lname=""
+  try{
+    const name=data.name
+    const newName=name.split(" ")
+    fname=newName[0]
+    lname=newName[1]
+  }catch(err){
+    console.log(err)
+  }
+    res.render("updateAdminAccountDet.ejs", { id: req.params.id,pre:[fname,lname,data.email] })
+  })
   .post(handleUpdateAdminDet);
 
 adminroute
@@ -73,11 +86,13 @@ adminManagment
   .get((req, res) => res.render("forgotAdminPass.ejs", { user: false }))
   .post(handleForgotForm);
 
-  adminManagment.route("/verify/email/:id")
+  adminManagment
+  .route("/verify/email/:id")
   .get(async (req,res)=>{
     let otp=await getOtp(req.params.id);
     if(!otp){
-      otp=await handleForgot(req.params.id)
+      const unqid= await UserAdmin.findOne({ email: req.params.id }).select('uniqId');
+      otp=await handleForgot(req.params.id,unqid.uniqId)
       if(otp){
         storeOtp(req.params.id,otp)
         res.render("Otp.ejs",{email:req.params.id,reenter:false})

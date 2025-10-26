@@ -114,19 +114,19 @@
       <form id="adminForm" action="/stcolumbus/jaj/ekdara/admin/update/det/<%=id%>" method="POST">
         <div class="input-group">
           <label for="ftName">First Name</label>
-          <input type="text" name="FirstName" id="ftName" required placeholder="Enter first name" />
+          <input type="text" name="FirstName" id="ftName" value="<%= pre[0] %>" required placeholder="Enter first name" />
           <div class="error" id="ftNameError">First name must be 3-30 letters only.</div>
         </div>
 
         <div class="input-group">
           <label for="lsName">Last Name</label>
-          <input type="text" name="LastName" id="lsName" required placeholder="Enter last name" />
+          <input type="text" name="LastName" value="<%= pre[1] %>" id="lsName" required placeholder="Enter last name" />
           <div class="error" id="lsNameError">Last name must be 3-30 letters only.</div>
         </div>
 
         <div class="input-group">
           <label for="email">Email</label>
-          <input type="email" name="email" id="email" required placeholder="Enter email address" />
+          <input type="email" name="email" id="email" value="<%= pre[2] %>" required placeholder="Enter email address" />
           <div class="error" id="emailError">Enter a valid email address.</div>
         </div>
 
