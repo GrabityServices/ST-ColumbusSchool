@@ -1,211 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Login Form</title>
-    <style>
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Form</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
 
-      body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        font-family: 'poppins', sans-serif;
-        background-color: black;
-        background-image: radial-gradient(circle at 50% 50%, rgba(1, 1, 51, 0.25) 20%, rgba(0, 0, 0, 0.1) 50%, #000000 100%), linear-gradient(180deg, #0a0a0a 0%, #010133 100%);
-      }
+    /* Background */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: white;
+      overflow: hidden;
+      background: linear-gradient(to bottom right, #000000, rgba(0, 0, 0, 0.87), #000000);
+    }
 
+    /* LOGIN CONTAINER */
+    .login-container {
+      position: relative;
+      overflow: hidden;
+      width: 90%;
+      max-width: 500px;
+      padding: 8vh 5vw;
+      border-radius: 18px;
+      background: rgba(20, 20, 20, 0.75);
+      backdrop-filter: blur(15px) saturate(180%);
+      -webkit-backdrop-filter: blur(15px) saturate(180%);
+      border: 2px solid rgba(34, 34, 34, 0.8);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    .login-container form {
+      z-index: 100;
+      width: 100%;
+      margin-inline: auto;
+    }
+
+    /* HEADING */
+    .login-container h1 {
+      text-align: center;
+      color: #e0e0e0;
+      margin-bottom: 2rem;
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+      letter-spacing: 1px;
+    }
+
+    /* INPUT GROUP */
+    .input-group {
+      margin-bottom: 35px;
+      position: relative;
+    }
+
+    .input-group label {
+      color: #aaa;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: transparent;
+      border: none;
+      border-bottom: 1.5px solid #555;
+      color: #fff;
+      font-size: 1rem;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .input-group input:focus {
+      border-color: #00ff88;
+      outline: none;
+    }
+
+    /* LOGIN BUTTON */
+    .login-btn {
+      width: 100%;
+      padding: 0.9rem;
+      border: none;
+      border-radius: 10px;
+      background: #000;
+      color: white;
+      font-size: clamp(1rem, 2.5vw, 1.1rem);
+      cursor: pointer;
+      transition: 0.3s ease;
+      letter-spacing: 0.5px;
+    }
+
+    .login-btn:hover {
+      background: #00ff88c0;
+      color: #000;
+    }
+
+    /* LINKS */
+    .links {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .link-btn {
+      background: none;
+      border: none;
+      color: #00ff88;
+      cursor: pointer;
+      text-align: left;
+      font-size: 0.95rem;
+      padding: 0;
+      transition: 0.3s;
+    }
+
+    .link-btn:hover {
+      text-decoration: underline;
+    }
+
+    /* ERROR MESSAGE */
+    .error-message {
+      color: red;
+      font-size: 0.9rem;
+      margin-top: 6px;
+    }
+
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 768px) {
       .login-container {
-        background: linear-gradient(135deg, rgba(42, 42, 42, 0.8) 0%, rgba(74, 74, 74, 0.6) 100%);
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-        max-width: 450px;
-        width: 100%;
+        max-width: 400px;
+        padding: 6vh 6vw;
+      }
+
+      .input-group{
+        margin-bottom: 25px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        width: 90%;
+        padding: 5vh 5vw;
       }
 
       .login-container h1 {
-        text-align: center;
-        margin-bottom: 2rem;
-        color: #fff;
-      }
-
-      .input-group {
-        margin-bottom: 18px;
-      }
-
-      .input-group label {
-        font-size: 1.1rem;
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 600;
-        color: #fff;
-      }
-
-      .input-group input {
-        width: 100%;
-        color: #fff;
-        padding: 10px 12px;
-        border: 1px solid #cccccc69;
-        border-radius: 6px;
-        font-size: 1rem;
-        text-transform: uppercase;
-        background-color: #0000004d;
-      }
-
-      .input-group input:focus {
-        border-color: #4285f4;
-        outline: none;
-        box-shadow: 0 0 6px rgba(66, 133, 244, 0.4);
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
       }
 
       .login-btn {
-        width: 100%;
-        padding: 12px;
-        color: #fff;
-        background-color: #4285f4;
-        font-size: 16px;
-        font-weight: bold;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
+        font-size: 1rem;
       }
+    }
+  </style>
+</head>
 
-      .login-btn:hover {
-        background-color: #357ae8;
+<body>
+  <div class="login-container" id="login-container">
+    <h1>Welcome Back</h1>
+    <form id="loginForm" action="/stcolumbus/admin/manage/login" method="post">
+      <div class="input-group">
+        <label for="idOrEmail">User ID or Email</label>
+        <input type="text" id="idOrEmail" name="idOrEmail" required />
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required />
+      </div>
+
+      <button type="submit" class="login-btn">Login</button>
+
+      <div class="links">
+        <button type="button" onclick="location.href='/stcolumbus/admin/manage/forgot/pass'" class="link-btn">
+          Forgot Password?
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // STAR ANIMATION
+    let camera, scene, renderer, stars = [];
+    let fallSpeed = 0.02;
+
+    function init() {
+      const container = document.getElementById("login-container");
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+
+      camera = new THREE.PerspectiveCamera(75, width / height, 1, 2000);
+      camera.position.z = 5;
+
+      scene = new THREE.Scene();
+
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(width, height);
+      renderer.setClearColor(0x000000, 0);
+      renderer.domElement.style.position = "absolute";
+      renderer.domElement.style.top = "0";
+      renderer.domElement.style.left = "0";
+      renderer.domElement.style.zIndex = "0";
+      container.prepend(renderer.domElement);
+
+      addStars();
+
+      window.addEventListener("resize", onWindowResize);
+      animate();
+    }
+
+    function addStars() {
+      const geometry = new THREE.SphereGeometry(0.05, 2, 2);
+      const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+
+      for (let i = 0; i < 1000; i++) {
+        const star = new THREE.Mesh(geometry, material);
+        star.position.x = Math.random() * 100 - 50;
+        star.position.y = Math.random() * 100 - 50;
+        star.position.z = Math.random() * 100 - 50;
+        scene.add(star);
+        stars.push(star);
       }
+    }
 
-      .links {
-        margin-top: 18px;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .link-btn {
-        background: none;
-        border: none;
-        color: #4285f4;
-        cursor: pointer;
-        text-align: left;
-        font-size: 0.95rem;
-        padding: 0;
-      }
-
-      .link-btn:hover {
-        text-decoration: underline;
-      }
-
-      .error-message {
-        color: red;
-        font-size: 0.9rem;
-        margin-top: 5px;
-      }
-
-      @media (max-width: 1000px) {
-        body {
-          min-height: 85vh;
+    function animateStars() {
+      for (let i = 0; i < stars.length; i++) {
+        const star = stars[i];
+        star.position.y -= fallSpeed;
+        if (star.position.y < -50) {
+          star.position.y = 50;
+          star.position.x = Math.random() * 100 - 50;
+          star.position.z = Math.random() * 100 - 50;
         }
-
-        .login-container {
-          padding: 50px 40px;
-          max-width: 600px;
-        }
       }
-    </style>
-  </head>
-  <body>
-    <div class="login-container">
-      <h1>Login</h1>
-      <form id="loginForm" action="/stcolumbus/admin/manage/login" method="post">
-        <div class="input-group">
-          <label for="idOrEmail">User ID or Email</label>
-          <input type="text" id="idOrEmail" name="idOrEmail" required />
-        </div>
+    }
 
-        <div class="input-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" required />
-        </div>
+    function onWindowResize() {
+      const container = document.getElementById("login-container");
+      const newWidth = container.clientWidth;
+      const newHeight = container.clientHeight;
 
-        <button type="submit" class="login-btn">Login</button>
+      camera.aspect = newWidth / newHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(newWidth, newHeight);
 
-        <div class="links">
-          <button type="button" onclick="location.href='/stcolumbus/admin/manage/forgot/pass'" class="link-btn">Forgot Password?</button>
-        </div>
-      </form>
-    </div>
-
-    <script>
-      const form = document.getElementById('loginForm');
-      const idOrEmail = document.getElementById('idOrEmail');
-      const password = document.getElementById('password');
-
-      function showError(input, message) {
-        let errorElem = input.nextElementSibling;
-        if (!errorElem || !errorElem.classList.contains('error-message')) {
-          errorElem = document.createElement('div');
-          errorElem.classList.add('error-message');
-          input.parentNode.appendChild(errorElem);
-        }
-        errorElem.innerText = message;
-        input.style.borderColor = 'red';
+      // Adjust for mobile screens
+      if (window.innerWidth < 600) {
+        fallSpeed = 0.015;
+        camera.position.z = 4.5;
+      } else {
+        fallSpeed = 0.02;
+        camera.position.z = 5;
       }
+    }
 
-      function clearError(input) {
-        let errorElem = input.nextElementSibling;
-        if (errorElem && errorElem.classList.contains('error-message')) {
-          errorElem.innerText = '';
-        }
-        input.style.borderColor = '#ccc';
+    function animate() {
+      requestAnimationFrame(animate);
+      animateStars();
+      renderer.render(scene, camera);
+    }
+
+    init();
+
+    // FORM VALIDATION
+    const form = document.getElementById('loginForm');
+    const idOrEmail = document.getElementById('idOrEmail');
+    const password = document.getElementById('password');
+
+    function showError(input, message) {
+      let errorElem = input.nextElementSibling;
+      if (!errorElem || !errorElem.classList.contains('error-message')) {
+        errorElem = document.createElement('div');
+        errorElem.classList.add('error-message');
+        input.parentNode.appendChild(errorElem);
       }
+      errorElem.innerText = message;
+      input.style.borderColor = 'red';
+    }
 
-      const regexRules = {
-        userId: /^[A-Z0-9]{5}$/, // 5 uppercase letters/digits
-        email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, // valid email
-        password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/ // min 8 chars, upper+lower+digit+special
-      };
+    function clearError(input) {
+      let errorElem = input.nextElementSibling;
+      if (errorElem && errorElem.classList.contains('error-message')) {
+        errorElem.innerText = '';
+      }
+      input.style.borderColor = '#555';
+    }
 
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        let isValid = true;
-        const value = idOrEmail.value.trim();
+    const regexRules = {
+      userId: /^[A-Z0-9]{5}$/,
+      email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+      password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/
+    };
 
-        // Check if input is email or User ID
-        if (value.includes('@')) {
-          if (!regexRules.email.test(value)) {
-            showError(idOrEmail, "Enter a valid email address.");
-            isValid = false;
-          } else {
-            clearError(idOrEmail);
-          }
-        } else {
-          if (!regexRules.userId.test(value)) {
-            showError(idOrEmail, "User ID must be exactly 5 characters (uppercase letters or digits).");
-            isValid = false;
-          } else {
-            clearError(idOrEmail);
-          }
-        }
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      let isValid = true;
+      const value = idOrEmail.value.trim();
 
-        // Password validation
-        if (!regexRules.password.test(password.value)) {
-          showError(password, "Password must be at least 8 characters and include uppercase, lowercase, digit & special character.");
+      if (value.includes('@')) {
+        if (!regexRules.email.test(value)) {
+          showError(idOrEmail, "Enter a valid email address.");
           isValid = false;
         } else {
-          clearError(password);
+          clearError(idOrEmail);
         }
+      } else {
+        if (!regexRules.userId.test(value)) {
+          showError(idOrEmail, "User ID must be exactly 5 uppercase letters or digits.");
+          isValid = false;
+        } else {
+          clearError(idOrEmail);
+        }
+      }
 
-        if (isValid) {
-          form.submit();
-        }
-      });
-    </script>
-  </body>
+      if (!regexRules.password.test(password.value)) {
+        showError(password, "Password must be at least 8 characters and include uppercase, lowercase, digit & special character.");
+        isValid = false;
+      } else {
+        clearError(password);
+      }
+
+      if (isValid) {
+        form.submit();
+      }
+    });
+  </script>
+</body>
 </html>
