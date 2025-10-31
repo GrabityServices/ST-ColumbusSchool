@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+dotenv.config();
 const connectDB = require("./connectdb");
 const stcolumbus = require("./routes/routes.js");
 const Path = require("path");
@@ -17,7 +18,6 @@ const handleAdmissionForm = require("./handler/handelAdmissionForm.js");
 const Admission = require("./models/admission.js");
 const Feestuct = require("./models/feeStructure.js");
 const Contact = require("./models/contact.js");
-dotenv.config();
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -25,6 +25,7 @@ const cors = require('cors');
 const allowedOrigin = process.env.ALLOWED_ORIGNI;
 const { logUnauthorizedOrigin } = require("./middleware/logUnauthorizedOrigin");
 const VideoGall = require("./models/videoEmbedded.js");
+const client=require("./connectRedis.js")
 app.set("view engine", "ejs");
 
 app.set("views", Path.join(__dirname, "views"));
