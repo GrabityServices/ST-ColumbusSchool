@@ -56,7 +56,7 @@
     <!-- HEADING -->
     <section class="gallery">
       <div class="gallery-overlay"></div>
-      <div class="gallery-inner animate slide-in-bottom">
+      <div class="gallery-inner">
         <h1>Gallery</h1>
         <p class="subtitle">Our gallery shows learning, creativity, discipline, and values that shape our community.</p>
       </div>
@@ -65,7 +65,7 @@
     <!-- GALLERY SECTION -->
     <main>
       <section class="gallery-heading container">
-        <div class="gallery-options animate slide-in-bottom">
+        <div class="gallery-options">
           <a href="#" class="active" data-filter="all">All</a>
           <a href="#" data-filter="date">Arranged by Date</a>
           <a href="#" data-filter="title">Arranged by Event Name</a>
@@ -104,7 +104,7 @@
             const d = date.split('-');
             %>
             <div class="gallery-card-group">
-              <h2 class="group-heading">Gallery | <%= `${d[2]}-${d[1]}-${d[0]}` %>
+              <h2 class="group-heading"> <%= `${d[2]}-${d[1]}-${d[0]}` %>
               </h2>
               <div class="group-images">
                 <% imgs.reverse().forEach(img=> { %>
@@ -135,7 +135,7 @@
             const imgs = groupedTitle[title];
             %>
             <div class="gallery-card-group">
-              <h2 class="group-heading">Gallery | <%= title %>
+              <h2 class="group-heading"> <%= title %>
               </h2>
               <div class="group-images">
                 <% imgs.forEach(img=> { %>
@@ -173,7 +173,7 @@
             <% }); %>
           </div>
         </section>
-        
+  
       </section>
     </main>
 

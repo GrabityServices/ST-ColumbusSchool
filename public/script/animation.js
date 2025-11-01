@@ -1,7 +1,7 @@
 const animatedElements = document.querySelectorAll('.animate');
 
 function checkAnimation() {
-    const triggerHeight = window.innerHeight * 0.9; // trigger at 85% of viewport
+    const triggerHeight = window.innerHeight * 0.9;
 
     animatedElements.forEach((el, index) => {
         const rect = el.getBoundingClientRect();
