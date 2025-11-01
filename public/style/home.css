@@ -265,7 +265,7 @@ b {
   opacity: 1;
 }
 
-/* SLIDER TEXT */
+/* ===== SLIDER TEXT ===== */
 .carousel-caption {
   position: absolute;
   bottom: 50px;
@@ -277,65 +277,142 @@ b {
   z-index: 10;
 }
 
+/* ===== CAPTION BOX (RIGHT TO LEFT SLIDE ENTRY) ===== */
 .caption-box {
   background: rgba(0, 0, 0, 0.7);
   border-left: 6px solid #E41937;
-  padding: 20px;
+  padding: 20px 30px;
+  border-radius: 10px;
   backdrop-filter: blur(2px);
-  animation: fadeSlideUp 1.4s ease forwards;
+  opacity: 0;
+  transform: translateX(120%);
+  animation: boxSlideIn 1.4s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+  overflow: hidden;
+  position: relative;
 }
 
+/* Subtle shiny swipe over box */
+.caption-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0)
+  );
+  transform: skewX(-25deg);
+  animation: boxShine 6s infinite linear;
+}
+
+/* ===== HEADINGS ===== */
 .caption-box h2 {
-  font-size: 2.1rem;
+  font-size: 2.3rem;
   font-weight: 700;
   margin-bottom: 10px;
-  background: var(--button-gradient);
+  background: linear-gradient(135deg, #ff6551 0%, #ffb4a4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: 1px;
-  animation: textFade 1.5s ease-in-out forwards;
+  opacity: 0;
+  animation: textFadeIn 1.1s ease forwards;
+  animation-delay: 1.2s; /* Wait until box stops */
 }
 
 .caption-box h3 {
   font-size: 1.3rem;
   font-weight: 500;
-  background:  linear-gradient(50deg, #00f7ff, #003cff);
+  margin-top: 8px;
+  background: linear-gradient(50deg, #00f7ff, #003cff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-top: 8px;
-  animation: textFade 2s ease-in-out forwards;
+  opacity: 0;
+  animation: textSlideUp 1.3s ease forwards;
+  animation-delay: 1.6s; /* Start slightly after h2 */
 }
 
 /* ===== ANIMATIONS ===== */
-@keyframes fadeSlideUp {
+
+/* BOX slides in from right smoothly */
+@keyframes boxSlideIn {
   0% {
     opacity: 0;
-    transform: translateY(40px);
+    transform: translateX(120%) scale(0.95);
+    filter: blur(4px);
   }
-
-  100% {
+  60% {
     opacity: 1;
+    transform: translateX(-3%) scale(1.02);
+    filter: blur(0);
+  }
+  100% {
+    transform: translateX(0%) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Subtle shine effect moving across box */
+@keyframes boxShine {
+  0% {
+    left: -60%;
+  }
+  100% {
+    left: 120%;
+  }
+}
+
+/* TEXT: soft fade-up with glow */
+@keyframes textFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(25px) scale(0.95);
+    text-shadow: none;
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-3px) scale(1.03);
+    text-shadow: 0 0 20px rgba(255, 100, 100, 0.5);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    text-shadow: 0 0 8px rgba(255, 100, 100, 0.2);
+    opacity: 1;
+  }
+}
+
+/* TEXT: flowing wave fade-up */
+@keyframes textSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(35px);
+    filter: blur(3px);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-4px);
+  }
+  100% {
     transform: translateY(0);
-  }
-}
-
-@keyframes textFade {
-  0% {
-    opacity: 0;
-    letter-spacing: 2px;
-    transform: scale(0.95);
-  }
-
-  100% {
     opacity: 1;
-    letter-spacing: normal;
-    transform: scale(1);
   }
 }
 
-/* Animate box each time the slide becomes active */
+/* Trigger animations only on active slides */
 .carousel-item.active .caption-box {
-  animation: fadeSlideUp 1.2s ease both;
+  animation: boxSlideIn 1.3s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+
+.carousel-item.active .caption-box h2 {
+  animation: textFadeIn 1.1s ease forwards;
+  animation-delay: 1.2s;
+}
+
+.carousel-item.active .caption-box h3 {
+  animation: textSlideUp 1.3s ease forwards;
+  animation-delay: 1.6s;
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
@@ -345,7 +422,7 @@ b {
   }
 
   .caption-box h2 {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
   }
 
   .caption-box h3 {
