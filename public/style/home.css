@@ -13,7 +13,7 @@
   /* FOUNDERS BG COLOR */
   --gradient-section: linear-gradient(135deg, #0f0f0f 0%, #2a2a2a 100%);
   /* CARD BG COLOR */
-  --gradient-card: linear-gradient(135deg, rgba(42, 42, 42, 0.8) 0%, rgba(74, 74, 74, 0.6) 100%);
+  --gradient-card: linear-gradient(135deg, rgba(42, 42, 42, 0.8) 0%, rgba(74, 74, 74, 0.568) 100%);
 
   /* CARD INNER TEXT */
   --card-increment-text-color: linear-gradient(135deg, #003e7c, #003366, #0059b3, #66b2ff);
@@ -50,8 +50,8 @@
 }
 
 ::selection {
-    background: #d67063;
-    color: white;
+  background: #d67063;
+  color: white;
 }
 
 
@@ -192,7 +192,7 @@ b {
   top: auto;
   width: 60px;
   height: 60px;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(129, 129, 129, 0.534);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -268,43 +268,91 @@ b {
 /* SLIDER TEXT */
 .carousel-caption {
   position: absolute;
-  right: 15%;
-  bottom: 1.25rem;
-  left: 15%;
-  color: var(--text-primary);
-  text-align: center;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85%;
+  max-width: 900px;
+  text-align: left;
+  z-index: 10;
 }
 
-.d-none {
-  display: none !important;
+.caption-box {
+  background: rgba(0, 0, 0, 0.7);
+  border-left: 6px solid #E41937;
+  padding: 20px;
+  backdrop-filter: blur(2px);
+  animation: fadeSlideUp 1.4s ease forwards;
 }
 
-.d-block {
-  display: block !important;
+.caption-box h2 {
+  font-size: 2.1rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  background: var(--button-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 1px;
+  animation: textFade 1.5s ease-in-out forwards;
 }
 
-@media (min-width: 768px) {
-  .d-md-block {
-    display: block !important;
+.caption-box h3 {
+  font-size: 1.3rem;
+  font-weight: 500;
+  background:  linear-gradient(50deg, #00f7ff, #003cff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-top: 8px;
+  animation: textFade 2s ease-in-out forwards;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
   }
 
-  .d-md-none {
-    display: none !important;
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.w-100 {
-  width: 100% !important;
+@keyframes textFade {
+  0% {
+    opacity: 0;
+    letter-spacing: 2px;
+    transform: scale(0.95);
+  }
+
+  100% {
+    opacity: 1;
+    letter-spacing: normal;
+    transform: scale(1);
+  }
 }
 
-.img-fluid {
-  max-width: 100%;
-  height: auto;
-  display: block;
+/* Animate box each time the slide becomes active */
+.carousel-item.active .caption-box {
+  animation: fadeSlideUp 1.2s ease both;
 }
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .caption-box {
+    padding: 15px 20px;
+  }
+
+  .caption-box h2 {
+    font-size: 1.6rem;
+  }
+
+  .caption-box h3 {
+    font-size: 1rem;
+  }
+}
+
 
 /* SOCIAL ICONS */
 .social-icons {
@@ -779,7 +827,7 @@ b {
 .second-slide {
   position: absolute;
   width: 100%;
-  max-width: 34%; 
+  max-width: 34%;
   height: 100%;
   border-radius: 10px;
   transition: transform 0.6s ease, opacity 0.6s ease;
@@ -832,7 +880,7 @@ b {
 
 .second-slide.center {
   overflow: hidden;
-  margin-top: 0; 
+  margin-top: 0;
 }
 
 .second-slide.left {
@@ -842,7 +890,7 @@ b {
 
 .second-slide.right {
   z-index: 2;
-  transform: translate(52%, -50%) scale(0.9); 
+  transform: translate(52%, -50%) scale(0.9);
 }
 
 .second-slide.leave-left {
@@ -1127,7 +1175,7 @@ footer {
 .quick-links h3,
 .follow-us h3,
 .contact-us h3 {
-  display: flex;              
+  display: flex;
   align-items: center;
   justify-content: flex-start;
 }
@@ -1137,7 +1185,7 @@ footer {
 .follow-us h3 span,
 .contact-us h3 span {
   position: relative;
-  display: inline-block;      
+  display: inline-block;
   padding-bottom: 5px;
 }
 
@@ -1149,7 +1197,7 @@ footer {
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 100%;                
+  width: 100%;
   height: 3px;
   background: linear-gradient(135deg, #003366, #0059b3, #66b2ff);
   border-radius: 2px;
@@ -1407,7 +1455,7 @@ footer {
     display: none;
   }
 
-  .sixth-page{
+  .sixth-page {
     padding-inline: 1rem;
   }
 }
