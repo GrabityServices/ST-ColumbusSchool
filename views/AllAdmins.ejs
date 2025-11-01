@@ -212,14 +212,47 @@
     </section>
 
     <!-- FIFTH PAGE -->
+    <section class="sixth-section" id="video">
+        <div class="sixth-section-heading">
+          <h2>Videos</h2>
+          <% if (!supAd) { %>
+          <a class="new-video-btn" href="/home/video/embedded/new">+ New Video Embed Code</a>
+          <% } %>
+        </div>
+
+        <div class="sixth-section-outer">
+          <% videoEmbed.forEach(video => { %>
+          <div class="sixth-section-card">
+            <!-- VIDEO EMBED CODE -->
+            <div class="video-embed"><%- video.videoEmbed %></div>
+
+            <!-- ACTION BUTTONS -->
+            <% if (!supAd) { %>
+            <div class="btn-group">
+              <a class="btn" href="/home/video/embedded/update/<%= video._id %>"
+                >Update Embed Code</a
+              >
+              <a class="btn delete" href="/home/video/embedded/delete/<%= video._id %>"
+                >Delete</a
+              >
+            </div>
+            <% } %>
+            <!-- DATE -->
+            <p class="video-date">
+              Added on: <%= video.updatedAt.toLocaleDateString("en-US", { year:
+              'numeric', month: 'long', day: 'numeric' }) %>
+            </p>
+          </div>
+          <% }); %>
+        </div>
+    </section>
+
+    <!-- SIXTH PAGE -->
     <section class="fifth-section">
         <div class="fifth-section-heading">
           <% const parts = fees.lastChanged.split(/[- :]/); %>
           <h2>Admission</h2>
-          <span
-            >Last Update:&nbsp;&nbsp;&nbsp;&nbsp; <%= parts[2] %> - <%= parts[1]
-            %> - <%= parts[0] %></span
-          >
+          <!-- <span>Last Update:&nbsp;&nbsp;&nbsp;&nbsp; <%= parts[2] %> - <%= parts[1]%> - <%= parts[0] %></span> -->
         </div>
 
         <!-- <div class="table-section">
@@ -318,11 +351,11 @@
         </div> -->
 
         <div class="update-links">
-          <div class="update-link-first">
+          <!-- <div class="update-link-first">
             <% if(!supAd){ %>
             <a href="/home/feeUpdate">Update Fees</a>
             <%} %>
-          </div>
+          </div> -->
           <div class="update-link-second">
             <% if(supAd){ %>
             <a
@@ -354,43 +387,8 @@
             >
           </div>
         </div>
-      </section>
-
-    <!-- SIXTH PAGE -->
-    <section class="sixth-section" id="video">
-        <div class="sixth-section-heading">
-          <h2>Videos</h2>
-          <% if (!supAd) { %>
-          <a class="new-video-btn" href="/home/video/embedded/new">+ New Video Embed Code</a>
-          <% } %>
-        </div>
-
-        <div class="sixth-section-outer">
-          <% videoEmbed.forEach(video => { %>
-          <div class="sixth-section-card">
-            <!-- VIDEO EMBED CODE -->
-            <div class="video-embed"><%- video.videoEmbed %></div>
-
-            <!-- ACTION BUTTONS -->
-            <% if (!supAd) { %>
-            <div class="btn-group">
-              <a class="btn" href="/home/video/embedded/update/<%= video._id %>"
-                >Update Embed Code</a
-              >
-              <a class="btn delete" href="/home/video/embedded/delete/<%= video._id %>"
-                >Delete</a
-              >
-            </div>
-            <% } %>
-            <!-- DATE -->
-            <p class="video-date">
-              Added on: <%= video.updatedAt.toLocaleDateString("en-US", { year:
-              'numeric', month: 'long', day: 'numeric' }) %>
-            </p>
-          </div>
-          <% }); %>
-        </div>
     </section>
+    
   </main>
 
 </body>

@@ -1,137 +1,162 @@
-// FILTER
-const filterLinks = document.querySelectorAll('.gallery-options a');
-const sections = {
-  all: document.querySelector('.all'),
-  date: document.querySelector('.bydate'),
-  title: document.querySelector('.bytitle'),
-  video: document.querySelector('.video')
+const galleryInner = document.querySelector('.gallery-inner')
+const galleryOptions = document.querySelector('.gallery-options')
+galleryInner.classList.add('animation-show')
+galleryOptions.classList.add('animation-show')
 
-};
-
-filterLinks.forEach(link => {
-  link.addEventListener('click', e => {
-    e.preventDefault();
-
-    // Remove active class from all links and add to current
-    filterLinks.forEach(l => l.classList.remove('active'));
-    link.classList.add('active');
-
-    const filter = link.dataset.filter;
-
-    // Show the selected section, hide others
-    for (let key in sections) {
-      if (key === filter) {
-        sections[key].style.display = 'grid'; // important: always use grid
-      } else {
-        sections[key].style.display = 'none';
-      }
-    }
-
-    // Ensure all images have fixed height
-    const imgs = document.querySelectorAll('.gallery-image-card img');
-    imgs.forEach(img => {
-      img.style.height = '100%';
-      img.style.width = '100%';
-      img.style.objectFit = 'cover';
-    });
-  });
-});
-
-
-// IMAGE POPUP
-const galleryImages = document.querySelectorAll('.gallery-image-card img');
-const popup = document.querySelector('.popup');
-const popupImg = document.querySelector('.popup-img');
-const closeBtn = document.querySelector('.close-btn');
-
-galleryImages.forEach(img => {
-  img.addEventListener('click', () => {
-    popup.style.display = 'flex';
-    popupImg.src = img.src;
-  });
-});
-
-closeBtn.addEventListener('click', () => popup.style.display = 'none');
-popup.addEventListener('click', e => {
-  if (e.target === popup) popup.style.display = 'none';
-});
-
-
-// LOAD MORE
+/* ==============================================================
+   GALLERY – FILTER + LOAD-MORE (All sections)
+   ============================================================== */
 document.addEventListener('DOMContentLoaded', () => {
+  /* ---------- SELECTORS ---------- */
+  const filterLinks = document.querySelectorAll('.gallery-options a');
+  const sections = {
+    all   : document.querySelector('.gallery-section.all'),
+    date  : document.querySelector('.gallery-section.bydate'),
+    title : document.querySelector('.gallery-section.bytitle'),
+    video : document.querySelector('.gallery-section.video')
+  };
 
-  const allSection = document.querySelector('.gallery-section.all');
-  const allCards = Array.from(allSection.querySelectorAll('.gallery-image-card'));
-  const increment = 12; // images to show at a time
-  let currentIndex = increment;
+  const cardSelectors = {
+    all   : '.gallery-section.all   .gallery-image-card',
+    date  : '.gallery-section.bydate .gallery-image-card',
+    title : '.gallery-section.bytitle .gallery-image-card',
+    video : '.gallery-section.video  .sixth-section-card'
+  };
 
-  // Hide images beyond the first increment
-  allCards.forEach((card, index) => {
-    if (index >= increment) card.style.display = 'none';
-  });
+  /* ---------- SETTINGS ---------- */
+  const INCREMENT   = 12;               // cards per “Load More”
+  const currentIdx  = {};               // currentIdx[filter] = last shown index
+  let   activeBtn   = null;             // reference to the current Load-More button
 
-  // Only add Load More button if needed
-  let loadMoreBtn;
-  if (allCards.length > increment) {
-    loadMoreBtn = document.createElement('button');
-    loadMoreBtn.id = 'loadMoreBtn';
-    loadMoreBtn.textContent = 'Load More';
-
-    Object.assign(loadMoreBtn.style, {
+  /* ---------- BUTTON FACTORY ---------- */
+  function createLoadMoreBtn(filter) {
+    const btn = document.createElement('button');
+    btn.id = `loadMoreBtn-${filter}`;
+    btn.textContent = 'Load More';
+    Object.assign(btn.style, {
       display: 'block',
-      margin: '20px auto',
-      padding: '10px 25px',
+      margin: '30px auto 0',
+      padding: '12px 24px',
       fontSize: '16px',
       fontWeight: 'bold',
-      backgroundColor: '#177474',
+      backgroundImage: 'linear-gradient(135deg, #ff6551 0%, #ffb4a4 100%)',
       color: '#fff',
       border: 'none',
-      borderRadius: '25px',
+      borderRadius: '5px',
       cursor: 'pointer',
-      transition: '0.3s',
+      transition: 'background-color .3s',
       textAlign: 'center'
     });
 
-    loadMoreBtn.addEventListener('mouseenter', () => {
-      loadMoreBtn.style.backgroundColor = '#00a3a3';
-    });
-    loadMoreBtn.addEventListener('mouseleave', () => {
-      loadMoreBtn.style.backgroundColor = '#177474';
-    });
+    btn.addEventListener('mouseenter', () => btn.style.backgroundColor = '#00a3a3');
+    btn.addEventListener('mouseleave', () => btn.style.backgroundColor = '');
 
-    allSection.after(loadMoreBtn);
-
-    loadMoreBtn.addEventListener('click', () => {
-      const nextCards = allCards.slice(currentIndex, currentIndex + increment);
-      nextCards.forEach(card => card.style.display = 'block');
-      currentIndex += increment;
-      if (currentIndex >= allCards.length) loadMoreBtn.style.display = 'none';
-    });
+    btn.addEventListener('click', () => loadMore(filter));
+    return btn;
   }
 
-  // Hide button when switching sections
-  const filterLinks = document.querySelectorAll('.gallery-options a');
+  /* ---------- REMOVE CURRENT BUTTON ---------- */
+  function removeActiveBtn() {
+    if (activeBtn && activeBtn.parentNode) {
+      activeBtn.parentNode.removeChild(activeBtn);
+    }
+    activeBtn = null;
+  }
+
+  /* ---------- INITIALISE A SECTION ---------- */
+  function initSection(filter) {
+    const section  = sections[filter];
+    const selector = cardSelectors[filter];
+    const cards    = Array.from(section.querySelectorAll(selector));
+
+    // reset index
+    currentIdx[filter] = INCREMENT;
+
+    // show first batch, hide the rest
+    cards.forEach((c, i) => {
+      c.style.display = i < INCREMENT ? 'block' : 'none';
+    });
+
+    // clean old button
+    removeActiveBtn();
+
+    // create new button only if more cards exist
+    if (cards.length > INCREMENT) {
+      const btn = createLoadMoreBtn(filter);
+      section.after(btn);
+      activeBtn = btn;
+    }
+  }
+
+  /* ---------- LOAD NEXT BATCH ---------- */
+  function loadMore(filter) {
+    const section  = sections[filter];
+    const selector = cardSelectors[filter];
+    const cards    = Array.from(section.querySelectorAll(selector));
+    const start    = currentIdx[filter];
+    const end      = Math.min(start + INCREMENT, cards.length);
+
+    for (let i = start; i < end; i++) {
+      cards[i].style.display = 'block';
+    }
+
+    currentIdx[filter] = end;
+
+    // hide button when everything is shown
+    if (end >= cards.length && activeBtn) {
+      activeBtn.style.display = 'none';
+    }
+  }
+
+  /* ---------- FILTER LINK CLICK ---------- */
   filterLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      if (loadMoreBtn) {
-        if (link.dataset.filter !== 'all') {
-          loadMoreBtn.style.display = 'none';
-        } else {
-          // Only show if there are still hidden images
-          loadMoreBtn.style.display = (currentIndex < allCards.length) ? 'block' : 'none';
-        }
-      }
+    link.addEventListener('click', e => {
+      e.preventDefault();
+
+      const filter = link.dataset.filter;   // all | date | title | video
+
+      // ---- UI: active link
+      filterLinks.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+
+      // ---- Show / hide sections
+      Object.entries(sections).forEach(([key, sec]) => {
+        sec.style.display = key === filter ? 'grid' : 'none';
+      });
+
+      // ---- Initialise Load-More for the new section
+      initSection(filter);
+
+      // ---- Keep image sizing consistent
+      document.querySelectorAll('.gallery-image-card img').forEach(img => {
+        img.style.height = '100%';
+        img.style.width  = '100%';
+        img.style.objectFit = 'cover';
+      });
     });
   });
 
-});
+  /* ---------- IMAGE POPUP ---------- */
+  const popup    = document.querySelector('.popup');
+  const popupImg = document.querySelector('.popup-img');
+  const closeBtn = document.querySelector('.close-btn');
 
-
-const upArrow = document.getElementById('upArrow');
-upArrow.addEventListener('click', () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
+  document.querySelectorAll('.gallery-image-card img').forEach(img => {
+    img.addEventListener('click', () => {
+      popup.style.display = 'flex';
+      popupImg.src = img.src;
+    });
   });
-});
 
+  closeBtn.addEventListener('click', () => popup.style.display = 'none');
+  popup.addEventListener('click', e => { if (e.target === popup) popup.style.display = 'none'; });
+
+  /* ---------- STARTUP – default view = All ---------- */
+  initSection('all');
+
+  /* ---------- SMOOTH SCROLL TO TOP (if you have an arrow) ---------- */
+  const upArrow = document.getElementById('upArrow');
+  if (upArrow) {
+    upArrow.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  }
+});

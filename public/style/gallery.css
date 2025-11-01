@@ -20,7 +20,6 @@
     color: white;
 }
 
-
 * {
     box-sizing: border-box;
 }
@@ -80,13 +79,11 @@ b {
 }
 
 
-
-
-
 main {
     background-color: rgba(0, 5, 82, 0.164);
     background-image: radial-gradient(circle, rgba(255, 255, 255, 0.2) 1.5px, transparent 1.5px);
     background-size: 30px 30px;
+    overflow-x: hidden;
 }
 
 /* HEADING */
@@ -112,15 +109,17 @@ main {
     z-index: 1;
     color: var(--text-primary);
     padding: 0 .5rem;
+    opacity: 0;
+    transform: translateY(100px);
+    transition: all 2s ease;
+    will-change: transform, opacity;
+    filter: blur(4px);
 }
 
 .gallery-inner .subtitle {
     font-size: 1.1rem;
     margin-top: 0.5rem;
 }
-
-
-
 
 /* GALLERY OPTIONS */
 .gallery-heading {
@@ -133,6 +132,17 @@ main {
     margin-bottom: 3rem;
     flex-wrap: wrap;
     gap: 1rem;
+    opacity: 0;
+    transform: translateY(100px);
+    transition: all 2s ease;
+    will-change: transform, opacity;
+    filter: blur(4px);
+}
+
+.animation-show {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
 }
 
 .gallery-options a {
@@ -162,8 +172,6 @@ main {
     box-shadow: rgba(226, 74, 74, 0.808) 0px 4px 15px;
     background: var(--button-gradient);
 }
-
-
 
 .gallery-card-group {
     margin-bottom: 2.5rem;
@@ -202,7 +210,6 @@ main {
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
-    border: 1px solid rgba(252, 18, 18, 0.05);
 }
 
 .gallery-image-card:hover {

@@ -171,6 +171,7 @@ b {
   height: var(--carousel-height);
   background-size: cover;
   object-fit: cover;
+  background-position: center;
 }
 
 .carousel-bottom-controls {
@@ -1121,6 +1122,39 @@ footer {
   flex-direction: column;
   gap: 25px;
 }
+
+.about-us h3,
+.quick-links h3,
+.follow-us h3,
+.contact-us h3 {
+  display: flex;              
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.about-us h3 span,
+.quick-links h3 span,
+.follow-us h3 span,
+.contact-us h3 span {
+  position: relative;
+  display: inline-block;      
+  padding-bottom: 5px;
+}
+
+.about-us h3 span::after,
+.quick-links h3 span::after,
+.follow-us h3 span::after,
+.contact-us h3 span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;                
+  height: 3px;
+  background: linear-gradient(135deg, #003366, #0059b3, #66b2ff);
+  border-radius: 2px;
+}
+
 
 .about-us div p,
 .quick-links div p,

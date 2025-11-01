@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login Form</title>
+  <title>Login</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
     * {
@@ -84,6 +84,13 @@
     .input-group input:focus {
       border-color: #00ff88;
       outline: none;
+    }
+
+    /* Override Chrome’s autofill white background */
+    input:-webkit-autofill {
+      background-color: transparent !important;
+      -webkit-text-fill-color: white;
+      transition: background-color 5000s ease-in-out 0s;
     }
 
     /* LOGIN BUTTON */
