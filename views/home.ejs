@@ -51,116 +51,67 @@
   <%- include('index.ejs') %>
 
     <!-- IMAGE SLIDER -->
-    <div class="image-container mt-5">
-      <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-        <!-- INDICATORS -->
-        <div class="carousel-indicators">
-          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-            aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-            aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-            aria-label="Slide 3"></button>
-          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
-            aria-label="Slide 4"></button>
-          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4"
-            aria-label="Slide 5"></button>
-        </div>
-
-        <!-- Slides -->
-        <div class="carousel-inner">
-          <!-- FIRST IMAGE -->
-<div class="carousel-item active">
-  <img src="/images/home-scroll-images/slider-image-1.jpg" class="d-block w-100 img-fluid" alt="School Front">
-  <div class="carousel-caption animate-caption">
-    <div class="caption-box">
-      <h2>Discover Your Potential at ST. Columbus Public School</h2>
-      <h3>Where Excellence Begins Every Day</h3>
-    </div>
-  </div>
-</div>
-
-<!-- SECOND IMAGE -->
-<div class="carousel-item">
-  <img src="/images/home-scroll-images/slider-image-2.JPG" class="d-block w-100 img-fluid" alt="Award Ceremony">
-  <div class="carousel-caption animate-caption">
-    <div class="caption-box">
-      <h2>Celebrating Our Achievers</h2>
-      <h3>Honoring Excellence with Pride and Dignity</h3>
-    </div>
-  </div>
-</div>
-
-<!-- THIRD IMAGE -->
-<div class="carousel-item">
-  <img src="/images/home-scroll-images/slider-image-3.JPG" loading="lazy" class="d-block w-100 img-fluid" alt="Female Awardees">
-  <div class="carousel-caption animate-caption">
-    <div class="caption-box">
-      <h2>Celebrating Our Women Achievers</h2>
-      <h3>Honoring Their Excellence with Pride and Grace</h3>
-    </div>
-  </div>
-</div>
-
-<!-- FOURTH IMAGE -->
-<div class="carousel-item">
-  <img src="/images/home-scroll-images/slider-image-4.JPG" loading="lazy" class="d-block w-100 img-fluid" alt="Student Trophy Group">
-  <div class="carousel-caption animate-caption">
-    <div class="caption-box">
-      <h2>Victory Through Teamwork</h2>
-      <h3>Our Students Shine Bright in Every Competition</h3>
-    </div>
-  </div>
-</div>
-
-<!-- FIFTH IMAGE -->
-<div class="carousel-item">
-  <img src="/images/home-scroll-images/slider-image-5.JPG" loading="lazy" class="d-block w-100 img-fluid" alt="Competition Winners">
-  <div class="carousel-caption animate-caption">
-    <div class="caption-box">
-      <h2>Champions of Dedication</h2>
-      <h3>Winning Trophies, Winning Hearts</h3>
-    </div>
-  </div>
-</div>
-
-        </div>
-
-        <!-- CONTROLS -->
-        <div class="carousel-bottom-controls">
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-            data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-            data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          </button>
-        </div>
-
-        <!-- SOCIALS ICONS -->
-        <div class="social-icons">
-          <div class="facebook">
-            <a href="https://www.facebook.com/share/1H5Z3RhMEb/" target="_blank">
-              <img src="/images/icons/facebook.svg" alt="Facebook">
-            </a>
-          </div>
-
-          <div class="youtube">
-            <a href="https://www.youtube.com/@DilipKumar-rf4rx/videos" target="_blank">
-              <img src="/images/icons/youtube.svg" alt="YouTube">
-            </a>
-          </div>
-
-          <div class="instagram">
-            <a href="https://www.instagram.com/columbusschooljhajha?igsh=MWJzd3lqMzg2c2EzaA==" target="_blank">
-              <img src="/images/icons/instagram.svg" alt="Instagram">
-            </a>
+    <div class="slider">
+      <div class="slides">
+        <div class="slide active">
+          <img src="/images/home-scroll-images/slider-image-1.JPG" alt="slider first image">
+          <div class="slide-content">
+            <div class="caption-box">
+              <h2>Discover Your Potential at ST. Columbus Public School</h2>
+              <h3>Where Excellence Begins Every Day</h3>
+            </div>
           </div>
         </div>
+
+        <div class="slide">
+          <img src="/images/home-scroll-images/slider-image-2.JPG" alt="slider second image">
+          <div class="slide-content">
+            <div class="caption-box">
+              <h2>Celebrating Our Achievers</h2>
+              <h3>Honoring Excellence with Pride and Dignity</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide">
+          <img src="/images/home-scroll-images/slider-image-3.JPG" alt="slider third image">
+          <div class="slide-content">
+            <div class="caption-box">
+              <h2>Celebrating Our Women Achievers</h2>
+              <h3>Honoring Their Excellence with Pride and Grace</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide">
+          <img src="/images/home-scroll-images/slider-image-4.JPG" alt="slider fourth image">
+          <div class="slide-content">
+            <div class="caption-box">
+              <h2>Victory Through Teamwork</h2>
+              <h3>Our Students Shine Bright in Every Competition</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide">
+          <img src="/images/home-scroll-images/slider-image-5.JPG" alt="slider fifth image">
+          <div class="slide-content">
+            <div class="caption-box">
+              <h2>Champions of Dedication</h2>
+              <h3>Winning Trophies, Winning Hearts</h3>
+            </div>
+          </div>
+        </div>
+
       </div>
+      <div class="dots"></div>
+      <div class="nav-controls">
+        <button class="nav-btn prev"><i class="fas fa-chevron-left"></i><img></button>
+        <button class="nav-btn next"><i class="fas fa-chevron-right"></i><img></button>
+      </div>
+      <div class="progress-bar"></div>
     </div>
-
+  
     <main>
       <!-- SECOND PAGE -->
       <section class="second-page container">
