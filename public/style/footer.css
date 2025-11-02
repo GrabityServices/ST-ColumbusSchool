@@ -102,6 +102,12 @@ footer {
     gap: 10px;
 }
 
+.quick-links div a:hover,
+.follow-us div a:hover{
+  text-decoration: underline;
+}
+
+
 .contact-us div p a {
     color: inherit;
 }
