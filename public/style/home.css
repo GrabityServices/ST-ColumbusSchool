@@ -119,7 +119,6 @@ b {
   margin-top: 90px;
   overflow: hidden;
   user-select: none;
-  /* Mobile default */
   height: 85vh;
   transition: height .3s ease;
 }
@@ -165,7 +164,6 @@ b {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(70%);
   backface-visibility: hidden;
   transform: translateZ(0);
 }
