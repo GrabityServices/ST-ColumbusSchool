@@ -96,7 +96,7 @@
 
   <div class="forgot-container">
     <h1>Change Password</h1>
-    <form action="/stcolumbus/admin/manage/forgot/pass" method="post">
+    <form action="<% if(!user){%>/stcolumbus/admin/manage/forgot/pass<%}else{%>/stcolumbus/admin/manage/forgot/pass/setpass<%} %>" method="post">
       <div class="input-group">
         <label for="idOrEmail">Enter your User ID or Email</label>
         <input type="text" id="idOrEmail" name="idOrEmail" required
