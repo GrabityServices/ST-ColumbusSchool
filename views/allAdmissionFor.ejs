@@ -155,6 +155,7 @@
               <a href="https://wa.me/<%= form.mobNumber %>?text=Dear%20<%= form.name %>,%0A%0AYour%20admission%20status%20(Counseling ID <%= form.processId %>)%20has%20been%20updated." target="_blank" class="action-link">WhatsApp</a>
               <a href="tel:<%= form.mobNumber %>" class="action-link">Call</a>
               <a href="mailto:<%= form.email %>?subject=Admission Inquiry - <%= form.processId %>&body=Dear Sir/Madam," class="action-link">Mail</a>
+              <a href="/home/admission/updateStatus/DVRL/<%= form._id %>" class="action-link" title="Send To Document Verification">DVRL</a>
               <a href="/home/admission/updateStatus/CANCEL/<%= form._id %>" class="action-link">Cancel</a>
               <% if (!supAd) { %>
               <% } else { %>
