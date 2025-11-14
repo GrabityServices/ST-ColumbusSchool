@@ -37,19 +37,23 @@ app.use(cookieParser());
 // app middelwares---------------------------------------
 app.use(logging);
 app.use(uniqueUser);
+// app.use(cors({
+//   origin: function (origin, callback) {
+//     // Allow requests with no origin (like curl or mobile apps)
+//     if (!origin) return callback(null, true);
+//     if (origin === allowedOrigin) {
+//       callback(null, true); // Allow your site
+//     } else {
+//       callback(new Error('Not allowed by Grabity Services')); // Block all others
+//       logUnauthorizedOrigin(origin);
+//     }
+//   },
+//   methods: ['GET', 'POST'], // Add other methods if needed (PUT, DELETE, etc.)
+  // credentials: true, // Optional: if you send cookies/auth headers
+// }));
 app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like curl or mobile apps)
-    if (!origin) return callback(null, true);
-    if (origin === allowedOrigin) {
-      callback(null, true); // Allow your site
-    } else {
-      callback(new Error('Not allowed by Grabity Services')); // Block all others
-      logUnauthorizedOrigin(origin);
-    }
-  },
-  methods: ['GET', 'POST'], // Add other methods if needed (PUT, DELETE, etc.)
-  credentials: true, // Optional: if you send cookies/auth headers
+ origin: '*',
+ methods: ['GET', 'POST'],
 }));
 // app apis for manage data --------------------------------------------
 
