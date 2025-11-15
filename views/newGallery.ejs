@@ -2,7 +2,9 @@
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Add New Esdfsdfvent</title>
   <style>
@@ -13,7 +15,7 @@
       font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     }
 
-    body {
+     body {
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -21,6 +23,8 @@
       background: url(/images/upload-bg-image.png) no-repeat center center/cover;
       padding: 1rem;
     }
+
+    
 
     /* ===== Card Wrapper ===== */
     .card {
@@ -32,11 +36,13 @@
       box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.08);
     }
 
-    .card h1 {
+     .card h1 {
       text-align: center;
       margin-bottom: 1.5rem;
       color: #222;
     }
+
+    
 
     /* ===== Upload Box ===== */
     .upload-box {
@@ -54,26 +60,30 @@
       gap: 0.8rem;
     }
 
-    .upload-box:hover {
+     .upload-box:hover {
       border-color: #007bff;
       background-color: rgba(194, 194, 194, 0.25);
     }
 
-    .upload-box img {
+     .upload-box img {
       width: 40px;
       height: 40px;
       opacity: 0.7;
     }
 
-    .upload-box span {
+     .upload-box span {
       font-size: 0.95rem;
       color: #555;
     }
+
+    
 
     /* Hide default file input */
     .upload-box input[type="file"] {
       display: none;
     }
+
+    
 
     /* ===== Additional Input Section ===== */
     .add-event-second-section {
@@ -84,7 +94,7 @@
       width: 100%;
     }
 
-    .add-event-input {
+     .add-event-input {
       width: 100%;
       padding: 0.9rem;
       border-radius: 8px;
@@ -94,18 +104,20 @@
       transition: border 0.3s, box-shadow 0.3s;
     }
 
-    .add-event-input:focus,
+     .add-event-input:focus,
     .add-event-second-section [type="date"]:focus {
       border-color: #007bff;
       box-shadow: 0 0 6px rgba(0, 123, 255, 0.25);
     }
 
-    .add-event-second-section [type="date"] {
+     .add-event-second-section [type="date"] {
       padding: 0.7rem;
       border-radius: 8px;
       border: 1.8px solid rgba(0, 0, 0, 0.35);
       font-size: 1rem;
     }
+
+    
 
     /* ===== Upload Limit Info ===== */
     .upload-limit {
@@ -116,7 +128,7 @@
       color: #666;
     }
 
-    .upload-limit-first {
+     .upload-limit-first {
       margin-top: 1.5rem;
       display: flex;
       align-items: center;
@@ -125,11 +137,13 @@
       color: #666;
     }
 
-    .upload-limit img {
+     .upload-limit img {
       width: 18px;
       height: 18px;
       opacity: 0.8;
     }
+
+    
 
     /* ===== Submit Button ===== */
     button {
@@ -146,13 +160,15 @@
       transition: background 0.3s, transform 0.1s;
     }
 
-    button:hover {
+     button:hover {
       background: #0056b3;
     }
 
-    button:active {
+     button:active {
       transform: scale(0.98);
     }
+
+    
 
     /* ===== Error Message ===== */
     .error-message {
@@ -163,20 +179,21 @@
       text-align: center;
     }
 
-    @media (max-width: 450px) {
+     @media (max-width: 450px) {
       body {
         padding: 0.5rem;
       }
 
-      .card {
+       .card {
         padding: 1rem;
       }
     }
   </style>
 </head>
 
-<body>
 
+<body>
+  
   <% if (date && date !=undefined && title && title !=undefined) { %>
     <div class="card">
       <h1>Add New Image</h1>
@@ -186,19 +203,19 @@
           <span id="upload-text">Drag and drop or click to upload</span>
           <input type="file" name="img" accept="image/jpeg, image/png" required />
         </label>
-
+        
         <input type="text" minlength="3" maxlength="30" name="title" value="<%= title %>" hidden />
         <input type="date" required name="EventDate" value="<%= date %>" hidden />
-
+        
         <div class="upload-limit-first">
           <img src="/images/icons/icon-info.svg" alt="upload-limit-icon">
-          Upload your event image (JPG, JPEG, PNG; max size 5MB)
+          Upload your event image (JPG, JPEG, PNG; max size 10MB)
         </div>
         <button type="submit">Save</button>
         <div class="error-message"></div>
       </form>
     </div>
-
+    
     <% } else { %>
       <div class="card">
         <h1>Add New Event</h1>
@@ -208,24 +225,26 @@
             <span id="upload-text">Drag and drop or click to upload</span>
             <input type="file" name="img" accept="image/jpeg, image/png" required />
           </label>
-
+          
           <div class="add-event-second-section">
             <input class="add-event-input" type="text" name="title" placeholder="Enter event title" minlength="3"
               maxlength="30" required />
             <input type="date" required name="EventDate" />
-
-            <div class="upload-limit"><img src="/images/icons/icon-info.svg" alt="upload-limit-icon">Upload your event
+            
+            <div class="upload-limit"><img src="/images/icons/icon-info.svg" alt="upload-limit-icon">Upload
+              your event
               image
-              (JPG, JPEG, PNG; max size 5MB)</div>
+              (JPG, JPEG, PNG; max size 10MB)</div>
             <button type="submit">Save</button>
             <div class="error-message"></div>
           </div>
-
+          
         </form>
       </div>
 
 
       <% } %>
+        
 
         <script>
           const forms = document.querySelectorAll('.upload-form');
@@ -274,7 +293,7 @@
               // 1️⃣ File validation
               const file = fileInput.files[0];
               const validTypes = ["image/jpeg", "image/png", "image/jpg"];
-              const maxSize = 5 * 1024 * 1024; // 5MB
+              const maxSize = 10 * 1024 * 1024; // 10MB
 
               if (!file) {
                 e.preventDefault();
@@ -290,7 +309,7 @@
 
               if (file.size > maxSize) {
                 e.preventDefault();
-                errorMessage.innerText = 'File size must not exceed 5MB.';
+                errorMessage.innerText = 'File size must not exceed 10MB.';
                 return;
               }
 
@@ -316,5 +335,6 @@
 
 
 </body>
+
 
 </html>

@@ -1,11 +1,11 @@
 const express = require("express");
 const stcolumbus = express.Router();
-const adminAvt = require("../utils/updateAdmin.js");
-const noticeAvt = require("../utils/addNotice.js");
-const galleyAvt = require("../utils/updateGallery.js");
+const { adminAvt, saveAdminAvt } = require("../utils/updateAdmin.js");
+const { noticeAvt, saveNoticeFile } = require("../utils/addNotice.js");
+const { galleryAvt, saveGalleryFile } = require("../utils/updateGallery.js");
 const path = require("path");
 const fs = require("fs");
-const VideoGall=require("../models/videoEmbedded.js");
+const VideoGall = require("../models/videoEmbedded.js");
 // const UserAdmin = require("../models/userAdmin.js");
 const {
   checkAdminAsEditor,
@@ -35,7 +35,7 @@ const Contact = require("../models/contact.js");
 // admin Work
 stcolumbus
   .route("/adminUpdate/:id")
-  .get(checkAdminAsEditor,(req, res) =>
+  .get(checkAdminAsEditor, (req, res) =>
     res.render("takeFile.ejs", {
       id: req.params.id,
       adminUpdate: true,
@@ -44,12 +44,12 @@ stcolumbus
       noticeUpdate: false,
     })
   )
-  .post(checkAdminAsEditor,adminAvt.single("img"), setAdminForm);
+  .post(checkAdminAsEditor, adminAvt.single("img"), saveAdminAvt, setAdminForm);
 
 stcolumbus
   .route("/adminUpdate/details/:id")
-  .get(checkAdminAsEditor,(req, res) => res.render("updateAdminDet.ejs", { id: req.params.id }))
-  .post(checkAdminAsEditor,setAdminFormDet);
+  .get(checkAdminAsEditor, (req, res) => res.render("updateAdminDet.ejs", { id: req.params.id }))
+  .post(checkAdminAsEditor, setAdminFormDet);
 
 // Gallery work
 
@@ -64,7 +64,7 @@ stcolumbus
       noticeUpdate: false,
     })
   )
-  .post(checkAdminAsEditor, galleyAvt.single("img"), setGalleryForm);
+  .post(checkAdminAsEditor, galleryAvt.single("img"), saveGalleryFile, setGalleryForm);
 
 stcolumbus
   .route("/galleryUpdate/details/:id")
@@ -96,14 +96,14 @@ stcolumbus
 stcolumbus
   .route("/gallery/new")
   .get(checkAdminAsEditor, handelNewGallery)
-  .post(checkAdminAsEditor, galleyAvt.single("img"), handelNewGalleryForm);
+  .post(checkAdminAsEditor, galleryAvt.single("img"), saveGalleryFile, handelNewGalleryForm);
 
 // ===================================================
 //Notice Work
 stcolumbus
   .route("/notice/new")
   .get(checkAdminAsEditor, (req, res) => res.render("createNotice.ejs"))
-  .post(checkAdminAsEditor, noticeAvt.single("img"), handelNoticeForm);
+  .post(checkAdminAsEditor, noticeAvt.single("img"), saveNoticeFile, handelNoticeForm);
 
 stcolumbus
   .route("/noticeUpdate/details/:id")
@@ -123,7 +123,7 @@ stcolumbus
       noticeUpdate: true,
     })
   )
-  .post(checkAdminAsEditor, noticeAvt.single("img"), handelNoticeUpdateImg);
+  .post(checkAdminAsEditor, noticeAvt.single("img"), saveNoticeFile, handelNoticeUpdateImg);
 
 stcolumbus
   .route("/noticeDelete/:id")
@@ -248,64 +248,67 @@ stcolumbus.route("/contact/delete/:id").get(async (req, res) => {
   res.redirect("/home/contact/forms/superadmin");
 });
 
-stcolumbus.route("/video/embedded/new").get( async (req, res) => {
+stcolumbus.route("/video/embedded/new").get(async (req, res) => {
   res.render("setVideoEmbeded.ejs");
-}).post( async (req, res) => {
+}).post(async (req, res) => {
   const videoEmbed = req.body.videoEmbed.trim();
-  if(videoEmbed && videoEmbed!=""&& videoEmbed.length>10){
-    try{
-      await VideoGall.create({videoEmbed:videoEmbed});
-      res.json({ code:"ok" });
-    }catch(err){
-      if(err.code===11000){
-        return res.status(400).json({ message: "This video embed code already exists.",code:"exist" });
-      }else if(err.name==="ValidationError"){ 
-        return res.status(400).json({ message: "Invalid video embed code format.",code:"invalid"});
-        }
+  if (videoEmbed && videoEmbed != "" && videoEmbed.length > 10) {
+    try {
+      await VideoGall.create({ videoEmbed: videoEmbed });
+      res.json({ code: "ok" });
+    } catch (err) {
+      if (err.code === 11000) {
+        return res.status(400).json({ message: "This video embed code already exists.", code: "exist" });
+      } else if (err.name === "ValidationError") {
+        return res.status(400).json({ message: "Invalid video embed code format.", code: "invalid" });
+      }
 
 
-      else{
+      else {
         console.error(err);
-        return res.status(500).json({ message: "Failed to save video embed code. Please try again.",code:"serror" });
-      }       
+        return res.status(500).json({ message: "Failed to save video embed code. Please try again.", code: "serror" });
+      }
+    }
+  } else {
+    return res.status(400).json({ message: "Video embed code is required.", code: "req" });
   }
-}else {
-    return res.status(400).json({ message: "Video embed code is required.",code:"req" });
-  } 
 })
 
-stcolumbus.route("/video/embedded/delete/:id").get( async (req, res) => {
+stcolumbus.route("/video/embedded/delete/:id").get(async (req, res) => {
   try {
     await VideoGall.findByIdAndDelete(req.params.id);
     res.redirect("/stcolumbus/jaj/ekdara/admin#video");
-  } catch (err) { console.log(err);
-    res.status(500).json({ message: "Failed to delete video embed code. Please try again.",code:"serror"});
-  }   
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Failed to delete video embed code. Please try again.", code: "serror" });
+  }  
 
 })
-stcolumbus.route("/video/embedded/update/:id").get( async (req, res) => {
-  res.render("updateVideoEmbeded.ejs",{id:req.params.id});
+stcolumbus.route("/video/embedded/update/:id").get(async (req, res) => {
+  res.render("updateVideoEmbeded.ejs", { id: req.params.id });
 })
-.post(async (req, res) => {
-  const newEmbed = req.body.videoEmbed.trim();
-  if(newEmbed && newEmbed!=""&& newEmbed.length>10){
-    try{ 
+  .post(async (req, res) => {
+    const newEmbed = req.body.videoEmbed.trim();
+    if (newEmbed && newEmbed != "" && newEmbed.length > 10) {
+      try {
 
-        await VideoGall.findByIdAndUpdate(req.params.id,{videoEmbed:newEmbed},{new:true,runValidators:true});
-        return res.json({ code:"ok" });
-  
-     }catch(err){   
-      if(err.code===11000){
-        return res.status(400).json({ message: "This video embed code already exists.",code:"exist" });
-      } else if(err.name==="ValidationError"){
-        return res.status(400).json({ message: "Invalid video embed code format.",code:"invalid" });
-      } else{
-      console.error(err);
-      return res.status(500).json({ message: "Failed to update video embed code. Please try again.",code:"serror" });
-     }} 
-    
-}
- else {
-      return res.status(400).json({ message: "Video embed code is required.",code:"req" });
-    }})
+        await VideoGall.findByIdAndUpdate(req.params.id, { videoEmbed: newEmbed }, { new: true, runValidators: true });
+        return res.json({ code: "ok" });
+
+      } catch (err) {
+        if (err.code === 11000) {
+          return res.status(400).json({ message: "This video embed code already exists.", code: "exist" });
+        } else if (err.name === "ValidationError") {
+          return res.status(400).json({ message: "Invalid video embed code format.", code: "invalid" });
+        } else {
+          console.error(err);
+          return res.status(500).json({ message: "Failed to update video embed code. Please try again.", code: "serror" });
+        }
+      }
+
+    }
+    else {
+      return res.status(400).json({ message: "Video embed code is required.", code: "req" });
+    }
+  })
 module.exports = stcolumbus;

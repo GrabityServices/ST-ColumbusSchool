@@ -6,6 +6,7 @@
   "author": "",
   "scripts": {
     "start": "node index.js"
+ 
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -21,7 +22,9 @@
     "multer": "^2.0.2",
     "nodemailer": "^7.0.10",
     "redis": "^5.9.0",
+    "sharp": "^0.34.5",
     "validator": "^13.15.15",
     "winston": "^3.17.0"
+ 
   }
 }

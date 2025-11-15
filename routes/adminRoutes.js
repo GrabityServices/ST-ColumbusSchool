@@ -1,7 +1,7 @@
 const express = require("express");
 const adminroute = express.Router();
 const adminManagment = express.Router();
-const adminAccountAvt = require("../utils/updateAdminAccountImg.js");
+const { adminAccountAvt, saveAdminAccountAvt } = require("../utils/updateAdminAccountImg.js");
 const { checkAdminAsSuperadmin } = require("../middleware/checkAdmin.js");
 const jwt = require("jsonwebtoken")
 // ======================accpunt Handlers==============
@@ -36,7 +36,7 @@ adminroute
       noticeUpdate: false,
     })
   )
-  .post(adminAccountAvt.single("img"), handleUpdateAdminImg);
+  .post(adminAccountAvt.single("img"), saveAdminAccountAvt, handleUpdateAdminImg);
 
 adminroute
   .route("/update/det/:id")
