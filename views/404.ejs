@@ -3,10 +3,119 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>404 🥱 | <%= path %></title>
-    <link rel="stylesheet" href="style/style.css">
+    <title>404 | Page Not Found</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet" />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Space Grotesk', sans-serif;
+        background: #0a0a0a;
+        color: #fff;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      /* Single Background (GIF or Image) */
+      .bg-single {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        /* background: url('/public/images/404-error-page-animation.webp') center/cover no-repeat; */
+        opacity: 0.25;
+        z-index: -1;
+      }
+
+      .container {
+        text-align: center;
+        z-index: 10;
+        max-width: 700px;
+        padding: 20px;
+      }
+
+      .illustration {
+        width: 260px;
+        height: 260px;
+        margin: 0 auto 30px;
+        /* background: url('/public/images/404-error-page-animation.webp') center/contain no-repeat; */
+        animation: float 4s ease-in-out infinite;
+        filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(2deg); }
+      }
+
+      h1 {
+        font-size: 100px;
+        font-weight: 700;
+        background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 16px;
+        letter-spacing: -2px;
+      }
+
+      p {
+        font-size: 22px;
+        opacity: 0.85;
+        margin-bottom: 32px;
+        line-height: 1.6;
+      }
+
+      .btn-home {
+        display: inline-block;
+        padding: 14px 32px;
+        background: rgba(255, 255, 255, 0.15);
+        color: #fff;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 18px;
+        transition: all 0.4s ease;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-home:hover {
+        background: rgba(255, 255, 255, 0.25);
+        border-color: #fff;
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      @media (max-width: 768px) {
+        h1 { font-size: 70px; }
+        p { font-size: 18px; }
+        .illustration { width: 200px; height: 200px; }
+      }
+    </style>
   </head>
+
   <body>
-    <h1>Page not found <%= path %></h1>
+    <div class="bg-single"></div>
+
+    <div class="container">
+      <div class="illustration"></div>
+      <h1>404</h1>
+      <p>Oops! Looks like this page took a wrong turn in the cosmos.</p>
+      <a href="/" class="btn-home">← Go Back Home</a>
+    </div>
   </body>
 </html>
