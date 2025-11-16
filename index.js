@@ -38,17 +38,14 @@ app.use(cookieParser());
 app.use(logging);
 app.use(uniqueUser);
 
-const allowedOrigins = process.env.ALLOWED_ORIGINS
-  ? process.env.ALLOWED_ORIGINS.split(",")
-  : [];
 
-app.use(
-  cors({
-    origin: true,          // Allow all origins
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Expand if needed
-    credentials: true,     // Keep if you need cookies/auth
-  })
-);
+// app.use(
+//   cors({
+//     origin: true,          // Allow all origins
+//     methods: ["GET", "POST"], // Expand if needed
+//     credentials: true,     // Keep if you need cookies/auth
+//   })
+// );
 
 // app apis for manage data --------------------------------------------
 
