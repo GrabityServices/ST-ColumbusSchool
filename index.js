@@ -25,7 +25,7 @@ const cors = require('cors');
 const allowedOrigin = process.env.ALLOWED_ORIGNI;
 const { logUnauthorizedOrigin } = require("./middleware/logUnauthorizedOrigin");
 const VideoGall = require("./models/videoEmbedded.js");
-const client=require("./connectRedis.js")
+const client = require("./connectRedis.js")
 app.set("view engine", "ejs");
 
 app.set("views", Path.join(__dirname, "views"));
@@ -44,18 +44,9 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true); // Allow mobile apps, Postman, curl
-
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        console.error("Blocked by CORS:", origin);
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    methods: ["GET", "POST"],
-    credentials: true,
+    origin: true,          // Allow all origins
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Expand if needed
+    credentials: true,     // Keep if you need cookies/auth
   })
 );
 
