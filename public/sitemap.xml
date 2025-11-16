@@ -1,50 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset 
-  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
-    <loc>https://stcolumbusekdara.cloud/</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://www.stcolumbusekdara.cloud/</loc>
+    <priority>1.0</priority>
   </url>
 
   <url>
-    <loc>https://stcolumbusekdara.cloud/about</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://www.stcolumbusekdara.cloud/about</loc>
+    <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://stcolumbusekdara.cloud/academics</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://www.stcolumbusekdara.cloud/academics</loc>
+    <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://stcolumbusekdara.cloud/gallery</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://www.stcolumbusekdara.cloud/gallery</loc>
+    <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://stcolumbusekdara.cloud/notice</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://www.stcolumbusekdara.cloud/notice</loc>
+    <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://stcolumbusekdara.cloud/contact</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://www.stcolumbusekdara.cloud/contact</loc>
+    <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://stcolumbusekdara.cloud/admission</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://www.stcolumbusekdara.cloud/admission</loc>
+    <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://stcolumbusekdara.cloud/admission/form</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://www.stcolumbusekdara.cloud/admission/form</loc>
+    <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://stcolumbusekdara.cloud/admission/getEnroll</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://www.stcolumbusekdara.cloud/admission/getEnroll</loc>
+    <priority>0.7</priority>
   </url>
 
 </urlset>
