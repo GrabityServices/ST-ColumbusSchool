@@ -3,47 +3,52 @@
 
   <url>
     <loc>https://www.stcolumbusekdara.cloud/</loc>
-    <priority>1.0</priority>
+    <priority>1.00</priority>
+  </url>
+
+  <url>
+    <loc>https://www.stcolumbusekdara.cloud/favicon.ico</loc>
+    <priority>0.90</priority>
   </url>
 
   <url>
     <loc>https://www.stcolumbusekdara.cloud/about</loc>
-    <priority>0.8</priority>
+    <priority>0.80</priority>
   </url>
 
   <url>
     <loc>https://www.stcolumbusekdara.cloud/academics</loc>
-    <priority>0.8</priority>
+    <priority>0.80</priority>
   </url>
 
   <url>
     <loc>https://www.stcolumbusekdara.cloud/gallery</loc>
-    <priority>0.8</priority>
+    <priority>0.80</priority>
   </url>
 
   <url>
     <loc>https://www.stcolumbusekdara.cloud/notice</loc>
-    <priority>0.7</priority>
+    <priority>0.70</priority>
   </url>
 
   <url>
     <loc>https://www.stcolumbusekdara.cloud/contact</loc>
-    <priority>0.8</priority>
+    <priority>0.80</priority>
   </url>
 
   <url>
     <loc>https://www.stcolumbusekdara.cloud/admission</loc>
-    <priority>0.8</priority>
+    <priority>0.80</priority>
   </url>
 
   <url>
     <loc>https://www.stcolumbusekdara.cloud/admission/form</loc>
-    <priority>0.7</priority>
+    <priority>0.70</priority>
   </url>
 
   <url>
     <loc>https://www.stcolumbusekdara.cloud/admission/getEnroll</loc>
-    <priority>0.7</priority>
+    <priority>0.70</priority>
   </url>
 
 </urlset>
