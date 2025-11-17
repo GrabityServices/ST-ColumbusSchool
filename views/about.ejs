@@ -47,44 +47,81 @@
   <script src="/script/about.js" defer></script>
   <script src="/script/animation.js" defer></script>
 
-  <!-- BREADCRUMB SCHEMA -->
+  <!-- ABOUT PAGE SCHEMA -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.stcolumbusekdara.cloud/"},
-      {"@type": "ListItem", "position": 2, "name": "About Us", "item": "https://www.stcolumbusekdara.cloud/about"}
+    "@graph": [
+
+      /* ============================
+        1. WEBPAGE SCHEMA (ABOUT)
+        ============================ */
+      {
+        "@type": "WebPage",
+        "@id": "https://www.stcolumbusekdara.cloud/about#webpage",
+        "url": "https://www.stcolumbusekdara.cloud/about",
+        "name": "About Us | St. Columbus Public School",
+        "description": "Learn about St. Columbus Public School, Ekdara — mission, vision, achievements, principal’s message, academic philosophy, and school history.",
+        "inLanguage": "en-IN",
+        "isPartOf": {
+          "@id": "https://www.stcolumbusekdara.cloud/#website"
+        },
+        "about": {
+          "@id": "https://www.stcolumbusekdara.cloud/#school"
+        }
+      },
+
+      /* ============================
+        2. SCHOOL SCHEMA (Referenced from Home Page)
+        ============================ */
+      {
+        "@type": "School",
+        "@id": "https://www.stcolumbusekdara.cloud/#school",
+        "name": "St. Columbus Public School",
+        "url": "https://www.stcolumbusekdara.cloud/",
+        "logo": {
+          "@id": "https://www.stcolumbusekdara.cloud/#logo"
+        }
+      },
+
+      /* ============================
+        3. LOGO IMAGEOBJECT
+        ============================ */
+      {
+        "@type": "ImageObject",
+        "@id": "https://www.stcolumbusekdara.cloud/#logo",
+        "url": "https://www.stcolumbusekdara.cloud/images/logo.png",
+        "width": 400,
+        "height": 400
+      },
+
+      /* ============================
+        4. BREADCRUMB SCHEMA
+        ============================ */
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://www.stcolumbusekdara.cloud/about#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.stcolumbusekdara.cloud/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "About Us",
+            "item": "https://www.stcolumbusekdara.cloud/about"
+          }
+        ]
+      }
+
     ]
   }
   </script>
 
-  <!-- ORGANIZATION / SCHOOL SCHEMA -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "School",
-    "name": "St. Columbus Public School",
-    "url": "https://www.stcolumbusekdara.cloud/",
-    "logo": "https://www.stcolumbusekdara.cloud/images/logo.png"
-    "sameAs": [
-      "https://www.facebook.com/share/1H5Z3RhMEb/",
-      "https://www.instagram.com/columbusschooljhajha",
-      "https://www.youtube.com/@DilipKumar-rf4rx/videos",
-      "https://x.com/stcolumbus2002"
-    ],
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Ekdara",
-      "addressLocality": "Jhajha",
-      "addressRegion": "Bihar",
-      "postalCode": "811308",
-      "addressCountry": "IN"
-    },
-    "telephone": "+918541083858",
-    "email": "st.columbus2002@gmail.com"
-  }
-  </script>
+
 
 </head>
 <body>

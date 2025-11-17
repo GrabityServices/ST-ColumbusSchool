@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <!-- CHARSET & VIEWPORT -->
   <meta charset="UTF-8" />
@@ -10,7 +11,8 @@
 
   <!-- TITLE & META DESCRIPTION -->
   <title>Academics | St. Columbus Public School</title>
-  <meta name="description" content="Explore the academic programs at St. Columbus Public School, focusing on conceptual understanding, critical thinking, and overall student development.">
+  <meta name="description"
+    content="Explore the academic programs at St. Columbus Public School, focusing on conceptual understanding, critical thinking, and overall student development.">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#0d47a1">
 
@@ -29,12 +31,15 @@
   <!-- OPEN GRAPH / SOCIAL MEDIA -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Academics | St. Columbus Public School">
-  <meta property="og:description" content="Comprehensive academic programs designed to nurture intellectual growth, critical thinking, and holistic learning.">
+  <meta property="og:description"
+    content="Comprehensive academic programs designed to nurture intellectual growth, critical thinking, and holistic learning.">
   <meta property="og:image" content="https://www.stcolumbusekdara.cloud/images/favicon_io/android-chrome-512x512.png">
   <meta property="og:url" content="https://www.stcolumbusekdara.cloud/academics">
 
   <!-- ICONS / FONTS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+    integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- CSS -->
   <link rel="stylesheet" href="/style/style.css" />
@@ -47,48 +52,87 @@
   <script src="/script/academics.js" defer></script>
   <script src="/script/animation.js" defer></script>
 
-  <!-- BREADCRUMB SCHEMA -->
+  <!--  ACADEMICS PAGE SCHEMA -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.stcolumbusekdara.cloud/"},
-      {"@type": "ListItem", "position": 2, "name": "Academics", "item": "https://www.stcolumbusekdara.cloud/academics"}
+    "@graph": [
+
+      /* =====================================
+        1. WEBPAGE SCHEMA (ACADEMICS PAGE)
+        ===================================== */
+      {
+        "@type": "WebPage",
+        "@id": "https://www.stcolumbusekdara.cloud/academics#webpage",
+        "url": "https://www.stcolumbusekdara.cloud/academics",
+        "name": "Academics | St. Columbus Public School",
+        "description": "Explore the academic curriculum, class structure, teaching methodology, and learning approach at St. Columbus Public School, Ekdara.",
+        "inLanguage": "en-IN",
+        "isPartOf": {
+          "@id": "https://www.stcolumbusekdara.cloud/#website"
+        },
+        "about": {
+          "@id": "https://www.stcolumbusekdara.cloud/#school"
+        }
+      },
+
+      /* =====================================
+        2. SCHOOL (Referenced from Home Page)
+        ===================================== */
+      {
+        "@type": "School",
+        "@id": "https://www.stcolumbusekdara.cloud/#school",
+        "name": "St. Columbus Public School",
+        "url": "https://www.stcolumbusekdara.cloud/",
+        "logo": {
+          "@id": "https://www.stcolumbusekdara.cloud/#logo"
+        }
+      },
+
+      /* =====================================
+        3. LOGO IMAGEOBJECT
+        ===================================== */
+      {
+        "@type": "ImageObject",
+        "@id": "https://www.stcolumbusekdara.cloud/#logo",
+        "url": "https://www.stcolumbusekdara.cloud/images/logo.png",
+        "width": 400,
+        "height": 400
+      },
+
+      /* =====================================
+        4. BREADCRUMB SCHEMA
+        ===================================== */
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://www.stcolumbusekdara.cloud/academics#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.stcolumbusekdara.cloud/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Academics",
+            "item": "https://www.stcolumbusekdara.cloud/academics"
+          }
+        ]
+      }
+
     ]
   }
   </script>
 
-  <!-- ORGANIZATION / SCHOOL SCHEMA -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "School",
-    "name": "St. Columbus Public School",
-    "url": "https://www.stcolumbusekdara.cloud/",
-    "logo": "https://www.stcolumbusekdara.cloud/images/logo.png"
-    "sameAs": [
-      "https://www.facebook.com/share/1H5Z3RhMEb/",
-      "https://www.instagram.com/columbusschooljhajha",
-      "https://www.youtube.com/@DilipKumar-rf4rx/videos",
-      "https://x.com/stcolumbus2002"
-    ],
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Ekdara",
-      "addressLocality": "Jhajha",
-      "addressRegion": "Bihar",
-      "postalCode": "811308",
-      "addressCountry": "IN"
-    },
-    "telephone": "+918541083858",
-    "email": "st.columbus2002@gmail.com"
-  }
-  </script>
-</head> 
+
+
+</head>
+
 <body>
-    <!-- Nav Bar-->
-    <%- include('index.ejs') %>
+  <!-- Nav Bar-->
+  <%- include('index.ejs') %>
 
     <!-- HEADING -->
     <section class="academics">
@@ -330,4 +374,5 @@
     <%- include('footer.ejs') %>
 
 </body>
+
 </html>

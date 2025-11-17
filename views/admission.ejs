@@ -50,44 +50,77 @@
   <script src="/script/admission.js" defer></script>
   <script src="/script/animation.js" defer></script>
 
-  <!-- BREADCRUMB SCHEMA -->
+  <!--  ADMISSION PAGE SCHEMA -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.stcolumbusekdara.cloud/"},
-      {"@type": "ListItem", "position": 2, "name": "Admission", "item": "https://www.stcolumbusekdara.cloud/admission"}
+    "@graph": [
+
+      {
+        "@type": "WebSite",
+        "@id": "https://www.stcolumbusekdara.cloud/#website",
+        "url": "https://www.stcolumbusekdara.cloud/",
+        "name": "St. Columbus Public School"
+      },
+
+      {
+        "@type": "School",
+        "@id": "https://www.stcolumbusekdara.cloud/#school",
+        "name": "St. Columbus Public School",
+        "url": "https://www.stcolumbusekdara.cloud/",
+        "logo": "https://www.stcolumbusekdara.cloud/images/logo.png",
+        "telephone": "+918541083858",
+        "email": "st.columbus2002@gmail.com",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ekdara",
+          "addressLocality": "Jhajha",
+          "addressRegion": "Bihar",
+          "postalCode": "811308",
+          "addressCountry": "IN"
+        },
+        "sameAs": [
+          "https://www.facebook.com/share/1H5Z3RhMEb/",
+          "https://www.instagram.com/columbusschooljhajha",
+          "https://www.youtube.com/@DilipKumar-rf4rx/videos",
+          "https://x.com/stcolumbus2002"
+        ]
+      },
+
+      {
+        "@type": "WebPage",
+        "@id": "https://www.stcolumbusekdara.cloud/admission#webpage",
+        "url": "https://www.stcolumbusekdara.cloud/admission",
+        "name": "Admission | St. Columbus Public School",
+        "description": "Admission process for St. Columbus Public School, Ekdara (Jhajha). Learn about enrollment, requirements, and application procedures for Pre-Primary to Class 8.",
+        "inLanguage": "en-IN",
+        "isPartOf": { "@id": "https://www.stcolumbusekdara.cloud/#website" },
+        "about": { "@id": "https://www.stcolumbusekdara.cloud/#school" }
+      },
+
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://www.stcolumbusekdara.cloud/admission#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.stcolumbusekdara.cloud/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Admission",
+            "item": "https://www.stcolumbusekdara.cloud/admission"
+          }
+        ]
+      }
+
     ]
   }
   </script>
 
-  <!-- ORGANIZATION / SCHOOL SCHEMA -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "School",
-    "name": "St. Columbus Public School",
-    "url": "https://www.stcolumbusekdara.cloud/",
-    "logo": "https://www.stcolumbusekdara.cloud/images/logo.png"
-    "sameAs": [
-      "https://www.facebook.com/share/1H5Z3RhMEb/",
-      "https://www.instagram.com/columbusschooljhajha",
-      "https://www.youtube.com/@DilipKumar-rf4rx/videos",
-      "https://x.com/stcolumbus2002"
-    ],
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Ekdara",
-      "addressLocality": "Jhajha",
-      "addressRegion": "Bihar",
-      "postalCode": "811308",
-      "addressCountry": "IN"
-    },
-    "telephone": "+918541083858",
-    "email": "st.columbus2002@gmail.com"
-  }
-  </script>
   
 </head>
 <body>

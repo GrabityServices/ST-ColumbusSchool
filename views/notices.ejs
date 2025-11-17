@@ -51,45 +51,103 @@
   <script src="/script/notices.js" defer></script>
   <script src="/script/animation.js" defer></script>
 
-  <!-- BREADCRUMB SCHEMA -->
+  <!-- NOTICE PAGE SCHEMA -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.stcolumbusekdara.cloud/"},
-      {"@type": "ListItem", "position": 2, "name": "Notices", "item": "https://www.stcolumbusekdara.cloud/notice"}
+    "@graph": [
+
+      {
+        "@type": "WebSite",
+        "@id": "https://www.stcolumbusekdara.cloud/#website",
+        "url": "https://www.stcolumbusekdara.cloud/",
+        "name": "St. Columbus Public School"
+      },
+
+      {
+        "@type": "School",
+        "@id": "https://www.stcolumbusekdara.cloud/#school",
+        "name": "St. Columbus Public School",
+        "url": "https://www.stcolumbusekdara.cloud/",
+        "logo": "https://www.stcolumbusekdara.cloud/images/logo.png",
+        "telephone": "+918541083858",
+        "email": "st.columbus2002@gmail.com",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ekdara",
+          "addressLocality": "Jhajha",
+          "addressRegion": "Bihar",
+          "postalCode": "811308",
+          "addressCountry": "IN"
+        },
+        "sameAs": [
+          "https://www.facebook.com/share/1H5Z3RhMEb/",
+          "https://www.instagram.com/columbusschooljhajha",
+          "https://www.youtube.com/@DilipKumar-rf4rx/videos",
+          "https://x.com/stcolumbus2002"
+        ]
+      },
+
+      {
+        "@type": "WebPage",
+        "@id": "https://www.stcolumbusekdara.cloud/notice#webpage",
+        "url": "https://www.stcolumbusekdara.cloud/notice",
+        "name": "Notices | St. Columbus Public School",
+        "description": "Latest school notices, announcements, holiday updates, exam schedules, and important information from St. Columbus Public School.",
+        "isPartOf": { "@id": "https://www.stcolumbusekdara.cloud/#website" },
+        "about": { "@id": "https://www.stcolumbusekdara.cloud/#school" },
+        "inLanguage": "en-IN"
+      },
+
+      {
+        "@type": "ItemList",
+        "@id": "https://www.stcolumbusekdara.cloud/notice#notices",
+        "name": "School Notices",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Holiday Notice – Republic Day 2025",
+            "url": "https://www.stcolumbusekdara.cloud/notice/republic-day-holiday"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Annual Exam Schedule 2025",
+            "url": "https://www.stcolumbusekdara.cloud/notice/annual-exam-2025"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "PTM Notice – February 2025",
+            "url": "https://www.stcolumbusekdara.cloud/notice/ptm-feb"
+          }
+        ]
+      },
+
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://www.stcolumbusekdara.cloud/notice#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.stcolumbusekdara.cloud/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Notice",
+            "item": "https://www.stcolumbusekdara.cloud/notice"
+          }
+        ]
+      }
+
     ]
   }
   </script>
 
-  <!-- ORGANIZATION / SCHOOL SCHEMA -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "School",
-    "name": "St. Columbus Public School",
-    "url": "https://www.stcolumbusekdara.cloud/",
-    "logo": "https://www.stcolumbusekdara.cloud/images/logo.png"
-    "sameAs": [
-      "https://www.facebook.com/share/1H5Z3RhMEb/",
-      "https://www.instagram.com/columbusschooljhajha",
-      "https://www.youtube.com/@DilipKumar-rf4rx/videos",
-      "https://x.com/stcolumbus2002"
-    ],
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Ekdara",
-      "addressLocality": "Jhajha",
-      "addressRegion": "Bihar",
-      "postalCode": "811308",
-      "addressCountry": "IN"
-    },
-    "telephone": "+918541083858",
-    "email": "st.columbus2002@gmail.com"
-  }
-  </script>
-  
 </head>
 <body>
     <!--HEADER  -->
