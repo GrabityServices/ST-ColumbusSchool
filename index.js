@@ -118,7 +118,7 @@ app.post("/contact", async (req, res) => {
 
 app.get("/gallery", async (req, res) => {
   let images = await Gallery.find({});
-  const videos = await VideoGall.find({})
+  const videos = await VideoGall.find({}).sort({createdAt: -1});
   res.render("gallery.ejs", { images, videos });
 });
 
