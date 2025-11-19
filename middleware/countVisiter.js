@@ -17,7 +17,7 @@ async function uniqueUser(req, res, next) {
       const oneDay = 24 * 60 * 60 * 1000;
       res.cookie("visited", true, {
         httpOnly: true,
-        secure: false,
+        secure: true,
         sameSite: "strict",
         expires: new Date(Date.now() + oneDay),
       });

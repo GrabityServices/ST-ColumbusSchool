@@ -85,7 +85,7 @@
 <body>
 
     <form action="/stcolumbus/admin/manage/verify/email/<%= email %>" method="post">
-      <h2><%= email %></h2>
+      <h2><%= memail %></h2>
       <label for="otp"><% if(reenter){%>Re-Enter OTP<%}else{%>Enter OTP <%}%></label>
       <input type="text" name="fotp" id="otp"  minlength="4" maxlength="4" pattern="[0-9]{4}">
       <button type="submit">Save</button>

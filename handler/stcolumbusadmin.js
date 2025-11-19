@@ -147,7 +147,7 @@ async function hadnleLoginForm(req, res) {
     );
     res.cookie("stadminis", token, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: "strict",
       expires: new Date(Date.now() + 60 * 30 * 1000),
     });

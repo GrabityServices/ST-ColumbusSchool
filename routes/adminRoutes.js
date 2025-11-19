@@ -90,7 +90,9 @@ adminManagment
 adminManagment
   .route("/verify/email/:id")
   .get(async (req, res) => {
+    console.log(req.params.id);
     let otp = await getOtp(req.params.id);
+    console.log(otp);
     if (!otp) {
       const unqid = await UserAdmin.findOne({ email: req.params.id }).select('uniqId');
       otp = await handleForgot(req.params.id, unqid.uniqId)
@@ -98,7 +100,9 @@ adminManagment
         storeOtp(req.params.id, otp)
         const email = req.params.id;
         const modified = await modifiedemail(email)
-        res.render("Otp.ejs", { email: modified, reenter: false })
+        console.log("otp sent again", modified);
+        
+        res.render("Otp.ejs", { memail: modified, email, reenter: false })
       }
       else {
         res.redirect("http://localhost:3000/stcolumbus/admin/manage/forgot/pass")
@@ -106,13 +110,14 @@ adminManagment
     } else {
       const email = req.params.id;
       const modified = await modifiedemail(email)
-      res.render("Otp.ejs", { email: modified, reenter: false })
+      res.render("Otp.ejs", { memail: modified, email, reenter: false })
     }
   })
   .post(async (req, res) => {
     const id = req.params.id
     const otp = await getOtp(id)
     if (otp == req.body.fotp) {
+      console.log("otp matched");
       res.render("forgotAdminPass.ejs", {
         user: true,
         idOrEmail: id
@@ -120,8 +125,8 @@ adminManagment
     } else {
       const email = req.params.id;
       const modified = await modifiedemail(email)
-
-      res.render("Otp.ejs", { email: modified, reenter: true })
+      console.log("otp not matched", modified);
+      res.render("Otp.ejs", { memail: modified, email, reenter: true })
     }
   })
 
@@ -136,7 +141,7 @@ adminManagment.route("/change/pass").get((req, res) => {
 adminManagment.route("/logout").get((req, res) => {
   res.cookie("stadminis", null, {
     httpOnly: true,
-    secure: false,
+    secure: true,
     sameSite: "strict",
     expires: new Date(Date.now()),
   });
