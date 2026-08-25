@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Import Students | St. Columbus</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      min-height: 100vh;
+      background: #f4f7fb;
+      color: #1f2937;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 25px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 650px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 35px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e5e7eb;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .icon {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 18px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 18px;
+      background: #e8f5e9;
+
+      font-size: 34px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      color: #111827;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .upload-area {
+      border: 2px dashed #cbd5e1;
+      border-radius: 15px;
+      padding: 35px 20px;
+      text-align: center;
+      margin-bottom: 22px;
+      transition: 0.2s;
+      background: #f8fafc;
+    }
+
+    .upload-area:hover {
+      border-color: #2563eb;
+      background: #f0f7ff;
+    }
+
+    .upload-area input {
+      display: block;
+      width: 100%;
+      margin-top: 18px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .file-name {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #2563eb;
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 20px;
+
+      background: #2563eb;
+      color: white;
+
+      font-size: 16px;
+      font-weight: 600;
+
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+
+    .btn:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .info {
+      margin-top: 25px;
+      padding: 18px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .info h3 {
+      font-size: 15px;
+      margin-bottom: 10px;
+      color: #111827;
+    }
+
+    .info ul {
+      padding-left: 20px;
+      color: #64748b;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .columns {
+      margin-top: 15px;
+      padding: 15px;
+      background: #eff6ff;
+      border-radius: 10px;
+      color: #1e40af;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #2563eb;
+      font-size: 14px;
+    }
+
+    .back:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        padding: 15px;
+      }
+
+      .card {
+        padding: 25px 20px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <div class="container">
+
+      <div class="card">
+
+        <div class="header">
+
+          <div class="icon">
+            📊
+          </div>
+
+          <h1>
+            Import Students
+          </h1>
+
+          <p class="subtitle">
+            Upload an Excel file to add student records
+            to the school database.
+          </p>
+
+        </div>
+
+
+        <form
+          action="/stcolumbus/jaj/ekdara/admin/import-students"
+          method="POST"
+          enctype="multipart/form-data"
+          id="importForm"
+        >
+
+          <div class="upload-area">
+
+            <div>
+              📁
+            </div>
+
+            <p style="margin-top: 10px; font-weight: 600;">
+              Select Excel File
+            </p>
+
+            <p
+              style="
+                margin-top: 5px;
+                color: #64748b;
+                font-size: 13px;
+              "
+            >
+              Supported formats: .xlsx, .xls
+            </p>
+
+            <input
+              type="file"
+              name="file"
+              id="file"
+              accept=".xlsx,.xls"
+              required
+            >
+
+            <div
+              class="file-name"
+              id="fileName"
+            ></div>
+
+          </div>
+
+
+          <button
+            type="submit"
+            class="btn"
+            id="importBtn"
+          >
+            Import Students
+          </button>
+
+        </form>
+
+
+        <div class="info">
+
+          <h3>
+            📌 Excel file requirements
+          </h3>
+
+          <ul>
+            <li>First row must contain column names.</li>
+            <li>Do not leave Admission No. empty.</li>
+            <li>Each student should have a unique Admission No.</li>
+            <li>Remove completely empty rows.</li>
+          </ul>
+
+
+          <div class="columns">
+
+            <strong>Required columns:</strong>
+
+            <br>
+
+            Admission No. |
+            House |
+            Section |
+            RollNo |
+            Student Name |
+            Father Name
+
+          </div>
+
+        </div>
+
+
+        <a
+          href="/stcolumbus/jaj/ekdara/admin"
+          class="back"
+        >
+          ← Back to Admin Dashboard
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    const fileInput = document.getElementById("file");
+    const fileName = document.getElementById("fileName");
+    const form = document.getElementById("importForm");
+    const importBtn = document.getElementById("importBtn");
+
+
+    fileInput.addEventListener("change", function () {
+
+      if (this.files.length > 0) {
+
+        const file = this.files[0];
+
+        fileName.textContent =
+          "Selected: " + file.name;
+
+      } else {
+
+        fileName.textContent = "";
+
+      }
+
+    });
+
+
+    form.addEventListener("submit", function () {
+
+      importBtn.disabled = true;
+
+      importBtn.textContent = "Importing Students...";
+
+    });
+
+  </script>
+
+</body>
+</html>

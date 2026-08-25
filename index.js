@@ -1,7 +1,8 @@
 const express = require("express");
 const dotenv = require("dotenv");
+
 dotenv.config();
-const connectDB = require("./connectdb");
+const {connectDB} = require("./connectdb");
 const stcolumbus = require("./routes/routes.js");
 const Path = require("path");
 const logging = require("./middleware/logging.js");
@@ -12,20 +13,30 @@ const { adminroute } = require("./routes/adminRoutes.js");
 const Admin = require("./models/admins.js");
 const Gallery = require("./models/gallery.js");
 const Notice = require("./models/notice.js");
-const { checkAdmin } = require("./middleware/checkAdmin.js");
+const { checkAdmin, checkAdminAsEditor } = require("./middleware/checkAdmin.js");
 const { adminManagment } = require("./routes/adminRoutes.js");
 const handleAdmissionForm = require("./handler/handelAdmissionForm.js");
 const Admission = require("./models/admission.js");
 const Feestuct = require("./models/feeStructure.js");
 const Contact = require("./models/contact.js");
+
+// require("./utils/codeCleanup.js")
 const app = express();
-app.use(express.urlencoded({ extended: false }));
+
+app.use(express.urlencoded({
+    extended: true
+}));
+
 app.use(express.json());
+
+
 const cors = require('cors');
 const allowedOrigin = process.env.ALLOWED_ORIGNI;
 const { logUnauthorizedOrigin } = require("./middleware/logUnauthorizedOrigin");
 const VideoGall = require("./models/videoEmbedded.js");
-const client = require("./connectRedis.js")
+const client = require("./connectRedis.js");
+const marksheet = require("./routes/marksheet.js");
+const CheckResult = require("./handler/check.result.js");
 app.set("view engine", "ejs");
 
 app.set("views", Path.join(__dirname, "views"));
@@ -49,10 +60,11 @@ app.use(uniqueUser);
 
 // app apis for manage data --------------------------------------------
 
+
 app.use("/home", checkAdmin, stcolumbus);
 app.use("/stcolumbus/jaj/ekdara/admin", checkAdmin, adminroute);
 app.use("/stcolumbus/admin/manage", adminManagment);
-app.get("/ft", (req, res) => res.render(""));
+app.use("/marksheet",checkAdmin , marksheet);
 // webpage routes
 app.get("/", async (req, res) => {
   try {
@@ -147,6 +159,25 @@ app.post("/admission/getEnroll", async (req, res) => {
   res.send("No admission filled with email : " + req.body.emailorID);
 });
 
+app.get("/check/result",(req,res)=>{
+  res.render("student-result-page.ejs")
+})
+
+app.get("/check/result", (req, res) => {
+
+    res.render(
+        "student-result-page.ejs",
+        {
+            error: null
+        }
+    );
+
+});
+
+app.post("/check/result", CheckResult );
+
+
+
 // error handling ----------------
 app.use(errorHandler);
 // undefine address
@@ -164,7 +195,8 @@ async function main() {
     .catch((err) => {
       console.log("Error ", err);
     });
-  app.listen(PORT, () => console.log(PORT));
+    
+  app.listen(PORT, () => console.log(PORT,"Code cleanup need when student imported"));
 }
 
 main().catch((err) => console.log(err));

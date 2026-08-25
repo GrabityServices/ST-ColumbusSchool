@@ -4,19 +4,31 @@
   <meta charset="UTF-8" />
   <title>All Admins</title>
   <link rel="stylesheet" href="/style/admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="/script/admin.js" defer></script> 
 </head>
 <body>
 
   <!-- HEADER -->
   <header class="header">
-      <h1 class="page-title"><% if(supAd){%>Admin <%}else{%>Editor <%} %>Dashboard</h1>
-      <nav class="header-nav">
-        <button onclick="location.href='/'" class="head-btn">Home</button>
-        <button id="logout-btn" class="head-btn">Logout</button>
-        <button onclick="location.href='/stcolumbus/admin/manage/change/pass'" class="head-btn">Change Pass</button>
-        <% if(supAd){ %>
-        <button onclick="location.href='/stcolumbus/admin/manage/signup'"class="head-btn">Create New Admin</button>
+    <h1 class="page-title"><% if(supAd){%>Admin <%}else{%>Editor <%} %>Dashboard</h1>
+    <nav class="header-nav">
+      <button onclick="location.href='/'" class="head-btn"><i class="fa-solid fa-house"></i></button>
+      <button onclick="location.href='/marksheet/see/classwise/marks'"  style="background-color: #0aa338; color: white;" class="head-btn"><i class="fa-solid fa-eye"></i> Class wise Marks</button>
+        <% if(!supAd){ %>
+          
+          <button onclick="location.href='/marksheet'"  style="background-color: #0aa338; color: white;" class="head-btn"><i class="fa-solid fa-fill"></i> Marks</button>      
+          <button onclick="location.href='/marksheet/edit/<%= encodeURIComponent(data[0].email) %>'"  style="background-color: #0aa338; color: white;" class="head-btn"><i class="fa-solid fa-magnifying-glass"></i> Edit S-Marks</button>      
+          <button onclick="location.href='/marksheet/print/result'"class="head-btn"><i class="fa-solid fa-plus"></i> Print Result</button>
+          <button onclick="location.href='/stcolumbus/admin/manage/change/pass'" class="head-btn"><i class="fa-solid fa-pen-to-square"></i> Pass</button>
+          <button id="logout-btn" class="head-btn"><i class="fa-solid fa-right-from-bracket"></i> </button>
+          <% } %>
+          
+          <% if(supAd){ %>
+            <button onclick="location.href='/stcolumbus/jaj/ekdara/admin/result/print'"class="head-btn"><i class="fa-solid fa-print"></i> Print Result</button>
+            <button onclick="location.href='/stcolumbus/jaj/ekdara/admin/import-students'"  style="background-color: #0aa338; color: white;" class="head-btn"><i class="fa-solid fa-plus"></i>  Import Students</button>
+            <button onclick="location.href='/stcolumbus/admin/manage/signup'"class="head-btn"><i class="fa-solid fa-plus"></i> New Admin</button>
+            <button id="logout-btn" class="head-btn"><i class="fa-solid fa-right-from-bracket"></i> </button>
         <% } %>
       </nav>
   </header>
@@ -43,8 +55,19 @@
             <% if(supAd) {%> <% if(admin.role=="superadmin" ){%>
               <button type="submit"onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/img/<%= admin._id %>'" class="link-btn">Update Img</button>
               <button type="submit" onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/<%= admin._id %>'" class="link-btn">Update Details</button>
-            <% } %> <% if(admsc>1&& admin.role!="superadmin") {%><button type="submit"onclick="location.href='/stcolumbus/jaj/ekdara/admin/delete/<%= admin._id %>'"class="link-btn">Delete Admin</button>
-              <button type="submit" onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/superadmin/<%= admin._id %>'"class="link-btn">Update Access Control Or Block Admin</button>
+
+            <% } %> <%
+             if(admsc>1&& admin.role!="superadmin" ) {%>
+
+             <button
+             style="display: <%= admin.uniqId === '1111D' ? 'none' : '' %>"
+    type="button"
+    onclick="location.href='/stcolumbus/jaj/ekdara/admin/delete/<%= admin._id %>'"
+    class="link-btn"
+>
+    Delete Admin
+</button>
+              <button type="submit" style="display: <%= admin.uniqId === '1111D' ? 'none' : '' %>" onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/superadmin/<%= admin._id %>'"class="link-btn">Update Access Control Or Block Admin</button>
             <% }else if(superAdminCount>1){%>
               <button type="submit" onclick="location.href='/stcolumbus/jaj/ekdara/admin/delete/<%= admin._id %>'" class="link-btn">Delete Admin</button>
               <button type="submit" onclick="location.href='/stcolumbus/jaj/ekdara/admin/update/det/superadmin/<%= admin._id %>'" class="link-btn">Update Access Control Or Block Admin</button>

@@ -1,0 +1,2847 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        View Marks - Class <%= className %>
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f4f6f8;
+
+            color: #222;
+
+        }
+
+
+        .page {
+
+            padding: 20px;
+
+        }
+
+
+        /* ==========================================
+           MAIN HEADER
+        ========================================== */
+
+        .header {
+
+            background: #fff;
+
+            border-radius: 10px;
+
+            padding: 18px 20px;
+
+            margin-bottom: 18px;
+
+            box-shadow:
+                0 2px 8px
+                rgba(0, 0, 0, 0.08);
+
+            text-align: center;
+
+        }
+
+
+        .header h1 {
+
+            margin: 0 0 7px;
+
+            font-size: 24px;
+
+        }
+
+
+        .header p {
+
+            margin: 0;
+
+            color: #666;
+
+        }
+
+
+        /* ==========================================
+           SECTION HEADING
+        ========================================== */
+
+        .section-heading {
+
+            background: #fff;
+
+            margin-top: 25px;
+
+            margin-bottom: 10px;
+
+            padding: 15px 20px;
+
+            border-radius: 10px;
+
+            border-left:
+                5px solid #2563eb;
+
+            box-shadow:
+                0 2px 8px
+                rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        .section-heading:first-of-type {
+
+            margin-top: 0;
+
+        }
+
+
+        .section-heading h2 {
+
+            margin: 0 0 6px;
+
+            font-size: 20px;
+
+        }
+
+
+        .section-heading p {
+
+            margin: 0;
+
+            color: #555;
+
+        }
+
+
+        /* ==========================================
+           TABLE WRAPPER
+        ========================================== */
+
+        .table-wrapper {
+
+            background: #fff;
+
+            border-radius: 10px;
+
+            padding: 12px;
+
+            overflow: auto;
+
+            box-shadow:
+                0 2px 8px
+                rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        table {
+
+            border-collapse: collapse;
+
+            width: max-content;
+
+            min-width: 100%;
+
+            font-size: 12px;
+
+        }
+
+
+        th,
+        td {
+
+            border: 1px solid #999;
+
+            padding: 6px 8px;
+
+            text-align: center;
+
+            white-space: nowrap;
+
+        }
+
+
+        thead th {
+
+            font-weight: bold;
+
+        }
+
+
+        /* ==========================================
+           TERM I
+        ========================================== */
+
+        .term1-header {
+
+            background: #dceafe;
+
+            color: #1e3a8a;
+
+            font-size: 15px;
+
+        }
+
+
+        .term1-result-header {
+
+            background: #e8f1ff;
+
+            color: #1e3a8a;
+
+            font-size: 12px;
+
+        }
+
+
+        /* ==========================================
+           TERM II
+        ========================================== */
+
+        .term2-header {
+
+            background: #dcfce7;
+
+            color: #166534;
+
+            font-size: 15px;
+
+        }
+
+
+        .term2-result-header {
+
+            background: #eafbf0;
+
+            color: #166534;
+
+            font-size: 12px;
+
+        }
+
+
+        /* ==========================================
+           OTHER HEADERS
+        ========================================== */
+
+        .subject-header {
+
+            background: #edf1f5;
+
+            font-size: 12px;
+
+        }
+
+
+        .exam-header {
+
+            background: #f7f8fa;
+
+            font-size: 11px;
+
+        }
+
+
+        .sum-header {
+
+            background: #e1eaf3;
+
+            font-weight: bold;
+
+        }
+
+
+        .summary-header {
+
+            background: #f1edff;
+
+            color: #5b21b6;
+
+        }
+
+
+        .percentage-header {
+
+            background: #fff7db;
+
+            color: #92400e;
+
+        }
+
+
+        .grade-header {
+
+            background: #edf0ff;
+
+            color: #3730a3;
+
+        }
+
+
+        /* ==========================================
+           STUDENT INFORMATION
+        ========================================== */
+
+        .student-info {
+
+            position: sticky;
+
+            left: 0;
+
+            z-index: 3;
+
+            background: #fff;
+
+        }
+
+
+        th.student-info {
+
+            background: #e9ecef;
+
+            z-index: 6;
+
+        }
+
+
+        .roll-cell {
+
+            min-width: 55px;
+
+        }
+
+
+        .admission-cell {
+
+            min-width: 100px;
+
+        }
+
+
+        .name-cell {
+
+            min-width: 170px;
+
+            text-align: left;
+
+        }
+
+
+        /* ==========================================
+           MARKS
+        ========================================== */
+
+        .mark {
+
+            min-width: 42px;
+
+        }
+
+
+        .subject-sum {
+
+            min-width: 55px;
+
+            font-weight: bold;
+
+        }
+
+
+        .absent {
+
+            color: #c62828 !important;
+
+            font-weight: bold;
+
+        }
+
+
+        /* ==========================================
+           TERM SEPARATORS
+        ========================================== */
+
+        .term-result-start {
+
+            border-left:
+                3px solid #555 !important;
+
+        }
+
+
+        .term-result-end {
+
+            border-right:
+                3px solid #555 !important;
+
+        }
+
+
+        .term2-start {
+
+            border-left:
+                3px solid #555 !important;
+
+        }
+
+
+        /* ==========================================
+           NORMAL ROW COLORS
+        ========================================== */
+
+        tbody tr.student-row td {
+
+            background: #fcfcfc;
+
+        }
+
+
+        tbody tr.student-row:nth-child(even) td {
+
+            background: #f5f8fc;
+
+        }
+
+
+        tbody tr.student-row td.student-info {
+
+            background: #fafafa;
+
+        }
+
+
+        tbody tr.student-row:nth-child(even)
+        td.student-info {
+
+            background: #f3f6fa;
+
+        }
+
+
+        tbody tr.student-row td.subject-sum {
+
+            background: #f2f5f8;
+
+        }
+
+
+        /* ==========================================
+           POSITION 1
+        ========================================== */
+
+        tbody tr.position-1 td {
+
+            background: #fff3cd !important;
+
+            font-weight: bold;
+
+        }
+
+
+        tbody tr.position-1 td.student-info,
+        tbody tr.position-1 td.subject-sum {
+
+            background: #ffe69c !important;
+
+        }
+
+
+        /* ==========================================
+           POSITION 2
+        ========================================== */
+
+        tbody tr.position-2 td {
+
+            background: #edf0f2 !important;
+
+            font-weight: bold;
+
+        }
+
+
+        tbody tr.position-2 td.student-info,
+        tbody tr.position-2 td.subject-sum {
+
+            background: #dce1e5 !important;
+
+        }
+
+
+        /* ==========================================
+           POSITION 3
+        ========================================== */
+
+        tbody tr.position-3 td {
+
+            background: #fdeee6 !important;
+
+            font-weight: bold;
+
+        }
+
+
+        tbody tr.position-3 td.student-info,
+        tbody tr.position-3 td.subject-sum {
+
+            background: #f6d4c2 !important;
+
+        }
+
+
+        /* ==========================================
+           HOVER
+        ========================================== */
+
+        tbody tr.student-row:hover td {
+
+            background: #e8f3ff !important;
+
+        }
+
+
+        /* ==========================================
+           ACTIONS
+        ========================================== */
+
+        .actions {
+
+            margin-top: 20px;
+
+            display: flex;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .button {
+
+            padding: 10px 18px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            color: #fff;
+
+            font-size: 14px;
+
+            cursor: pointer;
+
+        }
+
+
+        .term1-button {
+
+            background: #2563eb;
+
+        }
+
+
+        .term2-button {
+
+            background: #16a34a;
+
+        }
+
+
+        .full-button {
+
+            background: #444;
+
+        }
+
+
+        /* ==========================================
+           PRINT TERM MODE
+        ========================================== */
+
+        body.print-term1 .term2-column,
+        body.print-term1 .term2-group {
+
+            display: none !important;
+
+        }
+
+
+        body.print-term2 .term1-column,
+        body.print-term2 .term1-group {
+
+            display: none !important;
+
+        }
+
+
+        /* ==========================================
+           PRINT
+        ========================================== */
+
+        @media print {
+
+
+            @page {
+
+                size: A4 landscape;
+
+                margin: 5mm;
+
+            }
+
+
+            html,
+            body {
+
+                width: 100%;
+
+                height: auto;
+
+                margin: 0;
+
+                padding: 0;
+
+                background: #fff !important;
+
+                -webkit-print-color-adjust:
+                    exact !important;
+
+                print-color-adjust:
+                    exact !important;
+
+            }
+
+
+            .page {
+
+                width: 100%;
+
+                margin: 0;
+
+                padding: 0;
+
+            }
+
+
+            /* HEADER */
+
+            .header {
+
+                background: #fff !important;
+
+                box-shadow: none !important;
+
+                border-radius: 0;
+
+                padding: 1mm 0 2mm;
+
+                margin: 0 0 2mm;
+
+            }
+
+
+            .header h1 {
+
+                font-size: 14px;
+
+                margin: 0;
+
+            }
+
+
+            .header p {
+
+                font-size: 9px;
+
+                margin: 1px 0 0;
+
+            }
+
+
+            /* SECTION HEADING */
+
+            .section-heading {
+
+                margin: 4mm 0 2mm;
+
+                padding: 2mm 0;
+
+                border-radius: 0;
+
+                border-left: none;
+
+                box-shadow: none !important;
+
+                break-after: avoid;
+
+                page-break-after: avoid;
+
+            }
+
+
+            .section-heading h2 {
+
+                font-size: 13px;
+
+                margin: 0;
+
+            }
+
+
+            .section-heading p {
+
+                font-size: 9px;
+
+            }
+
+
+            /* TABLE WRAPPER */
+
+            .table-wrapper {
+
+                width: 100%;
+
+                padding: 0;
+
+                margin: 0;
+
+                overflow: visible !important;
+
+                box-shadow: none !important;
+
+                border-radius: 0;
+
+            }
+
+
+            /* TABLE */
+
+            table {
+
+                width: 100%;
+
+                min-width: 0;
+
+                max-width: 100%;
+
+                table-layout: fixed;
+
+                border-collapse: collapse;
+
+                font-size: 8px;
+
+            }
+
+
+            th,
+            td {
+
+                border: 1px solid #555;
+
+                padding: 1px 2px;
+
+                text-align: center;
+
+                vertical-align: middle;
+
+                white-space: nowrap;
+
+                line-height: 1.15;
+
+            }
+
+
+            th {
+
+                font-size: 10px;
+
+                font-weight: bold;
+
+            }
+
+
+            .term1-header,
+            .term2-header {
+
+                font-size: 11px;
+
+                padding: 2px 1px;
+
+            }
+
+
+            .subject-header {
+
+                font-size: 10px;
+
+                padding: 2px 1px;
+
+                white-space: normal;
+
+                overflow-wrap: break-word;
+
+            }
+
+
+            .exam-header {
+
+                font-size: 10px;
+
+                padding: 1px;
+
+            }
+
+
+            .sum-header,
+            .summary-header,
+            .percentage-header,
+            .grade-header {
+
+                font-size: 10px;
+
+                padding: 1px;
+
+            }
+
+
+            /* STUDENT INFO */
+
+            .roll-cell {
+
+                font-size: 10px !important;
+
+                font-weight: bold;
+
+                width: 22px;
+
+                min-width: 22px;
+
+                padding: 1px !important;
+
+            }
+
+
+            .admission-cell {
+
+                font-size: 10px !important;
+
+                font-weight: 900 !important;
+
+                width: 52px;
+
+                min-width: 52px;
+
+                padding: 1px 2px !important;
+
+            }
+
+
+            .name-cell {
+
+                font-size: 10px !important;
+
+                width: 100px;
+
+                min-width: 100px;
+
+                text-align: center !important;
+
+                padding: 1px 3px !important;
+
+                letter-spacing: 1px;
+
+                white-space: normal !important;
+
+                overflow-wrap: anywhere;
+
+                word-break: break-word;
+
+                line-height: 1.15;
+
+            }
+
+
+            /* MARKS */
+
+            .mark {
+
+                font-size: 10px !important;
+
+                font-weight: 500;
+
+                padding: 1px !important;
+
+                min-width: 0 !important;
+
+            }
+
+
+            .subject-sum {
+
+                font-size: 10px !important;
+
+                font-weight: 600;
+
+                padding: 1px !important;
+
+                min-width: 0 !important;
+
+            }
+
+
+            td.term1-column,
+            td.term2-column {
+
+                font-size: 11px !important;
+
+            }
+
+
+            /* ROW HEIGHT */
+
+            tbody tr {
+
+                height: 7.5mm;
+
+                break-inside: avoid;
+
+                page-break-inside: avoid;
+
+            }
+
+
+            tbody td.name-cell {
+
+                white-space: normal !important;
+
+            }
+
+
+            thead {
+
+                display: table-header-group;
+
+            }
+
+
+            tbody {
+
+                display: table-row-group;
+
+            }
+
+
+            /* REMOVE STICKY */
+
+            .student-info {
+
+                position: static !important;
+
+                left: auto !important;
+
+            }
+
+
+            /* HIDE */
+
+            .actions,
+            .legend {
+
+                display: none !important;
+
+            }
+
+
+            /* COLORS */
+
+            tbody tr.student-row td {
+
+                background: #fcfcfc !important;
+
+            }
+
+
+            tbody tr.student-row:nth-child(even) td {
+
+                background: #f6f8fb !important;
+
+            }
+
+
+            tbody tr.position-1 td,
+            tbody tr.position-1:nth-child(even) td {
+
+                background: #fff3cd !important;
+
+            }
+
+
+            tbody tr.position-2 td,
+            tbody tr.position-2:nth-child(even) td {
+
+                background: #edf0f2 !important;
+
+            }
+
+
+            tbody tr.position-3 td,
+            tbody tr.position-3:nth-child(even) td {
+
+                background: #fdeee6 !important;
+
+            }
+
+
+            .grade-header,
+            .term-result-end {
+
+                width: 32px !important;
+
+                min-width: 32px !important;
+
+                font-size: 10px !important;
+
+                padding: 1px !important;
+
+                white-space: normal !important;
+
+                overflow: hidden;
+
+                word-break: break-word;
+
+            }
+
+
+            * {
+
+                box-shadow: none !important;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<%
+
+/* ==========================================
+   SORT STUDENTS
+
+   SECTION A, B, C...
+
+   NO SECTION ALWAYS LAST
+
+   THEN SORT BY ROLL NUMBER
+========================================== */
+
+const sortedStudents =
+    [...students]
+        .sort(
+            (a, b) => {
+
+                const sectionA =
+                    String(
+                        a.section || ""
+                    )
+                        .trim()
+                        .toUpperCase();
+
+
+                const sectionB =
+                    String(
+                        b.section || ""
+                    )
+                        .trim()
+                        .toUpperCase();
+
+
+                const hasSectionA =
+                    sectionA !== "";
+
+
+                const hasSectionB =
+                    sectionB !== "";
+
+
+                if (
+                    hasSectionA &&
+                    !hasSectionB
+                ) {
+
+                    return -1;
+                }
+
+
+                if (
+                    !hasSectionA &&
+                    hasSectionB
+                ) {
+
+                    return 1;
+                }
+
+
+                if (
+                    hasSectionA &&
+                    hasSectionB
+                ) {
+
+                    const sectionCompare =
+                        sectionA.localeCompare(
+                            sectionB,
+                            undefined,
+                            {
+                                numeric: true,
+                                sensitivity: "base"
+                            }
+                        );
+
+
+                    if (
+                        sectionCompare !== 0
+                    ) {
+
+                        return sectionCompare;
+                    }
+                }
+
+
+                const rollA =
+                    Number(
+                        a.rollNumber
+                    ) || 0;
+
+
+                const rollB =
+                    Number(
+                        b.rollNumber
+                    ) || 0;
+
+
+                return rollA - rollB;
+
+            }
+        );
+
+
+/* ==========================================
+   CALCULATE STUDENT TOTALS
+========================================== */
+
+const processedStudents =
+    sortedStudents.map(
+        student => {
+
+
+            function getNumericMark(
+                exam,
+                subject
+            ) {
+
+                const value =
+                    student.exams &&
+                    student.exams[exam] &&
+                    student.exams[exam][subject];
+
+
+                if (
+                    value === undefined ||
+                    value === null ||
+                    value === "" ||
+                    String(value)
+                        .toUpperCase() === "AB"
+                ) {
+
+                    return 0;
+                }
+
+
+                const number =
+                    Number(value);
+
+
+                return Number.isFinite(number)
+                    ? number
+                    : 0;
+
+            }
+
+
+            let term1Total = 0;
+
+            let term2Total = 0;
+
+
+            subjects.forEach(
+                subject => {
+
+                    term1Total +=
+
+                        getNumericMark(
+                            "PT1",
+                            subject
+                        )
+
+                        +
+
+                        getNumericMark(
+                            "PT2",
+                            subject
+                        )
+
+                        +
+
+                        getNumericMark(
+                            "Halfyearly",
+                            subject
+                        );
+
+
+                    term2Total +=
+
+                        getNumericMark(
+                            "PT3",
+                            subject
+                        )
+
+                        +
+
+                        getNumericMark(
+                            "PT4",
+                            subject
+                        )
+
+                        +
+
+                        getNumericMark(
+                            "Annual",
+                            subject
+                        );
+
+                }
+            );
+
+
+            return {
+
+                ...student,
+
+                term1Total,
+
+                term2Total
+
+            };
+
+        }
+    );
+
+
+/* ==========================================
+   GROUP STUDENTS BY SECTION
+
+   "__NO_SECTION__"
+   is used internally so no-section students
+   always appear LAST.
+========================================== */
+
+const sectionGroups = {};
+
+
+processedStudents.forEach(
+    student => {
+
+        const actualSection =
+            String(
+                student.section || ""
+            )
+                .trim()
+                .toUpperCase();
+
+
+        const groupKey =
+            actualSection ||
+            "__NO_SECTION__";
+
+
+        if (
+            !sectionGroups[groupKey]
+        ) {
+
+            sectionGroups[groupKey] = [];
+
+        }
+
+
+        sectionGroups[groupKey]
+            .push(student);
+
+    }
+);
+
+
+/* ==========================================
+   SORT SECTION KEYS
+
+   A
+   B
+   C
+   ...
+
+   NO SECTION ALWAYS LAST
+========================================== */
+
+const sections =
+    Object.keys(sectionGroups)
+        .sort(
+            (a, b) => {
+
+                if (
+                    a === "__NO_SECTION__"
+                ) {
+
+                    return 1;
+                }
+
+
+                if (
+                    b === "__NO_SECTION__"
+                ) {
+
+                    return -1;
+                }
+
+
+                return a.localeCompare(
+                    b,
+                    undefined,
+                    {
+                        numeric: true,
+                        sensitivity: "base"
+                    }
+                );
+
+            }
+        );
+
+
+/* ==========================================
+   SECTION-WISE RANKING
+========================================== */
+
+sections.forEach(
+    section => {
+
+        const sectionStudents =
+            sectionGroups[section];
+
+
+        /*
+        TERM I
+        */
+
+        const term1Ranking =
+            [...sectionStudents]
+                .sort(
+                    (a, b) =>
+                        b.term1Total -
+                        a.term1Total
+                );
+
+
+        term1Ranking.forEach(
+            (student, index) => {
+
+                student.term1Position =
+                    index + 1;
+
+            }
+        );
+
+
+        /*
+        TERM II
+        */
+
+        const term2Ranking =
+            [...sectionStudents]
+                .sort(
+                    (a, b) =>
+                        b.term2Total -
+                        a.term2Total
+                );
+
+
+        term2Ranking.forEach(
+            (student, index) => {
+
+                student.term2Position =
+                    index + 1;
+
+            }
+        );
+
+    }
+);
+
+
+/* ==========================================
+   MAXIMUM TOTAL
+
+   Each subject:
+   PT + PT + Major Exam
+
+   100 marks per subject
+========================================== */
+
+const maximumTotal =
+    subjects.length * 100;
+
+
+%>
+
+
+<div class="page">
+
+
+    <!-- ==========================================
+         MAIN HEADER
+    =========================================== -->
+
+    <div class="header">
+
+        <h1>
+
+            Class <%= className %> - Marks
+
+        </h1>
+
+
+        <p>
+
+            Total Students:
+
+            <strong>
+
+                <%= processedStudents.length %>
+
+            </strong>
+
+        </p>
+
+    </div>
+
+
+
+    <!-- ==========================================
+         SECTION LOOP
+    =========================================== -->
+
+    <% sections.forEach(section => { %>
+
+
+        <%
+
+        const sectionStudents =
+            sectionGroups[section];
+
+
+        const hasActualSection =
+            section !== "__NO_SECTION__";
+
+
+        %>
+
+
+        <!-- ======================================
+             SECTION HEADING
+        ======================================= -->
+
+        <div class="section-heading">
+
+
+            <h2>
+
+                <% if (hasActualSection) { %>
+
+                    Class
+                    <%= className %>
+                    - Sec
+                    <%= section %>
+
+                <% } else if (sections.length === 1) { %>
+
+                    Class
+                    <%= className %>
+
+                <% } else { %>
+
+                    Class
+                    <%= className %>
+                    - No Section
+
+                <% } %>
+
+            </h2>
+
+
+            <p>
+
+                Total Students:
+
+                <strong>
+
+                    <%= sectionStudents.length %>
+
+                </strong>
+
+            </p>
+
+
+        </div>
+
+
+
+        <!-- ======================================
+             TABLE
+        ======================================= -->
+
+        <div class="table-wrapper">
+
+
+            <table>
+
+
+                <!-- ==================================
+                     TABLE HEADER
+                =================================== -->
+
+                <thead>
+
+
+                    <!-- ROW 1 -->
+
+                    <tr>
+
+
+                        <th
+                            rowspan="3"
+                            class="
+                                student-info
+                                roll-cell
+                            "
+                        >
+
+                            Roll
+
+                        </th>
+
+
+                        <th
+                            rowspan="3"
+                            class="
+                                student-info
+                                admission-cell
+                            "
+                        >
+
+                            Ad. No.
+
+                        </th>
+
+
+                        <th
+                            rowspan="3"
+                            class="
+                                student-info
+                                name-cell
+                            "
+                        >
+
+                            Name
+
+                        </th>
+
+
+                        <th
+                            colspan="<%= (subjects.length * 4) + 3 %>"
+                            class="
+                                term1-header
+                                term1-group
+                            "
+                        >
+
+                            TERM I
+
+                        </th>
+
+
+                        <th
+                            colspan="<%= (subjects.length * 4) + 3 %>"
+                            class="
+                                term2-header
+                                term2-group
+                            "
+                        >
+
+                            TERM II
+
+                        </th>
+
+
+                    </tr>
+
+
+
+                    <!-- ROW 2 -->
+
+                    <tr>
+
+
+                        <!-- TERM I SUBJECTS -->
+
+                        <% subjects.forEach(subject => { %>
+
+
+                            <th
+                                colspan="4"
+                                class="
+                                    subject-header
+                                    term1-column
+                                "
+                            >
+
+                                <%= subject === "language"
+                                    ? "Lang (Sans/Urdu)"
+                                    : subject.toUpperCase()
+                                %>
+
+                            </th>
+
+
+                        <% }) %>
+
+
+                        <th
+                            colspan="3"
+                            class="
+                                term1-result-header
+                                term1-column
+                            "
+                        >
+
+                            T-I RESULT
+
+                        </th>
+
+
+
+                        <!-- TERM II SUBJECTS -->
+
+                        <% subjects.forEach(subject => { %>
+
+
+                            <th
+                                colspan="4"
+                                class="
+                                    subject-header
+                                    term2-column
+                                "
+                            >
+
+                                <%= subject === "language"
+                                    ? "Lang (Sans/Urdu)"
+                                    : subject.toUpperCase()
+                                %>
+
+                            </th>
+
+
+                        <% }) %>
+
+
+                        <th
+                            colspan="3"
+                            class="
+                                term2-result-header
+                                term2-column
+                            "
+                        >
+
+                            T-II RESULT
+
+                        </th>
+
+
+                    </tr>
+
+
+
+                    <!-- ROW 3 -->
+
+                    <tr>
+
+
+                        <!-- TERM I -->
+
+                        <% subjects.forEach(subject => { %>
+
+
+                            <th
+                                class="
+                                    exam-header
+                                    term1-column
+                                "
+                            >
+
+                                PT1
+
+                            </th>
+
+
+                            <th
+                                class="
+                                    exam-header
+                                    term1-column
+                                "
+                            >
+
+                                PT2
+
+                            </th>
+
+
+                            <th
+                                class="
+                                    exam-header
+                                    term1-column
+                                "
+                            >
+
+                                HF
+
+                            </th>
+
+
+                            <th
+                                class="
+                                    sum-header
+                                    term1-column
+                                "
+                            >
+
+                                SUM
+
+                            </th>
+
+
+                        <% }) %>
+
+
+                        <th
+                            class="
+                                summary-header
+                                term-result-start
+                                term1-column
+                            "
+                        >
+
+                            Total
+
+                        </th>
+
+
+                        <th
+                            class="
+                                percentage-header
+                                term1-column
+                            "
+                        >
+
+                            %
+
+                        </th>
+
+
+                        <th
+                            class="
+                                grade-header
+                                term-result-end
+                                term1-column
+                            "
+                        >
+
+                            GR.
+
+                        </th>
+
+
+
+                        <!-- TERM II -->
+
+                        <% subjects.forEach(subject => { %>
+
+
+                            <th
+                                class="
+                                    exam-header
+                                    term2-start
+                                    term2-column
+                                "
+                            >
+
+                                PT3
+
+                            </th>
+
+
+                            <th
+                                class="
+                                    exam-header
+                                    term2-column
+                                "
+                            >
+
+                                PT4
+
+                            </th>
+
+
+                            <th
+                                class="
+                                    exam-header
+                                    term2-column
+                                "
+                            >
+
+                                Annual
+
+                            </th>
+
+
+                            <th
+                                class="
+                                    sum-header
+                                    term2-column
+                                "
+                            >
+
+                                SUM
+
+                            </th>
+
+
+                        <% }) %>
+
+
+                        <th
+                            class="
+                                summary-header
+                                term-result-start
+                                term2-column
+                            "
+                        >
+
+                            Total
+
+                        </th>
+
+
+                        <th
+                            class="
+                                percentage-header
+                                term2-column
+                            "
+                        >
+
+                            %
+
+                        </th>
+
+
+                        <th
+                            class="
+                                grade-header
+                                term-result-end
+                                term2-column
+                            "
+                        >
+
+                            GR.
+
+                        </th>
+
+
+                    </tr>
+
+
+                </thead>
+
+
+
+                <!-- ==================================
+                     STUDENTS
+                =================================== -->
+
+                <tbody>
+
+
+                    <% sectionStudents.forEach(student => { %>
+
+
+                        <%
+
+                        /* ==============================
+                           GET MARK
+                        =============================== */
+
+                        function getMark(
+                            exam,
+                            subject
+                        ) {
+
+                            const value =
+                                student.exams &&
+                                student.exams[exam] &&
+                                student.exams[exam][subject];
+
+
+                            if (
+                                value === undefined ||
+                                value === null ||
+                                value === "" ||
+                                String(value)
+                                    .toUpperCase() === "AB"
+                            ) {
+
+                                return {
+
+                                    display: "__",
+
+                                    number: 0
+
+                                };
+
+                            }
+
+
+                            const number =
+                                Number(value);
+
+
+                            return {
+
+                                display: value,
+
+                                number:
+                                    Number.isFinite(number)
+                                        ? number
+                                        : 0
+
+                            };
+
+                        }
+
+
+                        /* ==============================
+                           SUBJECT TOTALS
+                        =============================== */
+
+                        const subjectTotals = {};
+
+
+                        let term1Total = 0;
+
+                        let term2Total = 0;
+
+
+                        subjects.forEach(
+                            subject => {
+
+
+                                const pt1 =
+                                    getMark(
+                                        "PT1",
+                                        subject
+                                    );
+
+
+                                const pt2 =
+                                    getMark(
+                                        "PT2",
+                                        subject
+                                    );
+
+
+                                const hf =
+                                    getMark(
+                                        "Halfyearly",
+                                        subject
+                                    );
+
+
+                                const pt3 =
+                                    getMark(
+                                        "PT3",
+                                        subject
+                                    );
+
+
+                                const pt4 =
+                                    getMark(
+                                        "PT4",
+                                        subject
+                                    );
+
+
+                                const annual =
+                                    getMark(
+                                        "Annual",
+                                        subject
+                                    );
+
+
+                                const term1 =
+
+                                    pt1.number
+
+                                    +
+
+                                    pt2.number
+
+                                    +
+
+                                    hf.number;
+
+
+                                const term2 =
+
+                                    pt3.number
+
+                                    +
+
+                                    pt4.number
+
+                                    +
+
+                                    annual.number;
+
+
+                                subjectTotals[subject] = {
+
+                                    term1,
+
+                                    term2
+
+                                };
+
+
+                                term1Total +=
+                                    term1;
+
+
+                                term2Total +=
+                                    term2;
+
+                            }
+                        );
+
+
+                        /* ==============================
+                           PERCENTAGE
+                        =============================== */
+
+                        const term1Percentage =
+                            maximumTotal > 0
+                                ? (
+                                    term1Total /
+                                    maximumTotal
+                                ) * 100
+                                : 0;
+
+
+                        const term2Percentage =
+                            maximumTotal > 0
+                                ? (
+                                    term2Total /
+                                    maximumTotal
+                                ) * 100
+                                : 0;
+
+
+                        /* ==============================
+                           GRADE
+                        =============================== */
+
+                        function getGrade(
+                            percentage
+                        ) {
+
+                            if (
+                                percentage < 32
+                            ) {
+
+                                return "E";
+
+                            }
+
+
+                            if (
+                                percentage <= 40
+                            ) {
+
+                                return "D";
+
+                            }
+
+
+                            if (
+                                percentage <= 50
+                            ) {
+
+                                return "C2";
+
+                            }
+
+
+                            if (
+                                percentage <= 60
+                            ) {
+
+                                return "C1";
+
+                            }
+
+
+                            if (
+                                percentage <= 70
+                            ) {
+
+                                return "B2";
+
+                            }
+
+
+                            if (
+                                percentage <= 80
+                            ) {
+
+                                return "B1";
+
+                            }
+
+
+                            if (
+                                percentage <= 90
+                            ) {
+
+                                return "A2";
+
+                            }
+
+
+                            if (
+                                percentage <= 100
+                            ) {
+
+                                return "A1";
+
+                            }
+
+
+                            return "—";
+
+                        }
+
+
+                        %>
+
+
+
+                        <!-- ==============================
+                             STUDENT ROW
+                        =============================== -->
+
+                        <tr
+                            class="student-row"
+
+                            data-term1-position="<%= student.term1Position %>"
+
+                            data-term2-position="<%= student.term2Position %>"
+                        >
+
+
+                            <!-- ROLL -->
+
+                            <td
+                                class="
+                                    student-info
+                                    roll-cell
+                                "
+                            >
+
+                                <strong>
+
+                                    <%= student.rollNumber %>
+
+                                </strong>
+
+                            </td>
+
+
+
+                            <!-- ADMISSION -->
+
+                            <td
+                                class="
+                                    student-info
+                                    admission-cell
+                                "
+                            >
+
+                                <%= student.admissionNumber || "-" %>
+
+                            </td>
+
+
+
+                            <!-- NAME -->
+
+                            <td
+                                class="
+                                    student-info
+                                    name-cell
+                                "
+                            >
+
+                                <strong>
+
+                                    <%= student.name || "Unknown" %>
+
+                                </strong>
+
+                            </td>
+
+
+
+                            <!-- ==========================
+                                 TERM I
+                            =========================== -->
+
+                            <% subjects.forEach(subject => { %>
+
+
+                                <%
+
+                                const pt1 =
+                                    getMark(
+                                        "PT1",
+                                        subject
+                                    );
+
+
+                                const pt2 =
+                                    getMark(
+                                        "PT2",
+                                        subject
+                                    );
+
+
+                                const hf =
+                                    getMark(
+                                        "Halfyearly",
+                                        subject
+                                    );
+
+
+                                const term1 =
+                                    subjectTotals[
+                                        subject
+                                    ].term1;
+
+                                %>
+
+
+                                <!-- PT1 -->
+
+                                <td
+                                    class="
+                                        mark
+                                        term1-column
+                                        <%= pt1.display === '__'
+                                            ? 'absent'
+                                            : ''
+                                        %>
+                                    "
+                                >
+
+                                    <%= pt1.display %>
+
+                                </td>
+
+
+                                <!-- PT2 -->
+
+                                <td
+                                    class="
+                                        mark
+                                        term1-column
+                                        <%= pt2.display === '__'
+                                            ? 'absent'
+                                            : ''
+                                        %>
+                                    "
+                                >
+
+                                    <%= pt2.display %>
+
+                                </td>
+
+
+                                <!-- HALF YEARLY -->
+
+                                <td
+                                    class="
+                                        mark
+                                        term1-column
+                                        <%= hf.display === '__'
+                                            ? 'absent'
+                                            : ''
+                                        %>
+                                    "
+                                >
+
+                                    <%= hf.display %>
+
+                                </td>
+
+
+                                <!-- TERM I SUBJECT TOTAL -->
+
+                                <td
+                                    class="
+                                        subject-sum
+                                        term1-column
+                                    "
+                                >
+
+                                    <%= term1 %>
+
+                                </td>
+
+
+                            <% }) %>
+
+
+
+                            <!-- TERM I RESULT -->
+
+                            <td
+                                class="
+                                    term1-column
+                                    term-result-start
+                                "
+                            >
+
+                                <%= term1Total %>
+
+                            </td>
+
+
+                            <td
+                                class="
+                                    term1-column
+                                "
+                            >
+
+                                <%= Math.round(term1Percentage) %>%
+
+                            </td>
+
+
+                            <td
+                                class="
+                                    term1-column
+                                    term-result-end
+                                "
+                            >
+
+                                <%= getGrade(term1Percentage) %>
+
+                            </td>
+
+
+
+                            <!-- ==========================
+                                 TERM II
+                            =========================== -->
+
+                            <% subjects.forEach(subject => { %>
+
+
+                                <%
+
+                                const pt3 =
+                                    getMark(
+                                        "PT3",
+                                        subject
+                                    );
+
+
+                                const pt4 =
+                                    getMark(
+                                        "PT4",
+                                        subject
+                                    );
+
+
+                                const annual =
+                                    getMark(
+                                        "Annual",
+                                        subject
+                                    );
+
+
+                                const term2 =
+                                    subjectTotals[
+                                        subject
+                                    ].term2;
+
+                                %>
+
+
+                                <!-- PT3 -->
+
+                                <td
+                                    class="
+                                        mark
+                                        term2-start
+                                        term2-column
+                                        <%= pt3.display === '__'
+                                            ? 'absent'
+                                            : ''
+                                        %>
+                                    "
+                                >
+
+                                    <%= pt3.display %>
+
+                                </td>
+
+
+                                <!-- PT4 -->
+
+                                <td
+                                    class="
+                                        mark
+                                        term2-column
+                                        <%= pt4.display === '__'
+                                            ? 'absent'
+                                            : ''
+                                        %>
+                                    "
+                                >
+
+                                    <%= pt4.display %>
+
+                                </td>
+
+
+                                <!-- ANNUAL -->
+
+                                <td
+                                    class="
+                                        mark
+                                        term2-column
+                                        <%= annual.display === '__'
+                                            ? 'absent'
+                                            : ''
+                                        %>
+                                    "
+                                >
+
+                                    <%= annual.display %>
+
+                                </td>
+
+
+                                <!-- TERM II SUBJECT TOTAL -->
+
+                                <td
+                                    class="
+                                        subject-sum
+                                        term2-column
+                                    "
+                                >
+
+                                    <%= term2 %>
+
+                                </td>
+
+
+                            <% }) %>
+
+
+
+                            <!-- TERM II RESULT -->
+
+                            <td
+                                class="
+                                    term2-column
+                                    term-result-start
+                                "
+                            >
+
+                                <%= term2Total %>
+
+                            </td>
+
+
+                            <td
+                                class="
+                                    term2-column
+                                "
+                            >
+
+                                <%= term2Percentage.toFixed(2) %>%
+
+                            </td>
+
+
+                            <td
+                                class="
+                                    term2-column
+                                    term-result-end
+                                "
+                            >
+
+                                <%= getGrade(term2Percentage) %>
+
+                            </td>
+
+
+                        </tr>
+
+
+                    <% }) %>
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    <% }) %>
+
+
+
+    <!-- ==========================================
+         LEGEND
+    =========================================== -->
+
+    <div class="legend">
+
+        <strong>__</strong>
+
+        = Missing
+
+        &nbsp; | &nbsp;
+
+        <strong>1st Position</strong>
+
+        = Gold Row
+
+        &nbsp; | &nbsp;
+
+        <strong>2nd Position</strong>
+
+        = Silver Row
+
+        &nbsp; | &nbsp;
+
+        <strong>3rd Position</strong>
+
+        = Bronze Row
+
+    </div>
+
+
+
+    <!-- ==========================================
+         ACTIONS
+    =========================================== -->
+
+    <div class="actions">
+
+
+        <button
+            type="button"
+            class="
+                button
+                term1-button
+            "
+            onclick="printTerm('term1')"
+        >
+
+            Print Term I
+
+        </button>
+
+
+        <button
+            type="button"
+            class="
+                button
+                term2-button
+            "
+            onclick="printTerm('term2')"
+        >
+
+            Print Term II
+
+        </button>
+
+
+        <button
+            type="button"
+            class="
+                button
+                full-button
+            "
+            onclick="printFull()"
+        >
+
+            Print Full Table
+
+        </button>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+    /* ==========================================
+       REMOVE POSITION COLORS
+    ========================================== */
+
+    function clearPositionColors() {
+
+        document
+            .querySelectorAll(
+                ".student-row"
+            )
+            .forEach(
+                row => {
+
+                    row.classList.remove(
+                        "position-1",
+                        "position-2",
+                        "position-3"
+                    );
+
+                }
+            );
+
+    }
+
+
+
+    /* ==========================================
+       APPLY POSITION COLORS
+    ========================================== */
+
+    function applyPositionColors(term) {
+
+
+        clearPositionColors();
+
+
+        document
+            .querySelectorAll(
+                ".student-row"
+            )
+            .forEach(
+                row => {
+
+
+                    let position = 0;
+
+
+                    if (
+                        term === "term1"
+                    ) {
+
+                        position =
+                            Number(
+                                row.dataset
+                                    .term1Position
+                            );
+
+                    }
+
+
+                    if (
+                        term === "term2"
+                    ) {
+
+                        position =
+                            Number(
+                                row.dataset
+                                    .term2Position
+                            );
+
+                    }
+
+
+                    if (
+                        position >= 1 &&
+                        position <= 3
+                    ) {
+
+                        row.classList.add(
+                            "position-" +
+                            position
+                        );
+
+                    }
+
+
+                }
+            );
+
+    }
+
+
+
+    /* ==========================================
+       PRINT TERM
+    ========================================== */
+
+    function printTerm(term) {
+
+
+        document.body.classList.remove(
+            "print-term1",
+            "print-term2"
+        );
+
+
+        applyPositionColors(
+            term
+        );
+
+
+        document.body.classList.add(
+            "print-" +
+            term
+        );
+
+
+        setTimeout(
+            () => {
+
+                window.print();
+
+            },
+            200
+        );
+
+    }
+
+
+
+    /* ==========================================
+       PRINT FULL
+    ========================================== */
+
+    function printFull() {
+
+
+        document.body.classList.remove(
+            "print-term1",
+            "print-term2"
+        );
+
+
+        clearPositionColors();
+
+
+        setTimeout(
+            () => {
+
+                window.print();
+
+            },
+            100
+        );
+
+    }
+
+
+
+    /* ==========================================
+       CLEAN AFTER PRINT
+    ========================================== */
+
+    window.addEventListener(
+        "afterprint",
+        () => {
+
+
+            document.body.classList.remove(
+                "print-term1",
+                "print-term2"
+            );
+
+
+            clearPositionColors();
+
+        }
+    );
+
+
+</script>
+
+
+</body>
+
+</html>

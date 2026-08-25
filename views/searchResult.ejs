@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Search Student Result</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        :root {
+
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+
+            --text: #111827;
+            --muted: #6b7280;
+
+            --border: #d1d5db;
+
+            --card: #ffffff;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eff6ff,
+                    #f8fafc
+                );
+
+            color: var(--text);
+        }
+
+
+        .result-card {
+
+            width: 100%;
+
+            max-width: 460px;
+
+            padding: 32px;
+
+            background: var(--card);
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 15px 40px
+                rgba(0, 0, 0, 0.08);
+        }
+
+
+        /* HEADER */
+
+        .header {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+        }
+
+
+        .header-icon {
+
+            width: 56px;
+
+            height: 56px;
+
+            margin:
+                0 auto 14px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 14px;
+
+            background: #eff6ff;
+
+            color: var(--primary);
+
+            font-size: 24px;
+
+            font-weight: bold;
+        }
+
+
+        h1 {
+
+            margin: 0 0 8px;
+
+            font-size: 26px;
+        }
+
+
+        .subtitle {
+
+            margin: 0;
+
+            color: var(--muted);
+
+            font-size: 15px;
+        }
+
+
+        /* FORM */
+
+        .field {
+
+            margin-bottom: 20px;
+        }
+
+
+        label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        input {
+
+            width: 100%;
+
+            height: 50px;
+
+            padding: 0 14px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 9px;
+
+            background: #ffffff;
+
+            color: var(--text);
+
+            font-size: 16px;
+
+            outline: none;
+
+            transition:
+                border-color 0.2s,
+                box-shadow 0.2s;
+        }
+
+
+        input:focus {
+
+            border-color:
+                var(--primary);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(37, 99, 235, 0.12);
+        }
+
+
+        input::placeholder {
+
+            color: #9ca3af;
+        }
+
+
+        .search-btn {
+
+            width: 100%;
+
+            height: 50px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background:
+                var(--primary);
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition:
+                0.2s ease;
+        }
+
+
+        .search-btn:hover {
+
+            background:
+                var(--primary-hover);
+        }
+
+
+        .search-btn:active {
+
+            transform:
+                scale(0.98);
+        }
+
+
+        .dashboard-btn {
+
+            display: block;
+
+            width: 100%;
+
+            margin-top: 12px;
+
+            padding: 14px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 9px;
+
+            background: white;
+
+            color: #374151;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            transition:
+                0.2s ease;
+        }
+
+
+        .dashboard-btn:hover {
+
+            background:
+                #f9fafb;
+        }
+
+
+        @media (max-width: 480px) {
+
+            body {
+
+                align-items:
+                    flex-start;
+
+                padding:
+                    40px 14px;
+            }
+
+
+            .result-card {
+
+                padding:
+                    25px 20px;
+            }
+
+
+            h1 {
+
+                font-size:
+                    23px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <main class="result-card">
+
+
+        <!-- HEADER -->
+
+        <div class="header">
+
+            <div class="header-icon">
+
+                R
+
+            </div>
+
+
+            <h1>
+
+                Search Result
+
+            </h1>
+
+
+            <p class="subtitle">
+
+                Enter the student's admission number
+
+            </p>
+
+        </div>
+
+
+        <!-- SEARCH FORM -->
+
+        <form
+            action="/marksheet/print/result/search"
+            method="GET"
+            id="resultForm"
+        >
+
+
+            <div class="field">
+
+
+                <label for="admissionNumber">
+
+                    Admission Number
+
+                </label>
+
+
+                <input
+
+                    type="text"
+
+                    name="admissionNumber"
+
+                    id="admissionNumber"
+
+                    placeholder="Enter 5-digit admission number"
+
+                    maxlength="5"
+
+                    pattern="[0-9]{5}"
+
+                    inputmode="numeric"
+
+                    autocomplete="off"
+
+                    required
+
+                    autofocus
+
+                >
+
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="search-btn"
+            >
+
+                Search Result
+
+            </button>
+
+
+        </form>
+
+
+        <a
+            href="/stcolumbus/jaj/ekdara/admin"
+            class="dashboard-btn"
+        >
+
+            Back to Dashboard
+
+        </a>
+
+
+    </main>
+
+
+    <script>
+
+        const admissionInput =
+            document.getElementById(
+                "admissionNumber"
+            );
+
+
+        // ONLY ALLOW 5 DIGITS
+
+        admissionInput.addEventListener(
+
+            "input",
+
+            function () {
+
+                this.value =
+                    this.value
+                        .replace(
+                            /\D/g,
+                            ""
+                        )
+                        .slice(
+                            0,
+                            5
+                        );
+
+            }
+
+        );
+
+
+        // PREVENT SUBMITTING
+        // UNLESS EXACTLY 5 DIGITS
+
+        document
+            .getElementById("resultForm")
+            .addEventListener(
+
+                "submit",
+
+                function (event) {
+
+                    if (
+                        !/^\d{5}$/.test(
+                            admissionInput.value
+                        )
+                    ) {
+
+                        event.preventDefault();
+
+                        alert(
+                            "Please enter a valid 5-digit admission number."
+                        );
+
+                        admissionInput.focus();
+
+                    }
+
+                }
+
+            );
+
+    </script>
+
+
+</body>
+
+</html>

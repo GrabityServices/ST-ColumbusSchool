@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Edit Student Marks</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            color: #1f2937;
+            padding: 20px;
+        }
+
+
+        .container {
+            width: min(1000px, 100%);
+            margin: auto;
+        }
+
+
+        .card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 18px;
+
+            box-shadow:
+                0 4px 15px rgba(
+                    0,
+                    0,
+                    0,
+                    .05
+                );
+        }
+
+
+        /* =========================
+           HEADER
+        ========================== */
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+
+        h1 {
+            font-size: 26px;
+            margin-bottom: 6px;
+        }
+
+
+        h2 {
+            font-size: 20px;
+            margin-bottom: 6px;
+        }
+
+
+        .muted {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+
+        .admin {
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           STUDENT INFO
+        ========================== */
+
+        .student-info {
+            display: grid;
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 14px;
+        }
+
+
+        .info {
+            border: 1px solid #e5e7eb;
+            background: #fafafa;
+            border-radius: 8px;
+            padding: 14px;
+        }
+
+
+        .info span {
+            display: block;
+            color: #6b7280;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+
+        .info strong {
+            display: block;
+            font-size: 15px;
+            word-break: break-word;
+        }
+
+
+        /* =========================
+           MARKS
+        ========================== */
+
+        .marks-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+
+        .mark-field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+
+        .mark-field label {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+
+        .mark-field input {
+            width: 100%;
+            height: 44px;
+
+            padding: 0 12px;
+
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+
+            font-size: 15px;
+            outline: none;
+
+            text-align: center;
+        }
+
+
+        .mark-field input:focus {
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px rgba(
+                    37,
+                    99,
+                    235,
+                    .1
+                );
+        }
+
+
+        .mark-help {
+            font-size: 11px;
+            color: #6b7280;
+        }
+
+
+        /* =========================
+           BUTTONS
+        ========================== */
+
+        .actions {
+            margin-top: 28px;
+
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+
+        .btn {
+            border: none;
+            border-radius: 7px;
+            padding: 12px 20px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+
+        .btn-save {
+            background: #2563eb;
+            color: white;
+        }
+
+
+        .btn-save:hover {
+            background: #1d4ed8;
+        }
+
+
+        .btn-back {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+
+        .btn-back:hover {
+            background: #d1d5db;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 850px) {
+
+            .student-info {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .marks-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 12px;
+            }
+
+
+            .card {
+                padding: 18px;
+            }
+
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+
+            .student-info,
+            .marks-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .actions {
+                flex-direction: column-reverse;
+            }
+
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <div class="card header">
+
+        <div>
+
+            <h1>
+                Edit Student Marks
+            </h1>
+
+
+            <p class="muted">
+
+                Class
+
+                <strong>
+                    <%= className %>
+                </strong>
+
+                &nbsp; | &nbsp;
+
+                Examination
+
+                <strong>
+                    <%= examType %>
+                </strong>
+
+            </p>
+
+        </div>
+
+
+        <div class="admin">
+
+            Admin:
+
+            <strong>
+                <%= admin.uniqId %>
+            </strong>
+
+            -
+
+            <%= admin.name %>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         STUDENT INFORMATION
+    ========================== -->
+
+    <div class="card">
+
+        <div class="student-info">
+
+
+            <div class="info">
+
+                <span>
+                    Student Name
+                </span>
+
+                <strong>
+                    <%= student.name || "-" %>
+                </strong>
+
+            </div>
+
+
+            <div class="info">
+
+                <span>
+                    Admission Number
+                </span>
+
+                <strong>
+                    <%= student.admissionNumber || "-" %>
+                </strong>
+
+            </div>
+
+
+            <div class="info">
+
+                <span>
+                    Roll Number
+                </span>
+
+                <strong>
+                    <%= student.rollNumber ?? "-" %>
+                </strong>
+
+            </div>
+
+
+            <div class="info">
+
+                <span>
+                    Examination
+                </span>
+
+                <strong>
+                    <%= examType %>
+                </strong>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         EDIT FORM
+    ========================== -->
+
+    <form
+        class="card"
+        method="POST"
+        action="/marksheet/edit/<%= encodeURIComponent(student.admissionNumber) %>"
+    >
+
+
+        <!-- =====================
+             REQUIRED IDENTIFIERS
+        ====================== -->
+
+        <input
+            type="hidden"
+            name="class"
+            value="<%= className %>"
+        >
+
+
+        <input
+            type="hidden"
+            name="examType"
+            value="<%= examType %>"
+        >
+
+
+        <input
+            type="hidden"
+            name="admissionNumber"
+            value="<%= student.admissionNumber %>"
+        >
+
+
+        <!-- =====================
+             MARKS TITLE
+        ====================== -->
+
+        <h2>
+            Examination Marks
+        </h2>
+
+
+        <p class="muted">
+
+            Enter or update marks.
+
+            Empty means no mark entered.
+
+            0 is a valid mark.
+
+        </p>
+
+
+        <%
+            // ================================
+            // ALWAYS SHOW ALL SUBJECTS
+            // ================================
+
+            const subjects = [
+
+                {
+                    key: "english",
+                    label: "English"
+                },
+
+                {
+                    key: "hindi",
+                    label: "Hindi"
+                },
+
+                {
+                    key: "math",
+                    label: "Mathematics"
+                },
+
+                {
+                    key: "sst",
+                    label: "Social Studies"
+                },
+
+                {
+                    key: "gsc",
+                    label: "General Science"
+                },
+
+                {
+                    key: "gk",
+                    label: "General Knowledge"
+                },
+
+                {
+                    key: "computer",
+                    label: "Computer"
+                },
+
+                {
+                    key: "language",
+                    label: "Lang (Sans/Urdu)"
+                }
+
+            ];
+
+
+            // ================================
+            // MAX MARKS BY EXAM TYPE
+            // ================================
+
+            const periodicTests = [
+
+                "Periodic-Test-1",
+
+                "Periodic-Test-2",
+
+                "Periodic-Test-3",
+
+                "Periodic-Test-4"
+
+            ];
+
+
+            const maxMarks =
+                periodicTests.includes(examType)
+                    ? 10
+                    : 80;
+        %>
+
+
+        <!-- =====================
+             SUBJECT FIELDS
+        ====================== -->
+
+        <div class="marks-grid">
+
+
+            <% subjects.forEach(subject => { %>
+
+
+                <div class="mark-field">
+
+
+                    <label
+                        for="<%= subject.key %>"
+                    >
+
+                        <%= subject.label %>
+
+                    </label>
+
+
+                    <input
+
+                        id="<%= subject.key %>"
+
+                        name="<%= subject.key %>"
+
+                        type="number"
+
+                        min="0"
+
+                        max="<%= maxMarks %>"
+
+                        step="1"
+
+                        placeholder="0 - <%= maxMarks %>"
+
+                        value="<%= student[subject.key] ?? '' %>"
+
+                    >
+
+
+                    <div class="mark-help">
+
+                        Empty allowed
+
+                    </div>
+
+
+                </div>
+
+
+            <% }) %>
+
+
+        </div>
+
+
+        <!-- =====================
+             BUTTONS
+        ========================== -->
+
+        <div class="actions">
+
+
+            <a
+                href="/marksheet"
+                class="btn btn-back"
+            >
+
+                Cancel
+
+            </a>
+
+
+            <button
+                type="submit"
+                class="btn btn-save"
+            >
+
+                Save Marks
+
+            </button>
+
+
+        </div>
+
+
+    </form>
+
+
+</div>
+
+
+<script>
+
+
+    // ==========================================
+    // MARK VALIDATION
+    //
+    // Empty = allowed
+    // 0 = valid
+    // Any number <= max = valid
+    // ==========================================
+
+    const markInputs =
+        document.querySelectorAll(
+            '.mark-field input[type="number"]'
+        );
+
+
+    markInputs.forEach(
+
+        input => {
+
+            input.addEventListener(
+
+                "input",
+
+                function () {
+
+                    const value =
+                        this.value.trim();
+
+
+                    if (
+                        value === ""
+                    ) {
+
+                        this.setCustomValidity("");
+
+                        return;
+                    }
+
+
+                    const mark =
+                        Number(value);
+
+
+                    const max =
+                        Number(this.max);
+
+
+                    if (
+                        mark < 0
+                    ) {
+
+                        this.setCustomValidity(
+                            "Marks cannot be negative."
+                        );
+
+                    }
+
+                    else if (
+                        mark > max
+                    ) {
+
+                        this.setCustomValidity(
+                            `Maximum marks are ${max}.`
+                        );
+
+                    }
+
+                    else {
+
+                        this.setCustomValidity("");
+
+                    }
+
+                }
+
+            );
+
+        }
+
+    );
+
+
+</script>
+
+
+</body>
+
+</html>

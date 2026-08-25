@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+
+    <title>
+
+        Class <%= studentClass %> Result Print
+
+    </title>
+
+
+    <link
+        rel="stylesheet"
+        href="/style/classResultPrint.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <main class="result-print-page">
+
+
+        <section class="student-list-container">
+
+
+            <!-- ========================================== -->
+            <!-- HEADER -->
+            <!-- ========================================== -->
+
+            <div class="student-list-header">
+
+
+                <div>
+
+
+                    <a
+                        href="/stcolumbus/jaj/ekdara/admin/result/print"
+                        class="back-button"
+                    >
+
+                        ← Back
+
+                    </a>
+
+
+                    <h1>
+
+                        Class <%= studentClass %> Results
+
+                    </h1>
+
+
+                    <p>
+
+                        <%= students.length %>
+                        Student<%= students.length !== 1 ? "s" : "" %>
+                        Found
+
+                    </p>
+
+
+                </div>
+
+
+                <!-- ====================================== -->
+                <!-- PRINT ALL -->
+                <!-- ====================================== -->
+
+                <% if (students.length > 0) { %>
+
+                    <a
+                        href="/stcolumbus/jaj/ekdara/admin/result/print/all/<%= encodeURIComponent(studentClass) %>"
+                        class="print-all-btn"
+                        target="_blank"
+                    >
+
+                        Print All Results
+
+                    </a>
+
+                <% } %>
+
+
+            </div>
+
+
+
+            <!-- ========================================== -->
+            <!-- NO STUDENTS -->
+            <!-- ========================================== -->
+
+            <% if (students.length === 0) { %>
+
+
+                <div class="no-students">
+
+
+                    <h2>
+
+                        No Students Found
+
+                    </h2>
+
+
+                    <p>
+
+                        No result data is available
+                        for this class.
+
+                    </p>
+
+
+                    <a
+                        href="/stcolumbus/jaj/ekdara/admin/result/print"
+                        class="back-to-result-btn"
+                    >
+
+                        Select Another Class
+
+                    </a>
+
+
+                </div>
+
+
+            <% } else { %>
+
+
+
+                <!-- ====================================== -->
+                <!-- SEARCH + SELECTION CONTROLS -->
+                <!-- ====================================== -->
+
+                <div class="student-controls">
+
+
+                    <div class="student-search">
+
+
+                        <input
+                            type="text"
+                            id="studentSearch"
+                            placeholder="Search by name, admission number or roll number"
+                            autocomplete="off"
+                        >
+
+
+                    </div>
+
+
+                    <div class="selection-controls">
+
+
+                        <button
+                            type="button"
+                            id="selectAllStudents"
+                            class="selection-btn"
+                        >
+
+                            Select All
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            id="clearAllStudents"
+                            class="selection-btn"
+                        >
+
+                            Clear All
+
+                        </button>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- ====================================== -->
+                <!-- SELECTED COUNT -->
+                <!-- ====================================== -->
+
+                <div class="selected-student-info">
+
+
+                    <span>
+
+                        Selected:
+
+                    </span>
+
+
+                    <strong
+                        id="selectedStudentCount"
+                    >
+
+                        0
+
+                    </strong>
+
+
+                    <span>
+
+                        /
+
+                    </span>
+
+
+                    <span>
+
+                        <%= students.length %>
+
+                    </span>
+
+
+                </div>
+
+
+
+                <!-- ====================================== -->
+                <!-- STUDENT SELECTION FORM -->
+                <!-- ====================================== -->
+
+                <form
+                    id="selectedStudentPrintForm"
+                    action="/stcolumbus/jaj/ekdara/admin/result/print/selected"
+                    method="POST"
+                    target="_blank"
+                >
+
+
+                    <!-- ================================== -->
+                    <!-- SELECTED CLASS -->
+                    <!-- ================================== -->
+
+                    <input
+                        type="hidden"
+                        name="studentClass"
+                        value="<%= studentClass %>"
+                    >
+
+
+
+                    <!-- ================================== -->
+                    <!-- STUDENT TABLE -->
+                    <!-- ================================== -->
+
+                    <div class="student-table-wrapper">
+
+
+                        <table
+                            class="student-table"
+                        >
+
+
+                            <thead>
+
+
+                                <tr>
+
+
+                                    <th>
+
+                                        Select
+
+                                    </th>
+
+
+                                    <th>
+
+                                        Roll
+
+                                    </th>
+
+
+                                    <th>
+
+                                        Student Name
+
+                                    </th>
+
+
+                                    <th>
+
+                                        Admission No.
+
+                                    </th>
+
+
+                                </tr>
+
+
+                            </thead>
+
+
+
+                            <tbody>
+
+
+                                <% students.forEach((student) => { %>
+
+
+                                    <tr
+                                        class="student-row"
+                                        data-name="<%= String(student.name || '').toLowerCase() %>"
+                                        data-admission="<%= String(student.admissionNumber || '').toLowerCase() %>"
+                                        data-roll="<%= String(student.rollNumber ?? '').toLowerCase() %>"
+                                    >
+
+
+                                        <!-- ============== -->
+                                        <!-- SELECT STUDENT -->
+                                        <!-- ============== -->
+
+                                        <td>
+
+
+                                            <input
+                                                type="checkbox"
+                                                class="student-checkbox"
+                                                name="students"
+                                                value='<%- JSON.stringify({
+                                                    admissionNumber: student.admissionNumber,
+                                                    rollNumber: student.rollNumber
+                                                }) %>'
+                                            >
+
+
+                                        </td>
+
+
+
+                                        <!-- ============== -->
+                                        <!-- ROLL NUMBER -->
+                                        <!-- ============== -->
+
+                                        <td>
+
+                                            <%= student.rollNumber ?? "" %>
+
+                                        </td>
+
+
+
+                                        <!-- ============== -->
+                                        <!-- STUDENT NAME -->
+                                        <!-- ============== -->
+
+                                        <td>
+
+                                            <%= student.name || "" %>
+
+                                        </td>
+
+
+
+                                        <!-- ============== -->
+                                        <!-- ADMISSION NUMBER -->
+                                        <!-- ============== -->
+
+                                        <td>
+
+                                            <%= student.admissionNumber || "" %>
+
+                                        </td>
+
+
+                                    </tr>
+
+
+                                <% }) %>
+
+
+                            </tbody>
+
+
+                        </table>
+
+
+                    </div>
+
+
+
+                    <!-- ================================== -->
+                    <!-- PRINT SELECTED -->
+                    <!-- ================================== -->
+
+                    <div class="selected-print-action">
+
+
+                        <button
+                            type="submit"
+                            id="printSelectedStudents"
+                            class="print-selected-btn"
+                            disabled
+                        >
+
+                            Print Selected Results
+
+                        </button>
+
+
+                    </div>
+
+
+                </form>
+
+
+            <% } %>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- ============================================== -->
+    <!-- PAGE DATA FOR JAVASCRIPT -->
+    <!-- ============================================== -->
+
+    <script>
+
+
+        window.resultPrintConfig = {
+
+            studentClass:
+
+                "<%= studentClass %>",
+
+
+            totalStudents:
+
+                <%= students.length %>
+
+        };
+
+
+    </script>
+
+
+
+    <script
+        src="/script/classResultPrint.js"
+    ></script>
+
+
+</body>
+
+</html>

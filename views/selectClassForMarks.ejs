@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>View Class Marks</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            margin: 0 0 10px;
+            font-size: 30px;
+        }
+
+        .header p {
+            margin: 0;
+            color: #666;
+        }
+
+        .class-grid {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(180px, 1fr)
+            );
+            gap: 18px;
+        }
+
+        .class-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            min-height: 100px;
+
+            background: white;
+            border-radius: 10px;
+
+            text-decoration: none;
+            color: #222;
+
+            font-size: 18px;
+            font-weight: bold;
+
+            box-shadow:
+                0 3px 10px rgba(0, 0, 0, 0.08);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .class-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 7px 18px rgba(0, 0, 0, 0.14);
+
+            background: #f8fbff;
+        }
+
+        .class-card span {
+            text-align: center;
+        }
+
+        .nursery {
+            border-top: 5px solid #ff9800;
+        }
+
+        .lkg {
+            border-top: 5px solid #4caf50;
+        }
+
+        .ukg {
+            border-top: 5px solid #2196f3;
+        }
+
+        .class {
+            border-top: 5px solid #673ab7;
+        }
+
+        @media (max-width: 500px) {
+
+            .container {
+                margin: 20px auto;
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .class-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .class-card {
+                min-height: 80px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>
+            View Class-wise Marks
+        </h1>
+
+        <p>
+            Select a class to view the complete marks table.
+        </p>
+
+    </div>
+
+
+    <div class="class-grid">
+
+        <!-- Nursery -->
+
+        <a
+            href="/marksheet/view/Nursery/marks"
+            class="class-card nursery"
+        >
+            <span>Nursery</span>
+        </a>
+
+
+        <!-- LKG -->
+
+        <a
+            href="/marksheet/view/LKG/marks"
+            class="class-card lkg"
+        >
+            <span>LKG</span>
+        </a>
+
+
+        <!-- UKG -->
+
+        <a
+            href="/marksheet/view/UKG/marks"
+            class="class-card ukg"
+        >
+            <span>UKG</span>
+        </a>
+
+
+        <!-- Class 1 -->
+
+        <a
+            href="/marksheet/view/1/marks"
+            class="class-card class"
+        >
+            <span>Class 1</span>
+        </a>
+
+
+        <!-- Class 2 -->
+
+        <a
+            href="/marksheet/view/2/marks"
+            class="class-card class"
+        >
+            <span>Class 2</span>
+        </a>
+
+
+        <!-- Class 3 -->
+
+        <a
+            href="/marksheet/view/3/marks"
+            class="class-card class"
+        >
+            <span>Class 3</span>
+        </a>
+
+
+        <!-- Class 4 -->
+
+        <a
+            href="/marksheet/view/4/marks"
+            class="class-card class"
+        >
+            <span>Class 4</span>
+        </a>
+
+
+        <!-- Class 5 -->
+
+        <a
+            href="/marksheet/view/5/marks"
+            class="class-card class"
+        >
+            <span>Class 5</span>
+        </a>
+
+
+        <!-- Class 6 -->
+
+        <a
+            href="/marksheet/view/6/marks"
+            class="class-card class"
+        >
+            <span>Class 6</span>
+        </a>
+
+
+        <!-- Class 7 -->
+
+        <a
+            href="/marksheet/view/7/marks"
+            class="class-card class"
+        >
+            <span>Class 7</span>
+        </a>
+
+
+        <!-- Class 8 -->
+
+        <a
+            href="/marksheet/view/8/marks"
+            class="class-card class"
+        >
+            <span>Class 8</span>
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

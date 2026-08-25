@@ -1,0 +1,2276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Progress Report - <%= data?.student?.name || 'Student' %></title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ultra&display=swap" rel="stylesheet">
+
+<style>
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --maroon: #74151d;
+    --maroon-dark: #5b0f16;
+    --maroon-soft: #8f3035;
+    --gold: #d59b32;
+    --gold-light: #f4dfae;
+    --cream: #fffaf0;
+    --cream-2: #fffdf8;
+    --paper: #ffffff;
+    --ink: #292929;
+    --muted: #6e625a;
+    --line: #d8c9b4;
+    --line-dark: #9f8060;
+    --green: #fff3b0;
+    --green-ink: #6b4d00;
+    --total: #f2eee8;
+    --absent: #a61f2f;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+}
+
+body {
+    background:
+        radial-gradient(circle at top left, #fff8e8 0, #f1e8dc 38%, #e5ddd4 100%);
+    color: var(--ink);
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+/* =========================
+   PAGE
+   ========================= */
+
+.report-page {
+    width: min(1400px, calc(100% - 28px));
+    margin: 14px auto;
+    padding: 12px;
+    background: var(--paper);
+    border: 1px solid var(--maroon);
+    box-shadow: 0 12px 30px rgba(91, 15, 22, .12);
+}
+
+/* =========================
+   HEADER
+   ========================= */
+
+.school-heading {
+    position: relative;
+    padding: 13px 155px 12px;
+    margin-bottom: 7px;
+    text-align: center;
+    border: 1px solid var(--maroon);
+    background:
+        linear-gradient(90deg, #fffaf0 0%, #ffffff 48%, #fffaf0 100%);
+    overflow: hidden;
+}
+
+.school-heading::before,
+.school-heading::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 7px;
+    background: var(--maroon);
+}
+
+.school-heading::before {
+    left: 0;
+}
+
+.school-heading::after {
+    right: 0;
+}
+
+ .school-name-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    width: 100%;
+}
+
+.school-logo {
+    width: 58px;
+    height: 58px;
+    flex: 0 0 58px;
+    object-fit: contain;
+    display: block;
+}
+
+.school-heading h1 {
+    margin: 0;
+    color: var(--maroon);
+    font-size: clamp(21px, 2vw, 29px);
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: 2px;
+    .ultra-regular {
+  font-style: normal;
+  font-family: "Ultra", Georgia, serif;
+font-weight: 400;
+}
+
+}
+
+.school-heading h2 {
+    margin: 5px 0 0;
+    color: #604c3c;
+    font-size: 15px;
+    line-height: 1.1;
+    font-weight: 600;
+    margin-top: -10px;
+    letter-spacing: .65px;
+    text-transform: uppercase;
+}
+
+.report-title {
+    margin-top: 7px;
+    color: var(--maroon);
+    font-size: 14px;
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+.session-badge {
+    display: inline-block;
+    margin-top: 7px;
+    padding: 4px 13px;
+    border: 1px solid var(--gold);
+    border-radius: 20px;
+    background: var(--gold-light);
+    color: var(--maroon-dark);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: .8px;
+}
+
+/* =========================
+   STUDENT INFO
+   ========================= */
+
+.student-info {
+    display: grid;
+    grid-template-columns: 1.15fr 2.25fr .9fr 1.05fr;
+    margin-bottom: 8px;
+    border: 1px solid var(--line-dark);
+    background: var(--cream-2);
+}
+
+.student-info .item {
+    min-width: 0;
+    padding: 10px 12px;
+    border-right: 1px solid var(--line);
+    font-size: 17px;
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.student-info .item:last-child {
+    border-right: 0;
+}
+
+.student-info strong {
+    color: var(--maroon);
+    margin-right: 6px;
+    font-weight: 700;
+}
+
+/* =========================
+   MAIN GRID
+   ========================= */
+
+.main-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 3.18fr) minmax(300px, 1fr);
+    gap: 7px;
+    align-items: start;
+}
+
+.term-box,
+.side-box {
+    border: 1px solid var(--line-dark);
+    background: #fff;
+}
+
+.term-box {
+    margin-bottom: 7px;
+}
+
+.term-title,
+.side-title {
+    background: linear-gradient(90deg, var(--maroon), var(--maroon-soft), var(--maroon));
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 650;
+}
+
+.term-title {
+    padding: 6px 7px;
+    font-size: 10px;
+    letter-spacing: .5px;
+}
+
+.side-title {
+    padding: 6px 7px;
+    font-size: 10px;
+    letter-spacing: .4px;
+}
+
+.term-subtitle {
+    padding: 4px;
+    border-bottom: 1px solid var(--line);
+    background: var(--cream);
+    color: var(--muted);
+    text-align: center;
+    font-size: 10px;
+    line-height: 1.15;
+}
+
+/* =========================
+   TABLES
+   ========================= */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.marks-table {
+    table-layout: fixed;
+    font-size: 13px;
+}
+
+.marks-table th,
+.marks-table td {
+    border: 1px solid var(--line);
+    padding: 2px 3px;
+    height: 25px;
+    line-height: 1.15;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.marks-table th {
+    background: #f6f1e9;
+    color: var(--maroon-dark);
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.marks-table th small {
+    font-size: 7px;
+    font-weight: 500;
+}
+
+.marks-table tbody tr:nth-child(even):not(:last-child) {
+    background: #fffdf9;
+}
+
+.marks-table td {
+    color: #302d2a;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.marks-table td.subject {
+    width: 25%;
+    padding-left: 7px;
+    text-align: left;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    font-size: 14px;
+    font-weight: 450;
+    color: #3b2925;
+}
+
+.marks-table .fm {
+    width: 7%;
+}
+
+.marks-table .exam-mark {
+    width: 10%;
+}
+
+.marks-table .total {
+    width: 12%;
+}
+
+.marks-table .percentage {
+    width: 11%;
+}
+
+.marks-table .grade {
+    width: 9%;
+}
+
+.marks-table .sum {
+    background: var(--green);
+    color: var(--green-ink);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.marks-table .grand {
+    background: var(--total);
+    color: var(--maroon-dark);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.marks-table .absent {
+    color: var(--absent);
+    font-weight: 600;
+}
+
+/* =========================
+   RIGHT COLUMN
+   ========================= */
+
+.side-column {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.side-box {
+    overflow: hidden;
+}
+
+.grading-table,
+.scholastic-table {
+    font-size: 9px;
+}
+
+.grading-table th,
+.grading-table td,
+.scholastic-table th,
+.scholastic-table td {
+    border: 1px solid var(--line);
+    padding: 2px 4px;
+    height: 20px;
+    line-height: 1.15;
+    text-align: center;
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+.grading-table th,
+.scholastic-table th {
+    background: #f6f1e9;
+    color: var(--maroon-dark);
+    font-weight: 650;
+}
+
+.grading-table td,
+.scholastic-table td {
+    font-weight: 500;
+    color: #3d3632;
+}
+
+.scholastic-table .area {
+    width: 61%;
+    text-align: left;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    font-weight: 550;
+}
+
+.scholastic-table .blank {
+    height: 22px;
+    min-height: 22px;
+}
+
+/* =========================
+   ATTENDANCE
+   ========================= */
+
+.attendance {
+    padding: 6px;
+}
+
+.attendance-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+}
+
+.attendance-box {
+    min-height: 42px;
+    padding: 4px 3px;
+    border: 1px solid var(--line);
+    background: var(--cream-2);
+    text-align: center;
+    font-size: 11px;
+    line-height: 1.15;
+}
+
+.attendance-box strong {
+    color: var(--maroon);
+    font-weight: 600;
+    text-decoration:underline;
+    padding: 0 0 2px 0;
+}
+
+.attendance-value {
+    margin-top: 5px;
+    min-height: 13px;
+    color: var(--maroon-dark);
+    font-size: 11px;
+    font-weight: 650;
+}
+
+/* =========================
+   REMARKS
+   ========================= */
+
+.remarks {
+    padding: 6px;
+}
+
+.remarks-box {
+    min-height: 42px;
+    padding: 4px;
+    border: 1px solid var(--line);
+    background: #fffdf9;
+    font-size: 11px;
+    line-height: 1.35;
+}
+
+.signatures {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 12px 6px 4px;
+    text-align: center;
+    font-size: 11px;
+    color: #1c1b1a;
+    align-items: end;
+}
+
+.signature-line {
+    border-bottom: 1px solid var(--line-dark);
+    min-height: 24px;
+    padding: 0 4px 4px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin-top: auto;
+}
+
+.principal-signature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 0;
+    height: 76px;
+}
+
+.principal-signature img {
+    width: 150px;
+    height: 48px;
+    object-fit: contain;
+    display: block;
+    margin: auto auto 0;
+}
+
+.principal-signature .signature-line {
+    width: 82%;
+    margin-top: 0;
+}
+
+.stamp-box {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: .7px;
+    text-transform: uppercase;
+    overflow: hidden;
+}
+
+.stamp-box img {
+    width: 58px;
+    height: 58px;
+    object-fit: contain;
+    display: block;
+}
+
+.principal-signature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 0;
+}
+
+.principal-signature img {
+    width: 150px;
+    height: 48px;
+    object-fit: contain;
+    display: block;
+    margin: -2px auto 0;
+}
+
+.principal-signature .signature-line {
+    width: 82%;
+}
+
+/* =========================
+   LEGEND
+   ========================= */
+
+/* =========================
+   SCREEN CONTROLS
+   ========================= */
+
+.actions {
+    position: fixed;
+    left: 50%;
+    bottom: 15px;
+
+    transform: translateX(-50%);
+
+    z-index: 100;
+
+    display: flex;
+    justify-content: center;
+}
+.print-btn {
+    border: 1px solid var(--maroon-dark);
+    border-radius: 6px;
+    background: var(--maroon);
+    color: #fff;
+    padding: 10px 15px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(91, 15, 22, .2);
+}
+
+.print-btn:hover {
+    background: var(--maroon-dark);
+}
+
+body > a {
+    position: fixed;
+    bottom: 6px;
+    z-index: 90;
+    padding: 4px 7px;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,.96);
+    color: var(--maroon-dark);
+    font-size: 9px;
+    text-decoration: none;
+}
+
+body > a:first-of-type {
+    left: 7px;
+}
+
+body > a:last-of-type {
+    right: 7px;
+}
+
+.grading-bottom {
+    margin-top: 7px;
+}
+
+.grading-bottom .grading-table td {
+    text-align: center;
+    font-weight: 600;
+    color: var(--maroon-dark);
+}
+
+@media print {
+    .grading-bottom {
+        margin-top: 3px;
+    }
+
+    .grading-bottom .grading-table td {
+        height: 18px;
+        padding: 1px 3px;
+        font-size: 10px;
+    }
+}
+
+/* =========================
+   PRINT — A4 LANDSCAPE
+   Same visual system, compact geometry
+   ========================= */
+
+@page {
+    size: A4 landscape;
+    margin: 0;
+}
+
+@media print {
+    html,
+    body {
+        width: 297mm;
+        height: 210mm;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff !important;
+        overflow: hidden !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .report-page {
+        width: 297mm;
+        height: 210mm;
+        min-height: 210mm;
+        margin: 0 !important;
+        padding: 3.2mm;
+        border: 1px solid var(--maroon);
+        background-color: #f9cdb4;
+        box-shadow: none;
+        overflow: hidden;
+    }
+
+    /*
+     * A4 LANDSCAPE PRINT GEOMETRY
+     * The previous print rules compressed the entire report vertically,
+     * leaving a large unused area at the bottom. These dimensions
+     * deliberately use the available 210mm page height.
+     */
+    .school-heading {
+        padding: 5px 40px 5px;
+    }
+
+    .school-name-row {
+        gap: 10px;
+        padding: 5px 0;
+
+    }
+
+    .school-logo {
+        width: 60px;
+        height: 60px;
+        flex-basis: 38px;
+        transform: translateY(2px);
+        position: absolute;
+    }
+
+    .l1{
+        position: absolute;
+        left: 300px;
+        top: 2px;
+    }
+    .qr{
+         position: absolute;
+        right: 300px;
+        top: 2px;
+    }
+    .school-heading h1 {
+        font-size: 20px;
+    }
+
+    .school-heading h2 {
+        font-size: 15px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .report-title {
+        margin-top: 4px;
+        font-size: 11px;
+    }
+
+    /* .session-badge {
+        margin-top: 3px;
+        padding: 3px 9px;
+        font-size: 8px;
+        display: none;
+    } */
+
+    .student-info {
+        margin-bottom: 3px;
+    }
+
+    .student-info {
+        grid-template-columns: 1.15fr 2.25fr .9fr 1.05fr;
+    }
+
+    .student-info .item {
+        padding: 2px 7px;
+        font-size: 15px;
+    }
+
+    .main-grid {
+        grid-template-columns: minmax(0, 3.18fr) minmax(215px, 1fr);
+        gap: 3px;
+        align-items: stretch;
+    }
+
+    .main-grid > div:first-child,
+    .main-grid > .side-column {
+        min-height: 0;
+    }
+
+    .term-box {
+        margin-bottom: 3px;
+    }
+
+    .term-title {
+        padding: 5px 3px;
+        font-size: 11px;
+        line-height: 1.15;
+        font-weight: 700;
+        color: #fff8e8;
+    }
+
+    .term-subtitle {
+        padding: 3px 2px;
+        font-size: 9px;
+        font-weight: 600;
+        color: var(--maroon-dark);
+        line-height: 1.2;
+    }
+
+    .marks-table {
+        font-size: 11px;
+    }
+
+    .marks-table th,
+    .marks-table td {
+        height: 23px;
+        padding: 2px 2px;
+        font-size: 1px;
+        line-height: 1.15;
+        font-weight: 400;
+    }
+
+    .marks-table th {
+        height: 25px;
+        font-size: 12px;
+        font-weight: 550;
+    }
+
+    .marks-table th small {
+        font-size: 9px;
+        font-weight: 500;
+    }
+
+    .marks-table td.subject {
+        font-size: 11px;
+        padding-left: 4px;
+        font-weight: 400;
+    }
+
+    .side-column {
+        gap: 3px;
+    }
+
+    .side-title {
+        padding: 5px 3px;
+        line-height: 1.15;
+    }
+
+    .grading-table,
+    .scholastic-table {
+        font-size: 10px;
+    }
+
+    .grading-table th,
+    .grading-table td {
+        height: 18px;
+        padding: 1px 3px;
+        font-size: 10px;
+    }
+
+    .grading-table {
+        table-layout: fixed;
+    }
+
+    .grading-table th,
+    .grading-table td {
+        width: 25%;
+    }
+
+    .scholastic-table th,
+    .scholastic-table td {
+        height: 20px;
+        padding: 1px 2px;
+        font-size: 6.3px;
+        line-height: 1.15;
+    }
+
+    .scholastic-table .blank {
+        height: 23px;
+        min-height: 23px;
+    }
+
+    .attendance {
+        padding: 3px;
+    }
+
+    .attendance-grid {
+        gap: 2px;
+    }
+
+    .attendance-box {
+        min-height: 38px;
+        padding: 3px 2px;
+        font-size: 11px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        text-decoration: none;
+    }
+    .attendance-box strong{
+        text-decoration: none;
+        border-bottom: 1px solid;
+    }
+
+    .attendance-value {
+        margin-top: 3px;
+        font-size: 9px;
+        min-height: 8px;
+        text-decoration: none;
+        /* pad */
+    }
+
+    .remarks {
+        padding: 3px;
+    }
+
+    .remarks-box {
+        min-height: 25px;
+        padding: 2px;
+        font-size: 6px;
+    }
+
+    .signatures {
+        gap: 4px;
+        padding: 6px 3px 2px;
+        font-size: 5.8px;
+        align-items: end;
+    }
+
+    .signature-line {
+        min-height: 18px;
+        padding: 0 2px 2px;
+    }
+
+    .principal-signature {
+        height: 48px;
+    }
+
+    .stamp-box {
+        height: 30px;
+        font-size: 6px;
+    }
+
+    .stamp-box img {
+        width: 38px;
+        height: 38px;
+    }
+
+    .principal-signature img {
+        width: 95px;
+        height: 30px;
+        margin: -1px auto 0;
+    }
+
+    .principal-signature .signature-line {
+        width: 82%;
+    }
+
+    .actions,
+    body > a {
+        display: none !important;
+    }
+}
+
+/* =========================
+   SCREEN RESPONSIVENESS
+   ========================= */
+
+@media screen and (max-width: 1050px) {
+    .report-page {
+        width: calc(100% - 14px);
+        margin: 7px;
+        padding: 7px;
+    }
+
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .side-column {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .school-heading {
+        padding: 10px 12px;
+    }
+
+    .school-name-row {
+        gap: 8px;
+    }
+
+    .school-logo {
+        width: 38px;
+        height: 38px;
+        flex-basis: 38px;
+        transform: translateY(2px);
+    }
+
+    .school-heading h1 {
+        font-size: 18px;
+    }
+
+    .student-info {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .student-info .item {
+        font-size: 10px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .side-column {
+        display: flex;
+    }
+
+    .marks-table {
+        font-size: 8px;
+    }
+
+    .marks-table th,
+    .marks-table td {
+        padding: 3px 2px;
+        height: 27px;
+    }
+
+    .marks-table th {
+        font-size: 7px;
+    }
+
+    .marks-table td.subject {
+        font-size: 8px;
+    }
+
+    .grading-table,
+    .scholastic-table {
+        font-size: 8px;
+    }
+
+    .grading-table th,
+    .grading-table td,
+    .scholastic-table th,
+    .scholastic-table td {
+        font-size: 8px;
+    }
+
+    .actions {
+        right: 8px;
+        bottom: 8px;
+    }
+
+    .print-btn {
+        padding: 8px 11px;
+        font-size: 10px;
+    }
+}
+
+/* =========================================================
+   FINAL UI/UX POLISH
+   Larger marks + warm yellow highlights + tight A4 geometry
+   ========================================================= */
+
+/* Screen: make actual marks visually dominant */
+.marks-table td:not(.subject):not(.sum):not(.grand),
+.marks-table td.sum,
+.marks-table td.grand,
+.marks-table td.grade-merged {
+    font-size: 15px;
+    font-weight: 650;
+    letter-spacing: .1px;
+}
+
+.marks-table td.subject {
+    font-size: 14px;
+    font-weight: 550;
+}
+
+.marks-table .sum {
+    background: #fef5c1;
+    color: #6b4d00;
+}
+
+.grade-merged {
+    background: #fef5c1;
+    color: #6b4d00;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    vertical-align: middle;
+}
+
+/* Grading scale: clear 4 × 4 visual rhythm */
+.grading-bottom {
+    margin-top: 3px;
+}
+
+.grading-bottom .term-title {
+    padding: 4px 3px;
+    font-size: 9px;
+}
+
+.grading-bottom .grading-table {
+    table-layout: fixed;
+}
+
+.grading-bottom .grading-table td {
+    width: 25%;
+    height: 22px;
+    padding: 1px 4px;
+    background: #fff3b0;
+    color: #5f4700;
+    font-size: 13px;
+    line-height: 1;
+    font-weight: 750;
+    border-color: #d6b85b;
+}
+
+.grading-bottom .grading-table td:nth-child(2n) {
+    font-weight: 850;
+    color: #6a4a00;
+}
+
+/* Keep the whole printable composition inside A4 with no accidental overflow. */
+@media print {
+    .report-page {
+        width: 297mm;
+        height: 210mm;
+        min-height: 210mm;
+        max-height: 210mm;
+        padding: 2.8mm;
+        overflow: hidden;
+    }
+
+    .main-grid {
+        gap: 2.5px;
+    }
+
+    .term-box {
+        margin-bottom: 2px;
+    }
+
+    /* Bigger marks, but fixed row geometry prevents vertical expansion. */
+    .marks-table {
+        font-size: 13px;
+    }
+
+    .marks-table th,
+    .marks-table td {
+        height: 22px;
+        min-height: 22px;
+        padding: 1px 2px;
+        font-size: 13.5px;
+        line-height: 1;
+        font-weight: 650;
+    }
+
+    .marks-table th {
+        height: 24px;
+        font-size: 10px;
+        font-weight: 650;
+    }
+
+    .marks-table th small {
+        font-size: 7px;
+    }
+
+    .marks-table td.subject {
+        font-size: 12.5px;
+        font-weight: 550;
+        padding-left: 4px;
+        line-height: 1;
+    }
+
+    .marks-table td.sum,
+    .marks-table td.grand {
+        font-size: 13.5px;
+        font-weight: 750;
+    }
+
+    .marks-table td.grade-merged {
+        font-size: 17px !important;
+        font-weight: 850 !important;
+        line-height: 1 !important;
+        background: #fef5c1;
+        color: #6b4d00;
+    }
+
+    /* 4 rows × 4 columns, compact but highly readable. */
+    .grading-bottom {
+        margin-top: 2px;
+        margin-bottom: 0;
+    }
+
+    .grading-bottom .term-title {
+        padding: 4px 3px;
+        font-size: 9px;
+        line-height: 1;
+    }
+
+    .grading-bottom .grading-table td {
+        height: 19px;
+        min-height: 19px;
+        padding: 1px 3px;
+        font-size: 11.5px;
+        line-height: 1;
+        font-weight: 750;
+        background: #fff3b0 !important;
+        color: #5f4700 !important;
+        border-color: #d6b85b;
+    }
+
+    /* Slightly tighter lower-page elements so no blank strip is created. */
+    .remarks {
+        padding: 2px;
+    }
+
+    .remarks-box {
+        padding: 2px;
+    }
+
+    .signatures {
+        padding: 4px 2px 1px;
+    }
+}
+
+
+/* =========================================================
+   SCHOLASTIC AREA + NOTATIONS — FINAL SPACE UTILIZATION
+   ========================================================= */
+
+/* Use the available right-column space for readable scholastic text. */
+.scholastic-table th,
+.scholastic-table td {
+    font-size: 8.5px;
+    height: 24px;
+    padding: 3px 4px;
+    line-height: 1.15;
+}
+
+.scholastic-table th {
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.scholastic-table .area {
+    font-size: 8.5px;
+    font-weight: 600;
+}
+
+.scholastic-table .blank {
+    height: 24px;
+    min-height: 24px;
+    font-size: 9px;
+}
+
+/* Make the section heading more prominent. */
+.side-column > .side-box:first-child .side-title {
+    font-size: 9.5px;
+    padding: 6px 4px;
+}
+
+/* Bottom notation strip uses the otherwise-empty lower page area. */
+.notations {
+    margin-top: 5px;
+    border: 1px solid var(--line-dark);
+    background: var(--cream);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    min-height: 27px;
+}
+
+.notations-title {
+    background: var(--maroon);
+    color: #fff;
+    padding: 5px 9px;
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.notations-text {
+    padding: 4px 8px;
+    color: #3b2925;
+    font-size: 9.5px;
+    font-weight: 500;
+    line-height: 1.25;
+}
+
+.notations-text b {
+    color: var(--maroon-dark);
+    font-weight: 700;
+}
+
+@media print {
+    /* Increase scholastic readability without pushing beyond A4. */
+    .scholastic-table th,
+    .scholastic-table td {
+        height: 22px;
+        min-height: 22px;
+        padding: 2px 3px;
+        font-size: 8px;
+        line-height: 1.08;
+    }
+
+    .scholastic-table th {
+        font-size: 8.3px;
+        font-weight: 700;
+    }
+
+    .scholastic-table .area {
+        font-size: 8px;
+        font-weight: 600;
+    }
+
+    .scholastic-table .blank {
+        height: 22px;
+        min-height: 22px;
+        font-size: 8px;
+    }
+
+    .side-column > .side-box:first-child .side-title {
+        padding: 5px 3px;
+        font-size: 8.5px;
+    }
+
+    .notations {
+        margin-top: 3px;
+        min-height: 24px;
+        break-inside: avoid;
+    }
+
+    .notations-title {
+        padding: 4px 7px;
+        font-size: 8.5px;
+    }
+
+    .notations-text {
+        padding: 3px 6px;
+        font-size: 9px;
+        line-height: 1.1;
+    }
+}
+
+
+/* =========================================================
+   FINAL A4 UI/UX PASS — SPACE + READABILITY
+   ========================================================= */
+
+/* Give the right-hand Scholastic Area more breathing room. */
+@media screen {
+    .main-grid {
+        grid-template-columns: minmax(0, 3fr) minmax(300px, 1.12fr);
+        gap: 7px;
+    }
+
+    .scholastic-table th,
+    .scholastic-table td {
+        height: 28px;
+        padding: 4px 6px;
+        font-size: 9.5px;
+        line-height: 1.15;
+    }
+
+    .scholastic-table th {
+        font-size: 10px;
+    }
+
+    .scholastic-table .area {
+        font-size: 9.5px;
+        font-weight: 500;
+    }
+
+    .scholastic-table .blank {
+        height: 28px;
+        min-height: 28px;
+        font-size: 10px;
+    }
+}
+
+/* Marks: larger, clean, regular-weight — NOT bold. */
+.marks-table td:not(.subject):not(.sum):not(.grand):not(.grade-merged) {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    letter-spacing: .1px;
+}
+
+.marks-table td.sum,
+.marks-table td.grand {
+    font-size: 17px !important;
+    font-weight: 400 !important;
+}
+
+.marks-table td.subject {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+
+.marks-table td.grade-merged {
+    font-size: 20px !important;
+    font-weight: 500 !important;
+}
+
+/* Keep table headers distinct; only the actual marks are regular weight. */
+.marks-table th {
+    font-weight: 600 !important;
+}
+
+/* Make the Scholastic Area the visual focus of the right column. */
+.side-column > .side-box:first-child .side-title {
+    font-size: 10px;
+    padding: 7px 5px;
+    letter-spacing: .55px;
+}
+
+/* =========================================================
+   PRINT — USE MORE OF THE A4 PAGE
+   ========================================================= */
+@media print {
+    .main-grid {
+        grid-template-columns: minmax(0, 2.95fr) minmax(0, 1.16fr);
+        gap: 3px;
+    }
+
+    /* Term table marks: big but regular, not heavy/bold. */
+    .marks-table th,
+    .marks-table td {
+        font-size: 14.5px !important;
+        font-weight: 400 !important;
+        height: 23px;
+        min-height: 23px;
+        padding: 1px 2px;
+        line-height: 1;
+    }
+
+    .marks-table th {
+        font-size: 10px !important;
+        font-weight: 600 !important;
+        line-height: 1.05;
+    }
+
+    .marks-table th small {
+        font-size: 8px !important;
+        font-weight: 500 !important;
+    }
+
+    .marks-table td.subject {
+        font-size: 14.5px !important;
+        font-weight: 400 !important;
+    }
+
+    .marks-table td.sum,
+    .marks-table td.grand {
+        font-size: 14.5px !important;
+        font-weight: 550 !important;
+    }
+
+    .marks-table td.grade-merged {
+        font-size: 14.5px !important;
+        font-weight: 500 !important;
+    }
+
+    /* Scholastic Area: reclaim the unused vertical space from the old compact version. */
+    .scholastic-table th,
+    .scholastic-table td {
+        height: 26px !important;
+        min-height: 26px !important;
+        padding: 3px 4px !important;
+        font-size: 9.2px !important;
+        line-height: 1.1 !important;
+    }
+
+    .scholastic-table th {
+        font-size: 9.5px !important;
+        font-weight: 600 !important;
+    }
+
+    .scholastic-table .area {
+        font-size: 10px !important;
+        font-weight: 500 !important;
+    }
+
+    .scholastic-table .blank {
+        height: 26px !important;
+        min-height: 26px !important;
+        font-size: 9.5px !important;
+        font-weight: 400 !important;
+    }
+
+    .side-column > .side-box:first-child .side-title {
+        padding: 6px 4px !important;
+        font-size: 10px !important;
+        font-weight: 650 !important;
+    }
+
+    /* Slightly roomier lower right boxes to keep the whole column balanced. */
+    .attendance {
+        padding: 4px !important;
+    }
+
+    .attendance-box {
+        min-height: 42px !important;
+        padding: 4px 3px !important;
+        font-size: 6.5px !important;
+    }
+
+    .attendance-value {
+        font-size: 8px !important;
+        margin-top: 4px !important;
+    }
+
+    .remarks {
+        padding: 4px !important;
+    }
+
+    .remarks-box {
+        min-height: 54px !important;
+        font-size: 7px !important;
+    }
+
+    .signatures {
+        padding: 8px 3px 2px !important;
+        font-size: 6.2px !important;
+        min-height: 62px !important;
+    }
+
+    .principal-signature {
+        height: 58px !important;
+    }
+
+    .principal-signature img {
+        width: 100px !important;
+        height: 32px !important;
+    }
+
+    .stamp-box {
+        height: 48px !important;
+    }
+
+    .stamp-box img {
+        width: 54px !important;
+        height: 54px !important;
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    /* The grading scale remains compact so the left column stays balanced. */
+    .grading-bottom .grading-table td {
+        font-size: 9px !important;
+        font-weight: 500 !important;
+        height: 15px !important;
+    }
+}
+
+
+/* =========================================================
+   FINAL REQUEST PASS
+   - Logos slightly lower
+   - Grade spans subject rows + TOTAL row
+   - Larger approval stamp
+   - More usable teacher-remarks/signature space
+   ========================================================= */
+@media print {
+    .school-name-row .school-logo {
+        transform: translateY(2px) !important;
+    }
+
+    .marks-table td.grade-merged {
+        vertical-align: middle !important;
+        text-align: center !important;
+        padding: 0 !important;
+    }
+
+    .remarks-box {
+        min-height: 60px !important;
+    }
+
+    .signatures {
+        min-height: 62px !important;
+        padding: 8px 3px 2px !important;
+    }
+
+    .principal-signature {
+        height: 58px !important;
+    }
+
+    .stamp-box {
+        height: 48px !important;
+    }
+
+    .stamp-box img {
+        width: 54px !important;
+        height: 54px !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+    }
+}
+
+
+/* =========================================================
+   FINAL LOWER-RIGHT AREA ONLY
+   Keeps every other part of the report unchanged.
+   ========================================================= */
+@media print {
+    /* Let the right column use all vertical space already available. */
+    .side-column {
+        height: 100% !important;
+        min-height: 0 !important;
+        gap: 3px !important;
+    }
+
+    /* Keep Scholastic Area exactly as the upper block; use remaining
+       space below it for the attendance + remarks/signatures area. */
+    .side-column > .side-box:nth-child(2) {
+        flex: 0 0 auto !important;
+    }
+
+    .side-column > .side-box:nth-child(3) {
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    /* Attendance: clearer, slightly larger boxes. */
+    .side-column > .side-box:nth-child(2) .attendance {
+        padding: 5px !important;
+    }
+
+    .side-column > .side-box:nth-child(2) .attendance-grid {
+        gap: 3px !important;
+    }
+
+    .side-column > .side-box:nth-child(2) .attendance-box {
+        min-height: 48px !important;
+        padding: 5px 3px !important;
+        border-color: #b99b73 !important;
+        background: #fffdf8 !important;
+        font-size: 8px !important;
+    }
+
+    .side-column > .side-box:nth-child(2) .attendance-box strong {
+        color: #74151d !important;
+        font-weight: 700 !important;
+    }
+
+    .side-column > .side-box:nth-child(2) .attendance-value {
+        margin-top: 5px !important;
+        min-height: 10px !important;
+        font-size: 9px !important;
+        font-weight: 650 !important;
+        color: #5b0f16 !important;
+    }
+
+    /* Teacher remarks box expands into the available lower space. */
+    .side-column > .side-box:nth-child(3) .remarks {
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+        display: flex !important;
+        padding: 5px !important;
+    }
+
+    .side-column > .side-box:nth-child(3) .remarks-box {
+        flex: 1 1 auto !important;
+        border: 1px solid #b99b73 !important;
+        background: #fffdf8 !important;
+        font-size: 7px !important;
+    }
+
+    /* Make the three signature elements larger and more visible. */
+    .side-column > .side-box:nth-child(3) .signatures {
+        min-height: 72px !important;
+        padding: 5px 5px 3px !important;
+        gap: 6px !important;
+        align-items: end !important;
+    }
+
+    .side-column > .side-box:nth-child(3) .signature-line {
+        min-height: 22px !important;
+        padding: 0 3px 3px !important;
+        border-bottom: 1.3px solid #8b6b45 !important;
+        color: #3a2d24 !important;
+        font-size: 9px !important;
+        font-weight: 900 !important;
+    }
+
+    .side-column > .side-box:nth-child(3) .stamp-box {
+        height: 58px !important;
+        border-radius: 2px;
+    }
+
+    .side-column > .side-box:nth-child(3) .stamp-box img {
+        width: 64px !important;
+        height: 64px !important;
+        max-width: none !important;
+        max-height: none !important;
+    }
+
+    .side-column > .side-box:nth-child(3) .principal-signature {
+        height: 64px !important;
+    }
+
+    .side-column > .side-box:nth-child(3) .principal-signature img {
+        width: 108px !important;
+        height: 36px !important;
+        object-fit: contain !important;
+    }
+
+    .side-column > .side-box:nth-child(3) .principal-signature .signature-line {
+        width: 86% !important;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<% if (print !== false) { %>
+
+    <div class="actions">
+
+        <button
+            type="button"
+            class="print-btn"
+            onclick="window.print()"
+        >
+            🖨️ Print / Save as PDF
+        </button>
+
+    </div>
+
+<% } %>
+
+<%
+    const student = data?.student || {};
+    const exams = data?.exams || {};
+
+    const PT1 = exams.PT1 || null;
+    const PT2 = exams.PT2 || null;
+    const Halfyearly = exams.Halfyearly || null;
+    const PT3 = exams.PT3 || null;
+    const PT4 = exams.PT4 || null;
+    const Annual = exams.Annual || null;
+
+    const subjects = [
+        { key: "english",  name: "ENGLISH" },
+        { key: "hindi",    name: "HINDI" },
+        { key: "math",     name: "MATHEMATICS" },
+        { key: "sst",      name: "SOCIAL SCIENCE" },
+        { key: "gsc",      name: "SCIENCE" },
+        { key: "gk",       name: "GENERAL KNOWLEDGE" },
+        { key: "computer", name: "COMPUTER" },
+        { key: "language", name: "SANSKRIT / URDU" }
+    ];
+
+    function getMark(exam, key) {
+        if (!exam) return "";
+        const value = exam[key];
+        if (value === undefined || value === null || value === "") return "";
+        return value;
+    }
+
+    function numberOrZero(value) {
+        if (value === undefined || value === null || value === "" || value === "AB") {
+            return 0;
+        }
+        const n = Number(value);
+        return Number.isFinite(n) ? n : 0;
+    }
+
+    function subjectTotal(examList, key) {
+        let total = 0;
+        let found = false;
+        let absent = false;
+
+        for (const exam of examList) {
+            if (!exam) continue;
+
+            const value = exam[key];
+
+            if (value === "AB") {
+                absent = true;
+                found = true;
+                continue;
+            }
+
+            if (value !== undefined && value !== null && value !== "") {
+                total += numberOrZero(value);
+                found = true;
+            }
+        }
+
+        if (!found) return "";
+        if (absent) return "AB";
+        return total;
+    }
+
+    function percentage(total, maximum = 100) {
+        if (total === "AB" || total === "" || total === null || total === undefined) {
+            return "";
+        }
+        return ((Number(total) / maximum) * 100).toFixed(0);
+    }
+
+    function grade(value) {
+        if (value === "" || value === null || value === undefined || value === "AB") {
+            return "";
+        }
+
+        const p = Number(value);
+
+        if (!Number.isFinite(p)) return "";
+        if (p >= 91) return "A1";
+        if (p >= 81) return "A2";
+        if (p >= 71) return "B1";
+        if (p >= 61) return "B2";
+        if (p >= 51) return "C1";
+        if (p >= 41) return "C2";
+        if (p >= 33) return "D";
+        return "E";
+    }
+
+    function displayMark(value) {
+        if (value === "AB") {
+            return '<span class="absent">__</span>';
+        }
+
+        if (value === "" || value === null || value === undefined) {
+            return "__";
+        }
+
+        return value;
+    }
+
+    function examTotal(exam, subjectList = subjects) {
+        if (!exam) return 0;
+        return subjectList.reduce(
+            (sum, subject) => sum + numberOrZero(exam[subject.key]),
+            0
+        );
+    }
+
+    function termTotal(examList) {
+        return examList.reduce((sum, exam) => sum + examTotal(exam), 0);
+    }
+
+    const termI = [PT1, PT2, Halfyearly];
+    const termII = [PT3, PT4, Annual];
+
+    const subjectMaximum = 100;
+    const maximumMarks = subjects.length * subjectMaximum;
+
+    const termITotal = termTotal(termI);
+    const termIITotal = termTotal(termII);
+
+    const termIPercentage = maximumMarks
+        ? ((termITotal / maximumMarks) * 100).toFixed(2)
+        : "";
+
+    const termIIPercentage = maximumMarks
+        ? ((termIITotal / maximumMarks) * 100).toFixed(2)
+        : "";
+
+    const totalYearMarks = termITotal + termIITotal;
+    const yearlyMaximum = maximumMarks * 2;
+
+    const yearlyPercentage = yearlyMaximum
+        ? ((totalYearMarks / yearlyMaximum) * 100).toFixed(2)
+        : "";
+
+    const attendance = data?.attendance || {};
+    const attendanceWorking = attendance.workingDays ?? "";
+    const attendancePresent = attendance.present ?? "";
+    const attendancePercentage = attendance.percentage ?? "";
+
+    const scholastic = data?.scholastic || {};
+
+    const scholasticAreas = [
+        { key: "listening", name: "LISTENING SKILL" },
+        { key: "speaking", name: "SPEAKING SKILL" },
+        { key: "reading", name: "READING SKILL" },
+        { key: "writing", name: "WRITING SKILL" },
+        { key: "collaboration", name: "COLLABORATION & COOPERATION" },
+        { key: "peers", name: "RELATIONS WITH PEERS" },
+        { key: "teachers", name: "RELATIONS WITH TEACHERS" },
+        { key: "discipline", name: "DISCIPLINE, PUNCTUALITY & REGULARITY" },
+        { key: "cleanliness", name: "CLEANLINESS (HAIR, HANDS, NAILS, SHOES & UNIFORM)" },
+        { key: "artCraft", name: "ART AND CRAFT" },
+        { key: "drawing", name: "DRAWING" },
+        { key: "musicDanceDrama", name: "MUSIC, DANCE, DRAMA" }
+    ];
+
+    function scholasticValue(key, term) {
+        const item = scholastic[key];
+
+        if (!item) return "";
+
+        if (typeof item === "object") {
+            return item[term] ?? "";
+        }
+
+        return "";
+    }
+%>
+
+<div class="report-page">
+
+    <div class="school-heading">
+        <div class="school-name-row">
+            <img class="school-logo l1" src="/rlogo.png" alt="School Logo">
+            <h1>ST. COLUMBUS PUBLIC SCHOOL</h1>
+            <img class="school-logo qr" src="/rqr.png" alt="School QR">
+        </div>
+
+        <h2>EKDARA, JHAJHA, JAMUI, BIHAR</h2>
+
+        <div class="report-title">PROGRESS REPORT CARD</div>
+    </div>
+
+    <div class="student-info">
+        <!-- 1. Admission Number -->
+        <div class="item">
+            <strong>Admission No.:</strong>
+            <%= student.admissionNumber || "" %>
+        </div>
+
+        <!-- 2. Student Name -->
+        <div class="item">
+            <strong>Name:</strong>
+            <%= student.name || "" %>
+        </div>
+
+        <!-- 3. Class -->
+        <div class="item">
+            <strong>Class:</strong>
+            <%= student.class || "" %>
+        </div>
+
+        <!-- 4. Roll Number -->
+        <div class="item">
+            <strong>Roll No.:</strong>
+            
+        </div>
+    </div>
+
+    <div class="main-grid">
+
+        <div>
+
+            <!-- TERM I -->
+            <section class="term-box">
+
+                <div class="term-title">
+                    PEN PAPER TESTS — TERM I
+                </div>
+
+                <div class="term-subtitle">
+                    PT1 (10) + PT2 (10) + HALF YEARLY EXAM (80)
+                </div>
+
+                <table class="marks-table">
+                    <thead>
+                        <tr>
+                            <th class="subject">MAIN SUBJECTS</th>
+                            <th class="fm">F.M.</th>
+                            <th class="exam-mark">PT1<br><small>(10)</small></th>
+                            <th class="exam-mark">PT2<br><small>(10)</small></th>
+                            <th class="exam-mark">HALF YEARLY<br><small>(80)</small></th>
+                            <th class="total">TOTAL</th>
+                            <th class="percentage">PERCENTAGE</th>
+                            <th class="grade">GRADE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+    <% subjects.forEach((subject, index) => {
+        const total = subjectTotal(termI, subject.key);
+        const pct = percentage(total, subjectMaximum);
+    %>
+        <tr>
+            <td class="subject">
+                <%= subject.name %>
+            </td>
+
+            <td>100</td>
+
+            <td>
+                <%- displayMark(getMark(PT1, subject.key)) %>
+            </td>
+
+            <td>
+                <%- displayMark(getMark(PT2, subject.key)) %>
+            </td>
+
+            <td>
+                <%- displayMark(getMark(Halfyearly, subject.key)) %>
+            </td>
+
+            <td class="sum">
+                <%= total %>
+            </td>
+
+            <td class="sum">
+                <%= pct %><%= pct !== "" ? "%" : "" %>
+            </td>
+
+            <% if (index === 0) { %>
+                <!-- ONE GRADE CELL FOR THE COMPLETE TERM -->
+                <td class="grade-merged" rowspan="9">
+                    <%= grade(termIPercentage) %>
+                </td>
+            <% } %>
+        </tr>
+    <% }) %>
+
+    <!-- TOTAL -->
+    <tr>
+        <td class="subject grand">
+            TOTAL
+        </td>
+
+        <td class="grand">
+            <%= maximumMarks %>
+        </td>
+
+        <td class="grand">__</td>
+        <td class="grand">__</td>
+        <td class="grand">__</td>
+
+        <td class="grand">
+            <%= termITotal %>
+        </td>
+
+        <td class="grand">
+            <%= termIPercentage %>%
+        </td>
+    </tr>
+</tbody>
+
+                </table>
+            </section>
+
+            <!-- TERM II -->
+            <section class="term-box">
+
+                <div class="term-title">
+                    PEN PAPER TESTS — TERM II
+                </div>
+
+                <div class="term-subtitle">
+                    PT3 (10) + PT4 (10) + ANNUAL EXAM (80)
+                </div>
+
+                <table class="marks-table">
+
+                    <thead>
+                        <tr>
+                            <th class="subject">MAIN SUBJECTS</th>
+                            <th class="fm">F.M.</th>
+                            <th class="exam-mark">PT3<br><small>(10)</small></th>
+                            <th class="exam-mark">PT4<br><small>(10)</small></th>
+                            <th class="exam-mark">ANNUAL<br><small>(80)</small></th>
+                            <th class="total">TOTAL</th>
+                            <th class="percentage">PERCENTAGE</th>
+                            <th class="grade">GRADE</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+    <% subjects.forEach((subject, index) => {
+        const total = subjectTotal(termII, subject.key);
+        const pct = percentage(total, subjectMaximum);
+    %>
+        <tr>
+            <td class="subject">
+                <%= subject.name %>
+            </td>
+
+            <td>100</td>
+
+            <td>
+                <%- displayMark(getMark(PT3, subject.key)) %>
+            </td>
+
+            <td>
+                <%- displayMark(getMark(PT4, subject.key)) %>
+            </td>
+
+            <td>
+                <%- displayMark(getMark(Annual, subject.key)) %>
+            </td>
+
+            <td class="sum">
+                <%= total %>
+            </td>
+
+            <td class="sum">
+                <%= pct %><%= pct !== "" ? "%" : "" %>
+            </td>
+
+            <% if (index === 0) { %>
+                <!-- ONE GRADE CELL FOR THE COMPLETE TERM -->
+                <td class="grade-merged" rowspan="9">
+                    <%= grade(termIIPercentage) %>
+                </td>
+            <% } %>
+        </tr>
+    <% }) %>
+
+    <!-- TOTAL -->
+    <tr>
+        <td class="subject grand">
+            TOTAL
+        </td>
+
+        <td class="grand">
+            <%= maximumMarks %>
+        </td>
+
+        <td class="grand">__</td>
+        <td class="grand">__</td>
+        <td class="grand">__</td>
+
+        <td class="grand">
+            <%= termIITotal %>
+        </td>
+
+        <td class="grand">
+            <%= termIIPercentage %>%
+        </td>
+    </tr>
+</tbody>
+
+                </table>
+            </section>
+
+            <!-- GRADING SCALE — AFTER TERM II -->
+            <section class="term-box grading-bottom">
+                <div class="term-title">
+                    GRADING SCALE FOR SCHOLASTIC AREA
+                </div>
+
+                <table class="grading-table">
+                    <tbody>
+                        <tr>
+                            <td>91 – 100</td><td>A1</td>
+                            <td>81 – 90</td><td>A2</td>
+                        </tr>
+                        <tr>
+                            <td>71 – 80</td><td>B1</td>
+                            <td>61 – 70</td><td>B2</td>
+                        </tr>
+                        <tr>
+                            <td>51 – 60</td><td>C1</td>
+                            <td>41 – 50</td><td>C2</td>
+                        </tr>
+                        <tr>
+                            <td>33 – 40</td><td>D</td>
+                            <td>0 – 32</td><td>E</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+</div>
+
+        <!-- RIGHT SIDE -->
+        <div class="side-column">
+
+            <!-- SCHOLASTIC -->
+            <section class="side-box">
+
+                <div class="side-title">
+                    SCHOLASTIC AREA
+                </div>
+
+                <table class="scholastic-table">
+
+                    <thead>
+                        <tr>
+                            <th class="area">AREA</th>
+                            <th>TERM I</th>
+                            <th>TERM II</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% scholasticAreas.forEach(area => { %>
+                            <tr>
+                                <td class="area">
+                                    <%= area.name %>
+                                </td>
+                                <td class="blank">
+                                    <%= scholasticValue(area.key, "term1") %>
+                                </td>
+                                <td class="blank">
+                                    <%= scholasticValue(area.key, "term2") %>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+
+                </table>
+
+            </section>
+
+            <!-- ATTENDANCE -->
+            <section class="side-box">
+
+                <div class="side-title">
+                    ATTENDANCE
+                </div>
+
+                <div class="attendance">
+                    <div class="attendance-grid">
+
+                        <div class="attendance-box">
+                            <strong>WORKING DAYS</strong>
+                            <div class="attendance-value">
+                                <%= attendanceWorking %>
+                            </div>
+                        </div>
+
+                        <div class="attendance-box">
+                            <strong>PRESENT</strong>
+                            <div class="attendance-value">
+                                <%= attendancePresent %>
+                            </div>
+                        </div>
+
+                        <div class="attendance-box">
+                            <strong>ABSENT</strong>
+                            <div class="attendance-value">
+                                <%= attendancePercentage %>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- REMARKS -->
+            <section class="side-box">
+
+                <div class="side-title">
+                    TEACHER'S SUGGESTIVE REMARKS
+                </div>
+
+                <div class="remarks">
+                    <div class="remarks-box">
+                        <%= data?.remarks || "" %>
+                    </div>
+                </div>
+
+                <div class="signatures">
+                    <div class="signature-line class-teacher-signature">CLASS TEACHER</div>
+
+                    <div class="stamp-box">
+                    </div>
+                    <div class="principal-signature">
+                        <div class="signature-line">PRINCIPAL</div>
+                    </div>
+                </div>
+
+            </section>
+
+        </div>
+    </div>
+
+    <!-- NOTATIONS — bottom of the report -->
+<section class="notations">
+    <div class="notations-title">Notations | Links!</div>
+
+    <div class="notations-text">
+        <b>F.M.</b> = Full Marks
+        &nbsp;&nbsp;|&nbsp;&nbsp;
+
+        <b>PT</b> = Pen Paper Test
+        &nbsp;&nbsp;|&nbsp;&nbsp;
+
+        <b>—</b> = Not Applicable
+        &nbsp;&nbsp;|&nbsp;&nbsp;
+
+        <b>%</b> = Percentage
+        &nbsp;&nbsp;|&nbsp;&nbsp;
+
+        <b>Grade:</b> A1 (Highest) to E (Lowest)
+        &nbsp;&nbsp;|&nbsp;&nbsp;
+
+        <b>Visit Our Website:</b>
+        stcolumbusekdara.cloud
+        &nbsp;&nbsp;|&nbsp;&nbsp;
+
+        <b>Check Result:</b>
+        stcolumbusekdara.cloud/check/result
+    </div>
+</section>
+
+</div>
+
+<% if (showNavigation !== false) { %>
+
+    <a
+        <% if (student.roll > 1) { %>
+
+            href="/marksheet/print/result/search?class=<%= student.class %>&roll=<%= student.roll - 1 %>&admissionNumber=<%= student.admissionNumber || '' %>"
+
+        <% } %>
+    >
+        Previous Roll
+    </a>
+
+
+    <a
+        href="/marksheet/print/result/search?class=<%= student.class %>&roll=<%= student.roll + 1 %>&admissionNumber=<%= student.admissionNumber || '' %>"
+    >
+        Next Roll
+    </a>
+
+<% } %>
+
+
+</body>
+</html>

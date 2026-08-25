@@ -1,0 +1,1926 @@
+/* ==========================================================
+   CLASS RESULT PRINT SYSTEM
+   ========================================================== */
+
+
+/* ==========================================================
+   ROOT
+   ========================================================== */
+
+:root {
+
+    --result-primary: #111827;
+
+    --result-secondary: #374151;
+
+    --result-light: #f8fafc;
+
+    --result-border: #d1d5db;
+
+    --result-white: #ffffff;
+
+    --result-success: #15803d;
+
+    --result-danger: #b91c1c;
+
+    --result-shadow:
+        0 10px 30px
+        rgba(0, 0, 0, 0.08);
+
+}
+
+
+/* ==========================================================
+   GLOBAL
+   ========================================================== */
+
+* {
+
+    box-sizing: border-box;
+
+}
+
+
+html {
+
+    scroll-behavior: smooth;
+
+}
+
+
+body {
+
+    margin: 0;
+
+    padding: 0;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:
+        var(--result-light);
+
+    color:
+        var(--result-primary);
+
+}
+
+
+button,
+input,
+select {
+
+    font:
+        inherit;
+
+}
+
+
+button {
+
+    cursor: pointer;
+
+}
+
+
+a {
+
+    text-decoration: none;
+
+}
+
+
+/* ==========================================================
+   MAIN RESULT PRINT PAGE
+   classResultPrint.ejs
+   ========================================================== */
+
+.result-print-page {
+
+    min-height: 100vh;
+
+    padding: 40px 20px;
+
+}
+
+
+.result-print-container {
+
+    width: 100%;
+
+    max-width: 850px;
+
+    margin: 0 auto;
+
+}
+
+
+/* ==========================================================
+   PAGE HEADER
+   ========================================================== */
+
+.result-print-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    margin-bottom: 30px;
+
+}
+
+
+.result-print-icon {
+
+    width: 60px;
+
+    height: 60px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 12px;
+
+    background:
+        var(--result-primary);
+
+    color:
+        var(--result-white);
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+}
+
+
+.result-print-heading h1 {
+
+    margin: 0;
+
+    font-size: 30px;
+
+    font-weight: 700;
+
+}
+
+
+.result-print-heading p {
+
+    margin: 7px 0 0;
+
+    color:
+        var(--result-secondary);
+
+    line-height: 1.6;
+
+}
+
+
+/* ==========================================================
+   CLASS SELECTION CARD
+   ========================================================== */
+
+.class-selection-card {
+
+    padding: 32px;
+
+    background:
+        var(--result-white);
+
+    border:
+        1px solid
+        var(--result-border);
+
+    border-radius: 14px;
+
+    box-shadow:
+        var(--result-shadow);
+
+}
+
+
+.card-heading {
+
+    margin-bottom: 25px;
+
+}
+
+
+.card-heading h2 {
+
+    margin: 0 0 7px;
+
+    font-size: 22px;
+
+}
+
+
+.card-heading p {
+
+    margin: 0;
+
+    color:
+        var(--result-secondary);
+
+    line-height: 1.6;
+
+}
+
+
+.class-result-form {
+
+    display: flex;
+
+    gap: 15px;
+
+    align-items: end;
+
+}
+
+
+.form-group {
+
+    width: 100%;
+
+}
+
+
+.form-group label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+.form-group select {
+
+    width: 100%;
+
+    height: 48px;
+
+    padding: 0 14px;
+
+    border:
+        1px solid
+        var(--result-border);
+
+    border-radius: 8px;
+
+    outline: none;
+
+    background:
+        var(--result-white);
+
+}
+
+
+.form-group select:focus {
+
+    border-color:
+        var(--result-primary);
+
+}
+
+
+.load-students-btn {
+
+    height: 48px;
+
+    min-width: 180px;
+
+    padding: 0 20px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background:
+        var(--result-primary);
+
+    color:
+        var(--result-white);
+
+    font-weight: 600;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+
+}
+
+
+.load-students-btn:hover {
+
+    transform:
+        translateY(-2px);
+
+    opacity: 0.92;
+
+}
+
+
+.button-arrow {
+
+    font-size: 20px;
+
+}
+
+
+/* ==========================================================
+   AVAILABLE OPTIONS
+   ========================================================== */
+
+.result-print-info {
+
+    margin-top: 28px;
+
+    padding: 28px;
+
+    background:
+        var(--result-white);
+
+    border:
+        1px solid
+        var(--result-border);
+
+    border-radius: 14px;
+
+}
+
+
+.result-print-info h3 {
+
+    margin:
+        0 0 22px;
+
+    font-size: 20px;
+
+}
+
+
+.print-option-list {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 20px;
+
+}
+
+
+.print-option {
+
+    display: flex;
+
+    gap: 14px;
+
+    padding: 18px;
+
+    border:
+        1px solid
+        var(--result-border);
+
+    border-radius: 10px;
+
+}
+
+
+.option-number {
+
+    width: 34px;
+
+    height: 34px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        var(--result-primary);
+
+    color:
+        var(--result-white);
+
+    font-weight: 700;
+
+}
+
+
+.print-option h4 {
+
+    margin: 0 0 7px;
+
+    font-size: 16px;
+
+}
+
+
+.print-option p {
+
+    margin: 0;
+
+    color:
+        var(--result-secondary);
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+}
+
+
+/* ==========================================================
+   STUDENT LIST PAGE
+   classStudentList.ejs
+   ========================================================== */
+
+.student-list-container {
+
+    width: 100%;
+
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+}
+
+
+.student-list-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+
+    margin-bottom: 28px;
+
+}
+
+
+.student-list-header h1 {
+
+    margin: 10px 0 5px;
+
+    font-size: 30px;
+
+}
+
+
+.student-list-header p {
+
+    margin: 0;
+
+    color:
+        var(--result-secondary);
+
+}
+
+
+.back-button {
+
+    display: inline-flex;
+
+    color:
+        var(--result-secondary);
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+.back-button:hover {
+
+    color:
+        var(--result-primary);
+
+}
+
+
+.print-all-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 46px;
+
+    padding: 0 22px;
+
+    border-radius: 8px;
+
+    background:
+        var(--result-success);
+
+    color:
+        var(--result-white);
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+}
+
+
+.print-all-btn:hover {
+
+    opacity: 0.9;
+
+}
+
+
+/* ==========================================================
+   SEARCH + CONTROLS
+   ========================================================== */
+
+.student-controls {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 18px;
+
+}
+
+
+.student-search {
+
+    width: 100%;
+
+}
+
+
+.student-search input {
+
+    width: 100%;
+
+    height: 46px;
+
+    padding: 0 15px;
+
+    border:
+        1px solid
+        var(--result-border);
+
+    border-radius: 8px;
+
+    outline: none;
+
+    background:
+        var(--result-white);
+
+}
+
+
+.student-search input:focus {
+
+    border-color:
+        var(--result-primary);
+
+}
+
+
+.selection-controls {
+
+    display: flex;
+
+    gap: 10px;
+
+    flex-shrink: 0;
+
+}
+
+
+.selection-btn {
+
+    height: 46px;
+
+    padding: 0 16px;
+
+    border:
+        1px solid
+        var(--result-border);
+
+    border-radius: 8px;
+
+    background:
+        var(--result-white);
+
+    color:
+        var(--result-primary);
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+.selection-btn:hover {
+
+    background:
+        #f3f4f6;
+
+}
+
+
+/* ==========================================================
+   SELECTED STUDENT INFO
+   ========================================================== */
+
+.selected-student-info {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    margin-bottom: 15px;
+
+    color:
+        var(--result-secondary);
+
+    font-size: 14px;
+
+}
+
+
+.selected-student-info strong {
+
+    color:
+        var(--result-primary);
+
+    font-size: 16px;
+
+}
+
+
+/* ==========================================================
+   STUDENT TABLE
+   ========================================================== */
+
+.student-table-wrapper {
+
+    overflow-x: auto;
+
+    background:
+        var(--result-white);
+
+    border:
+        1px solid
+        var(--result-border);
+
+    border-radius: 12px;
+
+    box-shadow:
+        var(--result-shadow);
+
+}
+
+
+.student-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+}
+
+
+.student-table th {
+
+    padding: 15px;
+
+    text-align: left;
+
+    background:
+        var(--result-primary);
+
+    color:
+        var(--result-white);
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+.student-table td {
+
+    padding: 15px;
+
+    border-bottom:
+        1px solid
+        var(--result-border);
+
+    font-size: 14px;
+
+}
+
+
+.student-table tbody tr:last-child td {
+
+    border-bottom: none;
+
+}
+
+
+.student-table tbody tr {
+
+    transition:
+        background 0.15s ease;
+
+}
+
+
+.student-table tbody tr:hover {
+
+    background:
+        #f8fafc;
+
+}
+
+
+.student-checkbox {
+
+    width: 18px;
+
+    height: 18px;
+
+    cursor: pointer;
+
+}
+
+
+/* Selected Row */
+
+.student-row.is-selected {
+
+    background:
+        #f0fdf4;
+
+}
+
+
+.student-row.is-selected:hover {
+
+    background:
+        #dcfce7;
+
+}
+
+
+/* Hidden Search Result */
+
+.student-row.is-hidden {
+
+    display: none;
+
+}
+
+
+/* ==========================================================
+   PRINT SELECTED BUTTON
+   ========================================================== */
+
+.selected-print-action {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-top: 20px;
+
+}
+
+
+.print-selected-btn {
+
+    min-height: 48px;
+
+    padding: 0 24px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background:
+        var(--result-primary);
+
+    color:
+        var(--result-white);
+
+    font-weight: 600;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+
+}
+
+
+.print-selected-btn:hover:not(:disabled) {
+
+    transform:
+        translateY(-2px);
+
+}
+
+
+.print-selected-btn:disabled {
+
+    cursor: not-allowed;
+
+    opacity: 0.45;
+
+}
+
+
+/* ==========================================================
+   NO STUDENTS
+   ========================================================== */
+
+.no-students {
+
+    padding: 60px 25px;
+
+    text-align: center;
+
+    background:
+        var(--result-white);
+
+    border:
+        1px solid
+        var(--result-border);
+
+    border-radius: 14px;
+
+}
+
+
+.no-students h2 {
+
+    margin-top: 0;
+
+}
+
+
+.no-students p {
+
+    margin-bottom: 25px;
+
+    color:
+        var(--result-secondary);
+
+}
+
+
+.back-to-result-btn {
+
+    display: inline-flex;
+
+    padding: 12px 20px;
+
+    border-radius: 8px;
+
+    background:
+        var(--result-primary);
+
+    color:
+        var(--result-white);
+
+}
+
+
+/* ==========================================================
+   BULK RESULT PRINT PAGE
+   bulkResultPrint.ejs
+   ========================================================== */
+
+.bulk-result-print-page {
+
+    background:
+        #e5e7eb;
+
+}
+
+
+/* ==========================================================
+   PRINT TOOLBAR
+   ========================================================== */
+
+.bulk-print-toolbar {
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 100;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 14px 25px;
+
+    background:
+        var(--result-white);
+
+    border-bottom:
+        1px solid
+        var(--result-border);
+
+    box-shadow:
+        0 4px 15px
+        rgba(0, 0, 0, 0.08);
+
+}
+
+
+.bulk-print-info {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+}
+
+
+.bulk-print-info strong {
+
+    display: block;
+
+    font-size: 16px;
+
+}
+
+
+.bulk-print-info span {
+
+    display: block;
+
+    margin-top: 3px;
+
+    color:
+        var(--result-secondary);
+
+    font-size: 13px;
+
+}
+
+
+.bulk-back-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 10px 15px;
+
+    border:
+        1px solid
+        var(--result-border);
+
+    border-radius: 7px;
+
+    color:
+        var(--result-primary);
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+.bulk-print-btn {
+
+    min-height: 44px;
+
+    padding: 0 24px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background:
+        var(--result-primary);
+
+    color:
+        var(--result-white);
+
+    font-weight: 600;
+
+}
+
+
+/* ==========================================================
+   BULK RESULT CONTAINER
+   ========================================================== */
+
+.bulk-results-container {
+
+    width: 100%;
+
+    padding: 30px 20px;
+
+}
+
+
+.bulk-result-sheet {
+
+    width: 210mm;
+
+    min-height: 297mm;
+
+    margin: 0 auto;
+
+    background:
+        var(--result-white);
+
+    overflow: hidden;
+
+}
+
+
+/* Space between pages while previewing */
+
+.result-page-break {
+
+    height: 30px;
+
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+
+
+
+
+/* ==========================================================
+   BULK RESULT PRINT
+========================================================== */
+
+.bulk-result-print-page {
+    margin: 0;
+    padding: 20px;
+    background: #e5e5e5;
+}
+
+
+/* ==========================================================
+   PRINT TOOLBAR
+========================================================== */
+
+.bulk-print-toolbar {
+    width: 100%;
+    max-width: 1400px;
+
+    margin: 0 auto 20px;
+
+    padding: 14px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+
+    background: #ffffff;
+
+    border: 1px solid #d5d5d5;
+
+    box-shadow:
+        0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+
+.bulk-print-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+
+.bulk-print-info strong {
+    display: block;
+}
+
+
+.bulk-print-info span {
+    display: block;
+    margin-top: 3px;
+
+    font-size: 13px;
+
+    color: #666;
+}
+
+
+.bulk-print-info small {
+    display: block;
+    margin-top: 3px;
+
+    font-size: 11px;
+
+    color: #888;
+}
+
+
+.bulk-back-btn,
+.bulk-print-btn {
+    padding: 10px 18px;
+
+    border: none;
+    border-radius: 4px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+
+.bulk-back-btn {
+    background: #eeeeee;
+    color: #222;
+}
+
+
+.bulk-print-btn {
+    background: #741c1c;
+    color: white;
+}
+
+
+/* ==========================================================
+   RESULTS CONTAINER
+========================================================== */
+
+.bulk-results-container {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* ==========================================================
+   SINGLE A4 LANDSCAPE RESULT
+========================================================== */
+
+.bulk-result-sheet {
+
+    /*
+        A4 Landscape
+
+        Width  = 297mm
+        Height = 210mm
+    */
+
+    width: 297mm;
+    height: 210mm;
+
+    margin: 0 auto;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+
+    background: white;
+
+    page-break-inside: avoid;
+
+    break-inside: avoid;
+
+    position: relative;
+}
+
+
+/* ==========================================================
+   PAGE BREAK
+========================================================== */
+
+.result-page-break {
+    height: 20px;
+}
+
+
+/* ==========================================================
+   SCREEN PREVIEW
+
+   Shrink large A4 sheet if screen is smaller.
+========================================================== */
+
+@media screen and (max-width: 1200px) {
+
+    .bulk-result-sheet {
+        transform: scale(0.9);
+        transform-origin: top center;
+
+        margin-bottom: -21mm;
+    }
+
+}
+
+
+@media screen and (max-width: 1000px) {
+
+    .bulk-result-sheet {
+        transform: scale(0.75);
+        transform-origin: top center;
+
+        margin-bottom: -52mm;
+    }
+
+}
+
+
+/* ==========================================================
+   PRINT SETTINGS
+========================================================== */
+
+
+/* ==========================================================
+   BULK RESULT PRINT
+   ========================================================== */
+
+.bulk-result-print-page {
+    margin: 0;
+    padding: 20px;
+    background: #e5e7eb;
+}
+
+
+/* ==========================================================
+   PRINT TOOLBAR
+   ========================================================== */
+
+.bulk-print-toolbar {
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 14px 25px;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #d1d5db;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0, 0, 0, 0.08);
+
+}
+
+
+.bulk-print-info {
+
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+
+}
+
+
+.bulk-print-info strong {
+
+    display: block;
+
+    font-size: 16px;
+
+}
+
+
+.bulk-print-info span {
+
+    display: block;
+
+    margin-top: 3px;
+
+    font-size: 13px;
+
+    color: #666;
+
+}
+
+
+.bulk-print-info small {
+
+    display: block;
+
+    margin-top: 3px;
+
+    font-size: 11px;
+
+    color: #888;
+
+}
+
+
+.bulk-back-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px 16px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 6px;
+
+    background: #f3f4f6;
+
+    color: #222;
+
+    text-decoration: none;
+
+    font-weight: 600;
+
+}
+
+
+.bulk-print-btn {
+
+    padding: 11px 22px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: #741c1c;
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+}
+
+
+/* ==========================================================
+   RESULTS CONTAINER
+   ========================================================== */
+
+.bulk-results-container {
+
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+
+/* ==========================================================
+   SINGLE RESULT SHEET
+
+   A4 LANDSCAPE
+   Width  = 297mm
+   Height = 210mm
+   ========================================================== */
+
+.bulk-result-sheet {
+
+    width: 297mm;
+    height: 210mm;
+
+    margin: 0 auto;
+
+    padding: 0;
+
+    box-sizing: border-box;
+
+    background: white;
+
+    overflow: hidden;
+
+    position: relative;
+
+}
+
+
+/* ==========================================================
+   SPACE BETWEEN RESULTS ON SCREEN
+   ========================================================== */
+
+.result-page-break {
+
+    height: 20px;
+
+}
+
+
+/* ==========================================================
+   RESPONSIVE SCREEN PREVIEW
+   ========================================================== */
+
+@media screen and (max-width: 1300px) {
+
+    .bulk-result-sheet {
+
+        transform: scale(0.9);
+
+        transform-origin: top center;
+
+        margin-bottom: -21mm;
+
+    }
+
+}
+
+
+@media screen and (max-width: 1050px) {
+
+    .bulk-result-sheet {
+
+        transform: scale(0.75);
+
+        transform-origin: top center;
+
+        margin-bottom: -52mm;
+
+    }
+
+}
+
+
+/* ==========================================================
+   FINAL BULK RESULT PRINT FIX
+   ONE STUDENT = ONE PAGE
+   PRINT ALL STUDENTS
+========================================================== */
+
+@media print {
+
+    @page {
+        size: A4 landscape;
+        margin: 0;
+    }
+
+    html,
+    body {
+        width: 297mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+    }
+
+    /* Hide buttons / toolbar */
+    .bulk-print-toolbar {
+        display: none !important;
+    }
+
+    /* Reset main page */
+    .bulk-result-print-page {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+    }
+
+    .bulk-results-container {
+        width: 297mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+
+        display: block !important;
+    }
+
+    /* ==========================================
+       EACH RESULT = ONE A4 LANDSCAPE PAGE
+    ========================================== */
+
+    .bulk-result-sheet {
+
+        width: 297mm !important;
+        height: 210mm !important;
+        min-height: 210mm !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        box-sizing: border-box !important;
+
+        overflow: hidden !important;
+
+        transform: none !important;
+
+        /* Prevent result splitting */
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+
+        /* Force next student onto next page */
+        break-after: page !important;
+        page-break-after: always !important;
+    }
+
+    /* Remove screen spacing elements */
+    .result-page-break {
+        display: none !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* IMPORTANT:
+       Remove page break after actual last result */
+    .bulk-result-sheet:last-of-type {
+        break-after: auto !important;
+        page-break-after: auto !important;
+    }
+
+    /* Preserve backgrounds and colors */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+}
+
+/* ==========================================================
+   BULK RESULT PRINT PAGE
+   bulkResultPrint.ejs
+
+   Clean print system:
+   - Screen preview remains separate from print rules
+   - Every .bulk-result-sheet is one A4 landscape page
+   - Multiple students print as multiple pages
+   - Result content/layout itself is not styled or modified here
+========================================================== */
+
+.bulk-result-print-page {
+    margin: 0;
+    padding: 20px;
+    background: #e5e7eb;
+}
+
+/* ==========================================================
+   PRINT TOOLBAR
+========================================================== */
+
+.bulk-print-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    width: 100%;
+    max-width: 1400px;
+
+    margin: 0 auto 20px;
+    padding: 14px 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    box-sizing: border-box;
+
+    background: #ffffff;
+    border-bottom: 1px solid #d1d5db;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0, 0, 0, 0.08);
+}
+
+.bulk-print-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.bulk-print-info strong {
+    display: block;
+    font-size: 16px;
+}
+
+.bulk-print-info span {
+    display: block;
+    margin-top: 3px;
+
+    color: #666;
+    font-size: 13px;
+}
+
+.bulk-print-info small {
+    display: block;
+    margin-top: 3px;
+
+    color: #888;
+    font-size: 11px;
+}
+
+.bulk-back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px 16px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+
+    background: #f3f4f6;
+    color: #222;
+
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.bulk-print-btn {
+    padding: 11px 22px;
+
+    border: none;
+    border-radius: 6px;
+
+    background: #741c1c;
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+/* ==========================================================
+   RESULTS CONTAINER
+========================================================== */
+
+.bulk-results-container {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ==========================================================
+   SINGLE RESULT SHEET
+   A4 LANDSCAPE
+   Width  = 297mm
+   Height = 210mm
+
+   No result-layout styles are added here.
+========================================================== */
+
+.bulk-result-sheet {
+    width: 297mm;
+    height: 210mm;
+
+    margin: 0 auto;
+    padding: 0;
+
+    box-sizing: border-box;
+
+    background: #ffffff;
+
+    overflow: hidden;
+    position: relative;
+}
+
+/* Optional visual gap between sheets on screen only */
+.result-page-break {
+    height: 20px;
+    flex: 0 0 20px;
+}
+
+/* ==========================================================
+   RESPONSIVE SCREEN PREVIEW ONLY
+   These transforms never affect printing.
+========================================================== */
+
+@media screen and (max-width: 1300px) {
+
+    .bulk-result-sheet {
+        transform: scale(0.9);
+        transform-origin: top center;
+
+        margin-bottom: -21mm;
+    }
+
+}
+
+@media screen and (max-width: 1050px) {
+
+    .bulk-result-sheet {
+        transform: scale(0.75);
+        transform-origin: top center;
+
+        margin-bottom: -52mm;
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+
+    .bulk-result-print-page {
+        padding: 10px;
+    }
+
+    .bulk-print-toolbar {
+        position: static;
+
+        align-items: stretch;
+        flex-direction: column;
+
+        padding: 15px;
+    }
+
+    .bulk-print-info {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .bulk-print-btn,
+    .bulk-back-btn {
+        width: 100%;
+    }
+
+}
+
+/* ==========================================================
+   PRINT SETTINGS
+========================================================== */
+
+@media print {
+
+    @page {
+        size: A4 landscape;
+        margin: 0;
+    }
+
+    html,
+    body {
+        width: 297mm !important;
+        min-width: 297mm !important;
+
+        height: auto !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        background: #ffffff !important;
+    }
+
+    .bulk-result-print-page {
+        margin: 0 !important;
+        padding: 0 !important;
+
+        background: #ffffff !important;
+    }
+
+    /* Hide all print controls */
+    .bulk-print-toolbar {
+        display: none !important;
+    }
+
+    /* Normal document flow is required for multiple pages */
+    .bulk-results-container {
+        width: 297mm !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        display: block !important;
+    }
+
+    /* ======================================================
+       EXACTLY ONE STUDENT RESULT PER A4 PAGE
+    ====================================================== */
+
+    .bulk-result-sheet {
+        width: 297mm !important;
+        height: 210mm !important;
+        min-height: 210mm !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        box-sizing: border-box !important;
+
+        overflow: hidden !important;
+
+        transform: none !important;
+
+        break-before: auto !important;
+        page-break-before: auto !important;
+
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+
+        break-after: page !important;
+        page-break-after: always !important;
+    }
+
+    /*
+       If .result-page-break elements exist in EJS,
+       they must not create their own printed pages.
+    */
+    .result-page-break {
+        display: none !important;
+
+        height: 0 !important;
+        min-height: 0 !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        break-before: auto !important;
+        break-after: auto !important;
+
+        page-break-before: auto !important;
+        page-break-after: auto !important;
+    }
+
+    /*
+       Remove only the final page break.
+       This works even if result-page-break sibling elements exist.
+    */
+    .bulk-result-sheet:last-of-type {
+        break-after: auto !important;
+        page-break-after: auto !important;
+    }
+
+    /* Preserve result backgrounds, borders and colors */
+    *,
+    *::before,
+    *::after {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+}

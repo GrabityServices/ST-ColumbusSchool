@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title><%= title || "Unable to Save Marks" %></title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            font-family:
+                Inter,
+                Arial,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #001c27,
+                    #003746
+                );
+
+            color: #fff;
+        }
+
+
+        .error-card {
+
+            width: 100%;
+            max-width: 560px;
+
+            padding: 38px 32px;
+
+            text-align: center;
+
+            border: 1px solid
+                rgba(255,255,255,.12);
+
+            border-radius: 22px;
+
+            background:
+                rgba(255,255,255,.07);
+
+            backdrop-filter:
+                blur(18px);
+
+            box-shadow:
+                0 25px 70px
+                rgba(0,0,0,.35);
+
+        }
+
+
+        .icon {
+
+            width: 72px;
+            height: 72px;
+
+            margin: 0 auto 22px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #8b1e1e;
+
+            font-size: 34px;
+
+        }
+
+
+        h1 {
+
+            margin: 0 0 12px;
+
+            font-size: 27px;
+
+        }
+
+
+        .message {
+
+            margin: 0 auto;
+
+            max-width: 460px;
+
+            color: #d9e5e8;
+
+            line-height: 1.6;
+
+            font-size: 15px;
+
+        }
+
+
+        .student-info {
+
+            margin-top: 24px;
+
+            padding: 16px;
+
+            border-radius: 14px;
+
+            text-align: left;
+
+            background:
+                rgba(0,0,0,.18);
+
+        }
+
+
+        .info-row {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            gap: 15px;
+
+            padding: 7px 0;
+
+            font-size: 14px;
+
+        }
+
+
+        .label {
+
+            color: #9fb4ba;
+
+        }
+
+
+        .value {
+
+            font-weight: 600;
+
+            text-align: right;
+
+            word-break: break-word;
+
+        }
+
+
+        .actions {
+
+            display: flex;
+
+            gap: 12px;
+
+            justify-content: center;
+
+            flex-wrap: wrap;
+
+            margin-top: 28px;
+
+        }
+
+
+        .btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            min-width: 150px;
+
+            padding: 12px 20px;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            border: 0;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            transition:
+                transform .2s ease,
+                opacity .2s ease;
+
+        }
+
+
+        .btn:hover {
+
+            transform:
+                translateY(-2px);
+
+            opacity: .9;
+
+        }
+
+
+        .btn-primary {
+
+            background: #fff;
+
+            color: #00313d;
+
+        }
+
+
+        .btn-secondary {
+
+            background:
+                rgba(255,255,255,.10);
+
+            color: #fff;
+
+            border: 1px solid
+                rgba(255,255,255,.15);
+
+        }
+
+
+        .hint {
+
+            margin-top: 20px;
+
+            font-size: 12px;
+
+            color: #8fa6ac;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <main class="error-card">
+
+        <div class="icon">
+            !
+        </div>
+
+
+        <h1>
+            <%= title || "Unable to Save Marks" %>
+        </h1>
+
+
+        <p class="message">
+            <%= message || "The marks could not be saved." %>
+        </p>
+
+
+        <% if (admissionNumber || studentName || studentClass) { %>
+
+            <div class="student-info">
+
+                <% if (admissionNumber) { %>
+
+                    <div class="info-row">
+
+                        <span class="label">
+                            Admission No.
+                        </span>
+
+                        <span class="value">
+                            <%= admissionNumber %>
+                        </span>
+
+                    </div>
+
+                <% } %>
+
+
+                <% if (studentName) { %>
+
+                    <div class="info-row">
+
+                        <span class="label">
+                            Student
+                        </span>
+
+                        <span class="value">
+                            <%= studentName %>
+                        </span>
+
+                    </div>
+
+                <% } %>
+
+
+                <% if (studentClass) { %>
+
+                    <div class="info-row">
+
+                        <span class="label">
+                            Class
+                        </span>
+
+                        <span class="value">
+                            <%= studentClass %>
+                        </span>
+
+                    </div>
+
+                <% } %>
+
+            </div>
+
+        <% } %>
+
+
+        <div class="actions">
+
+            <a
+                href="<%= backUrl || '#' %>"
+                class="btn btn-primary"
+            >
+                ← Go Back
+            </a>
+
+
+            <button
+                type="button"
+                class="btn btn-secondary"
+                onclick="history.back()"
+            >
+                Try Again
+            </button>
+
+        </div>
+
+
+        <div class="hint">
+            Please verify the student details and try again.
+        </div>
+
+    </main>
+
+</body>
+
+</html>

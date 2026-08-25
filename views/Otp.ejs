@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Forgot Password</title>
+  <title>Verify Email</title>
  <style>
     body {
       font-family: Arial, sans-serif;
@@ -83,12 +83,20 @@
   </style>
 </head>
 <body>
-
+  <% if(!edit){ %>
     <form action="/stcolumbus/admin/manage/verify/email/<%= email %>" method="post">
       <h2><%= memail %></h2>
-      <label for="otp"><% if(reenter){%>Re-Enter OTP<%}else{%>Enter OTP <%}%></label>
+      <label for="otp"><% if(reenter){%>Re-Enter OTP to forgot Password<%}else{%>Enter OTP to forgot Password<%}%></label>
       <input type="text" name="fotp" id="otp"  minlength="4" maxlength="4" pattern="[0-9]{4}">
       <button type="submit">Save</button>
     </form>
+  <% }else{ %>
+   <form action="/stcolumbus/admin/manage/verify/email/edit/<%= email %>" method="post">
+      <h2><%= memail %></h2>
+      <label for="otp"><% if(reenter){%>Re-Enter OTP to edit email<%}else{%>Enter OTP to edit email<%}%></label>
+      <input type="text" name="eotp" id="otp"  minlength="4" maxlength="4" pattern="[0-9]{4}">
+      <button type="submit">Save</button>
+    </form>
+  <% } %>
 </body>
 </html>

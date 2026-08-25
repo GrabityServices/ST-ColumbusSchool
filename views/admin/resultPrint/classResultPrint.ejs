@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+
+    <title>
+
+        Result Print Center
+
+    </title>
+
+
+    <link
+        rel="stylesheet"
+        href="/style/classResultPrint.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <main class="result-print-page">
+
+
+        <!-- ============================================== -->
+        <!-- PAGE HEADER -->
+        <!-- ============================================== -->
+
+        <section class="result-print-container">
+
+
+            <div class="result-print-header">
+
+
+                <div class="result-print-icon">
+
+                    RP
+
+                </div>
+
+
+                <div class="result-print-heading">
+
+
+                    <h1>
+
+                        Result Print Center
+
+                    </h1>
+
+
+                    <p>
+
+                        Select a class to view students
+                        and print results.
+
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- ========================================== -->
+            <!-- CLASS SELECTION -->
+            <!-- ========================================== -->
+
+            <div class="class-selection-card">
+
+
+                <div class="card-heading">
+
+
+                    <h2>
+
+                        Select Class
+
+                    </h2>
+
+
+                    <p>
+
+                        Choose the class whose results
+                        you want to print.
+
+                    </p>
+
+
+                </div>
+
+
+
+                <!-- ====================================== -->
+                <!-- CLASS SELECT FORM -->
+                <!-- ====================================== -->
+
+                <form
+                    id="classResultPrintForm"
+                    class="class-result-form"
+                >
+
+
+                    <div class="form-group">
+
+
+                        <label
+                            for="studentClass"
+                        >
+
+                            Class
+
+                        </label>
+
+
+                        <select
+                            id="studentClass"
+                            name="studentClass"
+                            required
+                        >
+
+
+                            <option
+                                value=""
+                                selected
+                                disabled
+                            >
+
+                                Select a class
+
+                            </option>
+
+
+                            <% classes.forEach((className) => { %>
+
+
+                                <option
+                                    value="<%= className %>"
+                                >
+
+                                    <%= className %>
+
+                                </option>
+
+
+                            <% }) %>
+
+
+                        </select>
+
+
+                    </div>
+
+
+
+                    <!-- ================================== -->
+                    <!-- LOAD STUDENTS -->
+                    <!-- ================================== -->
+
+                    <button
+                        type="submit"
+                        class="load-students-btn"
+                    >
+
+
+                        <span>
+
+                            Load Students
+
+                        </span>
+
+
+                        <span
+                            class="button-arrow"
+                        >
+
+                            →
+
+                        </span>
+
+
+                    </button>
+
+
+                </form>
+
+
+            </div>
+
+
+
+            <!-- ========================================== -->
+            <!-- PRINT OPTIONS -->
+            <!-- ========================================== -->
+
+            <div class="result-print-info">
+
+
+                <h3>
+
+                    Available Print Options
+
+                </h3>
+
+
+                <div class="print-option-list">
+
+
+                    <!-- SELECTIVE PRINT -->
+
+                    <div class="print-option">
+
+
+                        <div
+                            class="option-number"
+                        >
+
+                            1
+
+                        </div>
+
+
+                        <div>
+
+
+                            <h4>
+
+                                Selective Print
+
+                            </h4>
+
+
+                            <p>
+
+                                Select one or multiple students
+                                and print only their results.
+
+                            </p>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- PRINT ALL -->
+
+                    <div class="print-option">
+
+
+                        <div
+                            class="option-number"
+                        >
+
+                            2
+
+                        </div>
+
+
+                        <div>
+
+
+                            <h4>
+
+                                Print All
+
+                            </h4>
+
+
+                            <p>
+
+                                Print results for all available
+                                students in the selected class.
+
+                            </p>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <script
+        src="/script/classResultPrint.js"
+    ></script>
+
+
+</body>
+
+</html>

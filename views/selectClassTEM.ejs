@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Submit Marks</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+            padding: 30px;
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background: #f4f6f8;
+            color: #222;
+        }
+
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+
+        .card {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px rgba(0, 0, 0, 0.08);
+
+            margin-bottom: 25px;
+        }
+
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 25px;
+
+            font-size: 28px;
+        }
+
+
+        h2 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(220px, 1fr)
+                );
+
+            gap: 18px;
+        }
+
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        label {
+            margin-bottom: 7px;
+
+            font-weight: 600;
+
+            font-size: 14px;
+        }
+
+
+        input,
+        select {
+            width: 100%;
+
+            padding: 11px 12px;
+
+            border: 1px solid #bbb;
+
+            border-radius: 6px;
+
+            font-size: 15px;
+
+            background: white;
+        }
+
+
+        input:focus,
+        select:focus {
+            outline: none;
+
+            border-color: #1976d2;
+
+            box-shadow:
+                0 0 0 2px rgba(
+                    25,
+                    118,
+                    210,
+                    0.12
+                );
+        }
+
+
+        .required {
+            color: #f44336;
+        }
+
+
+        .marks-section {
+            margin-top: 25px;
+        }
+
+
+        .marks-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(180px, 1fr)
+                );
+
+            gap: 15px;
+        }
+
+
+        .marks input {
+            text-align: center;
+        }
+
+        .field-error {
+            min-height: 18px;
+            margin-top: 5px;
+            color: #d32f2f;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        input.input-error,
+        select.input-error {
+            border-color: #d32f2f;
+            box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.10);
+        }
+
+
+        .info {
+            margin-top: 8px;
+
+            color: #777;
+
+            font-size: 13px;
+        }
+
+
+        .buttons {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 12px;
+
+            margin-top: 25px;
+        }
+
+
+        button {
+            padding: 14px 20px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 3px 8px rgba(
+                    0,
+                    0,
+                    0,
+                    0.15
+                );
+
+            transition:
+                transform 0.2s ease,
+                opacity 0.2s ease;
+        }
+
+
+        button:hover {
+            transform: translateY(-2px);
+
+            opacity: 0.92;
+        }
+
+
+        .submit-btn {
+            background: #1976d2;
+        }
+
+
+        .scholastic-btn {
+            background: #f44336;
+        }
+
+
+        .edit-btn {
+            background: #ff9800;
+        }
+
+
+        .dashboard-btn {
+            background: #bf460a;
+        }
+
+
+        .required-note {
+            margin-top: 15px;
+
+            color: #666;
+
+            font-size: 13px;
+        }
+
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            h1 {
+                font-size: 23px;
+            }
+
+            button {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- ==========================================
+         PAGE TITLE
+    =========================================== -->
+
+    <div class="card">
+
+        <h1>
+            Submit Marks
+        </h1>
+
+
+        <!-- ======================================
+             MARKS FORM
+        ======================================= -->
+
+        <form
+            id="marksForm"
+            method="POST"
+            novalidate
+        >
+
+
+            <!-- ==================================
+                 STUDENT INFORMATION
+            =================================== -->
+
+            <h2>
+                Student Information
+            </h2>
+
+
+            <div class="form-grid">
+
+
+
+
+
+                <!-- Admission Number -->
+
+                <div class="form-group">
+
+                    <label for="admissionNumber">
+                        Admission Number
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="admissionNumber"
+                        name="admissionNumber"
+                        inputmode="numeric"
+                        autocomplete="off"
+                        maxlength="5"
+                        pattern="[0-9]{5}"
+                        required
+                        placeholder="Enter admission number"
+                    >
+
+                    <div
+                        class="field-error"
+                        id="admissionNumberError"
+                        aria-live="polite"
+                    ></div>
+
+                </div>
+
+
+                <!-- Name -->
+
+                <div class="form-group">
+
+                    <label for="name">
+
+                        Student Name
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+
+                        minlength="2"
+                        maxlength="50"
+
+                        pattern="[A-Za-z ]{2,50}"
+
+                        required
+
+                        placeholder="Student name"
+                    >
+
+                </div>
+
+
+                <!-- Class -->
+
+                <div class="form-group">
+
+                    <label for="class">
+
+                        Class
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <select
+                        id="class"
+                        name="class"
+                        required
+                    >
+
+                        <option value="">
+                            Select Class
+                        </option>
+
+                        <option value="Nursery">
+                            Nursery
+                        </option>
+
+                        <option value="LKG">
+                            LKG
+                        </option>
+
+                        <option value="UKG">
+                            UKG
+                        </option>
+
+                        <option value="1">
+                            Class 1
+                        </option>
+
+                        <option value="2">
+                            Class 2
+                        </option>
+
+                        <option value="3">
+                            Class 3
+                        </option>
+
+                        <option value="4">
+                            Class 4
+                        </option>
+
+                        <option value="5">
+                            Class 5
+                        </option>
+
+                        <option value="6">
+                            Class 6
+                        </option>
+
+                        <option value="7">
+                            Class 7
+                        </option>
+
+                        <option value="8">
+                            Class 8
+                        </option>
+
+                    </select>
+
+                </div>
+
+                                <!-- Roll Number -->
+
+                <div class="form-group">
+
+                    <label for="rollNumber">
+
+                        Roll Number
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <input
+                        type="number"
+                        id="rollNumber"
+                        name="rollNumber"
+
+                        min="1"
+                        max="50"
+
+                        step="1"
+
+                        required
+
+                        placeholder="Enter roll number"
+                    >
+
+                </div>
+
+
+                <!-- Exam Type -->
+
+                <div class="form-group">
+
+                    <label for="testType">
+
+                        Exam Type
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <select
+                        id="testType"
+                        name="testType"
+                        required
+                    >
+
+                        <option value="">
+                            Select Exam Type
+                        </option>
+
+                        <option value="Periodic-Test-1">
+                            Periodic Test 1
+                        </option>
+
+                        <option value="Periodic-Test-2">
+                            Periodic Test 2
+                        </option>
+
+                        <option value="Halfyearly">
+                            Halfyearly
+                        </option>
+
+                        <option value="Periodic-Test-3">
+                            Periodic Test 3
+                        </option>
+
+                        <option value="Periodic-Test-4">
+                            Periodic Test 4
+                        </option>
+
+                        <option value="Annual">
+                            Annual
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- ==================================
+                 MARKS
+            =================================== -->
+
+            <div class="marks-section">
+
+                <h2>
+                    Subject Marks
+                </h2>
+
+                <div class="info">
+                    Marks are optional. Leave a subject empty if the student was absent.
+                    A mark of 0 is valid and will remain 0.
+                </div>
+
+
+                <br>
+
+
+                <div class="marks-grid">
+
+
+                    <!-- English -->
+
+                    <div class="form-group marks">
+
+                        <label for="english">
+                            English
+                        </label>
+
+                        <input
+                            type="number"
+                            id="english"
+                            name="english"
+
+                            class="marks"
+
+                            min="0"
+                            max="80"
+
+                            step="1"
+
+                            placeholder="0 - 80"
+                        >
+
+                        <div
+                            class="field-error"
+                            id="englishError"
+                            aria-live="polite"
+                        ></div>
+
+                    </div>
+
+
+                    <!-- Hindi -->
+
+                    <div class="form-group marks">
+
+                        <label for="hindi">
+                            Hindi
+                        </label>
+
+                        <input
+                            type="number"
+                            id="hindi"
+                            name="hindi"
+
+                            class="marks"
+
+                            min="0"
+                            max="80"
+
+                            step="1"
+
+                            placeholder="0 - 80"
+                        >
+
+                        <div
+                            class="field-error"
+                            id="hindiError"
+                            aria-live="polite"
+                        ></div>
+
+                    </div>
+
+
+                    <!-- Mathematics -->
+
+                    <div class="form-group marks">
+
+                        <label for="math">
+                            Mathematics
+                        </label>
+
+                        <input
+                            type="number"
+                            id="math"
+                            name="math"
+
+                            class="marks"
+
+                            min="0"
+                            max="80"
+
+                            step="1"
+
+                            placeholder="0 - 80"
+                        >
+
+                        <div
+                            class="field-error"
+                            id="mathError"
+                            aria-live="polite"
+                        ></div>
+
+                    </div>
+
+
+                    <!-- SST -->
+
+                    <div class="form-group marks">
+
+                        <label for="sst">
+                            Social Studies
+                        </label>
+
+                        <input
+                            type="number"
+                            id="sst"
+                            name="sst"
+
+                            class="marks"
+
+                            min="0"
+                            max="80"
+
+                            step="1"
+
+                            placeholder="0 - 80"
+                        >
+
+                        <div
+                            class="field-error"
+                            id="sstError"
+                            aria-live="polite"
+                        ></div>
+
+                    </div>
+
+
+                    <!-- GSC -->
+
+                    <div class="form-group marks">
+
+                        <label for="gsc">
+                            General Science
+                        </label>
+
+                        <input
+                            type="number"
+                            id="gsc"
+                            name="gsc"
+
+                            class="marks"
+
+                            min="0"
+                            max="80"
+
+                            step="1"
+
+                            placeholder="0 - 80"
+                        >
+
+                        <div
+                            class="field-error"
+                            id="gscError"
+                            aria-live="polite"
+                        ></div>
+
+                    </div>
+
+
+                    <!-- GK -->
+
+                    <div class="form-group marks">
+
+                        <label for="gk">
+                            General Knowledge
+                        </label>
+
+                        <input
+                            type="number"
+                            id="gk"
+                            name="gk"
+
+                            class="marks"
+
+                            min="0"
+                            max="80"
+
+                            step="1"
+
+                            placeholder="0 - 80"
+                        >
+
+                        <div
+                            class="field-error"
+                            id="gkError"
+                            aria-live="polite"
+                        ></div>
+
+                    </div>
+
+
+                    <!-- Computer -->
+
+                    <div class="form-group marks">
+
+                        <label for="computer">
+                            Computer
+                        </label>
+
+                        <input
+                            type="number"
+                            id="computer"
+                            name="computer"
+
+                            class="marks"
+
+                            min="0"
+                            max="80"
+
+                            step="1"
+
+                            placeholder="0 - 80"
+                        >
+
+                        <div
+                            class="field-error"
+                            id="computerError"
+                            aria-live="polite"
+                        ></div>
+
+                    </div>
+
+
+                    <!-- Language -->
+
+                    <div class="form-group marks">
+
+                        <label for="language">
+                            Lang (Sans/Urdu)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="language"
+                            name="language"
+
+                            class="marks"
+
+                            min="0"
+                            max="80"
+
+                            step="1"
+
+                            placeholder="0 - 80"
+                        >
+
+                        <div
+                            class="field-error"
+                            id="languageError"
+                            aria-live="polite"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ==================================
+                 BUTTONS
+            =================================== -->
+
+            <div class="buttons">
+
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+                    Submit Marks
+                </button>
+
+<!-- 
+                <button
+                    type="button"
+                    class="scholastic-btn"
+
+                    onclick="
+                        location.href='/schoolastic'
+                    "
+                >
+                    Fill Scholastic Areas & Attendance Data
+                </button> -->
+
+
+                <button
+                    type="button"
+                    class="edit-btn"
+
+                    onclick="
+                        location.href='/marksheet/edit/<%= encodeURIComponent(data.email) %>'
+                    "
+                >
+                    Edit Marks
+                </button>
+
+
+                <!-- <button
+                    type="button"
+                    class="edit-btn"
+
+                    onclick="
+                        location.href='/schoolastic/edit'
+                    "
+                >
+                    Edit Scholastic Areas & Attendance Data
+                </button> -->
+
+
+                <button
+                    type="button"
+                    class="dashboard-btn"
+
+                    onclick="
+                        location.href='/stcolumbus/jaj/ekdara/admin'
+                    "
+                >
+                    Go to Dashboard
+                </button>
+
+            </div>
+
+
+            <div class="required-note">
+
+                <span class="required">*</span>
+                Required fields.
+
+                Marks are optional. Admission number is required.
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+// ==========================================
+// ELEMENTS
+// ==========================================
+
+const form = document.getElementById("marksForm");
+
+const classSelect = document.getElementById("class");
+
+const testType = document.getElementById("testType");
+
+const admissionNumberInput =
+    document.getElementById("admissionNumber");
+
+const admissionNumberError =
+    document.getElementById("admissionNumberError");
+
+// IMPORTANT:
+// Select INPUTS only.
+// Do NOT use ".marks" because the parent div
+// also has class="marks".
+const marksInputs =
+    document.querySelectorAll("input.marks");
+
+
+// ==========================================
+// GET MAXIMUM MARKS
+// ==========================================
+
+function getMaxMarks() {
+
+    const exam = testType.value;
+
+    if (
+        exam === "Periodic-Test-1" ||
+        exam === "Periodic-Test-2" ||
+        exam === "Periodic-Test-3" ||
+        exam === "Periodic-Test-4"
+    ) {
+        return 10;
+    }
+
+    return 80;
+}
+
+
+// ==========================================
+// UPDATE MARK LIMIT
+// ==========================================
+
+function updateMarksLimit() {
+
+    const maxMarks = getMaxMarks();
+
+    marksInputs.forEach(input => {
+
+        input.min = "0";
+
+        input.max = String(maxMarks);
+
+        input.placeholder =
+            `0 - ${maxMarks}`;
+
+        // Never change the student's entered mark.
+        // Just validate it and show an error if necessary.
+        validateMarkInput(input);
+
+    });
+
+}
+
+
+// ==========================================
+// CREATE FORM ACTION
+// ==========================================
+
+function updateFormAction() {
+
+    const className = classSelect.value;
+
+    const exam = testType.value;
+
+
+    // Nothing selected yet
+
+    if (!className || !exam) {
+
+        form.action = "";
+
+        return;
+    }
+
+
+    const route =
+        "/marksheet/" +
+        encodeURIComponent(className) +
+        "/" +
+        encodeURIComponent(exam);
+
+
+    form.action = route;
+
+
+    console.log(
+        "✅ Form action:",
+        form.action
+    );
+}
+
+
+// ==========================================
+// CLASS CHANGE
+// ==========================================
+
+classSelect.addEventListener(
+    "change",
+    function () {
+
+        updateFormAction();
+
+    }
+);
+
+
+// ==========================================
+// EXAM CHANGE
+// ==========================================
+
+testType.addEventListener(
+    "change",
+    function () {
+
+        updateMarksLimit();
+
+        updateFormAction();
+
+    }
+);
+
+
+// ==========================================
+// ADMISSION NUMBER INPUT
+// ==========================================
+
+admissionNumberInput.addEventListener(
+    "input",
+    function () {
+
+        // Keep only digits.
+        this.value =
+            this.value.replace(/\\D/g, "");
+
+        if (this.value === "") {
+
+            admissionNumberError.textContent = "";
+
+            this.classList.remove(
+                "input-error"
+            );
+
+            return;
+        }
+
+        if (!/^[0-9]{5}$/.test(this.value)) {
+
+            admissionNumberError.textContent =
+                "Admission number must be 5 digits.";
+
+            this.classList.add(
+                "input-error"
+            );
+
+        } else {
+
+            admissionNumberError.textContent = "";
+
+            this.classList.remove(
+                "input-error"
+            );
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// MARK INPUT
+// ==========================================
+
+function validateMarkInput(input) {
+
+    const value =
+        input.value.trim();
+
+    const max =
+        Number(input.max);
+
+    const errorElement =
+        document.getElementById(
+            `${input.name}Error`
+        );
+
+    // Empty is allowed = absent.
+    if (value === "") {
+
+        input.classList.remove("input-error");
+
+        if (errorElement) {
+            errorElement.textContent = "";
+        }
+
+        input.setCustomValidity("");
+
+        return true;
+    }
+
+    const numberValue =
+        Number(value);
+
+    let message = "";
+
+    if (!Number.isFinite(numberValue)) {
+
+        message =
+            "Enter a valid number.";
+
+    } else if (numberValue < 0) {
+
+        message =
+            "Marks cannot be negative.";
+
+    } else if (numberValue > max) {
+
+        message =
+            `Maximum marks are ${max}.`;
+
+    }
+
+    if (message) {
+
+        input.classList.add("input-error");
+
+        if (errorElement) {
+            errorElement.textContent = message;
+        }
+
+        input.setCustomValidity(message);
+
+        return false;
+    }
+
+    input.classList.remove("input-error");
+
+    if (errorElement) {
+        errorElement.textContent = "";
+    }
+
+    input.setCustomValidity("");
+
+    return true;
+}
+
+
+marksInputs.forEach(input => {
+
+    input.addEventListener(
+        "input",
+        function () {
+
+            // IMPORTANT:
+            // Never change the entered value.
+            // Only show an error when it exceeds the maximum.
+            validateMarkInput(this);
+
+        }
+    );
+
+});
+
+
+// ==========================================
+// FORM SUBMIT
+// ==========================================
+
+form.addEventListener(
+    "submit",
+    function (e) {
+
+        const className =
+            classSelect.value;
+
+        const exam =
+            testType.value;
+
+
+        // ======================================
+        // ADMISSION NUMBER VALIDATION
+        // ======================================
+
+        const admissionNumber =
+            admissionNumberInput.value.trim();
+
+        const admissionValid =
+            /^[0-9]{5}$/.test(
+                admissionNumber
+            );
+
+        if (!admissionValid) {
+
+            e.preventDefault();
+
+            admissionNumberError.textContent =
+                "Enter a valid 5-digit admission number.";
+
+            admissionNumberInput.classList.add(
+                "input-error"
+            );
+
+            admissionNumberInput.focus();
+
+            return;
+        }
+
+        admissionNumberError.textContent = "";
+
+        admissionNumberInput.classList.remove(
+            "input-error"
+        );
+
+
+        // ======================================
+        // CLASS VALIDATION
+        // ======================================
+
+        if (!className) {
+
+            e.preventDefault();
+
+            alert(
+                "Please select Class."
+            );
+
+            classSelect.focus();
+
+            return;
+        }
+
+
+        // ======================================
+        // EXAM VALIDATION
+        // ======================================
+
+        if (!exam) {
+
+            e.preventDefault();
+
+            alert(
+                "Please select Exam Type."
+            );
+
+            testType.focus();
+
+            return;
+        }
+
+
+        // ======================================
+        // MARK VALIDATION
+        // ======================================
+
+        for (const input of marksInputs) {
+
+            if (!validateMarkInput(input)) {
+
+                e.preventDefault();
+
+                input.focus();
+
+                return;
+            }
+
+        }
+
+
+        // ======================================
+        // FINAL ROUTE
+        // ======================================
+
+        const route =
+            "/marksheet/" +
+            encodeURIComponent(className) +
+            "/" +
+            encodeURIComponent(exam);
+
+
+        form.action = route;
+
+
+        console.log(
+            "================================"
+        );
+
+        console.log(
+            "CLASS:",
+            className
+        );
+
+        console.log(
+            "EXAM:",
+            exam
+        );
+
+        console.log(
+            "POST ROUTE:",
+            route
+        );
+
+        console.log(
+            "================================"
+        );
+
+        // DO NOT preventDefault()
+        // Browser submits normally.
+
+    }
+);
+
+
+// ==========================================
+// INITIALIZE
+// ==========================================
+
+updateMarksLimit();
+
+updateFormAction();
+
+</script>
+
+</body>
+
+</html>

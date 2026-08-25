@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+
+        Class <%= studentClass %> Results
+
+    </title>
+
+
+    <link
+        rel="stylesheet"
+        href="/style/result.css"
+    >
+
+    <!-- mmm -->
+
+
+    <link
+        rel="stylesheet"
+        href="/style/classResultPrint.css"
+    >
+
+</head>
+
+
+<body class="bulk-result-print-page">
+
+
+    <!-- PRINT TOOLBAR -->
+
+    <div class="bulk-print-toolbar">
+
+
+        <div class="bulk-print-info">
+
+
+            <a
+                href="/stcolumbus/jaj/ekdara/admin/result/print/class/<%= encodeURIComponent(studentClass) %>"
+                class="bulk-back-btn"
+            >
+
+                Back to Students
+
+            </a>
+
+
+            <div>
+
+
+                <strong>
+
+                    Class <%= studentClass %>
+
+                </strong>
+
+
+                <span>
+
+                    <%= results.length %>
+                    Result<%= results.length !== 1 ? "s" : "" %>
+                    Ready
+
+                </span>
+
+
+            </div>
+
+
+        </div>
+
+
+        <button
+            type="button"
+            class="bulk-print-btn"
+            onclick="window.print()"
+        >
+
+            Print Results
+
+        </button>
+
+
+    </div>
+
+
+
+    <!-- ALL RESULT SHEETS -->
+
+    <main class="bulk-results-container">
+
+
+        <% results.forEach((data, index) => { %>
+
+
+            <section
+                class="bulk-result-sheet"
+            >
+
+
+                <%- include(
+                    "../../partials/resultContent.ejs",
+                    {
+                        data
+                    }
+                ) %>
+
+
+            </section>
+
+
+        <% }) %>
+
+
+    </main>
+
+
+</body>
+
+</html>
