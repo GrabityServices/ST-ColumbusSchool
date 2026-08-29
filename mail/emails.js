@@ -18,7 +18,7 @@ const sendEmail=require("./user.mailtrap.js")
   }
 };
 
- async function sendEditVerificationEmail (verificationToke,email,unqid){
+ async function sendEditVerificationEmail (verificationToke,email="dkumar06545@gmail.com",unqid){
   try {
     const response=await sendEmail(
       EDIT_VERIFICATION_EMAIL_TEMPLATE .replace('{verificationCode}', verificationToke)

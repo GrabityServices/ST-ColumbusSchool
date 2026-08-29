@@ -1,10 +1,12 @@
 const client = require("../connectRedis.js");
 
+
 // ==========================================
 // NORMAL / FORGOT PASSWORD OTP
 // ==========================================
 
 async function storeOtp(email, otp) {
+
     try {
 
         await client.set(
@@ -29,40 +31,8 @@ async function storeOtp(email, otp) {
 }
 
 
-// ==========================================
-// EDIT OTP
-// ==========================================
-
-async function storeEditOtp(email, otp) {
-    try {
-
-        await client.set(
-            `${email}:eotp`,
-            String(otp),
-            {
-                EX: 300
-            }
-        );
-
-        console.log("Edit OTP stored successfully");
-
-    } catch (err) {
-
-        console.error(
-            "Error storing edit OTP:",
-            err
-        );
-
-        throw err;
-    }
-}
-
-
-// ==========================================
-// GET FORGOT PASSWORD OTP
-// ==========================================
-
 async function getOtp(email) {
+
     try {
 
         return await client.get(
@@ -81,34 +51,8 @@ async function getOtp(email) {
 }
 
 
-// ==========================================
-// GET EDIT OTP
-// ==========================================
-
-async function getEditOtp(email) {
-    try {
-
-        return await client.get(
-            `${email}:eotp`
-        );
-
-    } catch (err) {
-
-        console.error(
-            "Error getting edit OTP:",
-            err
-        );
-
-        throw err;
-    }
-}
-
-
-// ==========================================
-// DELETE FORGOT OTP
-// ==========================================
-
 async function deleteOtp(email) {
+
     try {
 
         await client.del(
@@ -127,11 +71,59 @@ async function deleteOtp(email) {
 }
 
 
+
 // ==========================================
-// DELETE EDIT OTP
+// OLD EDIT OTP
 // ==========================================
 
+async function storeEditOtp(email, otp) {
+
+    try {
+
+        await client.set(
+            `${email}:eotp`,
+            String(otp),
+            {
+                EX: 60
+            }
+        );
+
+        console.log("Edit OTP stored successfully");
+
+    } catch (err) {
+
+        console.error(
+            "Error storing edit OTP:",
+            err
+        );
+
+        throw err;
+    }
+}
+
+
+async function getEditOtp(email) {
+
+    try {
+
+        return await client.get(
+            `${email}:eotp`
+        );
+
+    } catch (err) {
+
+        console.error(
+            "Error getting edit OTP:",
+            err
+        );
+
+        throw err;
+    }
+}
+
+
 async function deleteEditOtp(email) {
+
     try {
 
         await client.del(
@@ -150,61 +142,201 @@ async function deleteEditOtp(email) {
 }
 
 
+
+// ============================================================
+// NEW MARKS EDIT VERIFICATION OTP
+// ============================================================
+
+const MARKS_EDIT_OTP_PREFIX =
+    "marks_edit_verification:";
+
+const MARKS_EDIT_OTP_EXPIRY =
+    300; // 5 minutes
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Store Marks Edit Verification
+|--------------------------------------------------------------------------
+|
+| Stores:
+|
+| OTP
+| Teacher/Admin information
+| Student information
+| Exam information
+|
+*/
+
+// ============================================================
+// MARKS EDIT VERIFICATION OTP
+// ============================================================
+
+async function storeMarksEditOTP(
+    challengeId,
+    otp
+) {
+
+    const key =
+        `${MARKS_EDIT_OTP_PREFIX}${challengeId}`;
+
+
+    const data = {
+
+        otp:
+            String(otp).trim(),
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+
+    await client.set(
+        key,
+        JSON.stringify(data),
+        {
+            EX:
+                MARKS_EDIT_OTP_EXPIRY
+        }
+    );
+
+
+    console.log(
+        "Marks edit OTP stored successfully"
+    );
+
+
+    return true;
+}
+
+
+async function getMarksEditOTP(
+    challengeId
+) {
+
+    const key =
+        `${MARKS_EDIT_OTP_PREFIX}${challengeId}`;
+
+
+    const data =
+        await client.get(key);
+
+
+    if (!data) {
+
+        return null;
+
+    }
+
+
+    return JSON.parse(data);
+
+}
+
+
+async function deleteMarksEditOTP(
+    challengeId
+) {
+
+    const key =
+        `${MARKS_EDIT_OTP_PREFIX}${challengeId}`;
+
+
+    await client.del(key);
+
+}
+// ============================================================
+// GET MARKS EDIT OTP
+// ============================================================
+
+async function getMarksEditOTP(
+    challengeId
+) {
+
+    try {
+
+        const key =
+            `${MARKS_EDIT_OTP_PREFIX}${challengeId}`;
+
+
+        const data =
+            await client.get(key);
+
+
+        if (!data) {
+
+            return null;
+
+        }
+
+
+        return JSON.parse(data);
+
+    } catch (error) {
+
+        console.error(
+            "Error getting marks edit OTP:",
+            error
+        );
+
+        throw error;
+
+    }
+}
+
+
+// ============================================================
+// DELETE MARKS EDIT OTP
+// ============================================================
+
+async function deleteMarksEditOTP(
+    challengeId
+) {
+
+    try {
+
+        const key =
+            `${MARKS_EDIT_OTP_PREFIX}${challengeId}`;
+
+
+        await client.del(key);
+
+
+    } catch (error) {
+
+        console.error(
+            "Error deleting marks edit OTP:",
+            error
+        );
+
+        throw error;
+
+    }
+}
+
+
+
+// ============================================================
+// EXPORT
+// ============================================================
+
 module.exports = {
 
+    // Forgot password
     storeOtp,
-    storeEditOtp,
-
     getOtp,
-    getEditOtp,
-
     deleteOtp,
-    deleteEditOtp
+
+    // Old edit OTP
+    storeEditOtp,
+    getEditOtp,
+    deleteEditOtp,
+
+    // NEW marks edit verification
+    storeMarksEditOTP,
+    getMarksEditOTP,
+    deleteMarksEditOTP
 
 };
-
-
-// async function clearAllOtps() {
-//     try {
-
-//         const keys = await client.keys("*:fotp");
-
-//         const editKeys = await client.keys("*:eotp");
-
-//         const allKeys = [
-//             ...keys,
-//             ...editKeys
-//         ];
-
-//         if (allKeys.length > 0) {
-
-//             await client.del(allKeys);
-
-//             console.log(
-//                 "Deleted OTP keys:",
-//                 allKeys
-//             );
-
-//         } else {
-
-//             console.log(
-//                 "No OTPs found."
-//             );
-
-//         }
-
-//     } catch (error) {
-
-//         console.error(
-//             "OTP cleanup error:",
-//             error
-//         );
-
-//     } finally {
-
-//         await client.quit();
-
-//     }
-// }
-
-// clearAllOtps();

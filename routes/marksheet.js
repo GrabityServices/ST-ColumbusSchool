@@ -1,4 +1,7 @@
 const express = require('express')
+const {
+    requireMarksEditOTP
+} = require("../middleware/otpVerification");
 const marksheet=express.Router()
 const mergeExamCollections =
     require("../utils/mergeMarksheets.js");
@@ -1739,90 +1742,61 @@ marksheet.route("/edit/search/for").get(
                 examType
             } = req.query;
 
-
-            // ==============================================
-            // VALIDATE
-            // ==============================================
+            console.log("SEARCHING STUDENT");
+            console.log("CLASS:", className);
+            console.log("ADMISSION NUMBER:", admissionNumber);
+            console.log("EXAM:", examType);
 
             if (
                 !className ||
                 !admissionNumber ||
                 !examType
             ) {
-
                 return res.status(400).send(
                     "Class, admission number and exam type are required."
                 );
-
             }
 
-
-            const cleanAdmissionNumber =
-                String(admissionNumber)
-                    .trim();
-
-
-            // ==============================================
-            // GET EXAM MODEL
-            // ==============================================
-
-            const Model =
-                getMarksModel(
-                    className,
-                    examType
-                );
-
+            const Model = getMarksModel(
+                className,
+                examType
+            );
 
             if (!Model) {
-
                 return res.status(404).send(
                     "Invalid class or examination type."
                 );
-
             }
-
-
-            // ==============================================
-            // FIND STUDENT
-            // ONLY BY ADMISSION NUMBER
-            // ==============================================
 
             const student =
                 await Model.findOne({
                     admissionNumber:
-                        cleanAdmissionNumber
+                        String(admissionNumber).trim()
                 }).lean();
 
-
             if (!student) {
-
                 return res.status(404).send(
-                    `No student found with admission number ${cleanAdmissionNumber}.`
+                    `No student found with admission number ${admissionNumber}.`
                 );
-
             }
 
-
-            // ==============================================
-            // RENDER EDIT PAGE
-            // ==============================================
+            console.log(
+                "STUDENT FOUND:",
+                student.name,
+                student.admissionNumber
+            );
 
             return res.render(
                 "editStudentMarks.ejs",
                 {
-
-                    admin:
-                        req.user,
-
+                    admin: req.user,
                     student,
-
                     className,
-
-                    examType
-
+                    examType,
+                    admissionNumber:
+                        String(admissionNumber).trim()
                 }
             );
-
 
         } catch (error) {
 
@@ -1834,9 +1808,7 @@ marksheet.route("/edit/search/for").get(
             return res.status(500).send(
                 "Unable to find student marks."
             );
-
         }
-
     }
 );
 
@@ -1852,8 +1824,9 @@ marksheet.route("/edit/search/for").get(
 // ==========================================================
 
 marksheet.route("/edit/:admissionNumber").post(
-    verifyEdit,
+    verifyEdit,requireMarksEditOTP,
     async (req, res) => {
+        console.log(req.body)
 
         try {
 

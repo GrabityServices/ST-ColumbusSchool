@@ -38,6 +38,8 @@ const client = require("./connectRedis.js");
 const marksheet = require("./routes/marksheet.js");
 const CheckResult = require("./handler/check.result.js");
 app.set("view engine", "ejs");
+const otpRoutes = require("./routes/otp");
+
 
 app.set("views", Path.join(__dirname, "views"));
 app.use(express.static(Path.join(__dirname, "public")));
@@ -51,19 +53,20 @@ app.use(uniqueUser);
 
 
 // app.use(
-//   cors({
-//     origin: true,          // Allow all origins
-//     methods: ["GET", "POST"], // Expand if needed
-//     credentials: true,     // Keep if you need cookies/auth
-//   })
-// );
-
-// app apis for manage data --------------------------------------------
-
-
-app.use("/home", checkAdmin, stcolumbus);
-app.use("/stcolumbus/jaj/ekdara/admin", checkAdmin, adminroute);
-app.use("/stcolumbus/admin/manage", adminManagment);
+  //   cors({
+    //     origin: true,          // Allow all origins
+    //     methods: ["GET", "POST"], // Expand if needed
+    //     credentials: true,     // Keep if you need cookies/auth
+    //   })
+    // );
+    
+    // app apis for manage data --------------------------------------------
+    
+    
+    app.use("/api/otp", otpRoutes);
+    app.use("/home", checkAdmin, stcolumbus);
+    app.use("/stcolumbus/jaj/ekdara/admin", checkAdmin, adminroute);
+    app.use("/stcolumbus/admin/manage", adminManagment);
 app.use("/marksheet",checkAdmin , marksheet);
 // webpage routes
 app.get("/", async (req, res) => {

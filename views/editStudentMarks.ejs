@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -13,8 +12,7 @@
 
     <title>Edit Student Marks</title>
 
-
-    <style>
+<style>
 
         * {
             box-sizing: border-box;
@@ -296,446 +294,975 @@
 
         }
 
-    </style>
+
+/* =========================================================
+   OTP MODAL
+========================================================= */
+
+.otp-modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.65);
+
+    z-index: 999999;
+
+    padding: 20px;
+}
+
+
+.otp-modal.show {
+
+    display: flex;
+}
+
+
+.otp-box {
+
+    position: relative;
+
+    width: 100%;
+
+    max-width: 430px;
+
+    background: #fff;
+
+    border-radius: 14px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 20px 60px
+        rgba(0, 0, 0, 0.3);
+}
+
+
+.otp-box h2 {
+
+    margin: 0 0 12px;
+
+    text-align: center;
+
+    font-size: 24px;
+
+}
+
+
+.otp-description {
+
+    margin-bottom: 25px;
+
+    text-align: center;
+
+    color: #666;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+.otp-box label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-weight: 600;
+}
+
+
+#otpInput {
+
+    width: 100%;
+
+    height: 58px;
+
+    border: 2px solid #ddd;
+
+    border-radius: 9px;
+
+    outline: none;
+
+    text-align: center;
+
+    font-size: 28px;
+
+    font-weight: 700;
+
+    letter-spacing: 8px;
+}
+
+
+#otpInput:focus {
+
+    border-color: #667eea;
+}
+
+
+#verifyOtpBtn {
+
+    width: 100%;
+
+    height: 50px;
+
+    margin-top: 18px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #667eea;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+#verifyOtpBtn:disabled {
+
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+
+.otp-message {
+
+    min-height: 20px;
+
+    margin-top: 10px;
+
+    text-align: center;
+
+    color: #d33;
+
+    font-size: 14px;
+}
+
+
+.otp-expiry {
+
+    margin-top: 15px;
+
+    text-align: center;
+
+    color: #888;
+
+    font-size: 12px;
+}
+
+
+.otp-close {
+
+    position: absolute;
+
+    top: 8px;
+
+    right: 10px;
+
+    width: 35px;
+
+    height: 35px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #777;
+
+    font-size: 28px;
+
+    cursor: pointer;
+}
+
+</style>
+
+
 
 </head>
 
-
 <body>
-
 
 <div class="container">
 
-
-    <!-- =========================
-         HEADER
-    ========================== -->
-
     <div class="card header">
-
         <div>
-
-            <h1>
-                Edit Student Marks
-            </h1>
-
-
+            <h1>Edit Student Marks</h1>
             <p class="muted">
-
-                Class
-
-                <strong>
-                    <%= className %>
-                </strong>
-
+                Class <strong><%= className %></strong>
                 &nbsp; | &nbsp;
-
-                Examination
-
-                <strong>
-                    <%= examType %>
-                </strong>
-
+                Examination <strong><%= examType %></strong>
             </p>
-
         </div>
-
 
         <div class="admin">
-
             Admin:
-
-            <strong>
-                <%= admin.uniqId %>
-            </strong>
-
+            <strong><%= admin?.uniqId || admin?.id || "-" %></strong>
             -
-
-            <%= admin.name %>
-
+            <%= admin?.name || admin?.email || "-" %>
         </div>
-
     </div>
 
-
-    <!-- =========================
-         STUDENT INFORMATION
-    ========================== -->
 
     <div class="card">
 
         <div class="student-info">
 
-
             <div class="info">
-
-                <span>
-                    Student Name
-                </span>
-
-                <strong>
-                    <%= student.name || "-" %>
-                </strong>
-
+                <span>Student Name</span>
+                <strong><%= student?.name || "-" %></strong>
             </div>
 
-
             <div class="info">
-
-                <span>
-                    Admission Number
-                </span>
-
-                <strong>
-                    <%= student.admissionNumber || "-" %>
-                </strong>
-
+                <span>Admission Number</span>
+                <strong><%= student?.admissionNumber || admissionNumber || "-" %></strong>
             </div>
 
-
             <div class="info">
-
-                <span>
-                    Roll Number
-                </span>
-
-                <strong>
-                    <%= student.rollNumber ?? "-" %>
-                </strong>
-
+                <span>Roll Number</span>
+                <strong><%= student?.rollNumber ?? "-" %></strong>
             </div>
 
-
             <div class="info">
-
-                <span>
-                    Examination
-                </span>
-
-                <strong>
-                    <%= examType %>
-                </strong>
-
+                <span>Examination</span>
+                <strong><%= examType || "-" %></strong>
             </div>
-
 
         </div>
 
     </div>
 
 
-    <!-- =========================
-         EDIT FORM
-    ========================== -->
-
     <form
+        id="marksForm"
         class="card"
         method="POST"
-        action="/marksheet/edit/<%= encodeURIComponent(student.admissionNumber) %>"
+        action="/marksheet/edit/<%= encodeURIComponent(String(student.admissionNumber || admissionNumber)) %>"
     >
 
+        <input type="hidden" name="class" value="<%= className %>">
+        <input type="hidden" name="examType" value="<%= examType %>">
+        <input type="hidden" name="studentId" value="<%= admissionNumber %>">
 
-        <!-- =====================
-             REQUIRED IDENTIFIERS
-        ====================== -->
-
-        <input
-            type="hidden"
-            name="class"
-            value="<%= className %>"
-        >
-
-
-        <input
-            type="hidden"
-            name="examType"
-            value="<%= examType %>"
-        >
-
-
-        <input
-            type="hidden"
-            name="admissionNumber"
-            value="<%= student.admissionNumber %>"
-        >
-
-
-        <!-- =====================
-             MARKS TITLE
-        ====================== -->
-
-        <h2>
-            Examination Marks
-        </h2>
-
+        <h2>Examination Marks</h2>
 
         <p class="muted">
-
-            Enter or update marks.
-
-            Empty means no mark entered.
-
-            0 is a valid mark.
-
+            Enter the marks for this examination and click Save Marks.
+            OTP verification will be requested before the actual update.
         </p>
 
 
         <%
-            // ================================
-            // ALWAYS SHOW ALL SUBJECTS
-            // ================================
-
+            /*
+             * These names must match the subject fields in the marks model.
+             * Existing values are loaded directly from the student document.
+             */
             const subjects = [
-
-                {
-                    key: "english",
-                    label: "English"
-                },
-
-                {
-                    key: "hindi",
-                    label: "Hindi"
-                },
-
-                {
-                    key: "math",
-                    label: "Mathematics"
-                },
-
-                {
-                    key: "sst",
-                    label: "Social Studies"
-                },
-
-                {
-                    key: "gsc",
-                    label: "General Science"
-                },
-
-                {
-                    key: "gk",
-                    label: "General Knowledge"
-                },
-
-                {
-                    key: "computer",
-                    label: "Computer"
-                },
-
-                {
-                    key: "language",
-                    label: "Lang (Sans/Urdu)"
-                }
-
+                { key: "english",  label: "English" },
+                { key: "hindi",    label: "Hindi" },
+                { key: "math",     label: "Mathematics" },
+                { key: "sst",      label: "Social Studies" },
+                { key: "gsc",      label: "General Science" },
+                { key: "gk",       label: "General Knowledge" },
+                { key: "computer", label: "Computer" },
+                { key: "language", label: "Lang (Sans/Urdu)" }
             ];
 
+            const isPT =
+                ["PT1", "PT2", "PT3", "PT4",
+                 "Periodic-Test-1", "Periodic-Test-2",
+                 "Periodic-Test-3", "Periodic-Test-4"]
+                .includes(String(examType));
 
-            // ================================
-            // MAX MARKS BY EXAM TYPE
-            // ================================
-
-            const periodicTests = [
-
-                "Periodic-Test-1",
-
-                "Periodic-Test-2",
-
-                "Periodic-Test-3",
-
-                "Periodic-Test-4"
-
-            ];
-
-
-            const maxMarks =
-                periodicTests.includes(examType)
-                    ? 10
-                    : 80;
+            const maxMarks = isPT ? 10 : 80;
         %>
 
 
-        <!-- =====================
-             SUBJECT FIELDS
-        ====================== -->
-
         <div class="marks-grid">
-
 
             <% subjects.forEach(subject => { %>
 
-
                 <div class="mark-field">
 
-
-                    <label
-                        for="<%= subject.key %>"
-                    >
-
+                    <label for="mark_<%= subject.key %>">
                         <%= subject.label %>
-
                     </label>
 
-
                     <input
-
-                        id="<%= subject.key %>"
-
+                        id="mark_<%= subject.key %>"
                         name="<%= subject.key %>"
-
                         type="number"
-
                         min="0"
-
                         max="<%= maxMarks %>"
-
                         step="1"
-
+                        inputmode="numeric"
+                        value="<%= student?.[subject.key] ?? "" %>"
                         placeholder="0 - <%= maxMarks %>"
-
-                        value="<%= student[subject.key] ?? '' %>"
-
                     >
 
-
                     <div class="mark-help">
-
-                        Empty allowed
-
+                        Maximum: <%= maxMarks %>
                     </div>
-
 
                 </div>
 
-
             <% }) %>
-
 
         </div>
 
 
-        <!-- =====================
-             BUTTONS
-        ========================== -->
-
         <div class="actions">
-
 
             <a
                 href="/marksheet"
                 class="btn btn-back"
             >
-
-                Cancel
-
+                Back
             </a>
 
-
             <button
-                type="submit"
+                id="saveMarksBtn"
+                type="button"
                 class="btn btn-save"
+                onclick="saveMarks()"
             >
-
                 Save Marks
-
             </button>
-
 
         </div>
 
-
     </form>
 
+</div>
+
+
+<!-- =========================================================
+     OTP MODAL
+========================================================= -->
+
+<div id="otpModal" class="otp-modal">
+
+    <div class="otp-box">
+
+        <button
+            type="button"
+            class="otp-close"
+            onclick="closeOTPModal()"
+            aria-label="Close"
+        >
+            &times;
+        </button>
+
+        <h2>Verify Marks Editing</h2>
+
+        <p class="otp-description">
+            Enter the 6-digit OTP sent to the authorized security email.
+        </p>
+
+        <label for="otpInput">
+            Verification Code
+        </label>
+
+        <input
+            id="otpInput"
+            type="text"
+            maxlength="6"
+            inputmode="numeric"
+            autocomplete="one-time-code"
+            placeholder="000000"
+        >
+
+        <p id="otpMessage" class="otp-message" role="alert"></p>
+
+        <button
+            id="verifyOtpBtn"
+            type="button"
+            onclick="verifyAndSave()"
+        >
+            Verify &amp; Save
+        </button>
+
+        <p class="otp-expiry">
+            OTP expires in 5 minutes.
+        </p>
+
+    </div>
 
 </div>
 
 
 <script>
 
+/* =========================================================
+   STATE
+========================================================= */
 
-    // ==========================================
-    // MARK VALIDATION
-    //
-    // Empty = allowed
-    // 0 = valid
-    // Any number <= max = valid
-    // ==========================================
+window.marksEditChallengeId = null;
 
-    const markInputs =
-        document.querySelectorAll(
-            '.mark-field input[type="number"]'
+
+/* =========================================================
+   MARK VALIDATION
+========================================================= */
+
+document.querySelectorAll(
+    '#marksForm input[type="number"]'
+).forEach(function (input) {
+
+    input.addEventListener("input", function () {
+
+        if (this.value === "") {
+            this.setCustomValidity("");
+            return;
+        }
+
+        const value = Number(this.value);
+        const max = Number(this.max);
+
+        if (!Number.isFinite(value)) {
+            this.setCustomValidity("Enter a valid number.");
+        } else if (value < 0) {
+            this.setCustomValidity("Marks cannot be negative.");
+        } else if (value > max) {
+            this.setCustomValidity(
+                "Maximum marks are " + max + "."
+            );
+        } else {
+            this.setCustomValidity("");
+        }
+
+    });
+
+});
+
+
+/* =========================================================
+   FORM DATA
+========================================================= */
+
+function getMarksBody() {
+
+    const form = document.getElementById("marksForm");
+
+    if (!form) {
+        throw new Error("Marks form not found.");
+    }
+
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return null;
+    }
+
+    return Object.fromEntries(
+        new FormData(form).entries()
+    );
+}
+
+
+/* =========================================================
+   SAVE MARKS
+========================================================= */
+
+async function saveMarks() {
+
+    const form = document.getElementById("marksForm");
+    const button = document.getElementById("saveMarksBtn");
+
+    if (!form) {
+        alert("Marks form not found.");
+        return;
+    }
+
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+
+    const body = Object.fromEntries(
+        new FormData(form).entries()
+    );
+
+    button.disabled = true;
+    button.textContent = "Checking...";
+
+    try {
+
+        const response = await fetch(
+            form.action,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json, text/html"
+                },
+                body: JSON.stringify(body)
+            }
         );
 
 
-    markInputs.forEach(
+        /* -------------------------------------------------
+           OTP CHALLENGE CREATED
+        ------------------------------------------------- */
 
-        input => {
+        if (response.status === 202) {
 
-            input.addEventListener(
+            let data = {};
 
-                "input",
+            try {
+                data = await response.json();
+            } catch (e) {
+                throw new Error(
+                    "Server requested verification but returned invalid JSON."
+                );
+            }
 
-                function () {
+           if (
+    data.verificationRequired &&
+    data.otpChallengeId
+) {
 
-                    const value =
-                        this.value.trim();
+    window.marksEditChallengeId =
+        data.otpChallengeId;
+
+    // Keep Save Marks disabled
+    // while OTP modal is open.
+    button.disabled = true;
+    button.textContent = "OTP Required";
+
+    openOTPModal();
+
+    return;
+}
+
+            throw new Error(
+                data.message ||
+                "Verification was requested, but no OTP challenge was returned."
+            );
+        }
 
 
-                    if (
-                        value === ""
-                    ) {
+        /* -------------------------------------------------
+           SUCCESS REDIRECT
+        ------------------------------------------------- */
 
-                        this.setCustomValidity("");
+        if (
+            response.redirected ||
+            response.status >= 300 &&
+            response.status < 400
+        ) {
 
-                        return;
+            window.location.href =
+                response.url;
+
+            return;
+        }
+
+
+        /* -------------------------------------------------
+           NORMAL SUCCESS
+        ------------------------------------------------- */
+
+        if (response.ok) {
+
+            const contentType =
+                response.headers.get("content-type") || "";
+
+            if (contentType.includes("application/json")) {
+
+                const data =
+                    await response.json();
+
+                if (data.success) {
+
+                    alert(
+                        data.message ||
+                        "Marks saved successfully."
+                    );
+
+                    if (data.redirect) {
+                        window.location.href =
+                            data.redirect;
                     }
 
-
-                    const mark =
-                        Number(value);
-
-
-                    const max =
-                        Number(this.max);
-
-
-                    if (
-                        mark < 0
-                    ) {
-
-                        this.setCustomValidity(
-                            "Marks cannot be negative."
-                        );
-
-                    }
-
-                    else if (
-                        mark > max
-                    ) {
-
-                        this.setCustomValidity(
-                            `Maximum marks are ${max}.`
-                        );
-
-                    }
-
-                    else {
-
-                        this.setCustomValidity("");
-
-                    }
-
+                    return;
                 }
 
-            );
+            } else {
+
+                const text =
+                    await response.text();
+
+                if (text) {
+                    document.open();
+                    document.write(text);
+                    document.close();
+                    return;
+                }
+
+            }
+        }
+
+
+        /* -------------------------------------------------
+           SERVER ERROR
+        ------------------------------------------------- */
+
+        const contentType =
+            response.headers.get("content-type") || "";
+
+        let message =
+            "Unable to save marks.";
+
+        if (contentType.includes("application/json")) {
+
+            const data =
+                await response.json();
+
+            message =
+                data.message || message;
+
+        } else {
+
+            const text =
+                await response.text();
+
+            if (text.trim()) {
+                message = text;
+            }
 
         }
 
+        throw new Error(message);
+
+
+    } catch (error) {
+
+        console.error(
+            "Save marks error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Unable to save marks."
+        );
+
+    } finally {
+
+        button.disabled = false;
+        button.textContent = "Save Marks";
+
+    }
+}
+
+
+/* =========================================================
+   OPEN OTP
+========================================================= */
+
+function openOTPModal() {
+
+    const modal =
+        document.getElementById("otpModal");
+
+    const input =
+        document.getElementById("otpInput");
+
+    const message =
+        document.getElementById("otpMessage");
+
+    const button =
+        document.getElementById("verifyOtpBtn");
+
+    modal.classList.add("show");
+
+    input.value = "";
+    message.textContent = "";
+
+    button.disabled = false;
+    button.textContent = "Verify & Save";
+
+    setTimeout(function () {
+        input.focus();
+    }, 100);
+
+}
+
+
+/* =========================================================
+   CLOSE OTP
+========================================================= */
+
+function closeOTPModal() {
+
+    const modal =
+        document.getElementById("otpModal");
+
+    modal.classList.remove("show");
+
+}
+
+
+/* =========================================================
+   VERIFY OTP + SAVE
+========================================================= */
+
+async function verifyAndSave() {
+
+    const input =
+        document.getElementById("otpInput");
+
+    const message =
+        document.getElementById("otpMessage");
+
+    const button =
+        document.getElementById("verifyOtpBtn");
+
+    const form =
+        document.getElementById("marksForm");
+
+
+    const otp =
+        input.value.trim();
+
+
+    if (!/^\d{6}$/.test(otp)) {
+
+        message.textContent =
+            "Enter the 6-digit OTP.";
+
+        input.focus();
+
+        return;
+    }
+
+
+    if (!window.marksEditChallengeId) {
+
+        message.textContent =
+            "Verification session expired. Click Save Marks again.";
+
+        return;
+    }
+
+
+    if (!form) {
+
+        message.textContent =
+            "Marks form not found.";
+
+        return;
+    }
+
+
+    const body = Object.fromEntries(
+        new FormData(form).entries()
     );
 
 
+    body.otpChallengeId =
+        window.marksEditChallengeId;
+
+    body.otp = otp;
+
+
+    button.disabled = true;
+    button.textContent = "Verifying & Saving...";
+    message.textContent = "";
+
+
+    try {
+
+        const response = await fetch(
+            form.action,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json, text/html"
+                },
+                body: JSON.stringify(body)
+            }
+        );
+
+
+        /* -------------------------------------------------
+           SUCCESS
+        ------------------------------------------------- */
+
+        if (response.redirected) {
+
+            window.marksEditChallengeId = null;
+
+            window.location.href =
+                response.url;
+
+            return;
+        }
+
+
+        if (response.ok) {
+
+            const contentType =
+                response.headers.get("content-type") || "";
+
+            if (contentType.includes("application/json")) {
+
+                const data =
+                    await response.json();
+
+                if (data.success) {
+
+                    window.marksEditChallengeId = null;
+
+                    if (data.redirect) {
+
+                        window.location.href =
+                            data.redirect;
+
+                    } else {
+
+                        closeOTPModal();
+
+                        alert(
+                            data.message ||
+                            "Marks saved successfully."
+                        );
+
+                    }
+
+                    return;
+                }
+
+                message.textContent =
+                    data.message ||
+                    "Unable to save marks.";
+
+            } else {
+
+                const text =
+                    await response.text();
+
+                if (text.trim()) {
+
+                    document.open();
+                    document.write(text);
+                    document.close();
+
+                    return;
+                }
+
+            }
+
+        } else {
+
+            const contentType =
+                response.headers.get("content-type") || "";
+
+            if (contentType.includes("application/json")) {
+
+                const data =
+                    await response.json();
+
+                message.textContent =
+                    data.message ||
+                    "Invalid or expired OTP.";
+
+            } else {
+
+                const text =
+                    await response.text();
+
+                message.textContent =
+                    text ||
+                    "Invalid or expired OTP.";
+
+            }
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "OTP verification error:",
+            error
+        );
+
+        message.textContent =
+            error.message ||
+            "Unable to verify OTP.";
+
+    } finally {
+
+        button.disabled = false;
+        button.textContent = "Verify & Save";
+
+    }
+}
+
+
+/* =========================================================
+   OTP: ONLY NUMBERS
+========================================================= */
+
+document.addEventListener(
+    "input",
+    function (event) {
+
+        if (
+            event.target &&
+            event.target.id === "otpInput"
+        ) {
+
+            event.target.value =
+                event.target.value
+                    .replace(/\D/g, "")
+                    .slice(0, 6);
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   OTP: ENTER KEY
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (
+            event.target &&
+            event.target.id === "otpInput" &&
+            event.key === "Enter"
+        ) {
+
+            event.preventDefault();
+
+            verifyAndSave();
+
+        }
+
+    }
+);
+
 </script>
 
-
 </body>
-
 </html>

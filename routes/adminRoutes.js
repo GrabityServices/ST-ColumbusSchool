@@ -56,7 +56,6 @@ const {
   handleDeleteAdmin,
   hadnleUpdateBySuperAdmin,
 } = require("../handler/stcolumbusadmin.js");
-const swndOtp = require("../handler/auth.controller.js");
 const { storeOtp, getOtp,storeEditOtp, getEditOtp } = require("../utils/redis.js");
 const UserAdmin = require("../models/userAdmin.js");
 const modifiedemail = require("../utils/modifyemail.js");
@@ -375,7 +374,7 @@ adminManagment
             // ==========================================
 
             const modified =
-                await modifiedemail("st.columbus2002@gmail.com");
+                await modifiedemail("dkumar06545@gmail.com");
 
             return res.render(
                 "Otp.ejs",
@@ -505,7 +504,7 @@ adminManagment
             );
 
             const modified =
-                await modifiedemail(decoded.email);
+                await modifiedemail("dkumar06545@gmail.com");
 
             return res.render(
                 "Otp.ejs",
@@ -542,7 +541,7 @@ adminManagment
             );
 
             const modified =
-                await modifiedemail(decoded.email);
+                await modifiedemail("dkumar06545@gmail.com");
 
             return res.render(
                 "Otp.ejs",
@@ -603,7 +602,7 @@ adminManagment
                 sameSite: "strict",
 
                 maxAge:
-                    30000,
+                    5*60*1000,
 
                 path: "/"
             }
