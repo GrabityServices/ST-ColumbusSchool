@@ -180,7 +180,6 @@ app.post("/check/result", CheckResult );
 
 // error handling ----------------
 app.use(errorHandler);
-// undefine address
 
 app.use((req, res) => {
   res.render("404.ejs", { path: req.path });
