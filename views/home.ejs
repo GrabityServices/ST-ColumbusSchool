@@ -966,15 +966,93 @@
 </div>
 <!-- =========================================================
      FLOATING PUSH NOTIFICATION
+     Bell only - no text / no checking message
 ========================================================= -->
+
+<style>
+    #enable-notifications {
+        position: fixed !important;
+        right: 18px !important;
+        bottom: 18px !important;
+        z-index: 99999 !important;
+
+        width: 50px !important;
+        height: 50px !important;
+        min-width: 50px !important;
+        min-height: 50px !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        padding: 0 !important;
+        margin: 0 !important;
+
+        border: 0 !important;
+        border-radius: 50% !important;
+
+        background: #0d47a1 !important;
+        color: #ffffff !important;
+
+        box-shadow: 0 5px 18px rgba(0, 0, 0, 0.28) !important;
+
+        cursor: pointer !important;
+        -webkit-tap-highlight-color: transparent !important;
+        transition: background-color .2s ease,
+                    transform .15s ease,
+                    box-shadow .2s ease !important;
+    }
+
+    #enable-notifications:hover {
+        background: #1565c0 !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.30) !important;
+    }
+
+    #enable-notifications:active {
+        background: #08306f !important;
+        transform: scale(.94) !important;
+    }
+
+    #enable-notifications:disabled {
+        opacity: .75 !important;
+        cursor: wait !important;
+    }
+
+    #enable-notifications i {
+        font-size: 20px !important;
+        line-height: 1 !important;
+    }
+
+    /* No text whatsoever */
+    #enable-notifications span,
+    #notification-status {
+        display: none !important;
+    }
+
+    @media (max-width: 600px) {
+        #enable-notifications {
+            right: 14px !important;
+            bottom: 14px !important;
+            width: 46px !important;
+            height: 46px !important;
+            min-width: 46px !important;
+            min-height: 46px !important;
+        }
+
+        #enable-notifications i {
+            font-size: 18px !important;
+        }
+    }
+</style>
 
 <button
     type="button"
     id="enable-notifications"
-    aria-label="Enable Notifications"
-    title="Enable Notifications"
+    aria-label="Enable notifications"
+    title="Enable notifications"
 >
-    🔔
+    <i class="fas fa-bell" aria-hidden="true"></i>
 </button>
 
 <div
@@ -983,631 +1061,262 @@
 ></div>
 
 <script>
-
 (function () {
 
     "use strict";
 
+    const button =
+        document.getElementById("enable-notifications");
 
-    /* =========================================================
-       ELEMENTS
-    ========================================================= */
-
-    const notificationButton =
-        document.getElementById(
-            "enable-notifications"
-        );
-
-
-    const notificationStatus =
-        document.getElementById(
-            "notification-status"
-        );
-
-
-    if (!notificationButton) {
-
-        console.error(
-            "Notification button not found."
-        );
-
+    if (!button) {
         return;
     }
 
-
-    /* =========================================================
-       SHOW STATUS
-    ========================================================= */
-
-    function showStatus(
-        message,
-        type = ""
-    ) {
-
-        if (!notificationStatus) {
-            return;
-        }
-
-
-        notificationStatus.textContent =
-            message;
-
-
-        notificationStatus.className =
-            type;
-
-
-        notificationStatus.style.display =
-            "block";
-
-
-        clearTimeout(
-            notificationStatus._timer
-        );
-
-
-        notificationStatus._timer =
-            setTimeout(function () {
-
-                notificationStatus.style.display =
-                    "none";
-
-            }, 5000);
-
-    }
-
-
-    /* =========================================================
-       HIDE / SHOW BUTTON BASED ON PERMISSION
-    ========================================================= */
-
-async function updateNotificationButton() {
-
-    if (!("Notification" in window)) {
-
-        notificationButton.hidden = true;
-
-        return;
-    }
-
-
-    const permission =
-        Notification.permission;
-
-
-    /* =========================================================
-       PERMISSION GRANTED
-    ========================================================= */
-
-    if (permission === "granted") {
-
-        /*
-         * Do NOT assume that permission means the device
-         * is registered in our database.
-         */
-
-        notificationButton.hidden = false;
-
-        notificationButton.style.removeProperty(
-            "display"
-        );
-
-
-        try {
-
-            await setupPushSubscription();
-
-        } catch (error) {
-
-            console.error(
-                "Push subscription recovery failed:",
-                error
-            );
-
-            showStatus(
-                "Notifications are allowed, but this device is not registered for push notifications.",
-                "error"
-            );
-
-        }
-
-        return;
-    }
-
-
-    /* =========================================================
-       NOT GRANTED
-    ========================================================= */
-
-    notificationButton.hidden = false;
-
-    notificationButton.style.removeProperty(
-        "display"
-    );
-
-}
-    /* =========================================================
-       BASE64 → UINT8ARRAY
-    ========================================================= */
-
-    function base64ToUint8Array(
-        base64String
-    ) {
+    function base64ToUint8Array(base64String) {
 
         const padding =
             "=".repeat(
                 (4 - base64String.length % 4) % 4
             );
 
-
         const base64 =
-            (
-                base64String +
-                padding
-            )
-                .replace(
-                    /-/g,
-                    "+"
-                )
-                .replace(
-                    /_/g,
-                    "/"
-                );
-
+            (base64String + padding)
+                .replace(/-/g, "+")
+                .replace(/_/g, "/");
 
         const rawData =
             window.atob(base64);
 
-
         return Uint8Array.from(
             [...rawData].map(
-                function (character) {
-
-                    return character.charCodeAt(0);
-
-                }
+                character =>
+                    character.charCodeAt(0)
             )
         );
-
     }
 
+    async function saveSubscription(subscription) {
 
-    /* =========================================================
-       SETUP PUSH SUBSCRIPTION
-    ========================================================= */
+        const response =
+            await fetch(
+                "/push/subscribe",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(
+                            subscription
+                        )
+                }
+            );
+
+        let result = {};
+
+        try {
+            result =
+                await response.json();
+        } catch (error) {
+            throw new Error(
+                "Invalid server response."
+            );
+        }
+
+        if (
+            !response.ok ||
+            !result.success
+        ) {
+            throw new Error(
+                result.message ||
+                "Could not register this device."
+            );
+        }
+
+        return result;
+    }
 
     async function setupPushSubscription() {
 
-        try {
-
-
-            /* =================================================
-               SERVICE WORKER SUPPORT
-            ================================================= */
-
-            if (
-                !("serviceWorker" in navigator)
-            ) {
-
-                throw new Error(
-                    "Service Worker is not supported."
-                );
-
-            }
-
-
-            /* =================================================
-               PUSH SUPPORT
-            ================================================= */
-
-            if (
-                !("PushManager" in window)
-            ) {
-
-                throw new Error(
-                    "Push notifications are not supported."
-                );
-
-            }
-
-
-            showStatus(
-                "Setting up notifications..."
+        if (!("serviceWorker" in navigator)) {
+            throw new Error(
+                "Service Worker is not supported."
             );
+        }
 
-
-            /* =================================================
-               REGISTER SERVICE WORKER
-            ================================================= */
-
-            const registration =
-                await navigator.serviceWorker.register(
-                    "/sw.js",
-                    {
-                        scope: "/"
-                    }
-                );
-/* =================================================
-               WAIT UNTIL READY
-            ================================================= */
-
-            const readyRegistration =
-                await navigator.serviceWorker.ready;
-
-
-            /* =================================================
-               GET VAPID PUBLIC KEY
-            ================================================= */
-
-            const keyResponse =
-                await fetch(
-                    "/push/public-key",
-                    {
-                        method: "GET",
-                        cache: "no-store"
-                    }
-                );
-
-
-            if (!keyResponse.ok) {
-
-                throw new Error(
-                    "Could not get VAPID public key."
-                );
-
-            }
-
-
-            const keyData =
-                await keyResponse.json();
-
-
-            /* =================================================
-               CHECK KEY
-            ================================================= */
-
-            if (
-                !keyData ||
-                !keyData.publicKey
-            ) {
-
-                throw new Error(
-                    "VAPID public key is missing."
-                );
-
-            }
-
-
-            if (
-                keyData.publicKey.includes(
-                    "YOUR_PUBLIC_KEY"
-                )
-            ) {
-
-                throw new Error(
-                    "VAPID public key is incorrectly configured."
-                );
-
-            }
-
-
-            /* =================================================
-               GET EXISTING SUBSCRIPTION
-            ================================================= */
-
-            let subscription =
-                await readyRegistration
-                    .pushManager
-                    .getSubscription();
-
-
-            /* =================================================
-               CREATE SUBSCRIPTION IF NEEDED
-            ================================================= */
-
-            if (!subscription) {
-
-                subscription =
-                    await readyRegistration
-                        .pushManager
-                        .subscribe({
-
-                            userVisibleOnly:
-                                true,
-
-                            applicationServerKey:
-                                base64ToUint8Array(
-                                    keyData.publicKey
-                                )
-
-                        });
-
-            }
-            else {
-}
-
-
-            /* =================================================
-               SAVE SUBSCRIPTION TO SERVER
-            ================================================= */
-
-            const response =
-                await fetch(
-                    "/push/subscribe",
-                    {
-
-                        method: "POST",
-
-                        headers: {
-
-                            "Content-Type":
-                                "application/json",
-
-                            "Accept":
-                                "application/json"
-
-                        },
-
-                        body:
-                            JSON.stringify(
-                                subscription
-                            )
-
-                    }
-                );
-
-
-            const result =
-                await response.json();
-
-
-            /* =================================================
-               SERVER ERROR
-            ================================================= */
-
-            if (
-                !response.ok ||
-                !result.success
-            ) {
-
-                throw new Error(
-                    result.message ||
-                    "Could not save push subscription."
-                );
-
-            }
-
-
-            /* =================================================
-               SUCCESS
-            ================================================= */
-
-            showStatus(
-                "Notifications are enabled.",
-                "success"
+        if (!("PushManager" in window)) {
+            throw new Error(
+                "Push notifications are not supported."
             );
+        }
 
-
-            /* HIDE BUTTON */
-
-            notificationButton.hidden = true;
-
-            notificationButton.style.setProperty(
-                "display",
-                "none",
-                "important"
+        if (!("Notification" in window)) {
+            throw new Error(
+                "Notifications are not supported."
             );
-} catch (error) {
+        }
 
-            console.error(
-                "Push setup error:",
-                error
+        if (!window.isSecureContext) {
+            throw new Error(
+                "Notifications require HTTPS."
             );
+        }
 
+        await navigator.serviceWorker.register(
+            "/sw.js",
+            {
+                scope: "/"
+            }
+        );
 
-            showStatus(
-                error.message ||
-                "Could not enable notifications.",
-                "error"
-            );
+        const ready =
+            await navigator.serviceWorker.ready;
+
+        let permission =
+            Notification.permission;
+
+        if (permission === "default") {
+
+            permission =
+                await Notification.requestPermission();
 
         }
 
+        if (permission !== "granted") {
+
+            if (permission === "denied") {
+                throw new Error(
+                    "Notifications are blocked in browser settings."
+                );
+            }
+
+            throw new Error(
+                "Notification permission was not granted."
+            );
+        }
+
+        const keyResponse =
+            await fetch(
+                "/push/public-key",
+                {
+                    method: "GET",
+                    cache: "no-store"
+                }
+            );
+
+        if (!keyResponse.ok) {
+            throw new Error(
+                "Could not get notification configuration."
+            );
+        }
+
+        const keyData =
+            await keyResponse.json();
+
+        if (
+            !keyData ||
+            !keyData.publicKey
+        ) {
+            throw new Error(
+                "VAPID public key is missing."
+            );
+        }
+
+        let subscription =
+            await ready.pushManager
+                .getSubscription();
+
+        if (!subscription) {
+
+            subscription =
+                await ready.pushManager
+                    .subscribe({
+                        userVisibleOnly: true,
+
+                        applicationServerKey:
+                            base64ToUint8Array(
+                                keyData.publicKey
+                            )
+                    });
+
+        }
+
+        /*
+         * Only after the server confirms the subscription
+         * do we consider this device registered.
+         */
+        await saveSubscription(
+            subscription
+        );
+
+        return true;
     }
 
-
-    /* =========================================================
-       BUTTON CLICK
-    ========================================================= */
-
-    notificationButton.addEventListener(
+    /*
+     * Manual button:
+     * No "Checking..." text.
+     * The button simply becomes slightly transparent while busy.
+     */
+    button.addEventListener(
         "click",
         async function () {
 
+            if (button.disabled) {
+                return;
+            }
 
-            /* =================================================
-               BROWSER SUPPORT
-            ================================================= */
+            button.disabled = true;
 
-            if (
-                !("Notification" in window)
-            ) {
+            try {
 
-                showStatus(
-                    "This browser does not support notifications.",
-                    "error"
+                await setupPushSubscription();
+
+            } catch (error) {
+
+                console.error(
+                    "Push setup error:",
+                    error
                 );
 
-                return;
+            } finally {
 
-            }
-
-
-            /* =================================================
-               SECURE CONTEXT
-            ================================================= */
-
-            if (
-                !window.isSecureContext
-            ) {
-
-                showStatus(
-                    "Notifications require HTTPS or localhost.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            /* =================================================
-               CURRENT PERMISSION
-            ================================================= */
-
-            const currentPermission =
-                Notification.permission;
-/* =================================================
-               BLOCKED
-            ================================================= */
-
-            if (
-                currentPermission ===
-                "denied"
-            ) {
-
-                showStatus(
-                    "Notifications are blocked. Allow notifications in Chrome Site Settings.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            /* =================================================
-               PERMISSION NOT ASKED YET
-            ================================================= */
-
-            if (
-                currentPermission ===
-                "default"
-            ) {
-
-                try {
-
-                    const permission =
-                        await Notification.requestPermission();
-/* =========================================
-                       USER ALLOWED
-                    ========================================= */
-
-                    if (
-                        permission ===
-                        "granted"
-                    ) {
-
-                        await setupPushSubscription();
-
-                        return;
-
-                    }
-
-
-                    /* =========================================
-                       USER DENIED
-                    ========================================= */
-
-                    if (
-                        permission ===
-                        "denied"
-                    ) {
-
-                        showStatus(
-                            "Notification permission was denied.",
-                            "error"
-                        );
-
-                        return;
-
-                    }
-
-
-                    /* =========================================
-                       USER DISMISSED
-                    ========================================= */
-
-                    showStatus(
-                        "Notification permission was dismissed."
-                    );
-
-
-                    return;
-
-
-                } catch (error) {
-
-                    console.error(
-                        "Permission error:",
-                        error
-                    );
-
-
-                    showStatus(
-                        error.message ||
-                        "Could not request notification permission.",
-                        "error"
-                    );
-
-
-                    return;
-
-                }
-
-            }
-
-
-            /* =================================================
-               ALREADY GRANTED
-               
-               This can happen if permission was granted
-               previously but the subscription wasn't saved.
-            ================================================= */
-
-            if (
-                currentPermission ===
-                "granted"
-            ) {
-await setupPushSubscription();
-
-
-                /* Hide button */
-
-                notificationButton.hidden = true;
-
-                    notificationButton.style.setProperty(
-                        "display",
-                        "none",
-                        "important"
-                    );
-
-
-                return;
+                button.disabled = false;
 
             }
 
         }
     );
 
+    /*
+     * If permission was already granted, silently make sure
+     * the current browser/app subscription exists in MongoDB.
+     *
+     * No popup.
+     * No "enabled" text.
+     * No "checking" text.
+     */
+    if (
+        "Notification" in window &&
+        Notification.permission === "granted"
+    ) {
 
-    
+        setupPushSubscription()
+            .catch(error => {
+                console.error(
+                    "Silent push registration error:",
+                    error
+                );
+            });
 
-    updateNotificationButton();
-
+    }
 
 })();
-
 </script>
 </body>
 </html>
