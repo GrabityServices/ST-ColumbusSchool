@@ -1,44 +1,172 @@
 const Notice = require("../models/notice.js");
 const fs = require("fs");
 const path = require("path");
+const {
+  sendPushNotification
+} = require("../services/pushNotification.js");
 
 async function handelNoticeForm(req, res) {
-  if (req.file) {
-    if (req.body.uploaded) {
-      const notice = await Notice.create({
-        title: req.body.title,
-        mess: req.body.mess,
-        img: req.body.filename,
-      });
-    res.redirect("/stcolumbus/jaj/ekdara/admin#notice");
 
-    } else {
-      // ================delete file=================
-      const imagePath = path.join(
-        __dirname,
-        "../assets/notices",
-        req.body.filename
-      ); // Adjust based on your storage setup
+  try {
 
-      // Delete the image file
-      fs.unlink(imagePath, (err) => {
-        if (err) {
-          console.error("Error deleting image:", err);
-        } else {
-          console.log("Image deleted successfully");
-        }
-      });
-      res.redirect("/stcolumbus/notice/manage");
+    let notice;
+
+
+    /* =====================================================
+       NOTICE WITH FILE
+    ===================================================== */
+
+    if (req.file) {
+
+      if (req.body.uploaded) {
+
+        notice =
+          await Notice.create({
+
+            title:
+              req.body.title,
+
+            mess:
+              req.body.mess,
+
+            img:
+              req.body.filename,
+
+          });
+
+
+      } else {
+
+        /* ================================================
+           DELETE UPLOADED FILE
+        ================================================ */
+
+        const imagePath =
+          path.join(
+            __dirname,
+            "../assets/notices",
+            req.body.filename
+          );
+
+
+        fs.unlink(
+          imagePath,
+          (err) => {
+
+            if (err) {
+
+              console.error(
+                "Error deleting image:",
+                err
+              );
+
+            } else {
+
+              console.log(
+                "Image deleted successfully"
+              );
+
+            }
+
+          }
+        );
+
+
+        return res.redirect(
+          "/stcolumbus/notice/manage"
+        );
+
+      }
+
     }
-  } else {
-    const notice = await Notice.create({
-      title: req.body.title,
-      mess: req.body.mess,
-    });
-    res.redirect("/stcolumbus/jaj/ekdara/admin#notice");
-  }
-}
 
+    /* =====================================================
+       NOTICE WITHOUT FILE
+    ===================================================== */
+
+    else {
+
+      notice =
+        await Notice.create({
+
+          title:
+            req.body.title,
+
+          mess:
+            req.body.mess,
+
+        });
+
+    }
+
+
+    /* =====================================================
+       SEND PUSH NOTIFICATION
+    ===================================================== */
+
+    try {
+
+      const notificationMessage =
+        req.body.mess?.trim()
+          ? req.body.mess.trim().slice(0, 120)
+          : "A new notice has been published.";
+
+
+      await sendPushNotification(
+
+        notice.title,
+
+        notificationMessage,
+
+        "/notice"
+
+      );
+
+
+      console.log(
+        "New notice push notification sent."
+      );
+
+
+    } catch (pushError) {
+
+      /*
+        Do NOT fail notice creation if
+        push notification fails.
+      */
+
+      console.error(
+        "Push notification failed:",
+        pushError
+      );
+
+    }
+
+
+    /* =====================================================
+       REDIRECT
+    ===================================================== */
+
+    return res.redirect(
+      "/stcolumbus/jaj/ekdara/admin#notice"
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Create notice error:",
+      error
+    );
+
+
+    return res.status(500).send(
+      "Unable to create notice."
+    );
+
+  }
+
+}
 async function handelNoticeUpdateDet(req, res) {
   console.log(req.body);
   let data = await Notice.findById(req.params.id);

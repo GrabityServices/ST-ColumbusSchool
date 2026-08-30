@@ -2036,3 +2036,356 @@ footer {
 
 
 
+/* =========================================================
+   FLOATING NOTIFICATION BUTTON
+========================================================= */
+
+#enable-notifications {
+
+    position: fixed !important;
+
+    right: 24px !important;
+    bottom: 24px !important;
+
+    width: 56px !important;
+    height: 56px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    z-index: 2147483646 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    box-sizing: border-box !important;
+
+    border: 1px solid
+        rgba(96, 165, 250, 0.35) !important;
+
+    border-radius: 50% !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0f172a,
+            #172554
+        ) !important;
+
+    color: #ffffff !important;
+
+    font-family:
+        Arial,
+        sans-serif !important;
+
+    font-size: 24px !important;
+
+    line-height: 1 !important;
+
+    cursor: pointer !important;
+
+    outline: none !important;
+
+    appearance: none !important;
+    -webkit-appearance: none !important;
+
+    box-shadow:
+        0 12px 35px
+        rgba(15, 23, 42, 0.50),
+        inset 0 1px 0
+        rgba(255, 255, 255, 0.08) !important;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease,
+        opacity 0.25s ease !important;
+
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+#enable-notifications span {
+
+    display: block !important;
+
+    font-size: 24px !important;
+
+    line-height: 1 !important;
+
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+#enable-notifications:hover {
+
+    transform:
+        translateY(-4px)
+        scale(1.05) !important;
+
+    border-color:
+        rgba(96, 165, 250, 0.75) !important;
+
+    box-shadow:
+        0 18px 45px
+        rgba(15, 23, 42, 0.60),
+        0 0 25px
+        rgba(96, 165, 250, 0.20) !important;
+
+}
+
+
+#enable-notifications:hover span {
+
+    transform:
+        rotate(-12deg)
+        scale(1.08) !important;
+
+}
+
+
+/* =========================================================
+   ATTENTION ANIMATION
+========================================================= */
+
+#enable-notifications:not(:disabled) {
+
+    animation:
+        notificationPulse
+        3s
+        ease-in-out
+        infinite !important;
+
+}
+
+
+@keyframes notificationPulse {
+
+    0%,
+    70%,
+    100% {
+
+        box-shadow:
+            0 12px 35px
+            rgba(15, 23, 42, 0.50),
+            0 0 0 0
+            rgba(96, 165, 250, 0);
+
+    }
+
+    85% {
+
+        box-shadow:
+            0 12px 35px
+            rgba(15, 23, 42, 0.50),
+            0 0 0 9px
+            rgba(96, 165, 250, 0.10);
+
+    }
+
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+#enable-notifications.loading {
+
+    opacity: 0.65 !important;
+
+    cursor:
+        wait !important;
+
+    animation: none !important;
+
+}
+
+
+#enable-notifications.loading span {
+
+    animation:
+        notificationSpin
+        0.8s
+        linear
+        infinite !important;
+
+}
+
+
+@keyframes notificationSpin {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* =========================================================
+   ENABLED
+========================================================= */
+
+#enable-notifications.enabled {
+
+    animation: none !important;
+
+    cursor: default !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #052e16,
+            #14532d
+        ) !important;
+
+    border-color:
+        rgba(74, 222, 128, 0.45) !important;
+
+}
+
+
+#enable-notifications.enabled:hover {
+
+    transform: none !important;
+
+}
+
+
+/* =========================================================
+   STATUS MESSAGE
+========================================================= */
+
+#notification-status {
+
+    position: fixed !important;
+
+    right: 24px !important;
+    bottom: 94px !important;
+
+    width:
+        min(360px, calc(100vw - 32px)) !important;
+
+    margin: 0 !important;
+    padding: 12px 16px !important;
+
+    box-sizing: border-box !important;
+
+    z-index: 2147483645 !important;
+
+    display: none;
+
+    border:
+        1px solid
+        rgba(96, 165, 250, 0.30) !important;
+
+    border-radius: 14px !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0f172a,
+            #172554
+        ) !important;
+
+    color: #ffffff !important;
+
+    font-family:
+        Arial,
+        sans-serif !important;
+
+    font-size: 13px !important;
+
+    line-height: 1.45 !important;
+
+    text-align: center !important;
+
+    box-shadow:
+        0 15px 45px
+        rgba(15, 23, 42, 0.50) !important;
+
+}
+
+
+/* =========================================================
+   SUCCESS
+========================================================= */
+
+#notification-status.success {
+
+    border-color:
+        rgba(74, 222, 128, 0.40) !important;
+
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+#notification-status.error {
+
+    border-color:
+        rgba(248, 113, 113, 0.45) !important;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    #enable-notifications {
+
+        right: 16px !important;
+        bottom: 16px !important;
+
+        width: 50px !important;
+        height: 50px !important;
+
+        font-size: 21px !important;
+
+    }
+
+
+    #enable-notifications span {
+
+        font-size: 21px !important;
+
+    }
+
+
+    #notification-status {
+
+        right: 16px !important;
+        bottom: 78px !important;
+
+        width:
+            calc(100vw - 32px) !important;
+
+        font-size: 12px !important;
+
+    }
+
+}
+
+/* =========================================================
+   HIDE NOTIFICATION BUTTON
+========================================================= */
+
+#enable-notifications.notification-enabled {
+    display: none !important;
+}

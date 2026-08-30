@@ -883,7 +883,7 @@
             <a href="/admission" aria-label="Admission">Admission</a>
             <a href="/gallery" aria-label="Gallery">Gallery</a>
             <a href="/contact" aria-label="Contact Us">Contact Us</a>
-            <a href="/stcolumbus/admin/manage/login" aria-label="Admin Login">Admin Login</a>
+            <a href="/check/result" aria-label="check result">Check Result</a>
           </div>
         </div>
         <div class="follow-us" aria-label="Follow Us Section">
@@ -901,6 +901,7 @@
             <a href="https://x.com/stcolumbus2002?t=wpjunzJ_kTp-5TJ-82pGJg&s=09" aria-label="X Twitter">
               <i class="fab fa-x-twitter"></i> X
             </a>
+            <a href="/stcolumbus/admin/manage/login" aria-label="Admin Login">Admin Login</a>
           </div>
         </div>
         <div class="contact-us" aria-label="Contact Us Section">
@@ -961,5 +962,622 @@
   </span>
 
 </div>
+<!-- =========================================================
+     FLOATING PUSH NOTIFICATION
+========================================================= -->
+
+<button
+    type="button"
+    id="enable-notifications"
+    aria-label="Enable Notifications"
+    title="Enable Notifications"
+>
+    🔔
+</button>
+
+<div
+    id="notification-status"
+    aria-live="polite"
+></div>
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    /* =========================================================
+       ELEMENTS
+    ========================================================= */
+
+    const notificationButton =
+        document.getElementById(
+            "enable-notifications"
+        );
+
+
+    const notificationStatus =
+        document.getElementById(
+            "notification-status"
+        );
+
+
+    if (!notificationButton) {
+
+        console.error(
+            "Notification button not found."
+        );
+
+        return;
+    }
+
+
+    /* =========================================================
+       SHOW STATUS
+    ========================================================= */
+
+    function showStatus(
+        message,
+        type = ""
+    ) {
+
+        if (!notificationStatus) {
+            return;
+        }
+
+
+        notificationStatus.textContent =
+            message;
+
+
+        notificationStatus.className =
+            type;
+
+
+        notificationStatus.style.display =
+            "block";
+
+
+        clearTimeout(
+            notificationStatus._timer
+        );
+
+
+        notificationStatus._timer =
+            setTimeout(function () {
+
+                notificationStatus.style.display =
+                    "none";
+
+            }, 5000);
+
+    }
+
+
+    /* =========================================================
+       HIDE / SHOW BUTTON BASED ON PERMISSION
+    ========================================================= */
+
+    function updateNotificationButton() {
+
+        if (!("Notification" in window)) {
+
+            notificationButton.hidden = true;
+
+            return;
+        }
+
+
+        const permission =
+            Notification.permission;
+
+
+        if (permission === "granted") {
+
+            notificationButton.hidden = true;
+
+            notificationButton.style.setProperty(
+                "display",
+                "none",
+                "important"
+            );
+
+            return;
+        }
+
+
+        notificationButton.hidden = false;
+
+        notificationButton.style.removeProperty(
+            "display"
+        );
+
+    }
+
+
+    /* =========================================================
+       BASE64 → UINT8ARRAY
+    ========================================================= */
+
+    function base64ToUint8Array(
+        base64String
+    ) {
+
+        const padding =
+            "=".repeat(
+                (4 - base64String.length % 4) % 4
+            );
+
+
+        const base64 =
+            (
+                base64String +
+                padding
+            )
+                .replace(
+                    /-/g,
+                    "+"
+                )
+                .replace(
+                    /_/g,
+                    "/"
+                );
+
+
+        const rawData =
+            window.atob(base64);
+
+
+        return Uint8Array.from(
+            [...rawData].map(
+                function (character) {
+
+                    return character.charCodeAt(0);
+
+                }
+            )
+        );
+
+    }
+
+
+    /* =========================================================
+       SETUP PUSH SUBSCRIPTION
+    ========================================================= */
+
+    async function setupPushSubscription() {
+
+        try {
+
+
+            /* =================================================
+               SERVICE WORKER SUPPORT
+            ================================================= */
+
+            if (
+                !("serviceWorker" in navigator)
+            ) {
+
+                throw new Error(
+                    "Service Worker is not supported."
+                );
+
+            }
+
+
+            /* =================================================
+               PUSH SUPPORT
+            ================================================= */
+
+            if (
+                !("PushManager" in window)
+            ) {
+
+                throw new Error(
+                    "Push notifications are not supported."
+                );
+
+            }
+
+
+            showStatus(
+                "Setting up notifications..."
+            );
+
+
+            /* =================================================
+               REGISTER SERVICE WORKER
+            ================================================= */
+
+            const registration =
+                await navigator.serviceWorker.register(
+                    "/sw.js",
+                    {
+                        scope: "/"
+                    }
+                );
+/* =================================================
+               WAIT UNTIL READY
+            ================================================= */
+
+            const readyRegistration =
+                await navigator.serviceWorker.ready;
+
+
+            /* =================================================
+               GET VAPID PUBLIC KEY
+            ================================================= */
+
+            const keyResponse =
+                await fetch(
+                    "/push/public-key",
+                    {
+                        method: "GET",
+                        cache: "no-store"
+                    }
+                );
+
+
+            if (!keyResponse.ok) {
+
+                throw new Error(
+                    "Could not get VAPID public key."
+                );
+
+            }
+
+
+            const keyData =
+                await keyResponse.json();
+
+
+            /* =================================================
+               CHECK KEY
+            ================================================= */
+
+            if (
+                !keyData ||
+                !keyData.publicKey
+            ) {
+
+                throw new Error(
+                    "VAPID public key is missing."
+                );
+
+            }
+
+
+            if (
+                keyData.publicKey.includes(
+                    "YOUR_PUBLIC_KEY"
+                )
+            ) {
+
+                throw new Error(
+                    "VAPID public key is incorrectly configured."
+                );
+
+            }
+
+
+            /* =================================================
+               GET EXISTING SUBSCRIPTION
+            ================================================= */
+
+            let subscription =
+                await readyRegistration
+                    .pushManager
+                    .getSubscription();
+
+
+            /* =================================================
+               CREATE SUBSCRIPTION IF NEEDED
+            ================================================= */
+
+            if (!subscription) {
+
+                subscription =
+                    await readyRegistration
+                        .pushManager
+                        .subscribe({
+
+                            userVisibleOnly:
+                                true,
+
+                            applicationServerKey:
+                                base64ToUint8Array(
+                                    keyData.publicKey
+                                )
+
+                        });
+
+            }
+            else {
+}
+
+
+            /* =================================================
+               SAVE SUBSCRIPTION TO SERVER
+            ================================================= */
+
+            const response =
+                await fetch(
+                    "/push/subscribe",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json",
+
+                            "Accept":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify(
+                                subscription
+                            )
+
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            /* =================================================
+               SERVER ERROR
+            ================================================= */
+
+            if (
+                !response.ok ||
+                !result.success
+            ) {
+
+                throw new Error(
+                    result.message ||
+                    "Could not save push subscription."
+                );
+
+            }
+
+
+            /* =================================================
+               SUCCESS
+            ================================================= */
+
+            showStatus(
+                "Notifications are enabled.",
+                "success"
+            );
+
+
+            /* HIDE BUTTON */
+
+            notificationButton.hidden = true;
+
+            notificationButton.style.setProperty(
+                "display",
+                "none",
+                "important"
+            );
+} catch (error) {
+
+            console.error(
+                "Push setup error:",
+                error
+            );
+
+
+            showStatus(
+                error.message ||
+                "Could not enable notifications.",
+                "error"
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       BUTTON CLICK
+    ========================================================= */
+
+    notificationButton.addEventListener(
+        "click",
+        async function () {
+
+
+            /* =================================================
+               BROWSER SUPPORT
+            ================================================= */
+
+            if (
+                !("Notification" in window)
+            ) {
+
+                showStatus(
+                    "This browser does not support notifications.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            /* =================================================
+               SECURE CONTEXT
+            ================================================= */
+
+            if (
+                !window.isSecureContext
+            ) {
+
+                showStatus(
+                    "Notifications require HTTPS or localhost.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            /* =================================================
+               CURRENT PERMISSION
+            ================================================= */
+
+            const currentPermission =
+                Notification.permission;
+/* =================================================
+               BLOCKED
+            ================================================= */
+
+            if (
+                currentPermission ===
+                "denied"
+            ) {
+
+                showStatus(
+                    "Notifications are blocked. Allow notifications in Chrome Site Settings.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            /* =================================================
+               PERMISSION NOT ASKED YET
+            ================================================= */
+
+            if (
+                currentPermission ===
+                "default"
+            ) {
+
+                try {
+
+                    const permission =
+                        await Notification.requestPermission();
+/* =========================================
+                       USER ALLOWED
+                    ========================================= */
+
+                    if (
+                        permission ===
+                        "granted"
+                    ) {
+
+                        await setupPushSubscription();
+
+                        return;
+
+                    }
+
+
+                    /* =========================================
+                       USER DENIED
+                    ========================================= */
+
+                    if (
+                        permission ===
+                        "denied"
+                    ) {
+
+                        showStatus(
+                            "Notification permission was denied.",
+                            "error"
+                        );
+
+                        return;
+
+                    }
+
+
+                    /* =========================================
+                       USER DISMISSED
+                    ========================================= */
+
+                    showStatus(
+                        "Notification permission was dismissed."
+                    );
+
+
+                    return;
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Permission error:",
+                        error
+                    );
+
+
+                    showStatus(
+                        error.message ||
+                        "Could not request notification permission.",
+                        "error"
+                    );
+
+
+                    return;
+
+                }
+
+            }
+
+
+            /* =================================================
+               ALREADY GRANTED
+               
+               This can happen if permission was granted
+               previously but the subscription wasn't saved.
+            ================================================= */
+
+            if (
+                currentPermission ===
+                "granted"
+            ) {
+await setupPushSubscription();
+
+
+                /* Hide button */
+
+                notificationButton.hidden = true;
+
+                    notificationButton.style.setProperty(
+                        "display",
+                        "none",
+                        "important"
+                    );
+
+
+                return;
+
+            }
+
+        }
+    );
+
+
+    
+
+    updateNotificationButton();
+
+
+})();
+
+</script>
 </body>
 </html>

@@ -20,6 +20,12 @@ const Admission = require("./models/admission.js");
 const Feestuct = require("./models/feeStructure.js");
 const Contact = require("./models/contact.js");
 
+const {
+  getPublicKey,
+  subscribePush,
+} = require("./controllers/pushController.js");
+
+
 // require("./utils/codeCleanup.js")
 const app = express();
 
@@ -179,7 +185,15 @@ app.get("/check/result", (req, res) => {
 
 app.post("/check/result", CheckResult );
 
+app.get(
+    "/push/public-key",
+    getPublicKey
+  );
 
+app.post(
+    "/push/subscribe",
+    subscribePush
+  );
 
 // error handling ----------------
 app.use(errorHandler);

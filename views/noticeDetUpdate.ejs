@@ -2,197 +2,741 @@
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
   <title>Update Notice</title>
+
+
   <style>
-    /* ===== Reset ===== */
+
+    /* =========================================================
+       RESET
+    ========================================================= */
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+      font-family:
+        'Gill Sans',
+        'Gill Sans MT',
+        Calibri,
+        'Trebuchet MS',
+        sans-serif;
     }
+
+
+    /* =========================================================
+       BODY
+    ========================================================= */
 
     body {
+
       min-height: 100vh;
+
       display: flex;
+
       justify-content: center;
+
       align-items: center;
-      background: url(/images/upload-bg-image.png) no-repeat center center/cover;
+
+      background:
+        url(/images/upload-bg-image.png)
+        no-repeat
+        center center / cover;
+
       padding: 1rem;
+
     }
 
-    /* ===== Card Wrapper ===== */
+
+    /* =========================================================
+       CARD
+    ========================================================= */
+
     .card {
+
       background: #fff;
+
       padding: 3rem;
+
       border-radius: 16px;
+
       width: 100%;
+
       max-width: 600px;
-      box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.08);
+
+      box-shadow:
+        0 6px 18px rgba(0, 0, 0, 0.08);
+
     }
+
 
     .card h1 {
+
       text-align: center;
+
       margin-bottom: 1.5rem;
+
       color: #222;
+
     }
 
-    /* ===== Form Section ===== */
+
+    /* =========================================================
+       FORM
+    ========================================================= */
+
     .form-section {
+
       display: flex;
+
       flex-direction: column;
+
       gap: 1rem;
+
       width: 100%;
+
     }
+
+
+    /* =========================================================
+       FIELD WRAPPER
+    ========================================================= */
+
+    .field-wrapper {
+
+      width: 100%;
+
+    }
+
+
+    /* =========================================================
+       INPUTS
+    ========================================================= */
 
     .input-field,
     textarea {
+
       width: 100%;
+
       padding: 0.9rem;
+
       border-radius: 8px;
-      border: 1.8px solid rgba(0, 0, 0, 0.35);
+
+      border:
+        1.8px solid rgba(0, 0, 0, 0.35);
+
       font-size: 1rem;
+
       outline: none;
-      transition: border 0.3s, box-shadow 0.3s;
+
+      transition:
+        border 0.3s,
+        box-shadow 0.3s;
+
     }
+
 
     .input-field:focus,
     textarea:focus {
+
       border-color: #007bff;
-      box-shadow: 0 0 6px rgba(0, 123, 255, 0.25);
+
+      box-shadow:
+        0 0 6px rgba(0, 123, 255, 0.25);
+
     }
+
 
     textarea {
+
       resize: vertical;
+
       min-height: 100px;
+
       max-height: 250px;
+
     }
 
-    /* ===== Submit Button ===== */
-    button {
-      margin-top: 1.5rem;
-      width: 100%;
-      padding: 0.9rem;
-      border: none;
-      border-radius: 12px;
-      background: #28a745;
-      color: #fff;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.3s, transform 0.1s;
+
+    /* =========================================================
+       CHARACTER COUNTER
+    ========================================================= */
+
+    .character-count {
+
+      display: block;
+
+      text-align: right;
+
+      margin-top: 4px;
+
+      font-size: 0.78rem;
+
+      color: #777;
+
+      user-select: none;
+
     }
+
+
+    .character-count.limit {
+
+      color: #d9534f;
+
+      font-weight: 600;
+
+    }
+
+
+    /* =========================================================
+       ERROR MESSAGE
+    ========================================================= */
+
+    .error-message {
+
+      margin-top: 0.35rem;
+
+      font-size: 0.9rem;
+
+      color: #d9534f;
+
+      font-weight: 500;
+
+      text-align: left;
+
+      min-height: 18px;
+
+    }
+
+
+    /* =========================================================
+       SUBMIT BUTTON
+    ========================================================= */
+
+    button {
+
+      margin-top: 1.5rem;
+
+      width: 100%;
+
+      padding: 0.9rem;
+
+      border: none;
+
+      border-radius: 12px;
+
+      background: #28a745;
+
+      color: #fff;
+
+      font-size: 1rem;
+
+      font-weight: 600;
+
+      cursor: pointer;
+
+      transition:
+        background 0.3s,
+        transform 0.1s;
+
+    }
+
 
     button:hover {
+
       background: #218838;
+
     }
+
 
     button:active {
+
       transform: scale(0.98);
+
     }
 
-    /* ===== Error Message ===== */
-    .error-message {
-      font-size: 0.9rem;
-      color: #d9534f;
-      font-weight: 500;
-      text-align: left;
+
+    button:disabled {
+
+      opacity: 0.7;
+
+      cursor: not-allowed;
+
     }
 
-    /* ===== Link ===== */
+
+    /* =========================================================
+       LINK
+    ========================================================= */
+
     .extra-link {
+
       display: block;
+
       text-align: center;
+
       margin-top: 1.5rem;
+
       font-size: 0.95rem;
+
       color: #007bff;
+
       text-decoration: none;
+
     }
+
 
     .extra-link:hover {
+
       text-decoration: underline;
+
     }
+
+
+    /* =========================================================
+       MOBILE
+    ========================================================= */
 
     @media (max-width: 450px) {
+
       body {
+
         padding: 0.5rem;
+
       }
 
+
       .card {
+
         padding: 1.5rem;
+
       }
+
     }
+
   </style>
+
 </head>
+
 
 <body>
 
+
   <div class="card">
-    <h1>Update Notice Details</h1>
-    <form id="update-notice-form" action="/home/noticeUpdate/details/<%= id %>" method="post">
+
+
+    <h1>
+      Update Notice Details
+    </h1>
+
+
+    <form
+      id="update-notice-form"
+      action="/home/noticeUpdate/details/<%= id %>"
+      method="post"
+    >
+
+
       <div class="form-section">
 
-        <!-- Title -->
-        <input class="input-field" type="text" id="title" name="title"
-          placeholder="Enter Notice Title (max 60 characters)" required minlength="3" maxlength="60"
-          pattern="^[a-zA-Z0-9 ]{3,60}$" title="Title must be 3–60 characters (letters, numbers, spaces only)" />
-        <span class="error-message" id="title-error"></span>
 
-        <!-- Message -->
-        <textarea id="mess" name="mess" placeholder="Enter Notice Message (max 300 characters)" minlength="3"
-          maxlength="300" required></textarea>
-        <span class="error-message" id="mess-error"></span>
+        <!-- ===================================================
+             TITLE
+        ==================================================== -->
+
+        <div class="field-wrapper">
+
+          <input
+            class="input-field"
+            type="text"
+            id="title"
+            name="title"
+            placeholder="Enter Notice Title (max 100 characters)"
+            required
+            minlength="3"
+            maxlength="100"
+            autocomplete="off"
+          />
+
+
+          <span
+            id="title-count"
+            class="character-count"
+          >
+            0/100
+          </span>
+
+
+          <span
+            class="error-message"
+            id="title-error"
+          ></span>
+
+        </div>
+
+
+        <!-- ===================================================
+             MESSAGE
+        ==================================================== -->
+
+        <div class="field-wrapper">
+
+          <textarea
+            id="mess"
+            name="mess"
+            placeholder="Enter Notice Message (max 500 characters)"
+            required
+            minlength="3"
+            maxlength="500"
+          ></textarea>
+
+
+          <span
+            id="message-count"
+            class="character-count"
+          >
+            0/500
+          </span>
+
+
+          <span
+            class="error-message"
+            id="mess-error"
+          ></span>
+
+        </div>
+
+
       </div>
 
-      <!-- Submit Button -->
-      <button type="submit">Update Notice</button>
+
+      <!-- =====================================================
+           SUBMIT
+      ====================================================== -->
+
+      <button
+        type="submit"
+        id="update-button"
+      >
+        Update Notice
+      </button>
+
+
     </form>
 
-    <!-- Link to Image/PDF Upload -->
-    <a href="/home/noticeUpdate/<%= id %>" class="extra-link">
+
+    <!-- =======================================================
+         IMAGE / PDF
+    ======================================================== -->
+
+    <a
+      href="/home/noticeUpdate/<%= id %>"
+      class="extra-link"
+    >
       Add or Update Image | PDF
     </a>
+
+
   </div>
 
 
   <script>
-    const form = document.getElementById( "update-notice-form" );
-    const titleInput = document.getElementById( "title" );
-    const messageInput = document.getElementById( "mess" );
 
-    const titleError = document.getElementById( "title-error" );
-    const messError = document.getElementById( "mess-error" );
+    /* =========================================================
+       ELEMENTS
+    ========================================================= */
 
-    // Regex: letters, numbers, spaces (3–60 chars)
-    const titleRegex = /^[a-zA-Z ]{3,60}$/;
-    const messageRegex = /^[a-zA-Z \s.,!?;:'"()\-\&%]{3,300}$/;
+    const form =
+      document.getElementById(
+        "update-notice-form"
+      );
 
 
-    form.addEventListener( "submit", e => {
-      let valid = true;
-      titleError.innerText = "";
-      messError.innerText = "";
+    const titleInput =
+      document.getElementById(
+        "title"
+      );
 
-      // Title validation
-      if ( !titleRegex.test( titleInput.value ) ) {
-        titleError.innerText = "Title must be 3–60 characters letters and spaces only.";
-        valid = false;
+
+    const messageInput =
+      document.getElementById(
+        "mess"
+      );
+
+
+    const titleError =
+      document.getElementById(
+        "title-error"
+      );
+
+
+    const messError =
+      document.getElementById(
+        "mess-error"
+      );
+
+
+    const titleCount =
+      document.getElementById(
+        "title-count"
+      );
+
+
+    const messageCount =
+      document.getElementById(
+        "message-count"
+      );
+
+
+    const updateButton =
+      document.getElementById(
+        "update-button"
+      );
+
+
+    /* =========================================================
+       LIMITS
+    ========================================================= */
+
+    const TITLE_MIN = 3;
+
+    const TITLE_MAX = 100;
+
+    const MESSAGE_MIN = 3;
+
+    const MESSAGE_MAX = 500;
+
+
+    /* =========================================================
+       CHARACTER COUNTER
+    ========================================================= */
+
+    function updateCharacterCount(
+      input,
+      counter,
+      max
+    ) {
+
+      const length =
+        input.value.length;
+
+
+      counter.textContent =
+        `${length}/${max}`;
+
+
+      if (length >= max) {
+
+        counter.classList.add(
+          "limit"
+        );
+
+      } else {
+
+        counter.classList.remove(
+          "limit"
+        );
+
       }
 
-      // Message validation
-      if ( !messageRegex.test( messageInput.value ) ) {
-        messError.innerText =
-          "Message can contain letters, numbers, spaces, and basic punctuation (3–300 chars).";
-        valid = false;
-      }
+    }
 
-      if ( !valid ) {
-        e.preventDefault();
+
+    /* =========================================================
+       TITLE COUNTER
+    ========================================================= */
+
+    titleInput.addEventListener(
+      "input",
+      () => {
+
+        updateCharacterCount(
+          titleInput,
+          titleCount,
+          TITLE_MAX
+        );
+
+        titleError.textContent = "";
+
       }
-    } );
+    );
+
+
+    /* =========================================================
+       MESSAGE COUNTER
+    ========================================================= */
+
+    messageInput.addEventListener(
+      "input",
+      () => {
+
+        updateCharacterCount(
+          messageInput,
+          messageCount,
+          MESSAGE_MAX
+        );
+
+        messError.textContent = "";
+
+      }
+    );
+
+
+    /* =========================================================
+       FORM VALIDATION
+       
+       IMPORTANT:
+       NO REGEX.
+
+       ANY CHARACTER IS ALLOWED.
+
+       Examples:
+
+       English
+       Hindi
+       Emoji
+       Numbers
+       Symbols
+       Punctuation
+       Arabic
+       Bengali
+       Chinese
+       etc.
+    ========================================================= */
+
+    form.addEventListener(
+      "submit",
+      event => {
+
+        let valid = true;
+
+
+        titleError.textContent = "";
+
+        messError.textContent = "";
+
+
+        /* =====================================================
+           TITLE
+        ====================================================== */
+
+        const title =
+          titleInput.value.trim();
+
+
+        if (
+          title.length < TITLE_MIN
+        ) {
+
+          titleError.textContent =
+            "Title must contain at least 3 characters.";
+
+          valid = false;
+
+        }
+
+
+        else if (
+          title.length > TITLE_MAX
+        ) {
+
+          titleError.textContent =
+            "Title must not exceed 100 characters.";
+
+          valid = false;
+
+        }
+
+
+        /* =====================================================
+           MESSAGE
+        ====================================================== */
+
+        const message =
+          messageInput.value.trim();
+
+
+        if (
+          message.length < MESSAGE_MIN
+        ) {
+
+          messError.textContent =
+            "Message must contain at least 3 characters.";
+
+          valid = false;
+
+        }
+
+
+        else if (
+          message.length > MESSAGE_MAX
+        ) {
+
+          messError.textContent =
+            "Message must not exceed 500 characters.";
+
+          valid = false;
+
+        }
+
+
+        /* =====================================================
+           STOP SUBMISSION IF INVALID
+        ====================================================== */
+
+        if (!valid) {
+
+          event.preventDefault();
+
+          return;
+
+        }
+
+
+        /* =====================================================
+           VALID
+
+           Allow form submission.
+        ====================================================== */
+
+        updateButton.disabled = true;
+
+        updateButton.textContent =
+          "Updating...";
+
+      }
+    );
+
+
+    /* =========================================================
+       INITIAL COUNTERS
+    ========================================================= */
+
+    updateCharacterCount(
+      titleInput,
+      titleCount,
+      TITLE_MAX
+    );
+
+
+    updateCharacterCount(
+      messageInput,
+      messageCount,
+      MESSAGE_MAX
+    );
+
   </script>
+
+
 </body>
 
 </html>
