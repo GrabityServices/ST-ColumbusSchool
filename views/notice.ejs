@@ -18,7 +18,7 @@
     >
       <p><%= notice.messDate %></p>
       <span> Subject: </span> <span><%=notice.title %></span><br />
-      <span> Notice: </span> <span><%=notice.mess %></span><br />
+      <span> Notice: </span> <span  style="white-space: pre-line;"><%=notice.mess %></span><br />
       <%if(notice.img) { const regex=/.\.pdf$/i; if(!regex.test(notice.img)){ %>
       <img
         style="width: 200px"

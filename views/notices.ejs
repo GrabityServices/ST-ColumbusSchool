@@ -373,7 +373,7 @@
         <div class="notice-card animate slide-in-top"style="border-color:<%= idx==0?"#0b6":"" %>">
           <h3><%= notice.title %></h3>
           <time datetime="<%= notice.messDate %>"><%= notice.messDate %></time>
-          <p class="description"><%= notice.mess %></p><% if(notice && notice.img) {%>
+          <p class="description"  style="white-space: pre-line !important;"><%= notice.mess %></p><% if(notice && notice.img) {%>
             
           <!-- <a href="<%= notice.img  %>" download>See Notice</a> -->
           <a href="<%= notice.img %>" onclick="openAndDownload(event, this.href)">See Notice</a>

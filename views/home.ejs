@@ -1061,42 +1061,78 @@
        HIDE / SHOW BUTTON BASED ON PERMISSION
     ========================================================= */
 
-    function updateNotificationButton() {
+async function updateNotificationButton() {
 
-        if (!("Notification" in window)) {
+    if (!("Notification" in window)) {
 
-            notificationButton.hidden = true;
+        notificationButton.hidden = true;
 
-            return;
-        }
-
-
-        const permission =
-            Notification.permission;
-
-
-        if (permission === "granted") {
-
-            notificationButton.hidden = true;
-
-            notificationButton.style.setProperty(
-                "display",
-                "none",
-                "important"
-            );
-
-            return;
-        }
-
-
-        notificationButton.hidden = false;
-
-        notificationButton.style.removeProperty(
-            "display"
-        );
-
+        return;
     }
 
+    const permission =
+        Notification.permission;
+
+    /* =========================================================
+       ALREADY GRANTED
+       IMPORTANT:
+       Permission being granted does NOT guarantee that the
+       PushSubscription was saved in the database.
+    ========================================================= */
+
+    if (permission === "granted") {
+
+        notificationButton.hidden = true;
+
+        notificationButton.style.setProperty(
+            "display",
+            "none",
+            "important"
+        );
+
+        try {
+
+            console.log(
+                "Notification permission already granted."
+            );
+
+            console.log(
+                "Checking / saving push subscription..."
+            );
+
+            await setupPushSubscription();
+
+            console.log(
+                "Push subscription setup completed."
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Automatic push subscription setup failed:",
+                error
+            );
+
+            showStatus(
+                error.message ||
+                "Could not save notification subscription.",
+                "error"
+            );
+        }
+
+        return;
+    }
+
+    /* =========================================================
+       NOT GRANTED
+    ========================================================= */
+
+    notificationButton.hidden = false;
+
+    notificationButton.style.removeProperty(
+        "display"
+    );
+}
 
     /* =========================================================
        BASE64 → UINT8ARRAY
