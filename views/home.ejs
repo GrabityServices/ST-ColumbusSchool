@@ -1070,58 +1070,50 @@ async function updateNotificationButton() {
         return;
     }
 
+
     const permission =
         Notification.permission;
 
+
     /* =========================================================
-       ALREADY GRANTED
-       IMPORTANT:
-       Permission being granted does NOT guarantee that the
-       PushSubscription was saved in the database.
+       PERMISSION GRANTED
     ========================================================= */
 
     if (permission === "granted") {
 
-        notificationButton.hidden = true;
+        /*
+         * Do NOT assume that permission means the device
+         * is registered in our database.
+         */
 
-        notificationButton.style.setProperty(
-            "display",
-            "none",
-            "important"
+        notificationButton.hidden = false;
+
+        notificationButton.style.removeProperty(
+            "display"
         );
+
 
         try {
 
-            console.log(
-                "Notification permission already granted."
-            );
-
-            console.log(
-                "Checking / saving push subscription..."
-            );
-
             await setupPushSubscription();
-
-            console.log(
-                "Push subscription setup completed."
-            );
 
         } catch (error) {
 
             console.error(
-                "Automatic push subscription setup failed:",
+                "Push subscription recovery failed:",
                 error
             );
 
             showStatus(
-                error.message ||
-                "Could not save notification subscription.",
+                "Notifications are allowed, but this device is not registered for push notifications.",
                 "error"
             );
+
         }
 
         return;
     }
+
 
     /* =========================================================
        NOT GRANTED
@@ -1132,8 +1124,8 @@ async function updateNotificationButton() {
     notificationButton.style.removeProperty(
         "display"
     );
-}
 
+}
     /* =========================================================
        BASE64 → UINT8ARRAY
     ========================================================= */
