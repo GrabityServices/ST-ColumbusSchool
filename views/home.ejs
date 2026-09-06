@@ -970,6 +970,9 @@
 ========================================================= -->
 
 <style>
+.developer-credit {
+  display: none;
+}
     #enable-notifications {
         position: fixed !important;
         right: 18px !important;
@@ -1317,6 +1320,38 @@
     }
 
 })();
+
+  document.addEventListener("DOMContentLoaded", function () {
+  const developerCredit = document.getElementById("developerCredit");
+  const closeButton = document.getElementById("developerCreditClose");
+
+  const storageKey = "developerCreditLastShown";
+  const oneHour = 60 * 1000;
+
+  const lastShown = localStorage.getItem(storageKey);
+  const currentTime = Date.now();
+
+  // Show only if 1 hour has passed
+  if (!lastShown || currentTime - lastShown >= oneHour) {
+
+    developerCredit.style.display = "block";
+
+    // Save the current time
+    localStorage.setItem(storageKey, currentTime);
+
+  } else {
+
+    // Hide it
+    developerCredit.style.display = "none";
+
+  }
+
+  // Close button
+  closeButton.addEventListener("click", function () {
+    developerCredit.style.display = "none";
+  });
+
+});
 </script>
 </body>
 </html>
