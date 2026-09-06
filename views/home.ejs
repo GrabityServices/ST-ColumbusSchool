@@ -1326,7 +1326,7 @@
   const closeButton = document.getElementById("developerCreditClose");
 
   const storageKey = "developerCreditLastShown";
-  const oneHour = 60 * 1000;
+  const oneHour = 60 * 60 * 1000;
 
   const lastShown = localStorage.getItem(storageKey);
   const currentTime = Date.now();
