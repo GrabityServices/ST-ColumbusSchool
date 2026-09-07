@@ -15,7 +15,7 @@ async function sendOTPVerificationEmail({
     studentId,
 
     email =
-        "dkumar06545@gmail.com"
+        "dilraj85410@gmail.com"
 
 }) {
 

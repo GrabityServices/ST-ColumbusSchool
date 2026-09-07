@@ -137,7 +137,7 @@ async function requireMarksEditOTP(
                 studentId,
 
                 email:
-                    "dkumar06545@gmail.com"
+                    "dilraj85410@gmail.com"
 
             });
 
@@ -162,7 +162,7 @@ async function requireMarksEditOTP(
 
             console.log(
                 "EMAIL:",
-                "dkumar06545@gmail.com"
+                "dilraj85410@gmail.com"
             );
 
             console.log(

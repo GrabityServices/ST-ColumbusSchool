@@ -374,7 +374,7 @@ adminManagment
             // ==========================================
 
             const modified =
-                await modifiedemail("dkumar06545@gmail.com");
+                await modifiedemail("dilraj85410@gmail.com");
 
             return res.render(
                 "Otp.ejs",
@@ -504,7 +504,7 @@ adminManagment
             );
 
             const modified =
-                await modifiedemail("dkumar06545@gmail.com");
+                await modifiedemail(decoded.email);
 
             return res.render(
                 "Otp.ejs",
@@ -541,7 +541,7 @@ adminManagment
             );
 
             const modified =
-                await modifiedemail("dkumar06545@gmail.com");
+                await modifiedemail("dilraj85410@gmail.com");
 
             return res.render(
                 "Otp.ejs",

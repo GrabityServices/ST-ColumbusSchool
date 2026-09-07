@@ -46,7 +46,7 @@ async function sendMarksEditOTP({
 
                 "MARKS_EDIT_SECURITY",
 
-                "dkumar06545@gmail.com"
+                "dilraj85410@gmail.com"
 
             );
 

@@ -7,10 +7,10 @@ async function sendOtp (email,unqid, edit=false) {
         
         if (edit) {
           console.log("sending edit verification email")
-            await sendEditVerificationEmail(varificationCode,"dkumar06545@gmail.com",unqid)
+            await sendEditVerificationEmail(varificationCode,"dilraj85410@gmail.com",unqid)
         } else {
           console.log("sending verification email")
-            await sendVerificationEmail(varificationCode,"dkumar06545@gmail.com",unqid)
+            await sendVerificationEmail(varificationCode,email,unqid)
         }
         return varificationCode;
   } catch (err) {
