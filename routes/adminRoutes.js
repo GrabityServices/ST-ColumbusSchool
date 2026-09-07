@@ -642,7 +642,7 @@ adminManagment
 })
 
 adminroute
-.get("/import-students", checkAdminAsSuperadmin,async (req, res) => {
+.get("/import-students",checkAdmin,async (req, res) => {
 
     try {
 
@@ -660,7 +660,7 @@ adminroute
 
   })
  .post(
-  "/import-students",checkAdminAsSuperadmin,
+  "/import-students",checkAdmin,
   upload.single("file"),
 
   async (req, res) => {
@@ -1074,25 +1074,25 @@ adminroute
 // Exact routes first
 
 adminroute.get(
-    "/result/print",checkAdminAsSuperadmin,
+    "/result/print",checkAdmin,
     showClassResultPrintPage
 );
 
 
 adminroute.post(
-    "/result/print/selected",
+    "/result/print/selected",checkAdmin,
     printSelectedClassResults
 );
 
 
 // Specific parameter routes
 adminroute.get(
-    "/result/print/class/:className",
+    "/result/print/class/:className",checkAdmin,
     getClassStudentsForPrint
 );
 
 adminroute.get(
-    "/result/print/all/:className",
+    "/result/print/all/:className",checkAdmin,
     printAllClassResults
 );
 
