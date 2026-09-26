@@ -802,204 +802,345 @@ marksheet.route("/see/classwise/marks").get(async (req, res) => {
   res.render("selectClassForMarks.ejs")
 })
 
+/* ============================================================
+   CLASS-WISE MARKSHEET — SECTION SAFE ROUTE
+
+   URL:
+       /marksheet/view-section/:class/marks
+
+   EJS:
+       viewmarks-section.ejs
+
+   IMPORTANT:
+   - Existing classModels is reused.
+   - Existing mergeExamCollections() is reused.
+   - Student identity is keyed by admission number.
+   - studentlist.section has priority.
+   - Section A/B/C are normalized consistently.
+   - No-section students always come last.
+   - Roll number is sorted inside each section.
+   - EJS does not sort the students again.
+   ============================================================ */
+
+function marksheetSectionClassKey(value) {
+    let v = String(value ?? "").trim().toUpperCase();
+
+    if (!v) return "";
+
+    v = v.replace(/^STD[-\s]*/, "");
+    v = v.replace(/^CLASS[-\s]*/, "");
+
+    return v.trim();
+}
+
+function marksheetSectionNormalize(value) {
+    if (value === null || value === undefined) return "";
+
+    return String(value)
+        .trim()
+        .toUpperCase()
+        .replace(/^SECTION\s*/i, "")
+        .trim();
+}
+
+function marksheetSectionRoll(value) {
+    if (value === null || value === undefined) {
+        return Number.MAX_SAFE_INTEGER;
+    }
+
+    const n = Number(String(value).trim());
+
+    return Number.isFinite(n)
+        ? n
+        : Number.MAX_SAFE_INTEGER;
+}
+
+function marksheetSectionName(value) {
+    return String(value ?? "")
+        .trim()
+        .toUpperCase();
+}
+
+function marksheetSectionCompare(a, b) {
+    const sectionA = marksheetSectionNormalize(a.section);
+    const sectionB = marksheetSectionNormalize(b.section);
+
+    const hasA = sectionA !== "";
+    const hasB = sectionB !== "";
+
+    // No section ALWAYS last.
+    if (hasA && !hasB) return -1;
+    if (!hasA && hasB) return 1;
+
+    // Section A, B, C...
+    if (hasA && hasB) {
+        const sectionCompare = sectionA.localeCompare(
+            sectionB,
+            undefined,
+            { numeric: true, sensitivity: "base" }
+        );
+
+        if (sectionCompare !== 0) {
+            return sectionCompare;
+        }
+    }
+
+    // Roll number inside same section.
+    const rollCompare =
+        marksheetSectionRoll(a.rollNumber) -
+        marksheetSectionRoll(b.rollNumber);
+
+    if (rollCompare !== 0) return rollCompare;
+
+    // Stable fallback.
+    const nameCompare = marksheetSectionName(a.name).localeCompare(
+        marksheetSectionName(b.name),
+        undefined,
+        { sensitivity: "base" }
+    );
+
+    if (nameCompare !== 0) return nameCompare;
+
+    return String(a.admissionNumber ?? "").localeCompare(
+        String(b.admissionNumber ?? ""),
+        undefined,
+        { numeric: true, sensitivity: "base" }
+    );
+}
+
 marksheet
     .route("/view/:class/marks")
-    .get(
-        async (req, res) => {
+    .get(async (req, res) => {
 
-            try {
+        try {
+            const className = String(req.params.class || "").trim();
+            const models = classModels[className];
 
-                const className =
-                    req.params.class;
-
-
-                const models =
-                    classModels[className];
-
-
-                if (!models) {
-
-                    return res
-                        .status(404)
-                        .send(
-                            "Invalid class"
-                        );
-                }
-
-
-                const data =
-                    await mergeExamCollections(
-                        models
-                    );
-
-
-                /*
-                ===========================================
-                SORT STUDENTS
-
-                ORDER:
-
-                Section A
-                Section B
-                Section C
-                ...
-
-                Students without section
-                always come LAST.
-
-                Inside every section:
-                Roll number ascending.
-                ===========================================
-                */
-
-                const students =
-                    [...data.students]
-                        .sort(
-                            (a, b) => {
-
-                                const sectionA =
-                                    String(
-                                        a.section || ""
-                                    )
-                                        .trim()
-                                        .toUpperCase();
-
-
-                                const sectionB =
-                                    String(
-                                        b.section || ""
-                                    )
-                                        .trim()
-                                        .toUpperCase();
-
-
-                                const hasSectionA =
-                                    sectionA !== "";
-
-
-                                const hasSectionB =
-                                    sectionB !== "";
-
-
-                                /*
-                                ===================================
-                                NO SECTION ALWAYS LAST
-                                ===================================
-                                */
-
-                                if (
-                                    hasSectionA &&
-                                    !hasSectionB
-                                ) {
-
-                                    return -1;
-                                }
-
-
-                                if (
-                                    !hasSectionA &&
-                                    hasSectionB
-                                ) {
-
-                                    return 1;
-                                }
-
-
-                                /*
-                                ===================================
-                                BOTH HAVE SECTIONS
-                                SORT BY SECTION
-                                ===================================
-                                */
-
-                                if (
-                                    hasSectionA &&
-                                    hasSectionB
-                                ) {
-
-                                    const sectionCompare =
-                                        sectionA.localeCompare(
-                                            sectionB,
-                                            undefined,
-                                            {
-                                                numeric: true,
-                                                sensitivity: "base"
-                                            }
-                                        );
-
-
-                                    if (
-                                        sectionCompare !== 0
-                                    ) {
-
-                                        return sectionCompare;
-                                    }
-                                }
-
-
-                                /*
-                                ===================================
-                                SAME SECTION
-                                OR BOTH HAVE NO SECTION
-
-                                SORT BY ROLL NUMBER
-                                ===================================
-                                */
-
-                                const rollA =
-                                    Number(
-                                        a.rollNumber
-                                    ) || 0;
-
-
-                                const rollB =
-                                    Number(
-                                        b.rollNumber
-                                    ) || 0;
-
-
-                                return rollA - rollB;
-
-                            }
-                        );
-
-
-                console.log(
-                    `Class ${className} students:`,
-                    students.length
-                );
-
-
-                res.render(
-                    "viewmarks.ejs",
-                    {
-                        className,
-                        students,
-                        subjects:
-                            data.subjects,
-
-                        user:
-                            req.user
-                    }
-                );
-
-            } catch (error) {
-
-                console.error(
-                    "Marksheet merge error:",
-                    error
-                );
-
-
-                return res
-                    .status(500)
-                    .send(
-                        "Unable to load marksheet data"
-                    );
+            if (!models) {
+                return res.status(404).send("Invalid class");
             }
 
+            // ----------------------------------------------------
+            // 1. Get all marks exactly as the existing marksheet
+            //    system already does.
+            // ----------------------------------------------------
+            const data = await mergeExamCollections(models);
+
+            // ----------------------------------------------------
+            // 2. Read master student data.
+            //    Section from studentlist is authoritative.
+            // ----------------------------------------------------
+            const masterRows = await studentlist.find({}).lean();
+            const targetClass = marksheetSectionClassKey(className);
+            const masterMap = new Map();
+
+            for (const row of masterRows) {
+
+                const admissionNumber = String(
+                    row.admissionNo ?? row.admissionNumber ?? ""
+                ).trim();
+
+                if (!admissionNumber) continue;
+
+                // Prefer className/class. House is only a fallback
+                // for older studentlist records.
+                const rawClass =
+                    row.className ??
+                    row.class ??
+                    row.house ??
+                    "";
+
+                const rowClass = marksheetSectionClassKey(rawClass);
+
+                if (rowClass && rowClass !== targetClass) {
+                    continue;
+                }
+
+                if (!masterMap.has(admissionNumber)) {
+                    masterMap.set(admissionNumber, {
+                        name: String(row.studentName ?? row.name ?? "").trim(),
+                        rollNumber: row.rollNo ?? row.rollNumber ?? "",
+                        section: marksheetSectionNormalize(row.section)
+                    });
+                }
+            }
+
+            // ----------------------------------------------------
+            // 3. Merge master identity into merged exam students.
+            //    Do NOT let an exam document overwrite the master
+            //    section/roll/name.
+            // ----------------------------------------------------
+            const unique = new Map();
+
+            for (const raw of data.students || []) {
+
+                const admissionNumber = String(
+                    raw.admissionNumber ?? raw.admissionNo ?? ""
+                ).trim();
+
+                if (!admissionNumber) continue;
+
+                const master = masterMap.get(admissionNumber);
+
+                const student = {
+                    ...raw,
+                    admissionNumber,
+                    name: master?.name || raw.name || raw.studentName || "Unknown",
+                    rollNumber: master?.rollNumber ?? raw.rollNumber ?? raw.rollNo ?? "",
+                    section: master?.section || marksheetSectionNormalize(raw.section)
+                };
+
+                // One student = one admission number.
+                if (!unique.has(admissionNumber)) {
+                    unique.set(admissionNumber, student);
+                }
+            }
+
+            // ----------------------------------------------------
+            // 4. Sort ONCE.
+            // ----------------------------------------------------
+            const students = [...unique.values()].sort(
+                marksheetSectionCompare
+            );
+
+            // ----------------------------------------------------
+            // 5. Calculate totals.
+            // ----------------------------------------------------
+            const getNumericMark = (student, exam, subject) => {
+
+                const value =
+                    student.exams?.[exam]?.[subject];
+
+                if (
+                    value === undefined ||
+                    value === null ||
+                    value === "" ||
+                    String(value).trim().toUpperCase() === "AB"
+                ) {
+                    return 0;
+                }
+
+                const number = Number(value);
+
+                return Number.isFinite(number) ? number : 0;
+            };
+
+            const processedStudents = students.map(student => {
+
+                let term1Total = 0;
+                let term2Total = 0;
+
+                for (const subject of data.subjects || []) {
+                    term1Total +=
+                        getNumericMark(student, "PT1", subject) +
+                        getNumericMark(student, "PT2", subject) +
+                        getNumericMark(student, "Halfyearly", subject);
+
+                    term2Total +=
+                        getNumericMark(student, "PT3", subject) +
+                        getNumericMark(student, "PT4", subject) +
+                        getNumericMark(student, "Annual", subject);
+                }
+
+                return {
+                    ...student,
+                    term1Total,
+                    term2Total
+                };
+            });
+
+            // ----------------------------------------------------
+            // 6. Build section groups from the SAME normalized
+            //    section value used by the sorter.
+            // ----------------------------------------------------
+            const sectionGroups = {};
+
+            for (const student of processedStudents) {
+
+                const section = marksheetSectionNormalize(
+                    student.section
+                );
+
+                student.section = section;
+
+                const key = section || "__NO_SECTION__";
+
+                if (!sectionGroups[key]) {
+                    sectionGroups[key] = [];
+                }
+
+                sectionGroups[key].push(student);
+            }
+
+            // ----------------------------------------------------
+            // 7. Section order. No section last.
+            // ----------------------------------------------------
+            const sections = Object.keys(sectionGroups).sort((a, b) => {
+
+                if (a === "__NO_SECTION__") return 1;
+                if (b === "__NO_SECTION__") return -1;
+
+                return a.localeCompare(
+                    b,
+                    undefined,
+                    { numeric: true, sensitivity: "base" }
+                );
+            });
+
+            // ----------------------------------------------------
+            // 8. Ranking is SECTION-WISE.
+            // ----------------------------------------------------
+            for (const section of sections) {
+
+                const group = sectionGroups[section];
+
+                [...group]
+                    .sort((a, b) => b.term1Total - a.term1Total)
+                    .forEach((student, index) => {
+                        student.term1Position = index + 1;
+                    });
+
+                [...group]
+                    .sort((a, b) => b.term2Total - a.term2Total)
+                    .forEach((student, index) => {
+                        student.term2Position = index + 1;
+                    });
+            }
+
+            const maximumTotal = (data.subjects || []).length * 100;
+
+            console.log("============================================");
+            console.log("MARKSHEET SECTION VIEW");
+            console.log("CLASS:", className);
+            console.log("TOTAL:", processedStudents.length);
+            console.log("SECTIONS:", sections);
+            console.log("============================================");
+
+            return res.render("viewmarks.ejs", {
+                className,
+                students: processedStudents,
+                processedStudents,
+                sectionGroups,
+                sections,
+                subjects: data.subjects || [],
+                maximumTotal,
+                user: req.user
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Section marksheet error:",
+                error
+            );
+
+            return res
+                .status(500)
+                .send("Unable to load marksheet data");
         }
-    );
+    });
+
+
 
 marksheet.route("/print/result").get((req,res)=>{
     res.render("searchResult.ejs")

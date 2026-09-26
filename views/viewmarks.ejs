@@ -527,6 +527,17 @@
            ACTIONS
         ========================================== */
 
+        .section-block {
+            margin-bottom: 28px;
+        }
+
+        .section-actions {
+            margin-top: 12px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
         .actions {
 
             margin-top: 20px;
@@ -595,6 +606,14 @@
 
             display: none !important;
 
+        }
+
+        body.print-section .section-block {
+            display: none !important;
+        }
+
+        body.print-section .section-block.print-selected-section {
+            display: block !important;
         }
 
 
@@ -968,6 +987,7 @@
 
             /* HIDE */
 
+            .section-actions,
             .actions,
             .legend {
 
@@ -1051,384 +1071,10 @@
 
 <body>
 
-
 <%
-
-/* ==========================================
-   SORT STUDENTS
-
-   SECTION A, B, C...
-
-   NO SECTION ALWAYS LAST
-
-   THEN SORT BY ROLL NUMBER
-========================================== */
-
-const sortedStudents =
-    [...students]
-        .sort(
-            (a, b) => {
-
-                const sectionA =
-                    String(
-                        a.section || ""
-                    )
-                        .trim()
-                        .toUpperCase();
-
-
-                const sectionB =
-                    String(
-                        b.section || ""
-                    )
-                        .trim()
-                        .toUpperCase();
-
-
-                const hasSectionA =
-                    sectionA !== "";
-
-
-                const hasSectionB =
-                    sectionB !== "";
-
-
-                if (
-                    hasSectionA &&
-                    !hasSectionB
-                ) {
-
-                    return -1;
-                }
-
-
-                if (
-                    !hasSectionA &&
-                    hasSectionB
-                ) {
-
-                    return 1;
-                }
-
-
-                if (
-                    hasSectionA &&
-                    hasSectionB
-                ) {
-
-                    const sectionCompare =
-                        sectionA.localeCompare(
-                            sectionB,
-                            undefined,
-                            {
-                                numeric: true,
-                                sensitivity: "base"
-                            }
-                        );
-
-
-                    if (
-                        sectionCompare !== 0
-                    ) {
-
-                        return sectionCompare;
-                    }
-                }
-
-
-                const rollA =
-                    Number(
-                        a.rollNumber
-                    ) || 0;
-
-
-                const rollB =
-                    Number(
-                        b.rollNumber
-                    ) || 0;
-
-
-                return rollA - rollB;
-
-            }
-        );
-
-
-/* ==========================================
-   CALCULATE STUDENT TOTALS
-========================================== */
-
-const processedStudents =
-    sortedStudents.map(
-        student => {
-
-
-            function getNumericMark(
-                exam,
-                subject
-            ) {
-
-                const value =
-                    student.exams &&
-                    student.exams[exam] &&
-                    student.exams[exam][subject];
-
-
-                if (
-                    value === undefined ||
-                    value === null ||
-                    value === "" ||
-                    String(value)
-                        .toUpperCase() === "AB"
-                ) {
-
-                    return 0;
-                }
-
-
-                const number =
-                    Number(value);
-
-
-                return Number.isFinite(number)
-                    ? number
-                    : 0;
-
-            }
-
-
-            let term1Total = 0;
-
-            let term2Total = 0;
-
-
-            subjects.forEach(
-                subject => {
-
-                    term1Total +=
-
-                        getNumericMark(
-                            "PT1",
-                            subject
-                        )
-
-                        +
-
-                        getNumericMark(
-                            "PT2",
-                            subject
-                        )
-
-                        +
-
-                        getNumericMark(
-                            "Halfyearly",
-                            subject
-                        );
-
-
-                    term2Total +=
-
-                        getNumericMark(
-                            "PT3",
-                            subject
-                        )
-
-                        +
-
-                        getNumericMark(
-                            "PT4",
-                            subject
-                        )
-
-                        +
-
-                        getNumericMark(
-                            "Annual",
-                            subject
-                        );
-
-                }
-            );
-
-
-            return {
-
-                ...student,
-
-                term1Total,
-
-                term2Total
-
-            };
-
-        }
-    );
-
-
-/* ==========================================
-   GROUP STUDENTS BY SECTION
-
-   "__NO_SECTION__"
-   is used internally so no-section students
-   always appear LAST.
-========================================== */
-
-const sectionGroups = {};
-
-
-processedStudents.forEach(
-    student => {
-
-        const actualSection =
-            String(
-                student.section || ""
-            )
-                .trim()
-                .toUpperCase();
-
-
-        const groupKey =
-            actualSection ||
-            "__NO_SECTION__";
-
-
-        if (
-            !sectionGroups[groupKey]
-        ) {
-
-            sectionGroups[groupKey] = [];
-
-        }
-
-
-        sectionGroups[groupKey]
-            .push(student);
-
-    }
-);
-
-
-/* ==========================================
-   SORT SECTION KEYS
-
-   A
-   B
-   C
-   ...
-
-   NO SECTION ALWAYS LAST
-========================================== */
-
-const sections =
-    Object.keys(sectionGroups)
-        .sort(
-            (a, b) => {
-
-                if (
-                    a === "__NO_SECTION__"
-                ) {
-
-                    return 1;
-                }
-
-
-                if (
-                    b === "__NO_SECTION__"
-                ) {
-
-                    return -1;
-                }
-
-
-                return a.localeCompare(
-                    b,
-                    undefined,
-                    {
-                        numeric: true,
-                        sensitivity: "base"
-                    }
-                );
-
-            }
-        );
-
-
-/* ==========================================
-   SECTION-WISE RANKING
-========================================== */
-
-sections.forEach(
-    section => {
-
-        const sectionStudents =
-            sectionGroups[section];
-
-
-        /*
-        TERM I
-        */
-
-        const term1Ranking =
-            [...sectionStudents]
-                .sort(
-                    (a, b) =>
-                        b.term1Total -
-                        a.term1Total
-                );
-
-
-        term1Ranking.forEach(
-            (student, index) => {
-
-                student.term1Position =
-                    index + 1;
-
-            }
-        );
-
-
-        /*
-        TERM II
-        */
-
-        const term2Ranking =
-            [...sectionStudents]
-                .sort(
-                    (a, b) =>
-                        b.term2Total -
-                        a.term2Total
-                );
-
-
-        term2Ranking.forEach(
-            (student, index) => {
-
-                student.term2Position =
-                    index + 1;
-
-            }
-        );
-
-    }
-);
-
-
-/* ==========================================
-   MAXIMUM TOTAL
-
-   Each subject:
-   PT + PT + Major Exam
-
-   100 marks per subject
-========================================== */
-
-const maximumTotal =
-    subjects.length * 100;
-
-
+// Data is prepared by the route.
+// The EJS intentionally does NOT sort or regroup students again.
 %>
-
 
 <div class="page">
 
@@ -1485,6 +1131,8 @@ const maximumTotal =
         <!-- ======================================
              SECTION HEADING
         ======================================= -->
+
+        <div class="section-block" data-section="<%= section %>">
 
         <div class="section-heading">
 
@@ -2563,6 +2211,14 @@ const maximumTotal =
 
         </div>
 
+        <div class="section-actions">
+            <button type="button" class="button term1-button" onclick="printSection('<%= section %>', 'term1')">Print Term I</button>
+            <button type="button" class="button term2-button" onclick="printSection('<%= section %>', 'term2')">Print Term II</button>
+            <button type="button" class="button full-button" onclick="printSection('<%= section %>', 'full')">Print Full Table</button>
+        </div>
+
+        </div>
+
 
     <% }) %>
 
@@ -2600,56 +2256,7 @@ const maximumTotal =
 
 
 
-    <!-- ==========================================
-         ACTIONS
-    =========================================== -->
 
-    <div class="actions">
-
-
-        <button
-            type="button"
-            class="
-                button
-                term1-button
-            "
-            onclick="printTerm('term1')"
-        >
-
-            Print Term I
-
-        </button>
-
-
-        <button
-            type="button"
-            class="
-                button
-                term2-button
-            "
-            onclick="printTerm('term2')"
-        >
-
-            Print Term II
-
-        </button>
-
-
-        <button
-            type="button"
-            class="
-                button
-                full-button
-            "
-            onclick="printFull()"
-        >
-
-            Print Full Table
-
-        </button>
-
-
-    </div>
 
 
 </div>
@@ -2753,69 +2360,53 @@ const maximumTotal =
 
 
     /* ==========================================
-       PRINT TERM
+       SECTION-WISE PRINT
     ========================================== */
 
-    function printTerm(term) {
+    function clearSelectedSection() {
+        document.querySelectorAll(".section-block").forEach(section => {
+            section.classList.remove("print-selected-section");
+        });
+    }
 
+    function printSection(sectionKey, term) {
+
+        clearSelectedSection();
+
+        let selected = null;
+
+        document.querySelectorAll(".section-block").forEach(block => {
+            if (block.dataset.section === sectionKey) {
+                selected = block;
+            }
+        });
+
+        if (!selected) return;
+
+        selected.classList.add("print-selected-section");
 
         document.body.classList.remove(
             "print-term1",
-            "print-term2"
+            "print-term2",
+            "print-section"
         );
 
+        if (term === "term1") {
+            applyPositionColors("term1");
+            document.body.classList.add("print-term1");
+        } else if (term === "term2") {
+            applyPositionColors("term2");
+            document.body.classList.add("print-term2");
+        } else {
+            clearPositionColors();
+        }
 
-        applyPositionColors(
-            term
-        );
+        document.body.classList.add("print-section");
 
-
-        document.body.classList.add(
-            "print-" +
-            term
-        );
-
-
-        setTimeout(
-            () => {
-
-                window.print();
-
-            },
-            200
-        );
-
+        setTimeout(() => {
+            window.print();
+        }, 200);
     }
-
-
-
-    /* ==========================================
-       PRINT FULL
-    ========================================== */
-
-    function printFull() {
-
-
-        document.body.classList.remove(
-            "print-term1",
-            "print-term2"
-        );
-
-
-        clearPositionColors();
-
-
-        setTimeout(
-            () => {
-
-                window.print();
-
-            },
-            100
-        );
-
-    }
-
 
 
     /* ==========================================
@@ -2829,10 +2420,11 @@ const maximumTotal =
 
             document.body.classList.remove(
                 "print-term1",
-                "print-term2"
+                "print-term2",
+                "print-section"
             );
 
-
+            clearSelectedSection();
             clearPositionColors();
 
         }
