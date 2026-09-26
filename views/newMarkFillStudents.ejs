@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Enter Marks</title>
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+    --primary:#1769e0;
+    --dark:#172033;
+    --muted:#667085;
+    --border:#e4e7ec;
+    --bg:#f5f7fa;
+    --card:#fff;
+    --section:#eef4ff;
+    --green:#067647;
+    --red:#b42318;
+}
+
+body{
+    margin:0;
+    background:var(--bg);
+    color:var(--dark);
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:14px;
+    padding-bottom:70px;
+}
+
+.container{
+    max-width:1280px;
+    margin:auto;
+    padding:10px;
+}
+
+.card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:14px;
+    box-shadow:0 8px 25px rgba(16,24,40,.07);
+    overflow:hidden;
+}
+
+.header{
+    padding:14px 16px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.kicker{
+    color:#1558b0;
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+}
+
+h1{
+    margin:4px 0;
+    font-size:19px;
+}
+
+.meta{
+    color:var(--muted);
+    font-size:10px;
+}
+
+.stats{
+    display:inline-flex;
+    margin-top:6px;
+    padding:4px 8px;
+    border-radius:999px;
+    background:#edf4ff;
+    color:#1558b0;
+    font-size:10px;
+    font-weight:800;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    flex-wrap:wrap;
+}
+
+.badge{
+    padding:7px 9px;
+    border:1px solid var(--border);
+    background:#fafbfc;
+    border-radius:8px;
+    font-size:10px;
+    font-weight:800;
+}
+
+.tools{
+    padding:9px 12px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    gap:7px;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.search{
+    flex:1;
+    min-width:190px;
+    height:37px;
+    padding:0 10px;
+    border:1px solid #cfd4dc;
+    border-radius:8px;
+    font-size:12px;
+}
+
+.select{
+    height:37px;
+    padding:0 9px;
+    min-width:145px;
+    border:1px solid #cfd4dc;
+    border-radius:8px;
+    background:#fff;
+    font-size:11px;
+    font-weight:700;
+}
+
+.search:focus,
+.select:focus{
+    outline:none;
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(23,105,224,.1);
+}
+
+.quick{
+    display:flex;
+    gap:5px;
+}
+
+.quick button{
+    height:32px;
+    padding:0 9px;
+    border:1px solid var(--border);
+    border-radius:7px;
+    background:#fff;
+    color:#344054;
+    font-size:9px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.quick button.active{
+    background:#172033;
+    border-color:#172033;
+    color:#fff;
+}
+
+.table-wrap{
+    overflow:auto;
+    max-height:calc(100vh - 230px);
+    -webkit-overflow-scrolling:touch;
+}
+
+table{
+    width:100%;
+    min-width:900px;
+    border-collapse:separate;
+    border-spacing:0;
+}
+
+th,td{
+    padding:7px 8px;
+    border-bottom:1px solid #eaecf0;
+    white-space:nowrap;
+}
+
+th{
+    position:sticky;
+    top:0;
+    z-index:5;
+    background:#f8f9fb;
+    color:#475467;
+    font-size:9px;
+    font-weight:800;
+    text-align:left;
+}
+
+th small{
+    display:block;
+    margin-top:2px;
+    font-size:7px;
+    font-weight:600;
+}
+
+td{
+    font-size:10px;
+}
+
+.roll{
+    width:55px;
+    text-align:center;
+}
+
+.name{
+    min-width:190px;
+    font-weight:700;
+}
+
+.admission{
+    min-width:110px;
+    color:#475467;
+}
+
+.section-cell{
+    width:65px;
+    text-align:center;
+}
+
+.section-pill{
+    display:inline-flex;
+    min-width:24px;
+    height:21px;
+    padding:0 7px;
+    align-items:center;
+    justify-content:center;
+    border-radius:999px;
+    background:#edf4ff;
+    color:#174ea6;
+    font-size:9px;
+    font-weight:900;
+}
+
+.mark-cell{
+    min-width:85px;
+    text-align:center;
+}
+
+.mark-input{
+    width:57px;
+    height:31px;
+    border:1px solid #b8c0ca;
+    border-radius:7px;
+    text-align:center;
+    font-size:14px;
+    font-weight:800;
+    background:#fff;
+}
+
+.mark-input.saved{
+    border-color:#a7c5ed;
+    background:#f5f9ff;
+}
+
+.mark-input:focus{
+    outline:none;
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(23,105,224,.1);
+}
+
+.saved-label{
+    display:block;
+    margin-top:1px;
+    color:#667085;
+    font-size:7px;
+}
+
+.section-row td{
+    padding:6px 9px;
+    background:linear-gradient(90deg,#e8f1ff,#f7f9ff,#fff);
+    color:#174ea6;
+    border-top:1px solid #cdddf8;
+    border-bottom:1px solid #cdddf8;
+    font-size:10px;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+}
+
+.section-badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:24px;
+    height:21px;
+    padding:0 7px;
+    margin-right:6px;
+    border-radius:999px;
+    background:#1769e0;
+    color:#fff;
+}
+
+.message{
+    display:none;
+    margin:9px 12px;
+    padding:9px 11px;
+    border-radius:8px;
+    font-size:10px;
+}
+
+.message.error{
+    display:block;
+    background:#fff1f2;
+    color:var(--red);
+    border:1px solid #fecdd3;
+}
+
+.message.ok{
+    display:block;
+    background:#ecfdf3;
+    color:var(--green);
+    border:1px solid #abefc6;
+}
+
+.empty{
+    padding:35px;
+    text-align:center;
+    color:var(--muted);
+}
+
+.bottom{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:20;
+    display:flex;
+    gap:6px;
+    padding:7px max(7px,calc((100vw - 1280px)/2 + 10px));
+    background:rgba(255,255,255,.96);
+    backdrop-filter:blur(12px);
+    border-top:1px solid var(--border);
+}
+
+.bottom a,
+.bottom button{
+    min-width:110px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 12px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    text-decoration:none;
+    background:#fff;
+    color:#344054;
+    font-size:10px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.bottom .save{
+    border-color:transparent;
+    background:#155eef;
+    color:#fff;
+}
+
+.bottom .back{
+    margin-left:auto;
+}
+
+@media(max-width:700px){
+
+    body{
+        font-size:12px;
+        padding-bottom:62px;
+    }
+
+    .container{
+        padding:5px;
+    }
+
+    .header{
+        padding:11px;
+    }
+
+    h1{
+        font-size:16px;
+    }
+
+    .tools{
+        padding:6px;
+    }
+
+    .search{
+        min-width:150px;
+        height:34px;
+        font-size:10px;
+    }
+
+    .select{
+        height:34px;
+        min-width:120px;
+        font-size:9px;
+    }
+
+    .quick{
+        width:100%;
+    }
+
+    .quick button{
+        flex:1;
+    }
+
+    .table-wrap{
+        max-height:calc(100vh - 255px);
+    }
+
+    table{
+        min-width:930px;
+    }
+
+    th,td{
+        padding:6px;
+    }
+
+    .name{
+        min-width:160px;
+    }
+
+    .mark-input{
+        width:48px;
+        height:29px;
+        font-size:13px;
+    }
+
+    .bottom{
+        padding:5px;
+    }
+
+    .bottom a,
+    .bottom button{
+        min-width:0;
+        flex:1;
+        height:37px;
+        padding:0 5px;
+        font-size:9px;
+    }
+
+    .bottom .back{
+        margin-left:0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<div class="card">
+
+<div class="header">
+
+<div>
+    <div class="kicker">Bulk Marks Entry</div>
+
+    <h1>
+        <%= classLabel %> · <%= termLabel %> · <%= subjectLabel %>
+    </h1>
+
+    <div class="meta">
+        Blank = no change · 0 is valid · Student details are read-only
+    </div>
+
+    <div class="stats" id="counter">
+        0 entered
+    </div>
+</div>
+
+<div class="header-right">
+    <div class="badge">
+        <%= totalStudents %> Students
+    </div>
+
+    <div class="badge">
+        PT: 10 · Final: 80
+    </div>
+</div>
+
+</div>
+
+
+<div class="tools">
+
+<input
+    id="search"
+    class="search"
+    type="search"
+    placeholder="Search name, roll, admission or section..."
+    autocomplete="off"
+>
+
+<select
+    id="sortBy"
+    class="select"
+>
+    <option value="sectionRoll">Section + Roll</option>
+    <option value="roll">Roll within Section</option>
+    <option value="name">Name within Section</option>
+    <option value="admission">Admission within Section</option>
+</select>
+
+
+<select
+    id="sectionFilter"
+    class="select"
+>
+    <option value="ALL">All Sections</option>
+</select>
+
+</div>
+
+
+<form
+    method="POST"
+    action="/marksheet/new/mark-fill/save"
+    id="marksForm"
+>
+
+<input
+    type="hidden"
+    name="className"
+    value="<%= className %>"
+>
+
+<input
+    type="hidden"
+    name="term"
+    value="<%= term %>"
+>
+
+<input
+    type="hidden"
+    name="subject"
+    value="<%= subject %>"
+>
+
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+    <th class="roll">Roll</th>
+    <th class="section-cell">Section</th>
+    <th class="name">Student Name</th>
+    <th class="admission">Admission No.</th>
+
+    <% exams.forEach(exam=>{ %>
+    <th class="mark-cell">
+        <%= exam.label %>
+        <small>Max <%= exam.max %></small>
+    </th>
+    <% }) %>
+</tr>
+</thead>
+
+
+<tbody id="studentBody">
+
+<%
+let previousSection = null;
+
+students.forEach((student,index)=>{
+
+    const section =
+        String(student.section || "")
+            .trim()
+            .toUpperCase();
+
+    const displaySection =
+        section || "NO SECTION";
+
+
+    if(
+        displaySection !== previousSection
+    ){
+
+        previousSection =
+            displaySection;
+%>
+
+<tr
+    class="section-row"
+    data-section-row="<%= displaySection %>"
+>
+    <td colspan="<%= 4 + exams.length %>">
+        <span class="section-badge">
+            <%= section || "-" %>
+        </span>
+
+        Section
+        <%= section || "Not Assigned" %>
+    </td>
+</tr>
+
+<%
+    }
+%>
+
+
+<tr
+    class="student-row"
+    data-section="<%= section %>"
+    data-roll="<%= String(student.rollNumber || '') %>"
+    data-name="<%= String(student.name || '') %>"
+    data-admission="<%= String(student.admissionNumber || '') %>"
+    data-search="<%= [
+        student.rollNumber,
+        student.name,
+        student.admissionNumber,
+        section
+    ].join(' ') %>"
+>
+
+<td class="roll">
+    <%= student.rollNumber || "" %>
+</td>
+
+<td class="section-cell">
+    <span class="section-pill">
+        <%= section || "-" %>
+    </span>
+</td>
+
+<td class="name">
+    <%= student.name || "" %>
+</td>
+
+<td class="admission">
+    <%= student.admissionNumber || "" %>
+</td>
+
+
+<input
+    type="hidden"
+    name="rows[<%= index %>][admissionNumber]"
+    value="<%= student.admissionNumber %>"
+>
+
+
+<% exams.forEach(exam=>{
+
+    const current =
+        student.marks &&
+        student.marks[exam.key];
+
+    const hasExisting =
+        current !== null &&
+        current !== undefined &&
+        current !== "";
+
+%>
+
+<td class="mark-cell">
+
+<input
+    class="mark-input <%= hasExisting ? 'saved' : '' %>"
+    type="number"
+    min="0"
+    max="<%= exam.max %>"
+    step="1"
+    inputmode="numeric"
+    name="rows[<%= index %>][<%= exam.key %>]"
+    value="<%= hasExisting ? current : '' %>"
+    data-max="<%= exam.max %>"
+    data-exam="<%= exam.key %>"
+    data-admission="<%= student.admissionNumber %>"
+    autocomplete="off"
+>
+
+<% if(hasExisting){ %>
+<small class="saved-label">Saved</small>
+<% } %>
+
+</td>
+
+<% }) %>
+
+</tr>
+
+<% }) %>
+
+</tbody>
+</table>
+
+</div>
+
+
+<% if(!students.length){ %>
+<div class="empty">
+    No students found for this class.
+</div>
+<% } %>
+
+
+<div
+    id="message"
+    class="message"
+></div>
+
+</form>
+
+</div>
+</div>
+
+
+<div class="bottom">
+
+<a href="/stcolumbus/jaj/ekdara/admin">
+    Dashboard
+</a>
+
+<a href="/marksheet/edit">
+    Edit Marks
+</a>
+
+<a
+    class="back"
+    href="/marksheet/new/mark-fill"
+>
+    Back
+</a>
+
+<button
+    class="save"
+    type="submit"
+    form="marksForm"
+>
+    Save Marks
+</button>
+
+</div>
+
+
+<script>
+const form =
+    document.getElementById("marksForm");
+
+const search =
+    document.getElementById("search");
+
+const sortBy =
+    document.getElementById("sortBy");
+
+const tbody =
+    document.getElementById("studentBody");
+
+const counter =
+    document.getElementById("counter");
+
+const message =
+    document.getElementById("message");
+
+const sectionFilter =
+    document.getElementById("sectionFilter");
+
+let selectedSection = "ALL";
+
+
+function showMessage(
+    text,
+    type = "error"
+){
+
+    message.textContent =
+        text;
+
+    message.className =
+        "message " + type;
+}
+
+
+function clearMessage(){
+
+    message.textContent = "";
+
+    message.className =
+        "message";
+}
+
+
+function updateCounter(){
+
+    const inputs =
+        [
+            ...document.querySelectorAll(
+                ".mark-input"
+            )
+        ];
+
+    const filled =
+        inputs.filter(
+            input =>
+                String(
+                    input.value
+                ).trim() !== ""
+        ).length;
+
+
+    const editable =
+        inputs.length;
+
+
+    counter.textContent =
+        `${filled} / ${editable} marks entered`;
+}
+
+
+function sectionCompare(a,b){
+
+    const sectionA =
+        a.dataset.section || "";
+
+    const sectionB =
+        b.dataset.section || "";
+
+    const noA = !sectionA;
+    const noB = !sectionB;
+
+    if(noA && !noB) return 1;
+    if(!noA && noB) return -1;
+
+    return sectionA.localeCompare(
+        sectionB,
+        undefined,
+        {
+            numeric:true,
+            sensitivity:"base"
+        }
+    );
+}
+
+
+function compareStudents(a,b){
+
+    /*
+     * Every sort keeps sections together.
+     * The selected option controls the order
+     * INSIDE each section.
+     */
+
+    const sectionResult =
+        sectionCompare(a,b);
+
+    if(sectionResult !== 0){
+        return sectionResult;
+    }
+
+
+    const mode =
+        sortBy.value;
+
+
+    if(
+        mode === "roll" ||
+        mode === "sectionRoll"
+    ){
+
+        const result =
+            (
+                Number(a.dataset.roll)
+                || 999999
+            ) -
+            (
+                Number(b.dataset.roll)
+                || 999999
+            );
+
+        if(result !== 0){
+            return result;
+        }
+    }
+
+
+    if(mode === "name"){
+
+        const result =
+            (
+                a.dataset.name || ""
+            ).localeCompare(
+                b.dataset.name || "",
+                undefined,
+                {
+                    sensitivity:"base"
+                }
+            );
+
+        if(result !== 0){
+            return result;
+        }
+    }
+
+
+    if(mode === "admission"){
+
+        const result =
+            (
+                a.dataset.admission || ""
+            ).localeCompare(
+                b.dataset.admission || "",
+                undefined,
+                {
+                    numeric:true,
+                    sensitivity:"base"
+                }
+            );
+
+        if(result !== 0){
+            return result;
+        }
+    }
+
+
+    /*
+     * Stable fallback.
+     */
+
+    return (
+        Number(a.dataset.roll)
+        || 999999
+    ) - (
+        Number(b.dataset.roll)
+        || 999999
+    );
+}
+
+
+function populateSections(){
+
+    const sections =
+        new Set(
+            [
+                ...tbody.querySelectorAll(
+                    ".student-row"
+                )
+            ].map(
+                row =>
+                    row.dataset.section || ""
+            )
+        );
+
+
+    sectionFilter.innerHTML =
+        '<option value="ALL">All Sections</option>';
+
+
+    [...sections]
+        .filter(section => section)
+        .sort(
+            (a,b) =>
+                a.localeCompare(
+                    b,
+                    undefined,
+                    {
+                        numeric:true,
+                        sensitivity:"base"
+                    }
+                )
+        )
+        .forEach(section => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                section;
+
+            option.textContent =
+                `Section ${section}`;
+
+            sectionFilter.appendChild(
+                option
+            );
+        });
+}
+
+
+function renderRows(){
+
+    const rows =
+        [
+            ...tbody.querySelectorAll(
+                ".student-row"
+            )
+        ];
+
+
+    rows.sort(
+        compareStudents
+    );
+
+
+    /*
+     * Always rebuild section dividers.
+     * This means every sorting mode still works
+     * correctly WITHIN each section.
+     */
+
+    tbody.innerHTML = "";
+
+
+    let currentSection =
+        null;
+
+
+    rows.forEach(row => {
+
+        const section =
+            row.dataset.section || "";
+
+
+        /*
+         * For Section + Roll, and for the
+         * filtered A/B/C views, keep groups.
+         *
+         * For Name/Roll/Admission we still
+         * show section dividers when the
+         * section changes.
+         */
+
+        if(
+            section !== currentSection
+        ){
+
+            currentSection =
+                section;
+
+
+            const divider =
+                document.createElement(
+                    "tr"
+                );
+
+            divider.className =
+                "section-row";
+
+            divider.dataset.sectionRow =
+                section || "NO SECTION";
+
+
+            divider.innerHTML =
+                `<td colspan="${
+                    4 + <%= exams.length %>
+                }">
+                    <span class="section-badge">
+                        ${section || "-"}
+                    </span>
+                    Section ${
+                        section || "Not Assigned"
+                    }
+                </td>`;
+
+
+            tbody.appendChild(
+                divider
+            );
+        }
+
+
+        tbody.appendChild(
+            row
+        );
+    });
+
+
+    applyFilters();
+    updateCounter();
+}
+
+
+function applyFilters(){
+
+    const query =
+        search.value
+            .trim()
+            .toLowerCase();
+
+
+    const rows =
+        [
+            ...tbody.querySelectorAll(
+                ".student-row"
+            )
+        ];
+
+
+    rows.forEach(row => {
+
+        const matchesText =
+            (
+                row.dataset.search || ""
+            )
+                .toLowerCase()
+                .includes(query);
+
+
+        const rowSection =
+            row.dataset.section || "";
+
+
+        const matchesSection =
+            selectedSection === "ALL"
+            ||
+            rowSection ===
+                selectedSection;
+
+
+        row.style.display =
+            matchesText &&
+            matchesSection
+                ? ""
+                : "none";
+    });
+
+
+    /*
+     * Hide section divider if none of
+     * its students are visible.
+     */
+
+    const sectionRows =
+        [
+            ...tbody.querySelectorAll(
+                ".section-row"
+            )
+        ];
+
+
+    sectionRows.forEach(sectionRow => {
+
+        const section =
+            sectionRow.dataset.sectionRow
+            === "NO SECTION"
+                ? ""
+                : sectionRow.dataset.sectionRow;
+
+
+        const visible =
+            rows.some(
+                row =>
+                    (
+                        row.dataset.section
+                        || ""
+                    ) === section
+                    &&
+                    row.style.display !== "none"
+            );
+
+
+        sectionRow.style.display =
+            visible ? "" : "none";
+    });
+}
+
+
+search.addEventListener(
+    "input",
+    applyFilters
+);
+
+
+sortBy.addEventListener(
+    "change",
+    renderRows
+);
+
+
+sectionFilter.addEventListener(
+    "change",
+    () => {
+
+        selectedSection =
+            sectionFilter.value;
+
+        applyFilters();
+    }
+);
+
+
+form.addEventListener(
+    "submit",
+    event => {
+
+        const inputs = [
+            ...document.querySelectorAll(".mark-input")
+        ];
+
+        for (const input of inputs) {
+
+            const exam =
+                String(input.dataset.exam || "");
+
+            let max;
+
+            if (
+                exam === "PT1" ||
+                exam === "PT2" ||
+                exam === "PT3" ||
+                exam === "PT4"
+            ) {
+                max = 10;
+            }
+            else if (
+                exam === "Halfyearly" ||
+                exam === "Annual"
+            ) {
+                max = 80;
+            }
+            else {
+                event.preventDefault();
+                input.focus();
+
+                showMessage(
+                    "Invalid examination type."
+                );
+
+                return;
+            }
+
+            input.min = "0";
+            input.max = String(max);
+            input.dataset.max = String(max);
+
+            const raw =
+                String(input.value).trim();
+
+            /*
+             * BLANK IS VALID.
+             * Blank means do not enter/change this mark.
+             */
+            if (raw === "") {
+                continue;
+            }
+
+            /*
+             * Whole numbers only.
+             */
+            if (!/^\d+$/.test(raw)) {
+
+                event.preventDefault();
+                input.focus();
+
+                showMessage(
+                    `${exam}: enter a whole number from 0 to ${max}, or leave blank.`
+                );
+
+                return;
+            }
+
+            const value = Number(raw);
+
+            /*
+             * Exact range:
+             * PT-1/2/3/4 -> 0-10
+             * Halfyearly/Annual -> 0-80
+             */
+            if (
+                !Number.isInteger(value) ||
+                value < 0 ||
+                value > max
+            ) {
+
+                event.preventDefault();
+                input.focus();
+
+                showMessage(
+                    `${exam}: marks must be 0-${max}, or blank.`
+                );
+
+                return;
+            }
+        }
+
+        clearMessage();
+    }
+);
+
+
+/*
+ * MARK INPUT EVENTS
+ *
+ * PT-1 / PT-2 / PT-3 / PT-4
+ *     blank OR 0-10
+ *
+ * Halfyearly / Annual
+ *     blank OR 0-80
+ */
+function attachInputEvents(){
+
+    const inputs = [
+        ...document.querySelectorAll(".mark-input")
+    ];
+
+    inputs.forEach(
+        (input, index) => {
+
+            const exam =
+                String(input.dataset.exam || "");
+
+            let max;
+
+            if (
+                exam === "PT1" ||
+                exam === "PT2" ||
+                exam === "PT3" ||
+                exam === "PT4"
+            ) {
+                max = 10;
+            }
+            else if (
+                exam === "Halfyearly" ||
+                exam === "Annual"
+            ) {
+                max = 80;
+            }
+            else {
+                return;
+            }
+
+            input.min = "0";
+            input.max = String(max);
+            input.dataset.max = String(max);
+
+
+            input.addEventListener(
+                "input",
+                () => {
+
+                    const raw =
+                        String(
+                            input.value
+                        ).trim();
+
+
+                    /*
+                     * Blank is allowed.
+                     */
+                    if(raw === ""){
+
+                        clearMessage();
+
+                        updateCounter();
+
+                        return;
+                    }
+
+
+                    /*
+                     * Only whole numbers.
+                     */
+                    if(
+                        !/^\d+$/.test(raw)
+                    ){
+
+                        input.value = "";
+
+                        showMessage(
+                            `${exam}: enter 0-${max} or leave blank.`
+                        );
+
+                        updateCounter();
+
+                        return;
+                    }
+
+
+                    const value =
+                        Number(raw);
+
+
+                    /*
+                     * Exact range.
+                     */
+                    if(
+                        value < 0 ||
+                        value > max
+                    ){
+
+                        input.value = "";
+
+                        showMessage(
+                            `${exam}: marks must be 0-${max} or blank.`
+                        );
+
+                    }
+                    else{
+
+                        clearMessage();
+
+                    }
+
+
+                    updateCounter();
+                }
+            );
+
+
+            input.addEventListener(
+                "keydown",
+                event => {
+
+                    /*
+                     * Enter / Arrow Down
+                     * -> next mark
+                     */
+                    if(
+                        event.key === "Enter" ||
+                        event.key === "ArrowDown"
+                    ){
+
+                        event.preventDefault();
+
+                        if(inputs[index + 1]){
+
+                            inputs[index + 1].focus();
+                            inputs[index + 1].select();
+
+                        }
+
+                    }
+
+
+                    /*
+                     * Arrow Up
+                     * -> previous mark
+                     */
+                    else if(
+                        event.key === "ArrowUp"
+                    ){
+
+                        event.preventDefault();
+
+                        if(inputs[index - 1]){
+
+                            inputs[index - 1].focus();
+                            inputs[index - 1].select();
+
+                        }
+
+                    }
+
+                }
+            );
+
+        }
+    );
+}
+
+
+
+attachInputEvents();
+populateSections();
+updateCounter();
+renderRows();
+</script>
+
+</body>
+</html>

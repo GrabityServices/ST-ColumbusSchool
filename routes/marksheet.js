@@ -2166,5 +2166,1362 @@ marksheet.route("/edit/:admissionNumber").post(
 
     }
 );
+/*
+============================================================
+NEW BULK MARK ENTRY ROUTES
+============================================================
+
+IMPORTANT:
+This code is designed to be added to your EXISTING
+marksheet router file.
+
+Your existing file already contains:
+    const marksheet = express.Router()
+    const studentlist = require('../models/studentlist.js')
+    const classModels = {...}
+    const marksModels = {...}
+    function getMarksModel(className, examType) {...}
+
+Do NOT redeclare those variables.
+
+Add the code below BEFORE:
+    module.exports = marksheet;
+
+URL:
+    If your marksheet router is mounted at "/marksheet":
+        /marksheet/new/mark-fill
+
+    If it is mounted at "/":
+        /new/mark-fill
+============================================================
+*/
+
+const NEW_MARK_EXAMS = {
+    I: [
+        { key: "PT1", label: "PT-1", max: 10 },
+        { key: "PT2", label: "PT-2", max: 10 },
+        { key: "Halfyearly", label: "Halfyearly", max: 80 }
+    ],
+    II: [
+        { key: "PT3", label: "PT-3", max: 10 },
+        { key: "PT4", label: "PT-4", max: 10 },
+        { key: "Annual", label: "Annual", max: 80 }
+    ]
+};
+
+const NEW_MARK_CLASSES = [
+    "Nursery", "LKG", "UKG",
+    "1", "2", "3", "4", "5", "6", "7", "8"
+];
+
+function newMarkClassLabel(className) {
+    if (["Nursery", "LKG", "UKG"].includes(String(className))) {
+        return String(className);
+    }
+
+    return `Class ${className}`;
+}
+
+function newMarkExamModels(className, term) {
+    const models = classModels[String(className)];
+
+    if (!models) return null;
+
+    if (term === "I") {
+        return [
+            { key: "PT1", label: "PT-1", max: 10, Model: models.PT1 },
+            { key: "PT2", label: "PT-2", max: 10, Model: models.PT2 },
+            { key: "Halfyearly", label: "Halfyearly", max: 80, Model: models.Halfyearly }
+        ];
+    }
+
+    if (term === "II") {
+        return [
+            { key: "PT3", label: "PT-3", max: 10, Model: models.PT3 },
+            { key: "PT4", label: "PT-4", max: 10, Model: models.PT4 },
+            { key: "Annual", label: "Annual", max: 80, Model: models.Annual }
+        ];
+    }
+
+    return null;
+}
+
+function newMarkHumanize(value) {
+    return String(value)
+        .replace(/([a-z])([A-Z])/g, "$1 $2")
+        .replace(/[_-]+/g, " ")
+        .replace(/\b\w/g, char => char.toUpperCase());
+}
+
+function newMarkGetSubjectOptions(className) {
+    const models = classModels[String(className)];
+
+    if (!models) return [];
+
+    const fields = new Set();
+
+    Object.values(models).forEach(Model => {
+        if (!Model || !Model.schema || !Model.schema.paths) return;
+
+        Object.keys(Model.schema.paths).forEach(path => {
+            if (
+                ![
+                    "_id",
+                    "__v",
+                    "name",
+                    "rollNumber",
+                    "admissionNumber",
+                    "class",
+                    "examType",
+                    "createdAt",
+                    "updatedAt"
+                ].includes(path)
+            ) {
+                fields.add(path);
+            }
+        });
+    });
+
+    return [...fields]
+        .sort()
+        .map(value => ({
+            value,
+            label: newMarkHumanize(value)
+        }));
+}
+
+/*
+============================================================
+NEW BULK MARK ENTRY — V3
+============================================================
+
+ADD THIS BLOCK TO YOUR EXISTING marksheet ROUTER FILE.
+
+It expects these existing variables to already exist:
+    marksheet
+    classModels
+    studentlist
+
+Routes:
+    GET  /new/mark-fill
+    POST /new/mark-fill/load
+    POST /new/mark-fill/save
+
+If your router is mounted with:
+    app.use("/marksheet", marksheet)
+
+the URLs are:
+    /marksheet/new/mark-fill
+    /marksheet/new/mark-fill/load
+    /marksheet/new/mark-fill/save
+
+IMPORTANT:
+- Term I  = PT-1 + PT-2 + Halfyearly
+- Term II = PT-3 + PT-4 + Annual
+- Blank = leave existing database value unchanged
+- 0 = valid mark
+- Student identity is read-only in the UI
+- Students are merged from studentlist + selected term exam
+  collections, uniquely by admission number
+- Section is taken from studentlist when available, otherwise
+  from exam records
+============================================================
+*/
+
+const NEW_MARK_V3_CLASSES = [
+    "Nursery",
+    "LKG",
+    "UKG",
+    "1", "2", "3", "4", "5", "6", "7", "8"
+];
+
+const NEW_MARK_V3_TERMS = {
+    I: [
+        { key: "PT1", label: "PT-1", max: 10 },
+        { key: "PT2", label: "PT-2", max: 10 },
+        { key: "Halfyearly", label: "Halfyearly", max: 80 }
+    ],
+    II: [
+        { key: "PT3", label: "PT-3", max: 10 },
+        { key: "PT4", label: "PT-4", max: 10 },
+        { key: "Annual", label: "Annual", max: 80 }
+    ]
+};
+
+function newMarkV3ClassLabel(className) {
+    const value = String(className);
+
+    if (
+        value === "Nursery" ||
+        value === "LKG" ||
+        value === "UKG"
+    ) {
+        return value;
+    }
+
+    return `Class ${value}`;
+}
+
+function newMarkV3NormalizeClass(value) {
+    let valueText =
+        String(value ?? "")
+            .trim()
+            .toUpperCase();
+
+    if (!valueText) return "";
+
+    valueText =
+        valueText.replace(/^STD[-\s]*/, "");
+
+    valueText =
+        valueText.replace(/^CLASS[-\s]*/, "");
+
+    return valueText;
+}
+
+function newMarkV3ExamConfig(className, term) {
+    const models =
+        classModels[String(className)];
+
+    if (!models) return null;
+
+    if (term === "I") {
+        return [
+            {
+                key: "PT1",
+                label: "PT-1",
+                max: 10,
+                Model: models.PT1
+            },
+            {
+                key: "PT2",
+                label: "PT-2",
+                max: 10,
+                Model: models.PT2
+            },
+            {
+                key: "Halfyearly",
+                label: "Halfyearly",
+                max: 80,
+                Model: models.Halfyearly
+            }
+        ];
+    }
+
+    if (term === "II") {
+        return [
+            {
+                key: "PT3",
+                label: "PT-3",
+                max: 10,
+                Model: models.PT3
+            },
+            {
+                key: "PT4",
+                label: "PT-4",
+                max: 10,
+                Model: models.PT4
+            },
+            {
+                key: "Annual",
+                label: "Annual",
+                max: 80,
+                Model: models.Annual
+            }
+        ];
+    }
+
+    return null;
+}
+
+function newMarkV3Humanize(value) {
+    return String(value)
+        .replace(/([a-z])([A-Z])/g, "$1 $2")
+        .replace(/[_-]+/g, " ")
+        .replace(/\b\w/g, char => char.toUpperCase());
+}
+
+function newMarkV3SubjectFields(examConfigs) {
+    const ignored = new Set([
+        "_id",
+        "__v",
+        "name",
+        "rollNumber",
+        "admissionNumber",
+        "class",
+        "className",
+        "section",
+        "examType",
+        "createdAt",
+        "updatedAt"
+    ]);
+
+    /*
+     * Use the INTERSECTION of subject fields.
+     *
+     * A subject appears in the selector only when it exists
+     * in every exam collection of the selected term.
+     *
+     * This prevents selecting a subject that cannot be saved
+     * into one of the three selected examinations.
+     */
+
+    const sets = [];
+
+    for (const exam of examConfigs || []) {
+
+        if (
+            !exam.Model ||
+            !exam.Model.schema ||
+            !exam.Model.schema.paths
+        ) {
+            continue;
+        }
+
+        const fields =
+            Object.keys(
+                exam.Model.schema.paths
+            )
+                .filter(
+                    field => !ignored.has(field)
+                );
+
+        sets.push(
+            new Set(fields)
+        );
+    }
+
+    if (!sets.length) return [];
+
+    const common =
+        [...sets[0]]
+            .filter(field =>
+                sets.every(
+                    set => set.has(field)
+                )
+            );
+
+    return common
+        .sort((a, b) =>
+            newMarkV3Humanize(a)
+                .localeCompare(
+                    newMarkV3Humanize(b),
+                    undefined,
+                    {
+                        sensitivity: "base"
+                    }
+                )
+        )
+        .map(value => ({
+            value,
+            label: newMarkV3Humanize(value)
+        }));
+}
+
+/*
+============================================================
+GET /new/mark-fill
+============================================================
+*/
+
+marksheet.route(
+    "/new/mark-fill"
+).get(
+    async (req, res) => {
+
+        try {
+
+            const subjectsByClass = {};
+
+            for (
+                const className
+                of NEW_MARK_V3_CLASSES
+            ) {
+
+                const termI =
+                    newMarkV3ExamConfig(
+                        className,
+                        "I"
+                    );
+
+                const termII =
+                    newMarkV3ExamConfig(
+                        className,
+                        "II"
+                    );
+
+                subjectsByClass[className] = {
+                    I:
+                        newMarkV3SubjectFields(
+                            termI
+                        ),
+
+                    II:
+                        newMarkV3SubjectFields(
+                            termII
+                        )
+                };
+            }
+
+            let decoded = null;
+
+            try {
+
+                const token =
+                    req.cookies?.stadminis;
+
+                if (token) {
+
+                    decoded =
+                        JSON.parse(
+                            Buffer
+                                .from(
+                                    token.split(".")[1],
+                                    "base64"
+                                )
+                                .toString()
+                        );
+                }
+
+            } catch (cookieError) {
+
+                console.warn(
+                    "NEW MARK V3: admin cookie decode failed:",
+                    cookieError.message
+                );
+
+            }
+
+            return res.render(
+                "newMarkFill.ejs",
+                {
+                    subjectsByClass,
+                    decoded,
+                    error: null,
+                    success:
+                        String(
+                            req.query.success || ""
+                        ) === "1"
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "NEW MARK V3 PAGE ERROR:",
+                error
+            );
+
+            return res
+                .status(500)
+                .send(
+                    "Unable to open mark fill page."
+                );
+        }
+    }
+);
+
+
+/*
+============================================================
+BUILD UNIQUE STUDENT LIST
+============================================================
+
+Source priority:
+
+1. studentlist
+2. selected term exam collections
+
+Identity:
+    admissionNumber
+
+Section priority:
+    studentlist.section
+    exam.section
+    blank
+
+Class:
+    studentlist className / house
+    exam class / className
+============================================================
+*/
+
+async function newMarkV3GetStudents(
+    className,
+    examConfigs
+) {
+
+    const targetClass =
+        newMarkV3NormalizeClass(
+            className
+        );
+
+    const students =
+        new Map();
+
+
+    function mergeStudent(raw, source) {
+
+        if (!raw) return;
+
+        const admissionNumber =
+            String(
+                raw.admissionNo ??
+                raw.admissionNumber ??
+                ""
+            ).trim();
+
+        if (!admissionNumber) return;
+
+
+        const rawClass =
+            raw.className ??
+            raw.class ??
+            raw.house ??
+            "";
+
+        const normalizedRawClass =
+            newMarkV3NormalizeClass(
+                rawClass
+            );
+
+
+        /*
+         * For master student records, class is important.
+         * For exam fallback records, class is checked when
+         * present. If an old exam document has no class field,
+         * admission-number matching still remains safe because
+         * the master list is used first.
+         */
+
+        if (
+            normalizedRawClass &&
+            normalizedRawClass !== targetClass
+        ) {
+            return;
+        }
+
+
+        const current =
+            students.get(admissionNumber);
+
+
+        const name =
+            String(
+                raw.studentName ??
+                raw.name ??
+                current?.name ??
+                ""
+            ).trim();
+
+        const rollNumber =
+            raw.rollNo ??
+            raw.rollNumber ??
+            current?.rollNumber ??
+            "";
+
+        const section =
+            String(
+                raw.section ??
+                current?.section ??
+                ""
+            )
+                .trim()
+                .toUpperCase();
+
+
+        students.set(
+            admissionNumber,
+            {
+                name,
+                rollNumber,
+                admissionNumber,
+                section
+            }
+        );
+    }
+
+
+    /*
+     * --------------------------------------------------------
+     * 1. MASTER STUDENT COLLECTION
+     *
+     * We intentionally read the collection and filter in JS.
+     * This keeps the route compatible with the existing
+     * studentlist model whether class is stored in:
+     *
+     *   className
+     *   class
+     *   house
+     * --------------------------------------------------------
+     */
+
+    const masterRows =
+        await studentlist
+            .find({})
+            .lean();
+
+
+    for (const row of masterRows) {
+
+        mergeStudent(
+            row,
+            "studentlist"
+        );
+    }
+
+
+    /*
+     * --------------------------------------------------------
+     * 2. SELECTED TERM EXAM COLLECTIONS
+     *
+     * Enrich section and also recover students missing from
+     * studentlist.
+     * --------------------------------------------------------
+     */
+
+    const masterAdmissions =
+        new Set(
+            students.keys()
+        );
+
+
+    for (const exam of examConfigs) {
+
+        if (!exam.Model) continue;
+
+        let rows = [];
+
+        /*
+         * If we already have a master list, only fetch matching
+         * admission numbers. This is faster and avoids mixing
+         * classes.
+         */
+
+        if (masterAdmissions.size) {
+
+            rows =
+                await exam.Model
+                    .find({
+                        admissionNumber: {
+                            $in: [
+                                ...masterAdmissions
+                            ]
+                        }
+                    })
+                    .select(
+                        "name studentName rollNumber rollNo admissionNumber admissionNo section class className"
+                    )
+                    .lean();
+
+        } else {
+
+            /*
+             * No master rows. Recover students from this exam
+             * collection, but only when the record itself carries
+             * a class/className/house that matches the target.
+             */
+
+            rows =
+                await exam.Model
+                    .find({})
+                    .select(
+                        "name studentName rollNumber rollNo admissionNumber admissionNo section class className house"
+                    )
+                    .lean();
+        }
+
+
+        for (const row of rows) {
+
+            mergeStudent(
+                row,
+                exam.key
+            );
+        }
+    }
+
+
+    /*
+     * --------------------------------------------------------
+     * SORT DEFAULT
+     *
+     * Section A
+     * Section B
+     * ...
+     * No Section last
+     *
+     * Inside section:
+     * Roll ascending
+     * --------------------------------------------------------
+     */
+
+    return [
+        ...students.values()
+    ].sort(
+        newMarkV3SectionRollComparator
+    );
+}
+
+
+function newMarkV3SectionRollComparator(a, b) {
+
+    const sectionA =
+        String(
+            a.section || ""
+        )
+            .trim()
+            .toUpperCase();
+
+    const sectionB =
+        String(
+            b.section || ""
+        )
+            .trim()
+            .toUpperCase();
+
+
+    const noSectionA =
+        !sectionA;
+
+    const noSectionB =
+        !sectionB;
+
+
+    if (
+        noSectionA &&
+        !noSectionB
+    ) {
+        return 1;
+    }
+
+    if (
+        !noSectionA &&
+        noSectionB
+    ) {
+        return -1;
+    }
+
+
+    if (
+        sectionA &&
+        sectionB
+    ) {
+
+        const sectionCompare =
+            sectionA.localeCompare(
+                sectionB,
+                undefined,
+                {
+                    numeric: true,
+                    sensitivity: "base"
+                }
+            );
+
+        if (sectionCompare !== 0) {
+            return sectionCompare;
+        }
+    }
+
+
+    const rollA =
+        Number(a.rollNumber);
+
+    const rollB =
+        Number(b.rollNumber);
+
+
+    if (
+        Number.isFinite(rollA) &&
+        Number.isFinite(rollB)
+    ) {
+
+        if (rollA !== rollB) {
+            return rollA - rollB;
+        }
+    }
+
+
+    return String(
+        a.name || ""
+    ).localeCompare(
+        String(
+            b.name || ""
+        ),
+        undefined,
+        {
+            sensitivity: "base"
+        }
+    );
+}
+
+
+/*
+============================================================
+POST /new/mark-fill/load
+============================================================
+*/
+
+marksheet.route(
+    "/new/mark-fill/load"
+).post(
+    async (req, res) => {
+
+        try {
+
+            const className =
+                String(
+                    req.body.className || ""
+                ).trim();
+
+            const term =
+                String(
+                    req.body.term || ""
+                ).trim();
+
+            const subject =
+                String(
+                    req.body.subject || ""
+                ).trim();
+
+
+            if (
+                !NEW_MARK_V3_CLASSES
+                    .includes(className)
+            ) {
+                return res
+                    .status(400)
+                    .send(
+                        "Invalid class."
+                    );
+            }
+
+
+            if (
+                !["I", "II"]
+                    .includes(term)
+            ) {
+                return res
+                    .status(400)
+                    .send(
+                        "Invalid term."
+                    );
+            }
+
+
+            const examConfigs =
+                newMarkV3ExamConfig(
+                    className,
+                    term
+                );
+
+
+            if (!examConfigs) {
+
+                return res
+                    .status(400)
+                    .send(
+                        "No examination configuration found."
+                    );
+            }
+
+
+            const validSubjects =
+                newMarkV3SubjectFields(
+                    examConfigs
+                )
+                    .map(
+                        item => item.value
+                    );
+
+
+            if (
+                !validSubjects
+                    .includes(subject)
+            ) {
+                return res
+                    .status(400)
+                    .send(
+                        "Invalid subject for the selected term."
+                    );
+            }
+
+
+            const students =
+                await newMarkV3GetStudents(
+                    className,
+                    examConfigs
+                );
+
+
+            const admissionNumbers =
+                students.map(
+                    student =>
+                        student.admissionNumber
+                );
+
+
+            /*
+             * Load marks for all three selected exams.
+             */
+
+            const marksByExam = {};
+
+
+            await Promise.all(
+                examConfigs.map(
+                    async exam => {
+
+                        if (!exam.Model) {
+
+                            marksByExam[exam.key] =
+                                new Map();
+
+                            return;
+                        }
+
+
+                        const rows =
+                            admissionNumbers.length
+                                ? await exam.Model
+                                    .find({
+                                        admissionNumber: {
+                                            $in:
+                                                admissionNumbers
+                                        }
+                                    })
+                                    .select(
+                                        `admissionNumber ${subject}`
+                                    )
+                                    .lean()
+                                : [];
+
+
+                        marksByExam[exam.key] =
+                            new Map(
+                                rows.map(
+                                    row => [
+                                        String(
+                                            row.admissionNumber
+                                        ),
+                                        row[subject]
+                                    ]
+                                )
+                            );
+                    }
+                )
+            );
+
+
+            const finalStudents =
+                students.map(
+                    student => {
+
+                        const marks = {};
+
+                        for (
+                            const exam
+                            of examConfigs
+                        ) {
+
+                            const value =
+                                marksByExam[
+                                    exam.key
+                                ]?.get(
+                                    student.admissionNumber
+                                );
+
+
+                            marks[exam.key] =
+                                value === undefined ||
+                                value === null
+                                    ? ""
+                                    : value;
+                        }
+
+
+                        return {
+                            ...student,
+                            marks
+                        };
+                    }
+                );
+
+
+            return res.render(
+                "newMarkFillStudents.ejs",
+                {
+                    className,
+
+                    classLabel:
+                        newMarkV3ClassLabel(
+                            className
+                        ),
+
+                    term,
+
+                    termLabel:
+                        term === "I"
+                            ? "Term I"
+                            : "Term II",
+
+                    subject,
+
+                    subjectLabel:
+                        newMarkV3Humanize(
+                            subject
+                        ),
+
+                    exams:
+                        examConfigs.map(
+                            exam => ({
+                                key:
+                                    exam.key,
+                                label:
+                                    exam.label,
+                                max:
+                                    exam.max
+                            })
+                        ),
+
+                    students:
+                        finalStudents,
+
+                    totalStudents:
+                        finalStudents.length
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "NEW MARK V3 LOAD ERROR:",
+                error
+            );
+
+            return res
+                .status(500)
+                .send(
+                    "Unable to load students and marks."
+                );
+        }
+    }
+);
+
+
+/*
+============================================================
+POST /new/mark-fill/save
+============================================================
+
+The form posts admission number with every row.
+
+This removes the old "row index must match the database
+student order" problem.
+============================================================
+*/
+
+marksheet.route(
+    "/new/mark-fill/save"
+).post(
+    async (req, res) => {
+
+        try {
+
+            const className =
+                String(
+                    req.body.className || ""
+                ).trim();
+
+            const term =
+                String(
+                    req.body.term || ""
+                ).trim();
+
+            const subject =
+                String(
+                    req.body.subject || ""
+                ).trim();
+
+
+            if (
+                !NEW_MARK_V3_CLASSES
+                    .includes(className)
+            ) {
+                return res
+                    .status(400)
+                    .send(
+                        "Invalid class."
+                    );
+            }
+
+
+            if (
+                !["I", "II"]
+                    .includes(term)
+            ) {
+                return res
+                    .status(400)
+                    .send(
+                        "Invalid term."
+                    );
+            }
+
+
+            const examConfigs =
+                newMarkV3ExamConfig(
+                    className,
+                    term
+                );
+
+
+            if (!examConfigs) {
+
+                return res
+                    .status(400)
+                    .send(
+                        "Invalid term configuration."
+                    );
+            }
+
+
+            const validSubjects =
+                newMarkV3SubjectFields(
+                    examConfigs
+                )
+                    .map(
+                        item => item.value
+                    );
+
+
+            if (
+                !validSubjects
+                    .includes(subject)
+            ) {
+                return res
+                    .status(400)
+                    .send(
+                        "Invalid subject."
+                    );
+            }
+
+
+            const rows =
+                Array.isArray(
+                    req.body.rows
+                )
+                    ? req.body.rows
+                    : Object.values(
+                        req.body.rows || {}
+                    );
+
+
+            let updatedCount = 0;
+
+
+            /*
+             * Student data is loaded again from the database.
+             * Posted name/roll/section are never trusted.
+             */
+
+            const students =
+                await newMarkV3GetStudents(
+                    className,
+                    examConfigs
+                );
+
+
+            const studentsByAdmission =
+                new Map(
+                    students.map(
+                        student => [
+                            student.admissionNumber,
+                            student
+                        ]
+                    )
+                );
+
+
+            for (
+                const row
+                of rows
+            ) {
+
+                const admissionNumber =
+                    String(
+                        row.admissionNumber || ""
+                    ).trim();
+
+
+                if (!admissionNumber) {
+                    continue;
+                }
+
+
+                const student =
+                    studentsByAdmission.get(
+                        admissionNumber
+                    );
+
+
+                if (!student) {
+                    continue;
+                }
+
+
+                for (
+                    const exam
+                    of examConfigs
+                ) {
+
+                    const rawValue =
+                        row[exam.key];
+
+
+                    /*
+                     * BLANK:
+                     * do not modify database.
+                     */
+
+                    if (
+                        rawValue === undefined ||
+                        rawValue === null ||
+                        String(
+                            rawValue
+                        ).trim() === ""
+                    ) {
+                        continue;
+                    }
+
+
+                    const value =
+                        Number(rawValue);
+
+
+                    if (
+                        !Number.isInteger(value) ||
+                        value < 0 ||
+                        value > exam.max
+                    ) {
+
+                        return res
+                            .status(400)
+                            .send(
+                                `Invalid ${exam.label} marks for ${student.name}. Maximum is ${exam.max}.`
+                            );
+                    }
+
+
+                    if (
+                        !exam.Model ||
+                        !exam.Model.schema?.paths?.[
+                            subject
+                        ]
+                    ) {
+
+                        return res
+                            .status(400)
+                            .send(
+                                `Subject "${subject}" is not available in ${exam.label}.`
+                            );
+                    }
+
+
+                    const existing =
+                        await exam.Model.findOne({
+                            admissionNumber
+                        });
+
+
+                    if (existing) {
+
+                        await exam.Model.updateOne(
+                            {
+                                admissionNumber
+                            },
+                            {
+                                $set: {
+                                    [subject]:
+                                        value
+                                }
+                            }
+                        );
+
+                    } else {
+
+                        /*
+                         * Create a missing exam document.
+                         * Identity fields come from the trusted
+                         * student collection, not the form.
+                         */
+
+                        const document = {
+
+                            admissionNumber,
+
+                            name:
+                                student.name,
+
+                            rollNumber:
+                                student.rollNumber,
+
+                            class:
+                                className,
+
+                            examType:
+                                exam.key,
+
+                            [subject]:
+                                value
+                        };
+
+
+                        /*
+                         * Preserve section when the marks schema
+                         * supports it.
+                         */
+
+                        if (
+                            exam.Model.schema
+                                ?.paths
+                                ?.section
+                        ) {
+                            document.section =
+                                student.section;
+                        }
+
+
+                        await exam.Model.create(
+                            document
+                        );
+                    }
+
+
+                    updatedCount++;
+                }
+            }
+
+
+            return res.redirect(
+                `/marksheet/new/mark-fill?success=${updatedCount}`
+            );
+
+        } catch (error) {
+
+            console.error(
+                "NEW MARK V3 SAVE ERROR:",
+                error
+            );
+
+            return res
+                .status(500)
+                .send(
+                    "Unable to save marks."
+                );
+        }
+    }
+);
+
+
 
 module.exports = marksheet 

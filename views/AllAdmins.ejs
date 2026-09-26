@@ -23,7 +23,8 @@
           <% } %>
         <% if(!supAd){ %>
           
-          <button onclick="location.href='/marksheet'"  style="background-color: #0aa338; color: white;" class="head-btn"><i class="fa-solid fa-fill"></i> Marks</button>      
+          <button style="opacity: 0.5;" onclick="location.href='/marksheet'"  style="background-color: #0aa338; color: white;" class="head-btn"><i class="fa-solid fa-fill" style="opacity: 0.5;"></i> Old Way - Fill Marks</button>      
+          <button onclick="location.href='/marksheet/new/mark-fill'"  style="background: linear-gradient(135deg, #c71515 0%, #bf2701 50%, #ce6712 100%); color: white;" class="head-btn"><i class="fa-solid fa-fill"></i> New Way - Fill Marks</button>      
           <button onclick="location.href='/marksheet/edit/<%= encodeURIComponent(data[0].email) %>'"  style="background-color: #0aa338; color: white;" class="head-btn"><i class="fa-solid fa-magnifying-glass"></i> Edit S-Marks</button>      
           <button onclick="location.href='/marksheet/print/result'"class="head-btn"><i class="fa-solid fa-plus"></i> Print Result</button>
           <button id="logout-btn" class="head-btn"><i class="fa-solid fa-right-from-bracket"></i> </button>
