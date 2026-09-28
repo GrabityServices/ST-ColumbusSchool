@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Schoolist Entry</title>
+<style>
+*{box-sizing:border-box}
+:root{--primary:#155eef;--dark:#172033;--muted:#667085;--border:#e4e7ec;--bg:#f5f7fb;--success:#067647;--danger:#b42318}
+body{margin:0;background:var(--bg);color:var(--dark);font-family:Arial,Helvetica,sans-serif}
+.page{max-width:900px;margin:auto;padding:24px 14px 50px}.card{background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:0 12px 35px rgba(16,24,40,.08);overflow:hidden}.top{padding:24px;background:linear-gradient(135deg,#0f172a,#173b8f);color:#fff}.kicker{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:.8}h1{margin:7px 0 5px;font-size:25px}.subtitle{font-size:12px;opacity:.78}.form{padding:22px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.field label{display:block;margin-bottom:7px;font-size:11px;font-weight:800;color:#344054}.field select,.field input{width:100%;height:45px;padding:0 12px;border:1px solid #cfd4dc;border-radius:10px;background:#fff;color:#101828;font-size:13px;font-weight:600}.field select:focus,.field input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(21,94,239,.12)}.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}.mode{position:relative;border:1px solid var(--border);border-radius:12px;padding:15px;cursor:pointer}.mode.selected{border-color:var(--primary);background:#f8fbff;box-shadow:0 0 0 3px rgba(21,94,239,.08)}.mode input{position:absolute;opacity:0}.mode-title{font-size:13px;font-weight:800;margin-bottom:5px}.mode-text{font-size:11px;line-height:1.5;color:var(--muted)}.info{margin-top:18px;padding:12px 14px;border:1px solid #dbe7ff;background:#eef4ff;border-radius:10px;color:#174ea6;font-size:11px;line-height:1.55}.actions{margin-top:20px;display:flex;justify-content:flex-end;gap:8px}button{height:44px;padding:0 22px;border:0;border-radius:10px;background:var(--primary);color:#fff;font-weight:800;cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}.message{margin-bottom:18px;padding:11px 13px;border-radius:9px;font-size:11px}.success{background:#ecfdf3;border:1px solid #abefc6;color:var(--success)}.error{background:#fff1f3;border:1px solid #fecdca;color:var(--danger)}@media(max-width:650px){.page{padding:8px}.top{padding:18px}.form{padding:15px}h1{font-size:21px}.grid,.modes{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="page"><div class="card">
+<div class="top"><div class="kicker">St. Columbus Public School</div><h1>Schoolist Entry</h1><div class="subtitle">Select class, term and entry type. Students are loaded from the master studentlist.</div></div>
+<div class="form">
+<% if(success !== ''){ %><div class="message success"><strong>Saved successfully.</strong> <%= success %> student record(s) processed.</div><% } %>
+<% if(error){ %><div class="message error"><%= error %></div><% } %>
+<form method="POST" action="/marksheet/schoolist-clean/load" id="setupForm">
+<input type="hidden" name="assessmentType" id="assessmentType" value="scholastic">
+<div class="modes">
+<label class="mode selected" id="scholasticMode"><input type="radio" name="typeRadio" value="scholastic" checked><div class="mode-title">Scholastic Area</div><div class="mode-text">Listening, Speaking, Reading, Writing, Collaboration, Peers, Teachers, Discipline, Cleanliness, Art/Craft, Drawing and Music/Dance/Drama.</div></label>
+<label class="mode" id="attendanceMode"><input type="radio" name="typeRadio" value="attendance"><div class="mode-title">Attendance</div><div class="mode-text">Working Days, Present and Absent for the selected term.</div></label>
+</div>
+<div class="grid">
+<div class="field"><label for="className">CLASS</label><select name="className" id="className" required><option value="">Select Class</option><% classes.forEach(c=>{ %><option value="<%= c %>"><%= ['Nursery','LKG','UKG'].includes(c)?c:'Class '+c %></option><% }) %></select></div>
+<div class="field"><label for="term">TERM</label><select name="term" id="term" required><option value="">Select Term</option><option value="I">Term I</option><option value="II">Term II</option></select></div>
+<div class="field"><label for="academicYear">ACADEMIC YEAR</label><input name="academicYear" id="academicYear" value="<%= academicYear %>" required></div>
+</div>
+<div class="info"><strong>Save rule:</strong> Blank = no change. Existing values stay visible on reload. Student name, roll number and section are always taken again from the database during save.</div>
+<div class="actions"><button type="button" onclick="history.back()">Back</button><button type="submit" id="nextButton" disabled>Next: Student List</button></div>
+</form>
+</div></div></div>
+<script>
+const classSelect=document.getElementById('className');const termSelect=document.getElementById('term');const yearInput=document.getElementById('academicYear');const typeInput=document.getElementById('assessmentType');const nextButton=document.getElementById('nextButton');const scholasticMode=document.getElementById('scholasticMode');const attendanceMode=document.getElementById('attendanceMode');
+function update(){const type=document.querySelector('input[name="typeRadio"]:checked')?.value||'scholastic';typeInput.value=type;scholasticMode.classList.toggle('selected',type==='scholastic');attendanceMode.classList.toggle('selected',type==='attendance');nextButton.disabled=!classSelect.value||!termSelect.value||!yearInput.value.trim()}
+document.querySelectorAll('input[name="typeRadio"]').forEach(x=>x.addEventListener('change',update));classSelect.addEventListener('change',update);termSelect.addEventListener('change',update);yearInput.addEventListener('input',update);update();
+</script>
+</body>
+</html>

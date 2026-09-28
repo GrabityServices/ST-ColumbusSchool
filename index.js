@@ -33,6 +33,14 @@ app.use(express.urlencoded({
     extended: true
 }));
 
+app.use(
+  express.urlencoded({
+    extended: true,
+    parameterLimit: 20000,
+    limit: "10mb",
+  }),
+);
+
 app.use(express.json());
 
 
@@ -73,6 +81,9 @@ app.use(uniqueUser);
     app.use("/home", checkAdmin, stcolumbus);
     app.use("/stcolumbus/jaj/ekdara/admin", checkAdmin, adminroute);
     app.use("/stcolumbus/admin/manage", adminManagment);
+    const schoolistAttendance =
+    require("./routes/schoolistAttendance");
+
 app.use("/marksheet",checkAdmin , marksheet);
 // webpage routes
 app.get("/", async (req, res) => {

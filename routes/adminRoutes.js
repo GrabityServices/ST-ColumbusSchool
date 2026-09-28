@@ -578,7 +578,7 @@ adminManagment
             },
             process.env.JWTKEYIS,
             {
-                expiresIn: "10m"
+                expiresIn: "1h"
             }
         );
 
@@ -602,7 +602,7 @@ adminManagment
                 sameSite: "strict",
 
                 maxAge:
-                    5*60*1000,
+                    60*60*1000,
 
                 path: "/"
             }

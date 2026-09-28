@@ -99,6 +99,8 @@ const Class8PT3 = require("../models/Class8/Class8PT3.js");
 const Class8PT4 = require("../models/Class8/Class8PT4.js");
 const Class8Annual = require("../models/Class8/Class8Annual.js");
 const studentlist = require('../models/studentlist.js');
+const SchoolistAssessment = require("../models/schoolist");
+const Attendance = require("../models/attendance");
 
 
 
@@ -3662,6 +3664,356 @@ marksheet.route(
         }
     }
 );
+
+
+// _________________________________________
+
+
+
+const CLASSES = [
+  "Nursery",
+  "LKG",
+  "UKG",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+];
+const TERMS = ["I", "II"];
+const TYPES = ["scholastic", "attendance"];
+
+const SCHOLASTIC_FIELDS = [
+  ["listening", "Listening"],
+  ["speaking", "Speaking"],
+  ["reading", "Reading"],
+  ["writing", "Writing"],
+  ["collaboration", "Collaboration"],
+  ["peers", "Peers"],
+  ["teachers", "Teachers"],
+  ["discipline", "Discipline"],
+  ["cleanliness", "Cleanliness"],
+  ["artCraft", "Art / Craft"],
+  ["drawing", "Drawing"],
+  ["musicDanceDrama", "Music / Dance / Drama"],
+].map(([key, label]) => ({ key, label }));
+
+const ATTENDANCE_FIELDS = [
+  { key: "workingDays", label: "Working Days" },
+  { key: "present", label: "Present" },
+  { key: "absent", label: "Absent" },
+];
+
+function clean(value) {
+  return String(value ?? "").trim();
+}
+
+function normalizeClass(value) {
+  let text = clean(value).toUpperCase();
+  text = text.replace(/^STD[-\s]*/, "").replace(/^CLASS[-\s]*/, "");
+
+  if (text === "NURSERY" || text === "LKG" || text === "UKG")
+    return text[0] + text.slice(1).toLowerCase();
+  return text;
+}
+
+function classLabel(className) {
+  return ["Nursery", "LKG", "UKG"].includes(className)
+    ? className
+    : `Class ${className}`;
+}
+
+function getAcademicYear() {
+  const now = new Date();
+  const start = now.getMonth() >= 3 ? now.getFullYear() : now.getFullYear() - 1;
+  return `${start}-${String(start + 1).slice(-2)}`;
+}
+
+function isValid(className, term, type) {
+  return (
+    CLASSES.includes(className) && TERMS.includes(term) && TYPES.includes(type)
+  );
+}
+
+function studentFromRow(row) {
+  if (!row) return null;
+
+  const admissionNumber = clean(
+    row.admissionNo ?? row.admissionNumber ?? row.admission_no,
+  );
+  if (!admissionNumber) return null;
+
+  const rawClass =
+    row.house ??
+    row.className ??
+    row.class ??
+    row.standard ??
+    row.classNo ??
+    "";
+  const className = normalizeClass(rawClass);
+
+  return {
+    admissionNumber,
+    name: clean(row.studentName ?? row.name ?? row.student_name),
+    rollNumber: row.rollNo ?? row.rollNumber ?? row.roll ?? "",
+    section: clean(row.section).toUpperCase(),
+    className,
+  };
+}
+
+async function getStudents(className) {
+  const target = normalizeClass(className);
+  const rows = await studentlist.find({}).lean();
+  const map = new Map();
+
+  for (const row of rows) {
+    const student = studentFromRow(row);
+    if (!student) continue;
+    if (student.className !== target) continue;
+    map.set(student.admissionNumber, student);
+  }
+
+  return [...map.values()].sort((a, b) => {
+    const sa = a.section || "";
+    const sb = b.section || "";
+
+    if (!sa && sb) return 1;
+    if (sa && !sb) return -1;
+
+    const sectionCompare = sa.localeCompare(sb, undefined, {
+      numeric: true,
+      sensitivity: "base",
+    });
+    if (sectionCompare) return sectionCompare;
+
+    const ra = Number(a.rollNumber);
+    const rb = Number(b.rollNumber);
+    if (Number.isFinite(ra) && Number.isFinite(rb) && ra !== rb) return ra - rb;
+
+    return a.name.localeCompare(b.name, undefined, { sensitivity: "base" });
+  });
+}
+
+function valueFor(data, key) {
+  const value = data?.[key];
+  return value === undefined || value === null ? "" : String(value);
+}
+
+marksheet.get("/schoolist-clean", async (req, res) => {
+  try {
+    return res.render("schoolistAttendance.ejs", {
+      classes: CLASSES,
+      academicYear: clean(req.query.academicYear) || getAcademicYear(),
+      success: clean(req.query.success),
+      error: clean(req.query.error),
+    });
+  } catch (error) {
+    console.error("SCHOOLIST CLEAN PAGE ERROR:", error);
+    return res.status(500).send("Unable to open Schoolist entry page.");
+  }
+});
+
+marksheet.post("/schoolist-clean/load", async (req, res) => {
+  try {
+    const className = clean(req.body.className);
+    const term = clean(req.body.term);
+    const assessmentType = clean(req.body.assessmentType).toLowerCase();
+    const academicYear = clean(req.body.academicYear) || getAcademicYear();
+
+    if (!isValid(className, term, assessmentType)) {
+      return res.status(400).send("Invalid class, term or entry type.");
+    }
+
+    const students = await getStudents(className);
+    const ids = students.map((s) => s.admissionNumber);
+    const termKey = term === "I" ? "termI" : "termII";
+    const Model =
+      assessmentType === "scholastic" ? SchoolistAssessment : Attendance;
+
+    const existing = new Map();
+
+    if (ids.length) {
+      const docs = await Model.find({
+        academicYear,
+        className,
+        admissionNumber: { $in: ids },
+      }).lean();
+
+      for (const doc of docs) {
+        existing.set(String(doc.admissionNumber), doc);
+      }
+    }
+
+    const fields =
+      assessmentType === "scholastic" ? SCHOLASTIC_FIELDS : ATTENDANCE_FIELDS;
+
+    const finalStudents = students.map((student) => {
+      const existingDoc = existing.get(student.admissionNumber);
+      const data = existingDoc?.[termKey] || {};
+
+      const values = {};
+      for (const field of fields) {
+        values[field.key] = valueFor(data, field.key);
+      }
+
+      return {
+        admissionNumber: student.admissionNumber,
+        name: student.name,
+        rollNumber: student.rollNumber,
+        section: student.section,
+        values,
+      };
+    });
+
+    return res.render("schoolistAttendanceStudents.ejs", {
+      className,
+      classLabel: classLabel(className),
+      term,
+      termLabel: term === "I" ? "Term I" : "Term II",
+      assessmentType,
+      academicYear,
+      fields,
+      students: finalStudents,
+      totalStudents: finalStudents.length,
+      error: null,
+    });
+  } catch (error) {
+    console.error("SCHOOLIST CLEAN LOAD ERROR:", error);
+    return res.status(500).send("Unable to load Schoolist students.");
+  }
+});
+
+marksheet.post("/schoolist-clean/save", async (req, res) => {
+  try {
+    const className = clean(req.body.className);
+    const term = clean(req.body.term);
+    const assessmentType = clean(req.body.assessmentType).toLowerCase();
+    const academicYear = clean(req.body.academicYear) || getAcademicYear();
+
+    if (!isValid(className, term, assessmentType)) {
+      return res.status(400).send("Invalid class, term or entry type.");
+    }
+
+    // IMPORTANT: one request parameter only for the complete student table.
+    // This avoids Express "too many parameters" errors from rows[0][field]...
+    let rows = [];
+    try {
+      rows = JSON.parse(req.body.rowsJson || "[]");
+    } catch {
+      return res.status(400).send("Invalid student data received.");
+    }
+
+    if (!Array.isArray(rows)) {
+      return res.status(400).send("Invalid student data received.");
+    }
+
+    const students = await getStudents(className);
+    const studentsByAdmission = new Map(
+      students.map((student) => [student.admissionNumber, student]),
+    );
+
+    const termKey = term === "I" ? "termI" : "termII";
+    const Model =
+      assessmentType === "scholastic" ? SchoolistAssessment : Attendance;
+    const operations = [];
+
+    const fieldKeys =
+      assessmentType === "scholastic"
+        ? SCHOLASTIC_FIELDS.map((field) => field.key)
+        : ATTENDANCE_FIELDS.map((field) => field.key);
+
+    for (const row of rows) {
+      const admissionNumber = clean(row?.admissionNumber);
+      if (!admissionNumber) continue;
+
+      const student = studentsByAdmission.get(admissionNumber);
+      if (!student) continue;
+
+      const set = {
+        studentName: student.name,
+        rollNumber: student.rollNumber,
+        section: student.section,
+      };
+
+      if (assessmentType === "scholastic") {
+        for (const key of fieldKeys) {
+          const raw = row?.[key];
+
+          // Same save rule as bulk marks: blank = no change.
+          if (raw === undefined || raw === null || clean(raw) === "") continue;
+
+          set[`${termKey}.${key}`] = clean(raw);
+        }
+      } else {
+        for (const key of fieldKeys) {
+          const raw = row?.[key];
+          if (raw === undefined || raw === null || clean(raw) === "") continue;
+
+          const value = Number(raw);
+          if (!Number.isInteger(value) || value < 0) {
+            return res
+              .status(400)
+              .send(`Invalid ${key} value for ${student.name}.`);
+          }
+
+          set[`${termKey}.${key}`] = value;
+        }
+      }
+
+      // Only identity fields means nothing to save.
+      if (Object.keys(set).length === 3) continue;
+
+      operations.push({
+        updateOne: {
+          filter: {
+            academicYear,
+            className,
+            admissionNumber,
+          },
+          update: {
+            $set: set,
+            $setOnInsert: {
+              academicYear,
+              className,
+              admissionNumber,
+            },
+          },
+          upsert: true,
+        },
+      });
+    }
+
+    if (!operations.length) {
+      return res.redirect(
+        `/marksheet/schoolist-clean?success=0&academicYear=${encodeURIComponent(academicYear)}`,
+      );
+    }
+
+    // Same pattern as mark-fill: prepare updateOne operations and bulkWrite once.
+    const result = await Model.bulkWrite(operations, { ordered: false });
+    const saved = (result.modifiedCount || 0) + (result.upsertedCount || 0);
+
+    console.log("SCHOOLIST CLEAN SAVED:", {
+      className,
+      term,
+      assessmentType,
+      academicYear,
+      operations: operations.length,
+      saved,
+    });
+
+    return res.redirect(
+      `/marksheet/schoolist-clean?success=${saved}&academicYear=${encodeURIComponent(academicYear)}`,
+    );
+  } catch (error) {
+    console.error("SCHOOLIST CLEAN SAVE ERROR:", error);
+    return res.status(500).send("Unable to save Schoolist data.");
+  }
+});
+
 
 
 
