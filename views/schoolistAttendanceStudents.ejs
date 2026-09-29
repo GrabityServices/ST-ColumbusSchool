@@ -17,7 +17,26 @@ body{margin:0;background:var(--bg);color:var(--dark);font-family:Arial,Helvetica
 <% if(!students.length){ %><div class="empty">No students found for <strong><%= classLabel %></strong>.</div><% } else { %>
 <div class="table-wrap"><table id="studentTable"><thead><tr><th class="roll">#</th><th class="section-cell">SECTION</th><th class="roll">ROLL</th><th class="name">STUDENT NAME</th><th class="admission">ADMISSION NO.</th><% fields.forEach(field=>{ %><th class="field-head"><%= field.label %></th><% }) %></tr></thead><tbody id="studentBody">
 <% let currentSection='__START__'; students.forEach((student,index)=>{ if(student.section!==currentSection){ currentSection=student.section; %><tr class="section-row" data-section-row="<%= student.section || 'NO SECTION' %>"><td colspan="<%= 5 + fields.length %>"><span class="section-badge"><%= student.section || '-' %></span><%= student.section ? 'Section '+student.section : 'No Section' %></td></tr><% } %>
-<tr class="student-row" data-admission="<%= student.admissionNumber %>" data-name="<%= student.name %>" data-roll="<%= student.rollNumber %>" data-section="<%= student.section %>"><td class="roll"><%= index+1 %></td><td class="section-cell"><span class="section-pill"><%= student.section || '-' %></span></td><td class="roll"><%= student.rollNumber || '-' %></td><td class="name"><%= student.name || '—' %></td><td class="admission"><%= student.admissionNumber %></td><% fields.forEach(field=>{ %><td class="field-cell"><input class="value-input <%= student.values[field.key]!==''?'saved':'' %>" type="<%= assessmentType==='attendance'?'number':'text' %>" <%= assessmentType==='attendance'?'min="0" step="1"':'maxlength="50"' %> data-key="<%= field.key %>" value="<%= student.values[field.key] %>" autocomplete="off"></td><% }) %></tr>
+<tr class="student-row" data-admission="<%= student.admissionNumber %>" data-name="<%= student.name %>" data-roll="<%= student.rollNumber %>" data-section="<%= student.section %>"><td class="roll"><%= index+1 %></td><td class="section-cell"><span class="section-pill"><%= student.section || '-' %></span></td><td class="roll"><%= student.rollNumber || '-' %></td><td class="name"><%= student.name || '—' %></td><td class="admission"><%= student.admissionNumber %></td><% fields.forEach(field=>{ %><td class="field-cell">
+<%
+    const existingValue = student.values[field.key];
+    const hasExisting =
+        existingValue !== null &&
+        existingValue !== undefined &&
+        String(existingValue).trim() !== '';
+%>
+
+<input
+    class="value-input <%= hasExisting ? 'saved locked' : '' %>"
+    type="<%= assessmentType==='attendance'?'number':'text' %>"
+    <%= assessmentType==='attendance' ? 'min="0" step="1"' : 'maxlength="50"' %>
+    data-key="<%= field.key %>"
+    data-existing="<%= hasExisting ? 'true' : 'false' %>"
+    value="<%= hasExisting ? existingValue : '' %>"
+    autocomplete="off"
+    <%= hasExisting ? 'readonly' : '' %>
+>
+</td><% }) %></tr>
 <% }) %></tbody></table></div>
 <div class="note"><strong>Save method:</strong> the page sends one JSON payload for the complete table, so it does not create thousands of Express request parameters. The server reloads students from <code>studentlist</code>, builds <code>updateOne</code> operations and saves them with one MongoDB <code>bulkWrite()</code>. Blank values are ignored.</div>
 <% } %>
