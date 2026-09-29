@@ -17,7 +17,8 @@ const { marksheetDB } =
 
 
 // ================= NURSERY =================
-
+    const SchoolistAssessment = require("../models/schoolist");
+    const Attendance = require("../models/attendance");
 const NurseryPT1 =
     require("../models/Nursery/NurseryPT1.js");
 
@@ -392,6 +393,7 @@ const CheckResult = async (req, res) => {
         const selectedAdmissionNumber =
             String(admissionNumber).trim();
 
+        
 
         const selectedStudentName =
             String(studentName)
@@ -436,6 +438,19 @@ const CheckResult = async (req, res) => {
 
         }
 
+
+const schoolistData = await SchoolistAssessment.findOne({
+    admissionNumber: selectedAdmissionNumber,
+    academicYear: "2026-27"
+}).lean();
+
+const attendanceData = await Attendance.findOne({
+    admissionNumber: selectedAdmissionNumber,
+    academicYear: "2026-27"
+}).lean();
+
+console.log("School Assessment:", schoolistData);
+console.log("Attendance:", attendanceData);
 
         // ==============================================
         // VALIDATE ADMISSION NUMBER
@@ -883,38 +898,38 @@ console.log(
         // STUDENT INFO FROM STUDENT COLLECTION
         // ==============================================
 
-        const mergedData = {
+       const mergedData = {
+         student: {
+           name: student.studentName,
 
-            student: {
+           admissionNumber: student.admissionNo,
 
-                name:
-                    student.studentName,
+           class: selectedClass,
 
-                admissionNumber:
-                    student.admissionNo,
+           roll: selectedRoll,
 
-                class:
-                    selectedClass,
+           section: student.section,
 
-                roll:
-                    selectedRoll,
+           fatherName: student.fatherName,
 
-                section:
-                    student.section,
+           motherName: student.motherName,
+         },
 
-                fatherName:
-                    student.fatherName,
+         exams: {},
 
-                motherName:
-                    student.motherName
+         schoolist: schoolistData || null,
 
-            },
+         attendance: attendanceData || null,
 
+         // UKG has 600 total marks
+         totalMarks: selectedClass.toUpperCase() === "UKG" ? 600 : 800,
 
-            exams: {}
+         isUKG: selectedClass.toUpperCase() === "UKG",
+       };
 
-        };
-
+       
+       console.log("Merged Data:", mergedData.totalMarks, mergedData.isUKG, mergedData.exams, mergedData.student, mergedData.schoolist, mergedData.attendance);
+       
 
         // ==============================================
         // ADD FOUND EXAM RESULTS

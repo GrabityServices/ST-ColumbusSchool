@@ -1151,673 +1151,390 @@ marksheet.route("/print/result/search").get(
     async (req, res) => {
 
         try {
+          // ==============================================
+          // 1. GET SEARCH DATA
+          // ==============================================
 
-            // ==============================================
-            // 1. GET SEARCH DATA
-            // ==============================================
+          const {
+            class: studentClassInput = "",
+            roll = "",
+            admissionNumber = "",
+          } = req.query;
 
-            const {
-                class: studentClassInput = "",
-                roll = "",
-                admissionNumber = ""
-            } = req.query;
+          const studentClass = String(studentClassInput).trim();
 
+          const cleanRoll = String(roll).trim();
 
-            const studentClass =
-                String(studentClassInput).trim();
+          const cleanAdmissionNumber = String(admissionNumber).trim();
 
+          console.log("\n=================================");
 
-            const cleanRoll =
-                String(roll).trim();
+          console.log("RESULT SEARCH");
 
+          console.log("Class:", studentClass);
 
-            const cleanAdmissionNumber =
-                String(admissionNumber).trim();
+          console.log("Roll:", cleanRoll);
 
+          console.log("Admission Number:", cleanAdmissionNumber);
 
-            console.log(
-                "\n================================="
-            );
+          console.log("=================================");
 
-            console.log(
-                "RESULT SEARCH"
-            );
+          let examModels;
 
-            console.log(
-                "Class:",
-                studentClass
-            );
+          let searchQuery;
 
-            console.log(
-                "Roll:",
-                cleanRoll
-            );
+          let searchType;
 
-            console.log(
-                "Admission Number:",
-                cleanAdmissionNumber
-            );
+          let finalClass;
 
-            console.log(
-                "================================="
-            );
+          // ==============================================
+          // 2. CLASS + ROLL SEARCH
+          // ==============================================
 
+          if (studentClass !== "" && cleanRoll !== "") {
+            const rollNumber = Number(cleanRoll);
 
-            let examModels;
+            // Validate class
 
-            let searchQuery;
-
-            let searchType;
-
-            let finalClass;
-
-
-            // ==============================================
-            // 2. CLASS + ROLL SEARCH
-            // ==============================================
-
-            if (
-                studentClass !== "" &&
-                cleanRoll !== ""
-            ) {
-
-                const rollNumber =
-                    Number(cleanRoll);
-
-
-                // Validate class
-
-                if (
-                    !classModels[studentClass]
-                ) {
-
-                    return res
-                        .status(400)
-                        .send(
-                            "Invalid class."
-                        );
-
-                }
-
-
-                // Validate roll number
-
-                if (
-                    !Number.isInteger(
-                        rollNumber
-                    ) ||
-                    rollNumber < 1
-                ) {
-
-                    return res
-                        .status(400)
-                        .send(
-                            "Invalid roll number."
-                        );
-
-                }
-
-
-                // Get models only for selected class
-
-                examModels =
-                    classModels[studentClass];
-
-
-                // Search by roll number
-
-                searchQuery = {
-
-                    rollNumber:
-                        rollNumber
-
-                };
-
-
-                searchType =
-                    "classRoll";
-
-
-                finalClass =
-                    studentClass;
-
-
-                console.log(
-                    "SEARCH TYPE: CLASS + ROLL"
-                );
-
-                console.log(
-                    "FINAL CLASS:",
-                    finalClass
-                );
-
-                console.log(
-                    "SEARCH QUERY:",
-                    searchQuery
-                );
-
+            if (!classModels[studentClass]) {
+              return res.status(400).send("Invalid class.");
             }
 
+            // Validate roll number
 
-            // ==============================================
-            // 3. ADMISSION NUMBER SEARCH
-            // ==============================================
-
-         // ==============================================
-// 3. ADMISSION NUMBER SEARCH
-// ==============================================
-
-else if (
-    cleanAdmissionNumber !== ""
-) {
-
-    // ------------------------------------------
-    // VALIDATE ADMISSION NUMBER
-    // ------------------------------------------
-
-    if (
-        !/^\d{5}$/.test(
-            cleanAdmissionNumber
-        )
-    ) {
-
-        return res
-            .status(400)
-            .send(
-                "Invalid admission number."
-            );
-
-    }
-
-
-    searchType = "admission";
-
-
-    console.log(
-        "SEARCH TYPE: ADMISSION NUMBER"
-    );
-
-
-    // ------------------------------------------
-    // STEP 1:
-    // SEARCH STUDENT COLLECTION
-    // ------------------------------------------
-
-    console.log(
-        "SEARCHING STUDENT COLLECTION FOR:",
-        cleanAdmissionNumber
-    );
-
-
-    const student =
-        await studentlist
-            .findOne({
-                admissionNo:
-                    cleanAdmissionNumber
-            })
-            .lean();
-
-
-    console.log(
-        "STUDENT FOUND:",
-        student
-    );
-
-
-    // ------------------------------------------
-    // STUDENT NOT FOUND
-    // ------------------------------------------
-
-    if (!student) {
-
-        return res
-            .status(404)
-            .send(
-                "Student not found."
-            );
-
-    }
-
-
-    // ------------------------------------------
-    // STEP 2:
-    // EXTRACT CLASS FROM HOUSE
-    //
-    // Examples:
-    //
-    // STD-7   → 7
-    // STD-1   → 1
-    // STD-8   → 8
-    //
-    // Nursery, LKG, UKG can also
-    // be handled if stored directly.
-    // ------------------------------------------
-
-    const studentHouse =
-        String(
-            student.house || ""
-        )
-        .trim()
-        .toUpperCase();
-
-
-    console.log(
-        "STUDENT HOUSE:",
-        studentHouse
-    );
-
-
-    // Remove STD-
-    //
-    // STD-7 → 7
-
-    const extractedClass =
-        studentHouse.replace(
-            /^STD-/,
-            ""
-        );
-
-
-    finalClass =
-        extractedClass;
-
-
-    console.log(
-        "EXTRACTED CLASS:",
-        finalClass
-    );
-
-
-    // ------------------------------------------
-    // STEP 3:
-    // VALIDATE CLASS
-    // ------------------------------------------
-
-    if (
-        !classModels[finalClass]
-    ) {
-
-        console.error(
-            "No exam models found for class:",
-            finalClass
-        );
-
-
-        return res
-            .status(404)
-            .send(
-                `No exam configuration found for Class ${finalClass}.`
-            );
-
-    }
-
-
-    // ------------------------------------------
-    // STEP 4:
-    // GET EXAM MODELS FOR CLASS
-    // ------------------------------------------
-
-    examModels =
-        classModels[finalClass];
-
-
-    // ------------------------------------------
-    // STEP 5:
-    // SEARCH EXAMS
-    //
-    // First use admission number.
-    // ------------------------------------------
-
-    searchQuery = {
-
-        admissionNumber:
-            cleanAdmissionNumber
-
-    };
-
-
-    console.log(
-        "\nSTUDENT DETAILS"
-    );
-
-    console.log(
-        "Name:",
-        student.studentName
-    );
-
-    console.log(
-        "Admission Number:",
-        student.admissionNo
-    );
-
-    console.log(
-        "House:",
-        student.house
-    );
-
-    console.log(
-        "Extracted Class:",
-        finalClass
-    );
-
-    console.log(
-        "Student Roll:",
-        student.rollNo
-    );
-
-
-    console.log(
-        "EXAM SEARCH QUERY:",
-        searchQuery
-    );
-
-}
-
-
-            // ==============================================
-            // 4. NO SEARCH DATA
-            // ==============================================
-
-            else {
-
-                return res
-                    .status(400)
-                    .send(
-                        "Please enter Class + Roll Number or Admission Number."
-                    );
-
+            if (!Number.isInteger(rollNumber) || rollNumber < 1) {
+              return res.status(400).send("Invalid roll number.");
             }
 
+            // Get models only for selected class
 
-            // ==============================================
-            // 5. SEARCH EXAM COLLECTIONS
-            // ==============================================
+            examModels = classModels[studentClass];
 
-            const searchResults =
-                await Promise.all(
+            // Search by roll number
 
-                    Object.entries(
-                        examModels
-                    ).map(
-
-                        async (
-                            [examName, Model]
-                        ) => {
-
-                            const data =
-                                await Model
-                                    .findOne(
-                                        searchQuery
-                                    )
-                                    .lean();
-
-
-                            console.log(
-
-                                examName,
-
-                                "=>",
-
-                                data
-                                    ? `FOUND | Roll: ${data.rollNumber} | Admission: ${data.admissionNumber}`
-                                    : "NOT FOUND"
-
-                            );
-
-
-                            return {
-
-                                examName,
-
-                                data
-
-                            };
-
-                        }
-
-                    )
-
-                );
-
-
-            // ==============================================
-            // 6. KEEP ONLY FOUND RESULTS
-            // ==============================================
-
-            const foundResults =
-                searchResults.filter(
-
-                    result =>
-                        result.data
-
-                );
-
-
-            console.log(
-                "FOUND EXAM RECORDS:",
-                foundResults.length
-            );
-
-
-            // ==============================================
-            // 7. NO EXAM RESULT FOUND
-            // ==============================================
-
-            if (
-                foundResults.length === 0
-            ) {
-
-                return res
-                    .status(404)
-                    .send(
-                        "No examination result found."
-                    );
-
-            }
-
-
-            // ==============================================
-            // 8. VALIDATE ALL FOUND RESULTS
-            // ==============================================
-
-            for (
-                const result
-                of foundResults
-            ) {
-
-                // ------------------------------------------
-                // CLASS + ROLL VALIDATION
-                // ------------------------------------------
-
-                if (
-                    searchType ===
-                    "classRoll"
-                ) {
-
-                    if (
-                        Number(
-                            result.data.rollNumber
-                        )
-                        !==
-                        Number(
-                            cleanRoll
-                        )
-                    ) {
-
-                        console.error(
-                            "ROLL NUMBER MISMATCH:",
-                            result.data
-                        );
-
-
-                        return res
-                            .status(500)
-                            .send(
-                                "Incorrect student record found."
-                            );
-
-                    }
-
-                }
-
-
-                // ------------------------------------------
-                // ADMISSION NUMBER VALIDATION
-                // ------------------------------------------
-
-                if (
-                    searchType ===
-                    "admission"
-                ) {
-
-                    if (
-                        String(
-                            result.data.admissionNumber
-                        )
-                        !==
-                        cleanAdmissionNumber
-                    ) {
-
-                        console.error(
-                            "ADMISSION NUMBER MISMATCH:",
-                            result.data
-                        );
-
-
-                        return res
-                            .status(500)
-                            .send(
-                                "Incorrect student record found."
-                            );
-
-                    }
-
-                }
-
-            }
-
-
-            // ==============================================
-            // 9. GET FIRST RESULT
-            // ==============================================
-
-            const firstResult =
-                foundResults[0].data;
-
-
-            // ==============================================
-            // 10. CREATE FINAL DATA
-            // ==============================================
-
-            const mergedData = {
-
-                student: {
-
-                    name:
-                        firstResult.name,
-
-                    admissionNumber:
-                        firstResult.admissionNumber,
-
-                    class:
-                        finalClass,
-
-                    roll:
-                        firstResult.rollNumber
-
-                },
-
-
-                exams: {}
-
+            searchQuery = {
+              rollNumber: rollNumber,
             };
 
+            searchType = "classRoll";
 
-            // ==============================================
-            // 11. MERGE ALL EXAMS
-            // ==============================================
+            finalClass = studentClass;
 
-            for (
-                const result
-                of foundResults
-            ) {
+            console.log("SEARCH TYPE: CLASS + ROLL");
 
-                mergedData.exams[
-                    result.examName
-                ] =
-                    result.data;
+            console.log("FINAL CLASS:", finalClass);
 
+            console.log("SEARCH QUERY:", searchQuery);
+          }
+
+          // ==============================================
+          // 3. ADMISSION NUMBER SEARCH
+          // ==============================================
+
+          // ==============================================
+          // 3. ADMISSION NUMBER SEARCH
+          // ==============================================
+          else if (cleanAdmissionNumber !== "") {
+            // ------------------------------------------
+            // VALIDATE ADMISSION NUMBER
+            // ------------------------------------------
+
+            if (!/^\d{5}$/.test(cleanAdmissionNumber)) {
+              return res.status(400).send("Invalid admission number.");
             }
 
+            searchType = "admission";
 
-            // ==============================================
-            // 12. FINAL DEBUG
-            // ==============================================
+            console.log("SEARCH TYPE: ADMISSION NUMBER");
 
-            console.log(
-                "\n================================="
-            );
-
-            console.log(
-                "FINAL STUDENT DATA"
-            );
+            // ------------------------------------------
+            // STEP 1:
+            // SEARCH STUDENT COLLECTION
+            // ------------------------------------------
 
             console.log(
-                "Name:",
-                mergedData.student.name
+              "SEARCHING STUDENT COLLECTION FOR:",
+              cleanAdmissionNumber,
             );
 
-            console.log(
-                "Class:",
-                mergedData.student.class
-            );
+            const student = await studentlist
+              .findOne({
+                admissionNo: cleanAdmissionNumber,
+              })
+              .lean();
 
-            console.log(
-                "Roll:",
-                mergedData.student.roll
-            );
+            console.log("STUDENT FOUND:", student);
 
-            console.log(
-                "Admission:",
-                mergedData.student.admissionNumber
-            );
+            // ------------------------------------------
+            // STUDENT NOT FOUND
+            // ------------------------------------------
 
-            console.log(
-                "Exams:",
-                Object.keys(
-                    mergedData.exams
-                )
-            );
+            if (!student) {
+              return res.status(404).send("Student not found.");
+            }
 
-            console.log(
-                "=================================\n"
-            );
+            // ------------------------------------------
+            // STEP 2:
+            // EXTRACT CLASS FROM HOUSE
+            //
+            // Examples:
+            //
+            // STD-7   → 7
+            // STD-1   → 1
+            // STD-8   → 8
+            //
+            // Nursery, LKG, UKG can also
+            // be handled if stored directly.
+            // ------------------------------------------
 
+            const studentHouse = String(student.house || "")
+              .trim()
+              .toUpperCase();
 
-            // ==============================================
-            // 13. RENDER RESULT
-            // ==============================================
+            console.log("STUDENT HOUSE:", studentHouse);
 
-            return res.render(
+            // Remove STD-
+            //
+            // STD-7 → 7
 
-                "result.ejs",
+            const extractedClass = studentHouse.replace(/^STD-/, "");
 
-                {
+            finalClass = extractedClass;
 
-                    data:
-                        mergedData,
+            console.log("EXTRACTED CLASS:", finalClass);
 
-                    print:
-                        true,
+            // ------------------------------------------
+            // STEP 3:
+            // VALIDATE CLASS
+            // ------------------------------------------
 
-                    showNavigation:
-                        true
+            if (!classModels[finalClass]) {
+              console.error("No exam models found for class:", finalClass);
 
-                }
+              return res
+                .status(404)
+                .send(`No exam configuration found for Class ${finalClass}.`);
+            }
 
-            );
+            // ------------------------------------------
+            // STEP 4:
+            // GET EXAM MODELS FOR CLASS
+            // ------------------------------------------
 
+            examModels = classModels[finalClass];
 
+            // ------------------------------------------
+            // STEP 5:
+            // SEARCH EXAMS
+            //
+            // First use admission number.
+            // ------------------------------------------
+
+            searchQuery = {
+              admissionNumber: cleanAdmissionNumber,
+            };
+
+            console.log("\nSTUDENT DETAILS");
+
+            console.log("Name:", student.studentName);
+
+            console.log("Admission Number:", student.admissionNo);
+
+            console.log("House:", student.house);
+
+            console.log("Extracted Class:", finalClass);
+
+            console.log("Student Roll:", student.rollNo);
+
+            console.log("EXAM SEARCH QUERY:", searchQuery);
+          }
+
+          // ==============================================
+          // 4. NO SEARCH DATA
+          // ==============================================
+          else {
+            return res
+              .status(400)
+              .send("Please enter Class + Roll Number or Admission Number.");
+          }
+
+          // ==============================================
+          // 5. SEARCH EXAM COLLECTIONS
+          // ==============================================
+
+          const searchResults = await Promise.all(
+            Object.entries(examModels).map(async ([examName, Model]) => {
+              const data = await Model.findOne(searchQuery).lean();
+
+              console.log(
+                examName,
+
+                "=>",
+
+                data
+                  ? `FOUND | Roll: ${data.rollNumber} | Admission: ${data.admissionNumber}`
+                  : "NOT FOUND",
+              );
+
+              return {
+                examName,
+
+                data,
+              };
+            }),
+          );
+
+          // ==============================================
+          // 6. KEEP ONLY FOUND RESULTS
+          // ==============================================
+
+          const foundResults = searchResults.filter((result) => result.data);
+
+          console.log("FOUND EXAM RECORDS:", foundResults.length);
+
+          // ==============================================
+          // 7. NO EXAM RESULT FOUND
+          // ==============================================
+
+          if (foundResults.length === 0) {
+            return res.status(404).send("No examination result found.");
+          }
+
+          // ==============================================
+          // 8. VALIDATE ALL FOUND RESULTS
+          // ==============================================
+
+          for (const result of foundResults) {
+            // ------------------------------------------
+            // CLASS + ROLL VALIDATION
+            // ------------------------------------------
+
+            if (searchType === "classRoll") {
+              if (Number(result.data.rollNumber) !== Number(cleanRoll)) {
+                console.error("ROLL NUMBER MISMATCH:", result.data);
+
+                return res.status(500).send("Incorrect student record found.");
+              }
+            }
+
+            // ------------------------------------------
+            // ADMISSION NUMBER VALIDATION
+            // ------------------------------------------
+
+            if (searchType === "admission") {
+              if (
+                String(result.data.admissionNumber) !== cleanAdmissionNumber
+              ) {
+                console.error("ADMISSION NUMBER MISMATCH:", result.data);
+
+                return res.status(500).send("Incorrect student record found.");
+              }
+            }
+          }
+
+          // ==============================================
+          // 9. GET FIRST RESULT
+          // ==============================================
+
+          // ==============================================
+          // 9. GET FIRST RESULT
+          // ==============================================
+
+          const firstResult = foundResults[0].data;
+
+          // ==============================================
+          // GET SCHOOLIST + ATTENDANCE
+          // ==============================================
+
+          const resultAdmissionNumber = String(
+            firstResult.admissionNumber || cleanAdmissionNumber || "",
+          ).trim();
+
+          const schoolistData = await SchoolistAssessment.findOne({
+            admissionNumber: resultAdmissionNumber,
+            academicYear: "2026-27",
+          }).lean();
+
+          const attendanceData = await Attendance.findOne({
+            admissionNumber: resultAdmissionNumber,
+            academicYear: "2026-27",
+          }).lean();
+
+          const isUKG = String(finalClass).trim().toUpperCase() === "UKG";
+
+          // ==============================================
+          // 10. CREATE FINAL DATA
+          // ==============================================
+
+          const mergedData = {
+            student: {
+              name: firstResult.name,
+
+              admissionNumber: firstResult.admissionNumber,
+
+              class: finalClass,
+
+              roll: firstResult.rollNumber,
+            },
+
+            exams: {},
+
+            // NEW
+            schoolist: schoolistData || null,
+
+            // NEW
+            attendance: attendanceData || null,
+
+            // UKG = 600
+            // Other classes = 800
+            totalMarks: isUKG ? 600 : 800,
+
+            isUKG,
+          };
+
+          // ==============================================
+          // 11. MERGE ALL EXAMS
+          // ==============================================
+
+          for (const result of foundResults) {
+            mergedData.exams[result.examName] = result.data;
+          }
+
+          // ==============================================
+          // 12. FINAL DEBUG
+          // ==============================================
+
+          console.log("\n=================================");
+
+          console.log("FINAL STUDENT DATA");
+
+          console.log("Name:", mergedData.student.name);
+
+          console.log("Class:", mergedData.student.class);
+
+          console.log("Roll:", mergedData.student.roll);
+
+          console.log("Admission:", mergedData.student.admissionNumber);
+
+          console.log("Exams:", Object.keys(mergedData.exams));
+
+          console.log("=================================\n");
+
+          // ==============================================
+          // 13. RENDER RESULT
+          // ==============================================
+
+          return res.render(
+            "result.ejs",
+
+            {
+              data: mergedData,
+
+              print: true,
+
+              showNavigation: true,
+            },
+          );
         } catch (error) {
 
             console.error(

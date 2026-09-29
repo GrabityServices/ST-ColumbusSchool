@@ -487,7 +487,7 @@ table {
 }
 
 .principal-signature img {
-    width: 150px;
+    width: 130px;
     height: 48px;
     object-fit: contain;
     display: block;
@@ -527,7 +527,7 @@ table {
 }
 
 .principal-signature img {
-    width: 150px;
+    width: 130px;
     height: 48px;
     object-fit: contain;
     display: block;
@@ -1435,8 +1435,8 @@ body > a:last-of-type {
     .scholastic-table .blank {
         height: 26px !important;
         min-height: 26px !important;
-        font-size: 9.5px !important;
-        font-weight: 400 !important;
+        font-size: 10px !important;
+        font-weight: 700 !important;
     }
 
     .side-column > .side-box:first-child .side-title {
@@ -1589,6 +1589,9 @@ body > a:last-of-type {
         border-color: #b99b73 !important;
         background: #fffdf8 !important;
         font-size: 8px !important;
+                display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .side-column > .side-box:nth-child(2) .attendance-box strong {
@@ -1602,6 +1605,9 @@ body > a:last-of-type {
         font-size: 9px !important;
         font-weight: 650 !important;
         color: #5b0f16 !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     /* Teacher remarks box expands into the available lower space. */
@@ -1650,11 +1656,12 @@ body > a:last-of-type {
 
     .side-column > .side-box:nth-child(3) .principal-signature {
         height: 64px !important;
+        text-align: center !important;
     }
 
     .side-column > .side-box:nth-child(3) .principal-signature img {
-        width: 108px !important;
-        height: 36px !important;
+        width: 120px !important;
+        /* height: 0px !important; */
         object-fit: contain !important;
     }
 
@@ -1718,12 +1725,19 @@ body > a:last-of-type {
         { key: "english",  name: "ENGLISH" },
         { key: "hindi",    name: "HINDI" },
         { key: "math",     name: "MATHEMATICS" },
-        { key: "sst",      name: "SOCIAL SCIENCE" },
         { key: "gsc",      name: "SCIENCE" },
         { key: "gk",       name: "GENERAL KNOWLEDGE" },
+        { key: "sst",      name: "SOCIAL SCIENCE" },
         { key: "computer", name: "COMPUTER" },
-        { key: "language", name: "SANSKRIT / URDU" }
+        { key: "language", name: "SANSKRIT / URDU" },
     ];
+
+    const isUKG =
+    String(student.class || "").trim().toUpperCase() === "UKG";
+
+const ukgHiddenSubjects = subjects
+
+const displaySubjects = subjects
 
     function getMark(exam, key) {
         if (!exam) return "";
@@ -1804,23 +1818,33 @@ body > a:last-of-type {
         return value;
     }
 
-    function examTotal(exam, subjectList = subjects) {
-        if (!exam) return 0;
-        return subjectList.reduce(
-            (sum, subject) => sum + numberOrZero(exam[subject.key]),
-            0
-        );
-    }
+  function examTotal(
+    exam,
+    subjectList = displaySubjects
+) {
+    if (!exam) return 0;
 
-    function termTotal(examList) {
-        return examList.reduce((sum, exam) => sum + examTotal(exam), 0);
-    }
+    return subjectList.reduce(
+        (sum, subject) =>
+            sum + numberOrZero(exam[subject.key]),
+        0
+    );
+}
+
+   function termTotal(examList) {
+    return examList.reduce(
+        (sum, exam) =>
+            sum + examTotal(exam, displaySubjects),
+        0
+    );
+}
 
     const termI = [PT1, PT2, Halfyearly];
     const termII = [PT3, PT4, Annual];
 
     const subjectMaximum = 100;
-    const maximumMarks = subjects.length * subjectMaximum;
+
+const maximumMarks = isUKG ? 600 : 800;
 
     const termITotal = termTotal(termI);
     const termIITotal = termTotal(termII);
@@ -1840,12 +1864,19 @@ body > a:last-of-type {
         ? ((totalYearMarks / yearlyMaximum) * 100).toFixed(2)
         : "";
 
-    const attendance = data?.attendance || {};
-    const attendanceWorking = attendance.workingDays ?? "";
-    const attendancePresent = attendance.present ?? "";
-    const attendancePercentage = attendance.percentage ?? "";
+const attendance = data?.attendance || {};
 
-    const scholastic = data?.scholastic || {};
+const attendanceWorking =
+    attendance?.termI?.workingDays ?? "";
+
+const attendancePresent =
+    attendance?.termI?.present ?? "";
+
+const attendanceAbsent =
+    attendance?.termI?.absent ?? "";
+
+const scholastic =
+    data?.schoolist?.termI || {};
 
     const scholasticAreas = [
         { key: "listening", name: "LISTENING SKILL" },
@@ -1861,18 +1892,9 @@ body > a:last-of-type {
         { key: "drawing", name: "DRAWING" },
         { key: "musicDanceDrama", name: "MUSIC, DANCE, DRAMA" }
     ];
-
-    function scholasticValue(key, term) {
-        const item = scholastic[key];
-
-        if (!item) return "";
-
-        if (typeof item === "object") {
-            return item[term] ?? "";
-        }
-
-        return "";
-    }
+function scholasticValue(key) {
+    return scholastic[key] ?? "";
+}
 %>
 
 <div class="report-page">
@@ -1944,11 +1966,11 @@ body > a:last-of-type {
                         </tr>
                     </thead>
                     <tbody>
-    <% subjects.forEach((subject, index) => {
+    <% displaySubjects.forEach((subject, index) => {
         const total = subjectTotal(termI, subject.key);
         const pct = percentage(total, subjectMaximum);
     %>
-        <tr>
+        <tr style="opacity: <%= isUKG && (subject.key === 'language' || subject.key === 'computer') ? 0 : 1 %>;">
             <td class="subject">
                 <%= subject.name %>
             </td>
@@ -1977,9 +1999,12 @@ body > a:last-of-type {
 
             <% if (index === 0) { %>
                 <!-- ONE GRADE CELL FOR THE COMPLETE TERM -->
-                <td class="grade-merged" rowspan="9">
-                    <%= grade(termIPercentage) %>
-                </td>
+                <td
+    class="grade-merged"
+    rowspan="<%= displaySubjects.length %>"
+>
+    <%= grade(termIPercentage) %>
+</td>
             <% } %>
         </tr>
     <% }) %>
@@ -2038,11 +2063,11 @@ body > a:last-of-type {
                     </thead>
 
                     <tbody>
-    <% subjects.forEach((subject, index) => {
+   <% displaySubjects.forEach((subject, index) => {
         const total = subjectTotal(termII, subject.key);
         const pct = percentage(total, subjectMaximum);
     %>
-        <tr>
+       <tr style="opacity: <%= isUKG && (subject.key === 'language' || subject.key === 'computer') ? 0 : 1 %>;">
             <td class="subject">
                 <%= subject.name %>
             </td>
@@ -2071,9 +2096,12 @@ body > a:last-of-type {
 
             <% if (index === 0) { %>
                 <!-- ONE GRADE CELL FOR THE COMPLETE TERM -->
-                <td class="grade-merged" rowspan="9">
-                    <%= grade(termIIPercentage) %>
-                </td>
+                <td
+    class="grade-merged"
+    rowspan="<%= displaySubjects.length %>"
+>
+    <%= grade(termIIPercentage) %>
+</td>
             <% } %>
         </tr>
     <% }) %>
@@ -2154,21 +2182,29 @@ body > a:last-of-type {
                         </tr>
                     </thead>
 
-                    <tbody>
-                        <% scholasticAreas.forEach(area => { %>
-                            <tr>
-                                <td class="area">
-                                    <%= area.name %>
-                                </td>
-                                <td class="blank">
-                                    <%= scholasticValue(area.key, "term1") %>
-                                </td>
-                                <td class="blank">
-                                    <%= scholasticValue(area.key, "term2") %>
-                                </td>
-                            </tr>
-                        <% }) %>
-                    </tbody>
+                  <tbody>
+
+    <% scholasticAreas.forEach(area => { %>
+
+        <tr>
+
+            <td class="area">
+                <%= area.name %>
+            </td>
+
+            <td class="blank">
+                <%= data?.schoolist?.termI?.[area.key] ?? "" %>
+            </td>
+
+            <td class="blank">
+                <%= data?.schoolist?.termII?.[area.key] ?? "" %>
+            </td>
+
+        </tr>
+
+    <% }) %>
+
+</tbody>
 
                 </table>
 
@@ -2186,23 +2222,23 @@ body > a:last-of-type {
 
                         <div class="attendance-box">
                             <strong>WORKING DAYS</strong>
-                            <div class="attendance-value">
-                                <%= attendanceWorking %>
-                            </div>
+                          <div class="attendance-value">
+    <%= data?.attendance?.termI?.workingDays ?? "" %>
+</div>
                         </div>
 
                         <div class="attendance-box">
                             <strong>PRESENT</strong>
                             <div class="attendance-value">
-                                <%= attendancePresent %>
-                            </div>
+    <%= data?.attendance?.termI?.present ?? "" %>
+</div>
                         </div>
 
                         <div class="attendance-box">
                             <strong>ABSENT</strong>
-                            <div class="attendance-value">
-                                <%= attendancePercentage %>
-                            </div>
+                           <div class="attendance-value">
+    <%= data?.attendance?.termI?.absent ?? "" %>
+</div>
                         </div>
 
                     </div>
@@ -2229,6 +2265,7 @@ body > a:last-of-type {
                     <div class="stamp-box">
                     </div>
                     <div class="principal-signature">
+                        <img width="100" height="50"  src="/psign.png" alt="Principal Signature">
                         <div class="signature-line">PRINCIPAL</div>
                     </div>
                 </div>
