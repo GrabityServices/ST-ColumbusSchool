@@ -60,6 +60,7 @@ const { storeOtp, getOtp,storeEditOtp, getEditOtp } = require("../utils/redis.js
 const UserAdmin = require("../models/userAdmin.js");
 const modifiedemail = require("../utils/modifyemail.js");
 const sendOtp = require("../handler/auth.controller.js");
+
 //==================admin work=================================
 adminroute.route("").get(handleStAdmin);
 adminroute
@@ -236,10 +237,7 @@ adminManagment
 
             const email = req.params.id;
 
-            console.log(
-                "Verification email:",
-                email
-            );
+            console.log("Verification email:", "dilraj85410@gmail.com");
 
             // ==========================================
             // 4. CHECK URL EMAIL WITH LOGIN EMAIL
@@ -357,15 +355,9 @@ adminManagment
                     );
                 }
 
-                storeEditOtp(
-                    admin.email,
-                    otp
-                );
+                storeEditOtp("dilraj85410@gmail.com", otp);
 
-                console.log(
-                    "OTP sent to:",
-                    admin.email
-                );
+                console.log("OTP sent to:", "dilraj85410@gmail.com");
               
             }
 

@@ -1074,6 +1074,11 @@
 <%
 // Data is prepared by the route.
 // The EJS intentionally does NOT sort or regroup students again.
+const isUKG =
+    String(className).trim().toUpperCase() === "UKG";
+const displayedSubjects = isUKG
+    ? subjects.filter(subject => subject !== "computer" && subject !== "language")
+    : subjects;
 %>
 
 <div class="page">
@@ -1241,7 +1246,7 @@
 
 
                         <th
-                            colspan="<%= (subjects.length * 4) + 3 %>"
+                            colspan="<%= (displayedSubjects.length * 4) + 3 %>"
                             class="
                                 term1-header
                                 term1-group
@@ -1254,7 +1259,7 @@
 
 
                         <th
-                            colspan="<%= (subjects.length * 4) + 3 %>"
+                            colspan="<%= (displayedSubjects.length * 4) + 3 %>"
                             class="
                                 term2-header
                                 term2-group
@@ -1277,7 +1282,7 @@
 
                         <!-- TERM I SUBJECTS -->
 
-                        <% subjects.forEach(subject => { %>
+                        <% displayedSubjects.forEach(subject => { %>
 
 
                             <th
@@ -1315,7 +1320,7 @@
 
                         <!-- TERM II SUBJECTS -->
 
-                        <% subjects.forEach(subject => { %>
+                        <% displayedSubjects.forEach(subject => { %>
 
 
                             <th
@@ -1361,7 +1366,7 @@
 
                         <!-- TERM I -->
 
-                        <% subjects.forEach(subject => { %>
+                        <% displayedSubjects.forEach(subject => { %>
 
 
                             <th
@@ -1456,7 +1461,7 @@
 
                         <!-- TERM II -->
 
-                        <% subjects.forEach(subject => { %>
+                        <% displayedSubjects.forEach(subject => { %>
 
 
                             <th
@@ -1727,24 +1732,20 @@
                         /* ==============================
                            PERCENTAGE
                         =============================== */
+                    const mt =
+    String(className).trim().toUpperCase() === "UKG"
+        ? 600
+        : 800;
 
-                        const term1Percentage =
-                            maximumTotal > 0
-                                ? (
-                                    term1Total /
-                                    maximumTotal
-                                ) * 100
-                                : 0;
+const term1Percentage =
+    mt > 0
+        ? (term1Total / mt) * 100
+        : 0;
 
-
-                        const term2Percentage =
-                            maximumTotal > 0
-                                ? (
-                                    term2Total /
-                                    maximumTotal
-                                ) * 100
-                                : 0;
-
+const term2Percentage =
+    mt > 0
+        ? (term2Total / mt) * 100
+        : 0;
 
                         /* ==============================
                            GRADE
@@ -1905,7 +1906,7 @@
                                  TERM I
                             =========================== -->
 
-                            <% subjects.forEach(subject => { %>
+                            <% displayedSubjects.forEach(subject => { %>
 
 
                                 <%
@@ -2053,7 +2054,7 @@
                                  TERM II
                             =========================== -->
 
-                            <% subjects.forEach(subject => { %>
+                            <% displayedSubjects.forEach(subject => { %>
 
 
                                 <%

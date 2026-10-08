@@ -1,4 +1,7 @@
+
+
 const express = require('express')
+const jwt=require('jsonwebtoken')
 const {
     requireMarksEditOTP
 } = require("../middleware/otpVerification");
@@ -2393,6 +2396,7 @@ marksheet.route(
 
             const subjectsByClass = {};
 
+
             for (
                 const className
                 of NEW_MARK_V3_CLASSES
@@ -3006,13 +3010,16 @@ marksheet.route(
                         };
                     }
                 );
+                 const logouttimeleft =
+                   jwt.decode(req.cookies?.stadminis)?.exp * 1000 - Date.now();
 
+                 console.log("logouttimeleft", logouttimeleft);
 
             return res.render(
                 "newMarkFillStudents.ejs",
                 {
                     className,
-
+                    logouttimeleft,
                     classLabel:
                         newMarkV3ClassLabel(
                             className

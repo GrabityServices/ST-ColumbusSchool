@@ -468,10 +468,11 @@ td{
 <div class="card">
 
 <div class="header">
-
 <div>
-    <div class="kicker">Bulk Marks Entry</div>
-
+    <div class="kicker">Bulk Marks Entry</div> 
+    <div class="badge">
+    Session: <span id="sessionTimer">--:--</span>
+</div>
     <h1>
         <%= classLabel %> · <%= termLabel %> · <%= subjectLabel %>
     </h1>
@@ -485,11 +486,11 @@ td{
     </div>
 </div>
 
+
 <div class="header-right">
     <div class="badge">
         <%= totalStudents %> Students
     </div>
-
     <div class="badge">
         PT: 10 · Final: 80
     </div>
@@ -1476,6 +1477,63 @@ attachInputEvents();
 populateSections();
 updateCounter();
 renderRows();
+
+/* =========================================
+   SESSION REMAINING TIME
+========================================= */
+
+const logoutTimeLeft = <%= logouttimeleft || 0 %>;
+
+const sessionExpiresAt =
+    Date.now() + logoutTimeLeft-10000; 
+
+const sessionTimer =
+    document.getElementById("sessionTimer");
+
+
+function updateSessionTimer() {
+
+    const remaining =
+        sessionExpiresAt - Date.now();
+
+
+    if (remaining <= 0) {
+
+        sessionTimer.textContent = "00:00";
+
+        window.location.href =
+            "/stcolumbus/jaj/ekdara/admin";
+
+        return;
+    }
+
+
+    const totalSeconds =
+        Math.floor(remaining / 1000);
+
+
+    const minutes =
+        Math.floor(totalSeconds / 60);
+
+
+    const seconds =
+        totalSeconds % 60;
+
+
+    sessionTimer.textContent =
+        `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+}
+
+
+updateSessionTimer();
+
+
+setInterval(
+    updateSessionTimer,
+    1000
+);
+
+
 </script>
 
 </body>

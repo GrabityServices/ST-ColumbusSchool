@@ -143,13 +143,13 @@ async function hadnleLoginForm(req, res) {
         id: data._id,
       },
       process.env.JWTKEYIS,
-      { expiresIn: "2h" }
+      { expiresIn: "1h" }
     );
     res.cookie("stadminis", token, {
       httpOnly: true,
       secure: true,
       sameSite: "strict",
-      expires: new Date(Date.now() + 60 * 30 * 1000),
+      expires: new Date(Date.now() + 60 * 60 * 1000),
     });
     res.redirect("/stcolumbus/jaj/ekdara/admin");
   } else {

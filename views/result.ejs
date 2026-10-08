@@ -492,6 +492,7 @@ table {
     object-fit: contain;
     display: block;
     margin: auto auto 0;
+    transform:rotate(-10deg)
 }
 
 .principal-signature .signature-line {
@@ -531,6 +532,8 @@ table {
     height: 48px;
     object-fit: contain;
     display: block;
+    transform:rotate(-10deg);
+
     margin: -2px auto 0;
 }
 
@@ -894,6 +897,8 @@ body > a:last-of-type {
         width: 95px;
         height: 30px;
         margin: -1px auto 0;
+    transform:rotate(-10deg)
+
     }
 
     .principal-signature .signature-line {
@@ -1483,6 +1488,8 @@ body > a:last-of-type {
     .principal-signature img {
         width: 100px !important;
         height: 32px !important;
+    transform:rotate(-10deg)
+
     }
 
     .stamp-box {
@@ -1662,6 +1669,8 @@ body > a:last-of-type {
     .side-column > .side-box:nth-child(3) .principal-signature img {
         width: 120px !important;
         /* height: 0px !important; */
+    transform:rotate(-10deg);
+
         object-fit: contain !important;
     }
 
@@ -2223,21 +2232,18 @@ function scholasticValue(key) {
                         <div class="attendance-box">
                             <strong>WORKING DAYS</strong>
                           <div class="attendance-value">
-    <%= data?.attendance?.termI?.workingDays ?? "" %>
 </div>
                         </div>
 
                         <div class="attendance-box">
                             <strong>PRESENT</strong>
                             <div class="attendance-value">
-    <%= data?.attendance?.termI?.present ?? "" %>
 </div>
                         </div>
 
                         <div class="attendance-box">
                             <strong>ABSENT</strong>
                            <div class="attendance-value">
-    <%= data?.attendance?.termI?.absent ?? "" %>
 </div>
                         </div>
 
@@ -2265,7 +2271,7 @@ function scholasticValue(key) {
                     <div class="stamp-box">
                     </div>
                     <div class="principal-signature">
-                        <img width="100" height="50"  src="/psign.png" alt="Principal Signature">
+                        <img width="100" height="50"   src="/psign.png" alt="Principal Signature">
                         <div class="signature-line">PRINCIPAL</div>
                     </div>
                 </div>

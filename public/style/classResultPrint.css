@@ -1924,3 +1924,27 @@ a {
     }
 
 }
+
+@media screen {
+    body.bulk-result-print-page {
+        overflow-x: auto;
+    }
+
+    .bulk-results-container {
+        width: min(1428px, 100vw);
+        min-width: 0;
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    .bulk-result-sheet {
+        flex: 0 0 auto;
+        width: min(1428px, 100vw);
+        height: auto;
+        min-height: 0;
+        margin: 0 auto 20px;
+        overflow: visible;
+        transform: none !important;
+        transform-origin: initial;
+    }
+}
