@@ -486,7 +486,7 @@
         tbody tr.position-2 td.student-info,
         tbody tr.position-2 td.subject-sum {
 
-            background: #dce1e5 !important;
+            background: #5CB9F7 !important;
 
         }
 
@@ -1015,7 +1015,7 @@
             tbody tr.position-1 td,
             tbody tr.position-1:nth-child(even) td {
 
-                background: #fff3cd !important;
+                background: #f6d466 !important;
 
             }
 
@@ -1023,7 +1023,7 @@
             tbody tr.position-2 td,
             tbody tr.position-2:nth-child(even) td {
 
-                background: #edf0f2 !important;
+                background: #5cb9f7 !important;
 
             }
 
@@ -1031,7 +1031,7 @@
             tbody tr.position-3 td,
             tbody tr.position-3:nth-child(even) td {
 
-                background: #fdeee6 !important;
+                background: #f17938 !important;
 
             }
 
@@ -1127,7 +1127,7 @@ const displayedSubjects = isUKG
 
 
         const hasActualSection =
-            section !== "__NO_SECTION__";
+            section !== "__NO_SECTION ";
 
 
         %>
@@ -1598,7 +1598,7 @@ const displayedSubjects = isUKG
 
                                 return {
 
-                                    display: "__",
+                                    display: "AB",
 
                                     number: 0
 
@@ -1756,7 +1756,7 @@ const term2Percentage =
                         ) {
 
                             if (
-                                percentage < 32
+                                percentage < 33
                             ) {
 
                                 return "E";
@@ -1946,7 +1946,7 @@ const term2Percentage =
                                     class="
                                         mark
                                         term1-column
-                                        <%= pt1.display === '__'
+                                        <%= pt1.display === 'AB'
                                             ? 'absent'
                                             : ''
                                         %>
@@ -1964,7 +1964,7 @@ const term2Percentage =
                                     class="
                                         mark
                                         term1-column
-                                        <%= pt2.display === '__'
+                                        <%= pt2.display === 'AB'
                                             ? 'absent'
                                             : ''
                                         %>
@@ -1982,7 +1982,7 @@ const term2Percentage =
                                     class="
                                         mark
                                         term1-column
-                                        <%= hf.display === '__'
+                                        <%= hf.display === 'AB'
                                             ? 'absent'
                                             : ''
                                         %>
@@ -2044,7 +2044,7 @@ const term2Percentage =
                                 "
                             >
 
-                                <%= getGrade(term1Percentage) %>
+                                <%= getGrade( Math.round(term1Percentage)) %>
 
                             </td>
 
@@ -2095,7 +2095,7 @@ const term2Percentage =
                                         mark
                                         term2-start
                                         term2-column
-                                        <%= pt3.display === '__'
+                                        <%= pt3.display === 'AB'
                                             ? 'absent'
                                             : ''
                                         %>
@@ -2113,7 +2113,7 @@ const term2Percentage =
                                     class="
                                         mark
                                         term2-column
-                                        <%= pt4.display === '__'
+                                        <%= pt4.display === 'AB'
                                             ? 'absent'
                                             : ''
                                         %>
@@ -2131,7 +2131,7 @@ const term2Percentage =
                                     class="
                                         mark
                                         term2-column
-                                        <%= annual.display === '__'
+                                        <%= annual.display === 'AB'
                                             ? 'absent'
                                             : ''
                                         %>
@@ -2231,9 +2231,9 @@ const term2Percentage =
 
     <div class="legend">
 
-        <strong>__</strong>
+        <strong>AB</strong>
 
-        = Missing
+        = Absent
 
         &nbsp; | &nbsp;
 
