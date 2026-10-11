@@ -2,658 +2,449 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Search Student Result</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        :root {
-            --primary: #4a2c1f;
-            --primary-dark: #2b1811;
-            --accent: #b7793d;
-            --gold: #d6a85c;
-
-            --white: #ffffff;
-            --surface: #fdfaf7;
-            --surface-dark: #f1e6dc;
-
-            --line: #d9c3b0;
-            --text: #2d211c;
-            --muted: #7b6558;
-        }
-
-        body {
-            min-height: 100vh;
-            font-family: "Segoe UI", Arial, sans-serif;
-            color: var(--text);
-
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(255, 255, 255, 0.75) 25%,
-                    transparent 25%
-                ) -20px 0 / 40px 40px,
-
-                linear-gradient(
-                    225deg,
-                    rgba(74, 44, 31, 0.06) 25%,
-                    transparent 25%
-                ) -20px 0 / 40px 40px,
-
-                radial-gradient(
-                    circle at 10% 10%,
-                    #fffdf9 0%,
-                    #f3e5d7 38%,
-                    transparent 60%
-                ),
-
-                linear-gradient(
-                    135deg,
-                    #e8d4c1 0%,
-                    #c99a72 50%,
-                    #7a4d36 100%
-                );
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            padding: 30px 20px;
-        }
-
-        .result-card {
-            width: 100%;
-            max-width: 700px;
-            overflow: hidden;
-            position: relative;
-
-            background: rgba(255, 255, 255, 0.97);
-
-            border: 1px solid rgba(214, 168, 92, 0.7);
-
-            border-radius: 16px;
-
-            box-shadow:
-                0 30px 80px rgba(43, 24, 17, 0.28),
-                0 8px 25px rgba(43, 24, 17, 0.12);
-        }
-
-        .result-card::before {
-            content: "";
-            display: block;
-
-            height: 5px;
-
-            background: linear-gradient(
-                90deg,
-                var(--primary),
-                var(--gold),
-                var(--accent),
-                var(--primary)
-            );
-        }
-
-        .header {
-            text-align: center;
-
-            padding: 30px 20px 25px;
-
-            background:
-                radial-gradient(
-                    circle at top,
-                    #ffffff,
-                    #f8efe7
-                );
-
-            border-bottom: 1px solid var(--line);
-        }
-
-        .header img {
-            width: 78px;
-            height: 78px;
-
-            object-fit: contain;
-
-            margin-bottom: 10px;
-
-            filter:
-                drop-shadow(
-                    0 5px 8px rgba(43, 24, 17, 0.15)
-                );
-        }
-
-        .header h1 {
-            color: var(--primary);
-
-            font-family:
-                Georgia,
-                "Times New Roman",
-                serif;
-
-            font-size: clamp(22px, 4vw, 32px);
-
-            line-height: 1.2;
-
-            letter-spacing: 1.5px;
-        }
-
-        .header p {
-            margin-top: 7px;
-
-            color: var(--accent);
-
-            font-size: 12px;
-            font-weight: 700;
-
-            letter-spacing: 1.5px;
-        }
-
-        .content {
-            padding: 32px;
-        }
-
-        .content h2 {
-            text-align: center;
-
-            color: var(--primary);
-
-            font-family:
-                Georgia,
-                "Times New Roman",
-                serif;
-
-            font-size: 24px;
-
-            margin-bottom: 28px;
-        }
-
-        .exam-options {
-            display: grid;
-
-            grid-template-columns: repeat(2, 1fr);
-
-            gap: 15px;
-
-            margin-bottom: 28px;
-        }
-
-        .exam-option input {
-            display: none;
-        }
-
-        .exam-option label {
-            display: block;
-
-            padding: 18px 12px;
-
-            text-align: center;
-
-            border: 1px solid var(--line);
-
-            border-radius: 10px;
-
-            background: var(--surface);
-
-            cursor: pointer;
-
-            font-size: 14px;
-            font-weight: 700;
-
-            color: var(--primary);
-
-            letter-spacing: 0.4px;
-
-            transition:
-                transform 0.25s ease,
-                border-color 0.25s ease,
-                background 0.25s ease,
-                box-shadow 0.25s ease;
-        }
-
-        .exam-option label:hover {
-            border-color: var(--accent);
-
-            transform: translateY(-2px);
-
-            box-shadow:
-                0 8px 20px rgba(74, 44, 31, 0.10);
-        }
-
-        .exam-option input:checked + label {
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--primary),
-                    var(--primary-dark)
-                );
-
-            color: var(--white);
-
-            border-color: var(--primary);
-
-            box-shadow:
-                0 10px 25px rgba(43, 24, 17, 0.25);
-        }
-
-        .form-grid {
-            display: grid;
-
-            grid-template-columns: repeat(2, 1fr);
-
-            gap: 15px;
-        }
-
-        .form-group {
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 8px;
-        }
-
-        .form-group label {
-            font-size: 12px;
-
-            font-weight: 700;
-
-            color: var(--primary);
-
-            letter-spacing: 0.3px;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-
-            padding: 13px 14px;
-
-            border: 1px solid var(--line);
-
-            border-radius: 8px;
-
-            outline: none;
-
-            font-family: inherit;
-
-            font-size: 14px;
-
-            background: var(--white);
-
-            color: var(--text);
-
-            transition:
-                border-color 0.2s ease,
-                box-shadow 0.2s ease;
-        }
-
-        .form-group input::placeholder {
-            color: #a8978b;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            border-color: var(--accent);
-
-            box-shadow:
-                0 0 0 4px rgba(183, 121, 61, 0.12);
-        }
-
-        .search-btn {
-            width: 100%;
-
-            margin-top: 28px;
-
-            padding: 15px;
-
-            border: none;
-
-            border-radius: 9px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--primary),
-                    var(--primary-dark)
-                );
-
-            color: var(--white);
-
-            font-family: inherit;
-
-            font-size: 14px;
-
-            font-weight: 700;
-
-            letter-spacing: 1.2px;
-
-            cursor: pointer;
-
-            box-shadow:
-                0 8px 20px rgba(43, 24, 17, 0.20);
-
-            transition:
-                transform 0.25s ease,
-                box-shadow 0.25s ease;
-        }
-
-        .search-btn:hover {
-            transform: translateY(-2px);
-
-            box-shadow:
-                0 14px 30px rgba(43, 24, 17, 0.30);
-        }
-
-        .search-btn:active {
-            transform: translateY(0);
-        }
-
-        /* CTA BUTTONS */
-
-        .cta-buttons {
-            display: grid;
-
-            grid-template-columns: 1fr 1fr;
-
-            gap: 12px;
-
-            margin-top: 14px;
-        }
-
-        .cta-btn {
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            min-height: 46px;
-
-            padding: 12px 16px;
-
-            border: 1px solid var(--line);
-
-            border-radius: 9px;
-
-            background: var(--surface);
-
-            color: var(--primary);
-
-            text-decoration: none;
-
-            font-family: inherit;
-
-            font-size: 13px;
-
-            font-weight: 700;
-
-            letter-spacing: 0.6px;
-
-            transition:
-                transform 0.25s ease,
-                background 0.25s ease,
-                border-color 0.25s ease,
-                box-shadow 0.25s ease;
-        }
-
-        .cta-btn:hover {
-            transform: translateY(-2px);
-
-            background: var(--surface-dark);
-
-            border-color: var(--accent);
-
-            box-shadow:
-                0 8px 20px rgba(74, 44, 31, 0.10);
-        }
-
-        .cta-btn:active {
-            transform: translateY(0);
-        }
-
-        .cta-btn.academics {
-            background: #fffaf4;
-
-            border-color: var(--gold);
-        }
-
-        .cta-btn.back {
-            background: transparent;
-
-            color: var(--muted);
-        }
-
-        .error {
-            margin-bottom: 22px;
-
-            padding: 13px 15px;
-
-            background: #fff4f1;
-
-            border: 1px solid #e7b8ae;
-
-            border-radius: 8px;
-
-            color: #8b2f21;
-
-            text-align: center;
-
-            font-size: 14px;
-        }
-
-        @media (max-width: 600px) {
-
-            body {
-                align-items: flex-start;
-                padding: 15px;
-            }
-
-            .result-card {
-                border-radius: 12px;
-            }
-
-            .header {
-                padding: 25px 15px 20px;
-            }
-
-            .header img {
-                width: 68px;
-                height: 68px;
-            }
-
-            .header h1 {
-                font-size: 22px;
-                letter-spacing: 0.7px;
-            }
-
-            .header p {
-                font-size: 10px;
-                letter-spacing: 1px;
-            }
-
-            .content {
-                padding: 24px 18px;
-            }
-
-            .content h2 {
-                font-size: 21px;
-                margin-bottom: 22px;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .exam-options {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-
-            .exam-option label {
-                padding: 15px 12px;
-            }
-
-            .cta-buttons {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Results Unavailable | St. Columbus Public School</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#4a291d">
+
+  <style>
+    :root {
+      --brown: #4a291d;
+      --brown-dark: #30190f;
+      --brown-light: #80543b;
+      --gold: #d9a94f;
+      --gold-light: #f0d5a1;
+      --cream: #fbf5ee;
+      --white: #ffffff;
+      --text: #392319;
+      --muted: #8b7465;
+      --border: #e5c5a8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 35px 18px;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+
+      background-color: #c49a79;
+      background-image:
+        linear-gradient(135deg, #fffaf5 25%, transparent 25%),
+        linear-gradient(225deg, #fffaf5 25%, transparent 25%),
+        linear-gradient(315deg, #ead5c3 25%, transparent 25%),
+        linear-gradient(45deg, #ead5c3 25%, transparent 25%);
+      background-size: 72px 40px;
+      background-position:
+        0 0, 0 0, 0 0, 0 0;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 700px;
+      overflow: hidden;
+      position: relative;
+      background: var(--white);
+      border: 1px solid var(--gold-light);
+      border-radius: 19px;
+      box-shadow: 0 22px 55px rgba(58, 30, 17, 0.20);
+      animation: appear 0.5s ease-out;
+    }
+
+    .top-line {
+      height: 5px;
+      background: linear-gradient(
+        90deg,
+        var(--brown-dark),
+        var(--gold),
+        var(--brown)
+      );
+    }
+
+    .school-header {
+      padding: 30px 25px 25px;
+      text-align: center;
+      background: linear-gradient(
+        135deg,
+        #f9f0e7,
+        #fffdfb,
+        #f7ede3
+      );
+      border-bottom: 1px solid var(--border);
+    }
+
+    .school-logo {
+      width: 76px;
+      height: 76px;
+      object-fit: contain;
+      margin-bottom: 8px;
+    }
+
+    .school-name {
+      color: var(--brown);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(23px, 4vw, 34px);
+      font-weight: 700;
+      letter-spacing: 1px;
+      line-height: 1.25;
+      text-transform: uppercase;
+    }
+
+    .school-address {
+      margin-top: 10px;
+      color: #a56b3b;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .content {
+      padding: 35px 32px 32px;
+      text-align: center;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(247, 237, 227, 0.22) 25%,
+          transparent 25%
+        );
+    }
+
+    .status-icon {
+      width: 86px;
+      height: 86px;
+      margin: 0 auto 23px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--gold-light);
+      border-radius: 50%;
+      background: var(--cream);
+      color: var(--brown);
+    }
+
+    .status-icon svg {
+      width: 42px;
+      height: 42px;
+      stroke: currentColor;
+      stroke-width: 1.7;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 9px 15px;
+      margin-bottom: 20px;
+      border: 1px solid #e7c58e;
+      border-radius: 30px;
+      background: #fff6e6;
+      color: #865328;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin-bottom: 15px;
+      color: var(--brown);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(27px, 4.5vw, 35px);
+      line-height: 1.25;
+    }
+
+    .description {
+      max-width: 490px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.9;
+    }
+
+    .notice {
+      margin-top: 28px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: linear-gradient(135deg, #fffaf5, #fdf6ed);
+      text-align: left;
+    }
+
+    .notice-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 9px;
+      color: var(--brown);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .notice-mark {
+      width: 27px;
+      height: 27px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      background: var(--brown);
+      color: var(--gold-light);
+      font-size: 16px;
+    }
+
+    .notice p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    .button {
+      min-height: 47px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px 16px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      text-decoration: none;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      transition: background 0.2s, color 0.2s,
+                  transform 0.2s;
+    }
+
+    .button-primary {
+      border-color: var(--brown);
+      background: linear-gradient(
+        110deg,
+        var(--brown),
+        var(--brown-dark)
+      );
+      color: white;
+      box-shadow: 0 7px 16px rgba(74, 41, 29, 0.15);
+    }
+
+    .button-primary:hover {
+      background: #68402d;
+      transform: translateY(-2px);
+    }
+
+    .button-secondary {
+      background: #fffdfb;
+      color: var(--brown);
+    }
+
+    .button-secondary:hover {
+      background: #f8eee4;
+    }
+
+    .button:focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 3px;
+    }
+
+    .footer {
+      padding: 20px 15px;
+      border-top: 1px solid #f0dfd0;
+      background: #fdf8f2;
+      color: #9b8473;
+      text-align: center;
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    .footer strong {
+      color: var(--brown);
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding: 18px 12px;
+      }
+
+      .page {
+        border-radius: 14px;
+      }
+
+      .school-header {
+        padding: 25px 15px 22px;
+      }
+
+      .school-logo {
+        width: 65px;
+        height: 65px;
+      }
+
+      .school-name {
+        font-size: clamp(19px, 5vw, 25px);
+        letter-spacing: 0.3px;
+      }
+
+      .school-address {
+        font-size: 10px;
+        letter-spacing: 1.2px;
+      }
+
+      .content {
+        padding: 30px 20px 24px;
+      }
+
+      .status-icon {
+        width: 74px;
+        height: 74px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .description {
+        font-size: 14px;
+      }
+
+      .notice {
+        padding: 16px;
+      }
+
+      .actions {
+        grid-template-columns: 1fr;
+      }
+
+      .button {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <main class="page">
 
-    <main class="result-card">
+    <div class="top-line"></div>
 
-        <div class="header">
+    <header class="school-header">
 
-            <img
-                src="/android-chrome-512x512.png"
-                alt="School Logo"
-            >
+      <!-- Replace with your actual school logo path -->
+      <img
+        class="school-logo"
+        src="/images/school-logo.png"
+        alt="St. Columbus Public School logo"
+        onerror="this.style.display='none'"
+      >
 
-            <h1>ST. COLUMBUS PUBLIC SCHOOL</h1>
+      <div class="school-name">
+        St. Columbus Public School
+      </div>
 
-            <p>EKDARA, JHAJHA, JAMUI, BIHAR</p>
+      <div class="school-address">
+        Ekdara, Jhajha, Jamui, Bihar
+      </div>
 
+    </header>
+
+    <section class="content">
+
+      <div class="status-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <rect x="5" y="10" width="14" height="11" rx="2"></rect>
+          <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+          <path d="M12 14v3"></path>
+        </svg>
+      </div>
+
+      <div class="status-badge">
+        Result Portal Temporarily Closed
+      </div>
+
+      <h1>Online Result<br>Showcasing Is Off</h1>
+
+      <p class="description">
+        The online student result facility is currently unavailable.
+        We appreciate your patience and understanding.
+        Please check with the school office for further assistance.
+      </p>
+
+      <div class="notice">
+        <div class="notice-title">
+          <span class="notice-mark" aria-hidden="true">i</span>
+          Need Help With Your Child's Result?
         </div>
 
+        <p>
+          Parents and students may contact the school office for
+          result-related queries, academic updates, and further
+          information.
+        </p>
+      </div>
 
-        <div class="content">
+      <div class="actions">
 
-            <h2>Search Student Result</h2>
+        <a
+          class="button button-primary"
+          href="https://www.stcolumbusekdara.cloud/"
+        >
+          VISIT OFFICIAL WEBSITE
+        </a>
 
+        <a
+          class="button button-secondary"
+          href="javascript:history.back()"
+        >
+          GO BACK
+        </a>
 
-            <% if (typeof error !== "undefined" && error) { %>
+      </div>
 
-                <div class="error">
-                    <%= error %>
-                </div>
+    </section>
 
-            <% } %>
+    <footer class="footer">
+      <strong>ST. COLUMBUS PUBLIC SCHOOL</strong><br>
+      Ekdara, Jhajha, Jamui, Bihar<br>
+      &copy; <%= new Date().getFullYear() %>
+      All Rights Reserved.
+    </footer>
 
-
-            <form action="/check/result" method="POST">
-
-                <!-- EXAM TYPE -->
-
-                <div class="exam-options">
-
-                    <div class="exam-option">
-
-                        <input
-                            type="radio"
-                            name="exam"
-                            id="halfyearly"
-                            value="Halfyearly"
-                            checked
-                        >
-
-                        <label for="halfyearly">
-                            HALF YEARLY EXAM
-                        </label>
-
-                    </div>
-
-
-                    <div class="exam-option">
-
-                        <input
-                            type="radio"
-                            name="exam"
-                            id="annual"
-                            value="Annual"
-                        >
-
-                        <label for="annual">
-                            ANNUAL EXAM
-                        </label>
-
-                    </div>
-
-                </div>
-
-
-                <!-- SEARCH DETAILS -->
-
-                <div class="form-grid">
-
-                    <div class="form-group">
-
-                        <label for="admissionNumber">
-                            Admission No.
-                        </label>
-
-                        <input
-                            type="text"
-                            id="admissionNumber"
-                            name="admissionNumber"
-                            placeholder="Enter admission no."
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="studentName">
-                            Student Name
-                        </label>
-
-                        <input
-                            type="text"
-                            id="studentName"
-                            name="studentName"
-                            placeholder="Enter student name"
-                            required
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <!-- SEARCH -->
-
-                <button
-                    type="submit"
-                    class="search-btn"
-                >
-                    SEARCH RESULT
-                </button>
-
-
-                <!-- OTHER CTAs -->
-
-                <div class="cta-buttons">
-
-                    <a
-                        href="/academics"
-                        class="cta-btn academics"
-                    >
-                        CHECK ACADEMICS
-                    </a>
-
-                    <a
-                        href="/"
-                        class="cta-btn back"
-                    >
-                        BACK
-                    </a>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </main>
-
+  </main>
 </body>
 </html>
- 
