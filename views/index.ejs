@@ -37,20 +37,19 @@
 
 
     <!-- QUICK LINKS -->
-    <div class="topbar-actions">
-      <a href="/admission/form">
-        <span class="topbar-dot"></span>
-        Online Admission
-      </a>
+   <div class="topbar-contact">
 
-      <span class="topbar-divider"></span>
+    <a href="tel:+918864023465" aria-label="Call us">
+        <span>☎</span>
+        +91-8864023465
+    </a>
 
-      <a href="/stcolumbus/admin/manage/login">
-        <span>♙</span>
-        Admin Login
-      </a>
-    </div>
+    <a href="mailto:st.columbus2002@gmail.com" aria-label="Email us">
+        <span>✉</span>
+        st.columbus2002@gmail.com
+    </a>
 
+</div>
   </div>
 
   <!-- MAIN NAVIGATION -->
@@ -63,7 +62,7 @@
       </a>
     </div>
 
-    <div class="links">
+<div class="links" id="primary-navigation">
       <a href="/" class="first-link" aria-label="Home Page">Home</a>
       <a href="/about" aria-label="About St. Columbus Ekdara School">About</a>
       <a href="/academics" aria-label="Academics Page">Academics</a>
@@ -80,20 +79,18 @@
       </div>
     </a>
 
-    <div class="hamburger">
-      <img src="/images/icons/menu.svg" alt="menu icon" id="menu-icon">
-    </div>
+    <button
+  class="hamburger"
+  id="menu-toggle"
+  type="button"
+  aria-label="Open navigation menu"
+  aria-expanded="false"
+  aria-controls="primary-navigation"
+>
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+
   </nav>
-  <script>
-    
-const menuIcon = document.getElementById("menu-icon");
-const links = document.querySelector(".links");
-const admission = document.querySelector(".admission");
-
-menuIcon.addEventListener("click", () => {
-  links.classList.toggle("active");
-  admission.classList.toggle("active");
-});
-
-  </script>
 </header>

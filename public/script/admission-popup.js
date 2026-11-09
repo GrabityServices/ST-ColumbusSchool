@@ -1,6 +1,7 @@
 
 /* =========================================
    ADMISSION POPUP CONTROLLER
+   No cookies / No storage
 ========================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -10,16 +11,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!popup || !closeButton) return;
 
-  const storageKey = "stColumbusAdmissionPopupDismissed";
-
   let previousFocus = null;
   let showTimer = null;
   let autoCloseTimer = null;
+  let reopenTimer = null;
   let isClosing = false;
 
   function openPopup() {
 
-    if (!popup.hidden) return;
+    if (!popup.hidden || isClosing) return;
 
     previousFocus = document.activeElement;
 
@@ -52,12 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.body.style.overflow = "";
 
-    try {
-    cookieStore.set(storageKey, "true", { expires: new Date(Date.now() + 5 * 60 * 1000) }); // Expires in 5minutes
-    } catch (error) {
-      console.warn("Popup session storage unavailable.");
-    }
-
     setTimeout(() => {
 
       popup.hidden = true;
@@ -67,6 +61,9 @@ document.addEventListener("DOMContentLoaded", () => {
         previousFocus.focus();
       }
 
+      // Show again after 5 minutes
+      reopenTimer = setTimeout(openPopup, 5 * 60 * 1000);
+
     }, 350);
   }
 
@@ -74,14 +71,14 @@ document.addEventListener("DOMContentLoaded", () => {
   closeButton.addEventListener("click", closePopup);
 
   // Close on outside click
-  popup.addEventListener("click", (event) => {
+  popup.addEventListener("click", event => {
     if (event.target === popup) {
       closePopup();
     }
   });
 
   // Close using Escape
-  document.addEventListener("keydown", (event) => {
+  document.addEventListener("keydown", event => {
 
     if (event.key === "Escape" && !popup.hidden) {
       closePopup();
@@ -89,18 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   });
 
-  // Show once per browser session
-  let alreadyDismissed = false;
-
-  try {
-    alreadyDismissed =
-      cookieStore.get(storageKey).then((value) => value === "true");
-  } catch (error) {
-    console.warn("Popup session storage unavailable.");
-  }
-
-  if (!alreadyDismissed) {
-    showTimer = setTimeout(openPopup, 1200);
-  }
+  // First appearance after 1.2 seconds
+  showTimer = setTimeout(openPopup, 1200);
 
 });

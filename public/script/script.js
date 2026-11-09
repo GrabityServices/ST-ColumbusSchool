@@ -1,84 +1,117 @@
-const link = document.querySelector(".links");
-const menuIcon = document.getElementById("menu-icon");
-const admission = document.querySelector(".admission");
 
-// Handle active link state on clicks (includes .admission)
-const navLinks = document.querySelectorAll('.links a, .admission');
-navLinks.forEach(l => {
-    l.addEventListener('click', (e) => {
-        // Remove active class from all links
-        navLinks.forEach(navLink => navLink.classList.remove('active'));
-        // Add active class to clicked link
-        l.classList.add('active');
+document.addEventListener("DOMContentLoaded", () => {
+    const nav = document.querySelector("header nav");
+    const links = document.getElementById("primary-navigation");
+    const admission = nav?.querySelector(".admission");
+    const menuToggle = document.getElementById("menu-toggle");
+
+    if (!nav || !links || !admission || !menuToggle) return;
+
+    const MOBILE_BREAKPOINT = 820;
+
+    // Single source of truth for menu state
+    let isMenuOpen = false;
+
+    function setMenuState(open) {
+        isMenuOpen = open && window.innerWidth <= MOBILE_BREAKPOINT;
+
+        nav.classList.toggle("menu-open", isMenuOpen);
+
+        menuToggle.setAttribute(
+            "aria-expanded",
+            String(isMenuOpen)
+        );
+
+        menuToggle.setAttribute(
+            "aria-label",
+            isMenuOpen
+                ? "Close navigation menu"
+                : "Open navigation menu"
+        );
+    }
+
+    // Toggle menu
+    menuToggle.addEventListener("click", () => {
+        setMenuState(!isMenuOpen);
     });
-});
 
-// Set initial active link based on current URL (includes .admission)
-function setActiveLink() {
-    const currentPath = window.location.pathname;
-    navLinks.forEach(l => {
-        const href = l.getAttribute('href');
-        if (href === currentPath || (currentPath === '/' && href === '/')) {
-            l.classList.add('active');
-        } else {
-            l.classList.remove('active');
+    // Close after navigation
+    links.querySelectorAll("a").forEach(anchor => {
+        anchor.addEventListener("click", () => {
+            setMenuState(false);
+        });
+    });
+
+    admission.addEventListener("click", () => {
+        setMenuState(false);
+    });
+
+    // Close when clicking outside navbar
+    document.addEventListener("click", event => {
+        if (
+            isMenuOpen &&
+            !nav.contains(event.target)
+        ) {
+            setMenuState(false);
         }
     });
-}
 
-// Menu toggle logic
-menuIcon.addEventListener("click", () => {
-    const isOpen = link.classList.contains("active");
+    // Close using Escape key
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && isMenuOpen) {
+            setMenuState(false);
+            menuToggle.focus();
+        }
+    });
 
-    if (!isOpen) {
-        // Open menu
-        menuIcon.src = "/images/icons/close.svg"; // close icon
-        link.style.display = "flex";
-        admission.style.display = "flex";
-        requestAnimationFrame(() => {
-            link.classList.add("active");
-            admission.classList.add("active");
+    // Handle responsive breakpoint changes
+    window.addEventListener("resize", () => {
+        if (window.innerWidth > MOBILE_BREAKPOINT) {
+            setMenuState(false);
+        }
+    });
+
+    // Active page navigation
+    function setActiveLink() {
+        const currentPath =
+            window.location.pathname.replace(/\/+$/, "") || "/";
+
+        links.querySelectorAll("a").forEach(anchor => {
+            const href = anchor.getAttribute("href");
+
+            if (!href || !href.startsWith("/")) return;
+
+            const normalizedHref =
+                href.replace(/\/+$/, "") || "/";
+
+            const isCurrent =
+                normalizedHref === "/"
+                    ? currentPath === "/"
+                    : currentPath === normalizedHref ||
+                      currentPath.startsWith(normalizedHref + "/");
+
+            anchor.classList.toggle("active", isCurrent);
+
+            if (isCurrent) {
+                anchor.setAttribute("aria-current", "page");
+            } else {
+                anchor.removeAttribute("aria-current");
+            }
         });
-    } else {
-        // Close menu
-        menuIcon.src = "/images/icons/menu.svg"; // menu icon
-        // Ensure visibility during slide-out transition
-        link.style.visibility = "visible";
-        admission.style.visibility = "visible";
-        // Start the slide-out transition
-        requestAnimationFrame(() => {
-            link.classList.remove("active");
-            admission.classList.remove("active");
-        });
-        // Hide after transition completes
-        setTimeout(() => {
-            link.style.display = "none";
-            admission.style.display = "none";
-        }, 500);
+
+        // Admission active state is separate from menu state
+        const admissionPath = "/admission";
+        const isAdmissionPage =
+            currentPath === admissionPath ||
+            currentPath.startsWith(admissionPath + "/");
+
+        admission.classList.toggle(
+            "is-current",
+            isAdmissionPage
+        );
     }
+
+    // Initial state
+    setMenuState(false);
+    setActiveLink();
 });
-
-// Handle window resize to reset menu state on breakpoint change
-window.addEventListener('resize', () => {
-    if (window.innerWidth > 915) {
-        // Reset to desktop layout
-        link.classList.remove('active');
-        admission.classList.remove('active');
-        link.style.display = '';
-        admission.style.display = '';
-        link.style.visibility = '';
-        admission.style.visibility = '';
-        menuIcon.src = "/images/icons/menu.svg";
-    }
-});
-
-// Initial check on load
-if (window.innerWidth > 915) {
-    link.style.display = '';
-    admission.style.display = '';
-    link.style.visibility = '';
-    admission.style.visibility = '';
-}
-
-// Set initial active link on DOM load
-document.addEventListener('DOMContentLoaded', setActiveLink);
