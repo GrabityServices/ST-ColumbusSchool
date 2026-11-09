@@ -4,8 +4,10 @@
   <meta charset="UTF-8" />
   <title>All Admins</title>
   <link rel="stylesheet" href="/style/admin.css" />
+  <link rel="stylesheet" href="/style/admin-tabs.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <script src="/script/admin.js" defer></script> 
+  <script src="/script/admin.js" defer></script>
+  <script src="/script/admin-tabs.js" defer></script> 
 </head>
 <body>
 
@@ -44,9 +46,105 @@
       </nav>
   </header>
 
-  <main>
+  <div class="admin-app-layout">
+    <aside class="admin-sidebar" aria-label="Admin sections">
+      <div class="sidebar-heading">
+        <span class="sidebar-eyebrow">MANAGEMENT</span>
+        <span class="sidebar-hint">Choose a section</span>
+      </div>
+
+      <nav class="admin-tab-nav" role="tablist" aria-label="Dashboard sections" aria-orientation="vertical">
+        <button class="admin-tab-button is-active" id="tab-overview" type="button"
+          role="tab" aria-selected="true" aria-controls="panel-overview" data-tab="overview">
+          <i class="fa-solid fa-grid-2" aria-hidden="true"></i><span>Dashboard</span>
+        </button>
+        <button class="admin-tab-button" id="tab-admins" type="button"
+          role="tab" aria-selected="false" aria-controls="panel-admins" data-tab="admins">
+          <i class="fa-solid fa-users-gear" aria-hidden="true"></i><span>Admin Accounts</span>
+        </button>
+        <button class="admin-tab-button" id="tab-leadership" type="button"
+          role="tab" aria-selected="false" aria-controls="panel-leadership" data-tab="leadership">
+          <i class="fa-solid fa-user-tie" aria-hidden="true"></i><span>Leadership</span>
+        </button>
+        <button class="admin-tab-button" id="tab-gallery" type="button"
+          role="tab" aria-selected="false" aria-controls="panel-gallery" data-tab="gallery">
+          <i class="fa-regular fa-images" aria-hidden="true"></i><span>Gallery Images</span>
+        </button>
+        <button class="admin-tab-button" id="tab-notices" type="button"
+          role="tab" aria-selected="false" aria-controls="panel-notices" data-tab="notices">
+          <i class="fa-regular fa-bell" aria-hidden="true"></i><span>Notices</span>
+        </button>
+        <button class="admin-tab-button" id="tab-videos" type="button"
+          role="tab" aria-selected="false" aria-controls="panel-videos" data-tab="videos">
+          <i class="fa-solid fa-film" aria-hidden="true"></i><span>Videos</span>
+        </button>
+        <button class="admin-tab-button" id="tab-admission" type="button"
+          role="tab" aria-selected="false" aria-controls="panel-admission" data-tab="admission">
+          <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i><span>Admissions</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <span class="sidebar-status-dot"></span>
+        <span>Admin workspace</span>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <section class="admin-tab-panel overview-panel is-active" id="panel-overview"
+        role="tabpanel" aria-labelledby="tab-overview" data-panel="overview">
+        <div class="overview-welcome">
+          <div>
+            <span class="section-kicker">OVERVIEW</span>
+            <h2>Welcome to your dashboard</h2>
+            <p>Manage school website content from one organised workspace.</p>
+          </div>
+          <span class="overview-live"><span></span> Workspace ready</span>
+        </div>
+
+        <div class="overview-stat-grid">
+          <button class="overview-stat" type="button" data-go-tab="admins">
+            <span class="stat-icon stat-blue"><i class="fa-solid fa-users-gear"></i></span>
+            <strong><%= Array.isArray(data) ? data.length : 0 %></strong>
+            <span>Admin accounts</span><small>Open section <i class="fa-solid fa-arrow-right"></i></small>
+          </button>
+          <button class="overview-stat" type="button" data-go-tab="leadership">
+            <span class="stat-icon stat-purple"><i class="fa-solid fa-user-tie"></i></span>
+            <strong><%= Array.isArray(admins) ? admins.length : 0 %></strong>
+            <span>Leadership profiles</span><small>Open section <i class="fa-solid fa-arrow-right"></i></small>
+          </button>
+          <button class="overview-stat" type="button" data-go-tab="gallery">
+            <span class="stat-icon stat-green"><i class="fa-regular fa-images"></i></span>
+            <strong><%= Array.isArray(images) ? images.reduce((total, group) => total + (Array.isArray(group) ? group.reduce((n, titleGroup) => n + (Array.isArray(titleGroup) ? titleGroup.length : 0), 0) : 0), 0) : 0 %></strong>
+            <span>Gallery images</span><small>Open section <i class="fa-solid fa-arrow-right"></i></small>
+          </button>
+          <button class="overview-stat" type="button" data-go-tab="notices">
+            <span class="stat-icon stat-orange"><i class="fa-regular fa-bell"></i></span>
+            <strong><%= Array.isArray(notices) ? notices.length : 0 %></strong>
+            <span>Notices</span><small>Open section <i class="fa-solid fa-arrow-right"></i></small>
+          </button>
+          <button class="overview-stat" type="button" data-go-tab="videos">
+            <span class="stat-icon stat-cyan"><i class="fa-solid fa-film"></i></span>
+            <strong><%= Array.isArray(videoEmbed) ? videoEmbed.length : 0 %></strong>
+            <span>Video embeds</span><small>Open section <i class="fa-solid fa-arrow-right"></i></small>
+          </button>
+          <button class="overview-stat" type="button" data-go-tab="admission">
+            <span class="stat-icon stat-red"><i class="fa-solid fa-graduation-cap"></i></span>
+            <strong><i class="fa-solid fa-arrow-up-right-from-square"></i></strong>
+            <span>Admission tools</span><small>Open section <i class="fa-solid fa-arrow-right"></i></small>
+          </button>
+        </div>
+
+        <div class="overview-help-card">
+          <div class="help-icon"><i class="fa-regular fa-lightbulb"></i></div>
+          <div>
+            <h3>Quick tip</h3>
+            <p>Use the left navigation to switch between content areas. Your existing edit, upload, delete and management links remain available inside their respective sections.</p>
+          </div>
+        </div>
+      </section>
     <!-- FIRST SECTION -->
-    <section class="first-section">
+    <section class="first-section admin-tab-panel" id="panel-admins" role="tabpanel" aria-labelledby="tab-admins" data-panel="admins" hidden>
       <h2>Admins Accounts</h2>
       <div class="card-container">
       <% if (!data && data.length <=0) { %>
@@ -93,7 +191,7 @@
     </section>
 
     <!-- SECOND SECTION -->
-    <section class="second-section" id="admin">
+    <section class="second-section admin-tab-panel" id="panel-leadership" role="tabpanel" aria-labelledby="tab-leadership" data-panel="leadership" hidden>
       <h2>Principal & Director Information</h2>
       <div class="director-principle-container">
         <% if (typeof admins !=='undefined' && admins && admins.length> 0) {%> <% admins.forEach(admin=> { %>
@@ -122,7 +220,7 @@
     </section>
 
     <!-- THIRD SECTION -->
-    <section class="gallery-section">
+    <section class="gallery-section admin-tab-panel" id="panel-gallery" role="tabpanel" aria-labelledby="tab-gallery" data-panel="gallery" hidden>
         <div class="galley-section-heading">
           <h2>Gallery Section Images</h2>
           <% if (!supAd && data[0] && data[0].uniqId.charAt(1) === 'E') { %>
@@ -175,7 +273,7 @@
     </section>
 
     <!-- FOURTH PAGE -->
-    <section class="fourth-section" id="notice">
+    <section class="fourth-section admin-tab-panel" id="panel-notices" role="tabpanel" aria-labelledby="tab-notices" data-panel="notices" hidden>
         <div class="fourth-section-heading-and-btn">
           <h2>Notices Section</h2>
           <% if (!supAd && data[0] && data[0].uniqId.charAt(1) === 'E') { %>
@@ -246,7 +344,7 @@
     </section>
 
     <!-- FIFTH PAGE -->
-    <section class="sixth-section" id="video">
+    <section class="sixth-section admin-tab-panel" id="panel-videos" role="tabpanel" aria-labelledby="tab-videos" data-panel="videos" hidden>
         <div class="sixth-section-heading">
           <h2>Videos</h2>
           <% if (!supAd && data[0] && data[0].uniqId.charAt(1) === 'E') { %>
@@ -282,7 +380,7 @@
     </section>
 
     <!-- SIXTH PAGE -->
-    <section class="fifth-section">
+    <section class="fifth-section admin-tab-panel" id="panel-admission" role="tabpanel" aria-labelledby="tab-admission" data-panel="admission" hidden>
         <div class="fifth-section-heading">
           <% const parts = fees.lastChanged.split(/[- :]/); %>
           <h2>Admission</h2>
@@ -423,7 +521,8 @@
         </div>
     </section>
     
-  </main>
+    </main>
+  </div>
 
 </body>
 </html>

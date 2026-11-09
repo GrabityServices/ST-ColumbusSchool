@@ -1,8 +1,65 @@
+
 <header>
+  <!-- TOP INFORMATION BAR -->
+  <div class="topbar">
+
+    <div class="topbar-contact">
+      <a href="tel:+910000000000">
+        <span>☎</span> <a href="tel:+91-8864023465">+91-8864023465</a>
+      </a>
+
+      <a href="mailto:st.columbus2002@gmail.com">
+        <span>✉</span> st.columbus2002@gmail.com
+      </a>
+    </div>
+
+    <!-- HORIZONTAL ANNOUNCEMENT -->
+     
+  
+
+<div class="topbar-marquee">
+  <div class="marquee-track">
+
+    <div class="marquee-group">
+      <span>Admissions Open for Session 2027–28</span>
+      <span>New Admissions Welcome</span>
+      <span>Give Your Child a Brighter Future</span>
+    </div>
+
+    <div class="marquee-group" aria-hidden="true">
+      <span>Admissions Open for Session 2027–28</span>
+      <span>New Admissions Welcome</span>
+      <span>Give Your Child a Brighter Future</span>
+    </div>
+
+  </div>
+</div>
+
+
+    <!-- QUICK LINKS -->
+    <div class="topbar-actions">
+      <a href="/admission/form">
+        <span class="topbar-dot"></span>
+        Online Admission
+      </a>
+
+      <span class="topbar-divider"></span>
+
+      <a href="/stcolumbus/admin/manage/login">
+        <span>♙</span>
+        Admin Login
+      </a>
+    </div>
+
+  </div>
+
+  <!-- MAIN NAVIGATION -->
   <nav>
     <div class="logo">
-      <a href="/" title="St. Columbus Ekdara - Home" aria-label="Go to St. Columbus Home">
-        <img src="/images/logo.png" alt="St. Columbus Ekdara School Logo" />
+      <a href="/" title="St. Columbus Ekdara - Home"
+         aria-label="Go to St. Columbus Home">
+        <img src="/images/logo.png"
+             alt="St. Columbus Ekdara School Logo" />
       </a>
     </div>
 
@@ -14,14 +71,29 @@
       <a href="/notice" aria-label="Notices Page">Notice</a>
       <a href="/contact" class="last-link" aria-label="Contact Page">Contact</a>
     </div>
-    <a class="admission" href="/admission" aria-label="Admission Page">
+
+    <a class="admission" href="/admission"
+       aria-label="Admission Page">
       <div>Admission</div>
       <div class="arrow-icon">
-        <img src="/images/icons/arrow-icon.svg" alt="arrow icon" />
+        <img src="/images/icons/arrow-icon.svg" alt="" />
       </div>
     </a>
+
     <div class="hamburger">
       <img src="/images/icons/menu.svg" alt="menu icon" id="menu-icon">
     </div>
   </nav>
+  <script>
+    
+const menuIcon = document.getElementById("menu-icon");
+const links = document.querySelector(".links");
+const admission = document.querySelector(".admission");
+
+menuIcon.addEventListener("click", () => {
+  links.classList.toggle("active");
+  admission.classList.toggle("active");
+});
+
+  </script>
 </header>
