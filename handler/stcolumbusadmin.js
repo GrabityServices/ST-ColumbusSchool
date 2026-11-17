@@ -95,7 +95,8 @@ async function handleStAdmin(req, res) {
       superAdminCount,
       fees,
       admsc: Admin.length,
-      videoEmbed
+      videoEmbed,
+      jwtData
     });
   } else {
     Admin.forEach((member) => {
@@ -108,7 +109,8 @@ async function handleStAdmin(req, res) {
           notices: noteJsonData,
           supId: undefined,
           fees,
-          videoEmbed
+          videoEmbed,
+          jwtData
         });
       }
     });
@@ -225,9 +227,24 @@ async function handleForgotForm(req, res) {
 }
 
 async function setNewPass(req,res){
-  const {idOrEmail,password,copyPassword}=req.body
+  if(!req.cookies.stadminis){
+    return res.redirect("/stcolumbus/admin/manage/login")
+  }
+
+  const jwtData = await jwt.decode(req.cookies.stadminis, process.env.JWTKEYIS);
+
+  console.log("JWT DATA:", jwtData);
+if (
+  jwtData.uniqId !== req.body.idOrEmail &&
+  jwtData.email !== req.body.idOrEmail
+) {
+  return res.redirect(
+    "/stcolumbus/admin/manage/change/pass?error=ThisIsNotYourAccount"
+  );
+}
+   const {idOrEmail,password,copyPassword}=req.body
   if (password !== copyPassword) {
-      return res.redirect("/stcolumbus/admin/manage/forgot/pass");
+      return res.redirect("/stcolumbus/admin/manage/change/pass?error=passnotmatch");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);

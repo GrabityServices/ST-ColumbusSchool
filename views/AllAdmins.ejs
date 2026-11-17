@@ -4,10 +4,143 @@
   <meta charset="UTF-8" />
   <title>All Admins</title>
   <link rel="stylesheet" href="/style/admin.css" />
-  <link rel="stylesheet" href="/style/admin-tabs.css" />
+  <link rel="stylesheet" href="/style/admin-tabs.css" /> <link rel="stylesheet" href="/style/admin-workspace-enhancements.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="/script/admin.js" defer></script>
   <script src="/script/admin-tabs.js" defer></script> 
+
+<style>
+/* DATABASE BACKUP INDICATOR */
+
+.backup-monitor {
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.backup-monitor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.backup-monitor-header h3 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.backup-status-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 7px 11px;
+  border-radius: 30px;
+}
+
+.backup-status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.backup-monitor.success {
+  border-color: #bbf7d0;
+  background: #f0fdf4;
+}
+
+.backup-monitor.success .backup-status-label {
+  color: #15803d;
+  background: #dcfce7;
+}
+
+.backup-monitor.warning {
+  border-color: #fde68a;
+  background: #fffbeb;
+}
+
+.backup-monitor.warning .backup-status-label {
+  color: #a16207;
+  background: #fef3c7;
+}
+
+.backup-monitor.danger {
+  border-color: #fecaca;
+  background: #fef2f2;
+}
+
+.backup-monitor.danger .backup-status-label {
+  color: #b91c1c;
+  background: #fee2e2;
+}
+
+.backup-monitor-message {
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #555;
+}
+
+.backup-monitor-meta {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 13px;
+  padding-top: 12px;
+  border-top: 1px solid #e5e7eb;
+  font-size: 12px;
+  color: #777;
+}
+
+.backup-monitor-action {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 10px 15px;
+  background: #171717;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.backup-monitor-action:hover {
+  background: #333;
+}
+
+.backup-monitor-loading {
+  color: #777;
+  font-size: 13px;
+  margin-top: 12px;
+}
+.sidebar-account-avatar {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e5e7eb;
+}
+
+.sidebar-account-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+</style>
+
+
 </head>
 <body>
 
@@ -15,53 +148,29 @@
   <header class="header">
     <h1 class="page-title"><% if(supAd){%>Admin <%}else{%>Editor <%} %>Dashboard</h1>
     <nav class="header-nav">
-      <button onclick="location.href='/'" class="head-btn"><i class="fa-solid fa-house"></i></button>
-      <button onclick="location.href='/marksheet/see/classwise/marks'"  style="background-color: #0aa338; color: white;" class="head-btn"><i class="fa-solid fa-eye"></i> Class wise Marks</button>
-         <% if(data[0] && data[0].uniqId.charAt(1) === 'E') { %>
-              <button onclick="location.href='/stcolumbus/admin/manage/change/pass'" class="head-btn"><i class="fa-solid fa-pen-to-square"></i> Pass</button>
-              <button onclick="location.href='/stcolumbus/jaj/ekdara/admin/import-students'"  style="background-color: #0aa338; color: white;" class="head-btn"><i class="fa-solid fa-plus"></i>  Import Students</button>
-              <button onclick="location.href='/stcolumbus/jaj/ekdara/admin/result/print'"class="head-btn"><i class="fa-solid fa-print"></i> Print All Result</button>
-              
-          <% } %>
-        <% if(!supAd){ %>
-          
-          <button style="opacity: 0.5;" onclick="location.href='/marksheet'"  style="background-color: #0aa338; color: white;" class="head-btn"><i class="fa-solid fa-fill" style="opacity: 0.5;"></i> Old Way - Fill Marks</button>      
-          <button onclick="location.href='/marksheet/new/mark-fill'"  style="background: linear-gradient(135deg, #c71515 0%, #bf2701 50%, #ce6712 100%); color: white;" class="head-btn"><i class="fa-solid fa-fill"></i> New Way - Fill Marks</button>      
-
-          <button onclick="location.href='/marksheet/schoolist-clean'"  style="background: linear-gradient(135deg, #10d348 0%, #3abf01 50%, #12ce2b 100%); color: white;" class="head-btn"><i class="fa-solid fa-fill"></i> Fill Schoolist</button>   
-
-          <button onclick="location.href='/marksheet/edit/<%= encodeURIComponent(data[0].email) %>'"  style="background-color: #0aa338; color: white;" class="head-btn"><i class="fa-solid fa-magnifying-glass"></i> Edit S-Marks</button>      
-          <button onclick="location.href='/marksheet/print/result'"class="head-btn"><i class="fa-solid fa-plus"></i> Print Result</button>
-          <button id="logout-btn" class="head-btn"><i class="fa-solid fa-right-from-bracket"></i> </button>
-          <% } %>
-          
-          <% if(supAd ){ %>
-            <button onclick="location.href='/stcolumbus/admin/manage/change/pass'" class="head-btn"><i class="fa-solid fa-pen-to-square"></i> Pass</button>
-            <button onclick="location.href='/stcolumbus/jaj/ekdara/admin/result/print'"class="head-btn"><i class="fa-solid fa-print"></i> Print Result</button>
-            <button onclick="location.href='/stcolumbus/jaj/ekdara/admin/import-students'"  style="background-color: #0aa338; color: white;" class="head-btn"><i class="fa-solid fa-plus"></i>  Import Students</button>
-            <button onclick="location.href='/stcolumbus/admin/manage/signup'"class="head-btn"><i class="fa-solid fa-plus"></i> New Admin</button>
-            <button id="logout-btn" class="head-btn"><i class="fa-solid fa-right-from-bracket"></i> </button>
-            <% } %>
-         
-      </nav>
+      <button onclick="location.href='/'" class="head-btn" title="Open website">
+        <i class="fa-solid fa-house"></i><span> Website</span>
+      </button>
+      <button onclick="location.href='/stcolumbus/admin/manage/change/pass'" class="head-btn" title="Change Password">
+        <i class="fa-solid fa-key"></i><span> Change Password</span>
+      </button>
+    </nav>
   </header>
 
   <div class="admin-app-layout">
     <aside class="admin-sidebar" aria-label="Admin sections">
       <div class="sidebar-heading">
         <span class="sidebar-eyebrow">MANAGEMENT</span>
-        <span class="sidebar-hint">Choose a section</span>
       </div>
 
       <nav class="admin-tab-nav" role="tablist" aria-label="Dashboard sections" aria-orientation="vertical">
+        <span class="sidebar-group-label">WORKSPACE</span>
         <button class="admin-tab-button is-active" id="tab-overview" type="button"
           role="tab" aria-selected="true" aria-controls="panel-overview" data-tab="overview">
           <i class="fa-solid fa-grid-2" aria-hidden="true"></i><span>Dashboard</span>
         </button>
-        <button class="admin-tab-button" id="tab-admins" type="button"
-          role="tab" aria-selected="false" aria-controls="panel-admins" data-tab="admins">
-          <i class="fa-solid fa-users-gear" aria-hidden="true"></i><span>Admin Accounts</span>
-        </button>
+
+        <span class="sidebar-group-label">WEBSITE MANAGEMENT</span>
         <button class="admin-tab-button" id="tab-leadership" type="button"
           role="tab" aria-selected="false" aria-controls="panel-leadership" data-tab="leadership">
           <i class="fa-solid fa-user-tie" aria-hidden="true"></i><span>Leadership</span>
@@ -78,16 +187,87 @@
           role="tab" aria-selected="false" aria-controls="panel-videos" data-tab="videos">
           <i class="fa-solid fa-film" aria-hidden="true"></i><span>Videos</span>
         </button>
+
+        <span class="sidebar-group-label">SCHOOL OPERATIONS</span>
         <button class="admin-tab-button" id="tab-admission" type="button"
           role="tab" aria-selected="false" aria-controls="panel-admission" data-tab="admission">
           <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i><span>Admissions</span>
         </button>
+        <button class="admin-tab-button" id="tab-exams" type="button"
+          role="tab" aria-selected="false" aria-controls="panel-exams" data-tab="exams">
+          <i class="fa-solid fa-file-circle-check" aria-hidden="true"></i><span>Exam &amp; Results</span>
+        </button>
+
+        <span class="sidebar-group-label">SYSTEM</span>
+        <button class="admin-tab-button" id="tab-admins" type="button"
+          role="tab" aria-selected="false" aria-controls="panel-admins" data-tab="admins">
+          <i class="fa-solid fa-users-gear" aria-hidden="true"></i><span>Admin Accounts</span>
+        </button>
       </nav>
 
-      <div class="sidebar-footer">
-        <span class="sidebar-status-dot"></span>
-        <span>Admin workspace</span>
+   <%
+  const loggedInAdmin = Array.isArray(data)
+    ? data.find(admin =>
+        String(admin.uniqId) === String(jwtData?.uniqId)
+      )
+    : null;
+%>
+
+<div class="sidebar-footer sidebar-account">
+  <% if (loggedInAdmin) { %>
+
+    <div class="sidebar-account-info">
+
+      <div class="sidebar-account-avatar">
+        <% if (loggedInAdmin.img) { %>
+          <img
+            src="<%= loggedInAdmin.img %>"
+            alt="<%= loggedInAdmin.name %>"
+          >
+        <% } else { %>
+          <i class="fa-solid fa-user"></i>
+        <% } %>
       </div>
+
+      <div class="sidebar-account-text">
+        <strong title="<%= loggedInAdmin.name %>">
+          <%= loggedInAdmin.name %>
+        </strong>
+
+        <span>ID: <%= loggedInAdmin.uniqId %></span>
+
+        <small>
+          <%= (jwtData.role || (supAd ? 'superadmin' : 'editor')).toUpperCase() %>
+        </small>
+      </div>
+
+    </div>
+
+  <% } else { %>
+
+    <div class="sidebar-account-info">
+      <div class="sidebar-account-avatar">
+        <i class="fa-solid fa-user"></i>
+      </div>
+
+      <div class="sidebar-account-text">
+        <strong><%= jwtData?.name || 'Admin session' %></strong>
+        <span>Account details unavailable</span>
+      </div>
+    </div>
+
+  <% } %>
+
+  <button
+    id="logout-btn"
+    class="sidebar-logout-btn"
+    type="button"
+    title="Log out"
+    aria-label="Log out"
+  >
+    <i class="fa-solid fa-right-from-bracket"></i>
+  </button>
+</div>
     </aside>
 
     <main class="admin-main">
@@ -135,6 +315,106 @@
           </button>
         </div>
 
+<!-- DATABASE EXPORT SHORTCUTS -->
+
+<div class="overview-stat-grid">
+
+  <a
+    class="overview-stat"
+    href="/admin/export"
+    style="text-decoration:none;"
+  >
+    <span class="stat-icon stat-blue">
+      <i class="fa-solid fa-database"></i>
+    </span>
+
+    <strong>Database</strong>
+
+    <span>Export Collections</span>
+
+    <small>
+      CSV, JSON & Complete ZIP
+      <i class="fa-solid fa-arrow-right"></i>
+    </small>
+
+  </a>
+
+
+  <a
+    class="overview-stat"
+    href="/admin/export/assets"
+    style="text-decoration:none;"
+  >
+    <span class="stat-icon stat-green">
+      <i class="fa-solid fa-folder-closed"></i>
+    </span>
+
+    <strong>Assets ZIP</strong>
+
+    <span>Website Files Backup</span>
+
+    <small>
+      Download All Assets
+      <i class="fa-solid fa-download"></i>
+    </small>
+
+  </a>
+
+</div>
+
+<!-- DATABASE BACKUP MONITOR -->
+
+<div
+  class="backup-monitor"
+  id="backupMonitor"
+>
+
+  <div class="backup-monitor-header">
+
+    <h3>
+      <i class="fa-solid fa-shield-halved"></i>
+      Database Backup Monitor
+    </h3>
+
+    <span
+      class="backup-status-label"
+      id="backupStatusLabel"
+    >
+      <span class="backup-status-dot"></span>
+      Checking...
+    </span>
+
+  </div>
+
+  <p
+    class="backup-monitor-message"
+    id="backupStatusMessage"
+  >
+    Checking your latest complete database backup...
+  </p>
+
+  <div class="backup-monitor-meta">
+
+    <span id="backupLastDate">
+      Last backup: Checking...
+    </span>
+
+    <span id="backupAge">
+      Backup age: --
+    </span>
+
+  </div>
+
+  <a
+    href="/admin/export"
+    class="backup-monitor-action"
+  >
+    <i class="fa-solid fa-download"></i>
+    Export Database Now
+  </a>
+
+</div>
+
         <div class="overview-help-card">
           <div class="help-icon"><i class="fa-regular fa-lightbulb"></i></div>
           <div>
@@ -147,7 +427,7 @@
     <section class="first-section admin-tab-panel" id="panel-admins" role="tabpanel" aria-labelledby="tab-admins" data-panel="admins" hidden>
       <h2>Admins Accounts</h2>
       <div class="card-container">
-      <% if (!data && data.length <=0) { %>
+      <% if (!Array.isArray(data) || data.length === 0) { %>
         <p>No admins found.</p>
         <% } else { %> <% data.forEach(admin=> { %>
         <div class="admin-card">
@@ -521,8 +801,164 @@
         </div>
     </section>
     
+    <!-- EXAM & RESULTS -->
+    <section class="admin-tab-panel exams-panel" id="panel-exams" role="tabpanel"
+      aria-labelledby="tab-exams" data-panel="exams" hidden>
+      <div class="exams-heading">
+        <div>
+          <span class="section-kicker">ACADEMIC WORKSPACE</span>
+          <h2>Exam &amp; Results</h2>
+          <p>Manage student marks, examination records, marksheets and result printing from one place.</p>
+        </div>
+      </div>
+
+      <div class="exam-tool-grid">
+        <a class="exam-tool-card" href="/marksheet/see/classwise/marks">
+          <span class="exam-tool-icon"><i class="fa-solid fa-eye"></i></span>
+          <strong>Class-wise Marks</strong><small>View marks by class</small>
+          <span class="exam-tool-action">Open tool <i class="fa-solid fa-arrow-right"></i></span>
+        </a>
+
+        <% if (data[0] && data[0].uniqId && data[0].uniqId.charAt(1) === 'E') { %>
+          <a class="exam-tool-card" href="/marksheet/new/mark-fill"><span class="exam-tool-icon"><i class="fa-solid fa-pen-to-square"></i></span><strong>Fill Marks</strong><small>Enter marks using the new workflow</small><span class="exam-tool-action">Open tool <i class="fa-solid fa-arrow-right"></i></span></a>
+          <a class="exam-tool-card" href="/marksheet"><span class="exam-tool-icon"><i class="fa-solid fa-clock-rotate-left"></i></span><strong>Old Marks Entry</strong><small>Use the previous marks-entry page</small><span class="exam-tool-action">Open tool <i class="fa-solid fa-arrow-right"></i></span></a>
+          <a class="exam-tool-card" href="/marksheet/schoolist-clean"><span class="exam-tool-icon"><i class="fa-solid fa-list-check"></i></span><strong>Fill School List</strong><small>Manage the school student list</small><span class="exam-tool-action">Open tool <i class="fa-solid fa-arrow-right"></i></span></a>
+          <a class="exam-tool-card" href="/marksheet/edit/<%= encodeURIComponent(data[0].email) %>"><span class="exam-tool-icon"><i class="fa-solid fa-magnifying-glass"></i></span><strong>Edit Student Marks</strong><small>Find and update saved marks</small><span class="exam-tool-action">Open tool <i class="fa-solid fa-arrow-right"></i></span></a>
+        <% } %>
+
+        <% if ((data[0] && data[0].uniqId && data[0].uniqId.charAt(1) === 'E') || supAd) { %>
+          <a class="exam-tool-card" href="/stcolumbus/jaj/ekdara/admin/import-students"><span class="exam-tool-icon"><i class="fa-solid fa-file-import"></i></span><strong>Import Students</strong><small>Import student records in bulk</small><span class="exam-tool-action">Open tool <i class="fa-solid fa-arrow-right"></i></span></a>
+          <a class="exam-tool-card" href="/stcolumbus/jaj/ekdara/admin/result/print"><span class="exam-tool-icon"><i class="fa-solid fa-print"></i></span><strong>Print All Results</strong><small>Print the result collection</small><span class="exam-tool-action">Open tool <i class="fa-solid fa-arrow-right"></i></span></a>
+        <% } %>
+
+        <a class="exam-tool-card" href="/marksheet/print/result"><span class="exam-tool-icon"><i class="fa-solid fa-file-pdf"></i></span><strong>Print Result</strong><small>Open the result printing page</small><span class="exam-tool-action">Open tool <i class="fa-solid fa-arrow-right"></i></span></a>
+        <a class="exam-tool-card" href="/admin/export"><span class="exam-tool-icon"><i class="fa-solid fa-file-pdf"></i></span><strong>Export Collections   </strong><small>Export data from various collections</small><span class="exam-tool-action">Open tool <i class="fa-solid fa-arrow-right"></i></span></a>
+       
+      </div>
+    </section>
+
     </main>
   </div>
+
+<script>
+
+// =====================================================
+// LIVE DATABASE BACKUP MONITOR
+// =====================================================
+
+async function loadBackupStatus() {
+
+  const monitor = document.getElementById(
+    "backupMonitor"
+  );
+
+  const label = document.getElementById(
+    "backupStatusLabel"
+  );
+
+  const message = document.getElementById(
+    "backupStatusMessage"
+  );
+
+  const lastDate = document.getElementById(
+    "backupLastDate"
+  );
+
+  const age = document.getElementById(
+    "backupAge"
+  );
+
+  try {
+
+    const response = await fetch(
+      "/admin/export/status",
+      {
+        cache: "no-store",
+        credentials: "same-origin"
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Unable to fetch backup status");
+    }
+
+    const status = await response.json();
+
+    // Update indicator color
+    monitor.classList.remove(
+      "success",
+      "warning",
+      "danger"
+    );
+
+    monitor.classList.add(status.level);
+
+    // Update title
+    label.innerHTML = `
+      <span class="backup-status-dot"></span>
+      ${status.title}
+    `;
+
+    // Update message
+    message.textContent = status.message;
+
+    // Update dates
+    if (status.lastExport) {
+
+      const date = new Date(status.lastExport);
+
+      lastDate.textContent =
+        "Last backup: " +
+        date.toLocaleString("en-IN");
+
+      age.textContent =
+        "Backup age: " +
+        status.days +
+        " days";
+
+    } else {
+
+      lastDate.textContent =
+        "Last backup: Never";
+
+      age.textContent =
+        "Backup age: Unknown";
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Backup Monitor Error:",
+      error
+    );
+
+    label.innerHTML = `
+      <span class="backup-status-dot"></span>
+      Status unavailable
+    `;
+
+    message.textContent =
+      "Unable to retrieve backup information. Please check your connection.";
+
+    lastDate.textContent =
+      "Last backup: Unavailable";
+
+    age.textContent =
+      "Backup age: --";
+
+  }
+
+}
+
+
+// Initial load
+loadBackupStatus();
+
+// Refresh every 5 minutes
+setInterval(loadBackupStatus, 5 * 60 * 1000);
+
+</script>
 
 </body>
 </html>

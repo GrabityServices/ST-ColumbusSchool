@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Database Export | Admin</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background: #f5f6f8; color: #222; padding: 28px 15px; }
+    .container { max-width: 980px; margin: 20px auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:18px; flex-wrap:wrap; }
+    .topbar a { color:#333; text-decoration:none; font-size:14px; }
+    .page-heading { margin-bottom:22px; }
+    .page-heading h1 { font-size:26px; margin-bottom:7px; }
+    .page-heading p { color:#777; font-size:14px; line-height:1.6; }
+    .stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-bottom:20px; }
+    .stat,.card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; }
+    .stat { padding:16px; }
+    .stat strong { display:block; font-size:23px; margin-bottom:5px; }
+    .stat span { color:#777; font-size:13px; }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+    .card { padding:22px; }
+    .card h2 { font-size:17px; margin-bottom:7px; }
+    .card p { color:#777; font-size:13px; line-height:1.6; margin-bottom:17px; }
+    label { display:block; font-size:13px; font-weight:700; margin:13px 0 7px; }
+    select { width:100%; padding:12px; border:1px solid #d8dce2; border-radius:7px; background:#fff; font-size:14px; }
+    button,.action { display:inline-flex; align-items:center; justify-content:center; gap:8px; width:100%; padding:12px 14px; margin-top:15px; border:0; border-radius:7px; background:#171717; color:#fff; font-weight:700; font-size:14px; cursor:pointer; text-decoration:none; }
+    button:hover,.action:hover { background:#333; }
+    .secondary { background:#fff; color:#222; border:1px solid #ddd; }
+    .secondary:hover { background:#f4f4f4; }
+    .notice { margin-top:17px; padding:13px; border-radius:8px; background:#f8fafc; color:#555; font-size:13px; line-height:1.6; }
+    .backup { margin:20px 0; padding:18px; border-radius:10px; border:1px solid #e5e7eb; background:#fff; }
+    .backup.success { background:#f0fdf4; border-color:#bbf7d0; }
+    .backup.warning { background:#fffbeb; border-color:#fde68a; }
+    .backup.danger { background:#fef2f2; border-color:#fecaca; }
+    .backup-head { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+    .backup-head strong { font-size:15px; }
+    .backup-badge { font-size:12px; font-weight:700; padding:7px 10px; border-radius:20px; background:#fff; }
+    .backup p { margin-top:10px; color:#555; font-size:13px; line-height:1.6; }
+    .backup small { display:block; margin-top:9px; color:#777; }
+    .full-backup { border:1px solid #d1d5db; }
+    .full-backup .action { margin-top:8px; }
+    @media(max-width:650px) { .grid,.stats { grid-template-columns:1fr; } .card { padding:18px; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div class="topbar">
+      <a href="/stcolumbus/admin/manage">← Back to Admin Dashboard</a>
+      <a href="/">Open Website ↗</a>
+    </div>
+
+    <header class="page-heading">
+      <h1>Database Export</h1>
+      <p>Export each MongoDB collection independently. CSV and JSON downloads never merge two or more collections into one file.</p>
+    </header>
+
+    <section class="stats">
+      <div class="stat"><strong><%= mainCount %></strong><span>Main database collections</span></div>
+      <div class="stat"><strong><%= markCount %></strong><span>Marksheet database collections</span></div>
+      <div class="stat"><strong><%= groups.length %></strong><span>Class groups detected</span></div>
+    </section>
+
+    <section class="backup <%= backupStatus.level %>" id="backupPanel">
+      <div class="backup-head">
+        <strong>Database backup reminder</strong>
+        <span class="backup-badge" id="backupTitle"><%= backupStatus.title %></span>
+      </div>
+      <p id="backupMessage"><%= backupStatus.message %></p>
+      <small id="backupDate">
+        <% if (backupStatus.lastExport) { %>
+          Last complete backup: <%= new Date(backupStatus.lastExport).toLocaleString("en-IN") %> · <%= backupStatus.days %> day(s) ago
+        <% } else { %>
+          Last complete backup: Never recorded
+        <% } %>
+      </small>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>1. Main database collection</h2>
+        <p>Choose one collection and download only that collection as CSV or JSON.</p>
+        <form id="mainForm">
+          <label for="mainCollection">Collection</label>
+          <select id="mainCollection" required>
+            <% mainCollections.forEach(name => { %>
+              <option value="<%= name %>"><%= name %></option>
+            <% }) %>
+          </select>
+          <label for="mainFormat">Format</label>
+          <select id="mainFormat">
+            <option value="csv">CSV</option>
+            <option value="json">JSON</option>
+          </select>
+          <button type="submit">Download Main Collection</button>
+        </form>
+      </article>
+
+      <article class="card">
+        <h2>2. Marksheet collection / model</h2>
+        <p>Every actual collection is listed separately, including collections without a registered class model.</p>
+        <form id="marksheetForm">
+          <label for="markCollection">Collection / Model</label>
+          <select id="markCollection" required>
+            <% modelDetails.forEach(item => { %>
+              <option value="<%= item.collection %>">
+                <%= item.group %> — <%= item.modelName %>
+              </option>
+            <% }) %>
+          </select>
+          <label for="markFormat">Format</label>
+          <select id="markFormat">
+            <option value="csv">CSV</option>
+            <option value="json">JSON</option>
+          </select>
+          <button type="submit">Download Marksheet Collection</button>
+        </form>
+      </article>
+
+      <article class="card">
+        <h2>3. Single classwise ZIP</h2>
+        <p>Download one class group. Every model collection is a separate CSV file inside its class folder.</p>
+        <form id="classForm">
+          <label for="classGroup">Class group</label>
+          <select id="classGroup" required>
+            <% groups.forEach(group => { %>
+              <option value="<%= group.name %>"><%= group.name %> (<%= group.count %> model collections)</option>
+            <% }) %>
+          </select>
+          <button type="submit">Download Class ZIP</button>
+        </form>
+      </article>
+
+      <article class="card">
+        <h2>4. All classwise collections ZIP</h2>
+        <p>Download every registered classwise model collection. Files remain separate by class and model.</p>
+        <a class="action secondary" href="/admin/export/classwise/all">Download All Classwise ZIP</a>
+      </article>
+
+      <article class="card full-backup">
+        <h2>5. Complete database backup</h2>
+        <p>Exports every collection from both MongoDB databases. Each collection becomes its own CSV file inside one ZIP archive. This is the export that resets the weekly backup reminder after the response completes successfully.</p>
+        <a class="action" href="/admin/export/complete">Download Complete Database ZIP</a>
+      </article>
+
+      <article class="card">
+        <h2>6. Website assets</h2>
+        <p>Download the complete <code>assets/</code> directory, including its subfolders and files.</p>
+        <a class="action secondary" href="/admin/export/assets">Download Assets ZIP</a>
+      </article>
+    </section>
+
+    <div class="notice">
+      <strong>Important:</strong> Embedded Mongoose subdocuments are part of their parent document, not independent MongoDB collections. They remain included in the parent collection's JSON export and are represented as JSON text in CSV cells. Only separately stored MongoDB collections receive separate files.
+    </div>
+  </main>
+
+  <script>
+    function navigateToExport(url) {
+      window.location.assign(url);
+    }
+
+    document.getElementById("mainForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+      const collection = document.getElementById("mainCollection").value;
+      const format = document.getElementById("mainFormat").value;
+      navigateToExport(
+        `/admin/export/main/${encodeURIComponent(collection)}?format=${encodeURIComponent(format)}`
+      );
+    });
+
+    document.getElementById("marksheetForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+      const collection = document.getElementById("markCollection").value;
+      const format = document.getElementById("markFormat").value;
+      navigateToExport(
+        `/admin/export/marksheet/${encodeURIComponent(collection)}?format=${encodeURIComponent(format)}`
+      );
+    });
+
+    document.getElementById("classForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+      const group = document.getElementById("classGroup").value;
+      navigateToExport(
+        `/admin/export/classwise/group/${encodeURIComponent(group)}`
+      );
+    });
+
+    async function refreshBackupStatus() {
+      try {
+        const response = await fetch("/admin/export/status", {
+          cache: "no-store",
+          credentials: "same-origin"
+        });
+
+        if (!response.ok) throw new Error("Status request failed");
+
+        const status = await response.json();
+        const panel = document.getElementById("backupPanel");
+
+        panel.classList.remove("success", "warning", "danger");
+        panel.classList.add(
+          ["success", "warning", "danger"].includes(status.level)
+            ? status.level
+            : "danger"
+        );
+
+        document.getElementById("backupTitle").textContent = status.title;
+        document.getElementById("backupMessage").textContent = status.message;
+
+        document.getElementById("backupDate").textContent = status.lastExport
+          ? `Last complete backup: ${new Date(status.lastExport).toLocaleString("en-IN")} · ${status.days} day(s) ago`
+          : "Last complete backup: Never recorded";
+      } catch (error) {
+        console.error("Backup status refresh failed:", error);
+      }
+    }
+
+    window.setInterval(refreshBackupStatus, 5 * 60 * 1000);
+  </script>
+</body>
+</html>

@@ -1011,3 +1011,10 @@ body > header.header .head-btn:hover {
   outline: 2px solid #78b7ff;
   outline-offset: 3px;
 }
+
+.admin-main .admin-tab-panel .backup-monitor-header h3{
+  color:#0789bd !important;
+}
+#backupStatusMessage{
+  color: black !important;
+}

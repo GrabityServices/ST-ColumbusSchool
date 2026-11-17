@@ -966,9 +966,9 @@
 ========================================================= -->
 
 <style>
-.developer-credit {
+/* .developer-credit {
   display: none;
-}
+} */
     #enable-notifications {
         position: fixed !important;
         right: 18px !important;
@@ -1130,6 +1130,31 @@
   </div>
 </div>
 
+
+<!-- WEBSITE UPDATE NOTIFICATION -->
+<div id="websiteUpdateToast" class="website-update-toast"
+     role="status" aria-live="polite">
+
+  <div class="update-toast-icon">
+    <i class="fas fa-sync-alt"></i>
+  </div>
+
+  <div class="update-toast-content">
+    <strong>New Update Available</strong>
+    <p>A new version of our website is ready.</p>
+  </div>
+
+  <div class="update-toast-actions">
+    <button id="updateWebsiteNow" type="button">
+      Update Now
+    </button>
+    <button id="dismissWebsiteUpdate" type="button"
+            aria-label="Dismiss update">
+      &times;
+    </button>
+  </div>
+
+</div>
 
 <script>
 (function () {
@@ -1389,37 +1414,37 @@
 
 })();
 
-  document.addEventListener("DOMContentLoaded", function () {
-  const developerCredit = document.getElementById("developerCredit");
-  const closeButton = document.getElementById("developerCreditClose");
+//   document.addEventListener("DOMContentLoaded", function () {
+//   const developerCredit = document.getElementById("developerCredit");
+//   const closeButton = document.getElementById("developerCreditClose");
 
-  const storageKey = "developerCreditLastShown";
-  const oneHour = 60 * 60 * 1000;
+//   const storageKey = "developerCreditLastShown";
+//   const oneHour = 60 * 60 * 1000;
 
-  const lastShown = localStorage.getItem(storageKey);
-  const currentTime = Date.now();
+//   const lastShown = localStorage.getItem(storageKey);
+//   const currentTime = Date.now();
 
-  // Show only if 1 hour has passed
-  if (!lastShown || currentTime - lastShown >= oneHour) {
+//   // Show only if 1 hour has passed
+//   if (!lastShown || currentTime - lastShown >= oneHour) {
 
-    developerCredit.style.display = "block";
+//     developerCredit.style.display = "block";
 
-    // Save the current time
-    localStorage.setItem(storageKey, currentTime);
+//     // Save the current time
+//     localStorage.setItem(storageKey, currentTime);
 
-  } else {
+//   } else {
 
-    // Hide it
-    developerCredit.style.display = "none";
+//     // Hide it
+//     developerCredit.style.display = "none";
 
-  }
+//   }
 
-  // Close button
-  closeButton.addEventListener("click", function () {
-    developerCredit.style.display = "none";
-  });
+//   // Close button
+//   closeButton.addEventListener("click", function () {
+//     developerCredit.style.display = "none";
+//   });
 
-});
+// });
 </script>
 
 </body>

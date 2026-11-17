@@ -1,6 +1,10 @@
+
+"use strict";
+
 /* =========================================================
+   ST. COLUMBUS PUBLIC SCHOOL
    SERVICE WORKER
-   Web Push Notifications
+   Web Push Notifications + Website Updates
 ========================================================= */
 
 
@@ -10,7 +14,10 @@
 
 self.addEventListener("install", event => {
 
-    self.skipWaiting();
+    console.log("Service Worker: Installing");
+
+    // Do not activate automatically.
+    // Wait for the user to click "Update Now".
 
 });
 
@@ -21,15 +28,40 @@ self.addEventListener("install", event => {
 
 self.addEventListener("activate", event => {
 
+    console.log("Service Worker: Activated");
+
     event.waitUntil(
+
         self.clients.claim()
+
     );
 
 });
 
 
 /* =========================================================
-   PUSH
+   WEBSITE UPDATE MESSAGE
+========================================================= */
+
+self.addEventListener("message", event => {
+
+    if (!event.data) return;
+
+    if (event.data.type === "SKIP_WAITING") {
+
+        console.log(
+            "Service Worker: User accepted update"
+        );
+
+        self.skipWaiting();
+
+    }
+
+});
+
+
+/* =========================================================
+   PUSH NOTIFICATIONS
 ========================================================= */
 
 self.addEventListener("push", event => {
@@ -208,3 +240,28 @@ self.addEventListener(
 
     }
 );
+
+
+/* =========================================================
+   SERVICE WORKER ERROR LOGGING
+========================================================= */
+
+self.addEventListener("error", event => {
+
+    console.error(
+        "Service Worker Error:",
+        event.message
+    );
+
+});
+
+self.addEventListener("unhandledrejection", event => {
+
+    console.error(
+        "Service Worker Promise Error:",
+        event.reason
+    );
+
+});
+
+//jkadksjkjdskjfhj

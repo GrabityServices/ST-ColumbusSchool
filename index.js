@@ -13,7 +13,7 @@ const { adminroute } = require("./routes/adminRoutes.js");
 const Admin = require("./models/admins.js");
 const Gallery = require("./models/gallery.js");
 const Notice = require("./models/notice.js");
-const { checkAdmin, checkAdminAsEditor } = require("./middleware/checkAdmin.js");
+const { checkAdmin, checkAdminAsEditor, checkAdminAsSuperadmin } = require("./middleware/checkAdmin.js");
 const { adminManagment } = require("./routes/adminRoutes.js");
 const handleAdmissionForm = require("./handler/handelAdmissionForm.js");
 const Admission = require("./models/admission.js");
@@ -76,13 +76,16 @@ app.use(uniqueUser);
     
     // app apis for manage data --------------------------------------------
     
+    const schoolistAttendance =
+    require("./routes/schoolistAttendance");
+    const exportRoutes = require("./routes/export");
     
     app.use("/api/otp", otpRoutes);
     app.use("/home", checkAdmin, stcolumbus);
     app.use("/stcolumbus/jaj/ekdara/admin", checkAdmin, adminroute);
     app.use("/stcolumbus/admin/manage", adminManagment);
-    const schoolistAttendance =
-    require("./routes/schoolistAttendance");
+    app.use("/",checkAdmin,checkAdminAsSuperadmin, exportRoutes);
+
 
 app.use("/marksheet",checkAdmin , marksheet);
 // webpage routes

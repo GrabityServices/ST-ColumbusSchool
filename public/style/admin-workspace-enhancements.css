@@ -1,0 +1,152 @@
+/* Admin workspace navigation and account footer */
+.admin-tab-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sidebar-group-label {
+  display: block;
+  margin: 16px 12px 5px;
+  color: #7f96b5;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.15px;
+}
+
+.sidebar-group-label:first-child { margin-top: 4px; }
+
+.sidebar-account {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 12px !important;
+  border-top: 1px solid rgba(145, 170, 205, .18);
+}
+
+.sidebar-account-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.sidebar-account-avatar {
+  display: grid;
+  place-items: center;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: #b9d8ff;
+  background: #1b3555;
+}
+
+.sidebar-account-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 3px;
+}
+
+.sidebar-account-text strong {
+  overflow: hidden;
+  max-width: 135px;
+  color: #e8f1ff;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-account-text span,
+.sidebar-account-text small {
+  color: #91a9c8;
+  font-size: 10px;
+}
+
+.sidebar-account-text small {
+  color: #6fb5ff;
+  font-weight: 700;
+  letter-spacing: .6px;
+}
+
+.sidebar-logout-btn {
+  display: grid;
+  place-items: center;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255, 110, 110, .25);
+  border-radius: 10px;
+  color: #ff9292;
+  background: rgba(190, 55, 55, .12);
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.sidebar-logout-btn:hover {
+  color: #fff;
+  background: #c83e4b;
+  border-color: #c83e4b;
+}
+
+.exams-heading { margin-bottom: 24px; }
+.exams-heading h2 { margin: 6px 0 8px; }
+.exams-heading p { max-width: 680px; color: #91a5c0; line-height: 1.6; }
+
+.exam-tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.exam-tool-card {
+  display: flex;
+  min-height: 170px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 20px;
+  border: 1px solid #263c59;
+  border-radius: 14px;
+  color: inherit;
+  background: linear-gradient(145deg, #15243a, #101b2c);
+  text-decoration: none;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+
+.exam-tool-card:hover {
+  transform: translateY(-3px);
+  border-color: #438bd7;
+  background: #192d47;
+}
+
+.exam-tool-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 4px;
+  border-radius: 11px;
+  color: #8ec5ff;
+  background: rgba(50, 126, 207, .17);
+  font-size: 17px;
+}
+
+.exam-tool-card strong { color: #edf5ff; font-size: 14px; }
+.exam-tool-card small { color: #91a5c0; font-size: 12px; line-height: 1.5; }
+.exam-tool-action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  color: #72b7ff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  .sidebar-account-text strong { max-width: 105px; }
+  .exam-tool-grid { grid-template-columns: 1fr; }
+}

@@ -290,4 +290,103 @@ updateSlider();
 setInterval(nextSlide, 3000);
 
 
+(function () {
+  "use strict";
+
+  if (!("serviceWorker" in navigator)) return;
+
+  const toast = document.getElementById("websiteUpdateToast");
+  const updateButton = document.getElementById("updateWebsiteNow");
+  const dismissButton = document.getElementById("dismissWebsiteUpdate");
+
+  if (!toast || !updateButton || !dismissButton) return;
+
+  let registration;
+  let updateAccepted = false;
+  let refreshing = false;
+
+  function showUpdateNotification() {
+    if (!registration?.waiting) return;
+
+    toast.classList.add("show");
+  }
+
+  function hideUpdateNotification() {
+    toast.classList.remove("show");
+  }
+
+  async function initializeServiceWorker() {
+    try {
+      registration = await navigator.serviceWorker.register("/sw.js", {
+        scope: "/"
+      });
+
+      await navigator.serviceWorker.ready;
+
+      // Check whether an updated worker is already waiting.
+      if (registration.waiting && navigator.serviceWorker.controller) {
+        showUpdateNotification();
+      }
+
+      // Detect newly installed service worker.
+      registration.addEventListener("updatefound", () => {
+        const newWorker = registration.installing;
+
+        if (!newWorker) return;
+
+        newWorker.addEventListener("statechange", () => {
+          if (
+            newWorker.state === "installed" &&
+            navigator.serviceWorker.controller
+          ) {
+            showUpdateNotification();
+          }
+        });
+      });
+
+      // Check the server for a new version.
+      await registration.update();
+
+    } catch (error) {
+      console.error("Website update check failed:", error);
+    }
+  }
+
+  // User accepts the update.
+  updateButton.addEventListener("click", () => {
+    if (!registration?.waiting) return;
+
+    updateAccepted = true;
+    updateButton.disabled = true;
+    updateButton.textContent = "Updating...";
+
+    registration.waiting.postMessage({
+      type: "SKIP_WAITING"
+    });
+  });
+
+  // User dismisses the notification.
+  dismissButton.addEventListener("click", hideUpdateNotification);
+
+  // Reload only after the user accepts the update.
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (updateAccepted && !refreshing) {
+      refreshing = true;
+      window.location.reload();
+    }
+  });
+
+  initializeServiceWorker();
+
+  // Periodically check for updates while the page remains open.
+  document.addEventListener("visibilitychange", () => {
+    if (
+      document.visibilityState === "visible" &&
+      registration
+    ) {
+      registration.update().catch(console.error);
+    }
+  });
+
+})();
 

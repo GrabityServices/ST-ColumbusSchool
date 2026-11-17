@@ -2389,3 +2389,108 @@ footer {
 #enable-notifications.notification-enabled {
     display: none !important;
 }
+
+
+/* WEBSITE UPDATE NOTIFICATION */
+
+.website-update-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 25px;
+  transform: translate(-50%, 150px);
+
+  width: min(440px, calc(100% - 30px));
+  padding: 16px;
+
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  background: #ffffff;
+  color: #172033;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+
+  box-shadow: 0 10px 35px rgba(0,0,0,.18);
+
+  z-index: 100000;
+  opacity: 0;
+  visibility: hidden;
+
+  transition: .35s ease;
+}
+
+.website-update-toast.show {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.update-toast-icon {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  background: #e8f0fe;
+  color: #0d47a1;
+  border-radius: 50%;
+  font-size: 18px;
+}
+
+.update-toast-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.update-toast-content strong {
+  display: block;
+  font-size: 14px;
+}
+
+.update-toast-content p {
+  margin: 4px 0 0;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.update-toast-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+#updateWebsiteNow {
+  border: none;
+  background: #0d47a1;
+  color: white;
+  padding: 9px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+#dismissWebsiteUpdate {
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+@media(max-width: 480px) {
+  .website-update-toast {
+    bottom: 15px;
+    padding: 12px;
+    gap: 9px;
+  }
+
+  #updateWebsiteNow {
+    padding: 9px;
+  }
+}
+
