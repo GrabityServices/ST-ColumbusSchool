@@ -321,7 +321,7 @@
 
   <a
     class="overview-stat"
-    href="/admin/export"
+    href="/data/admin/export"
     style="text-decoration:none;"
   >
     <span class="stat-icon stat-blue">
@@ -342,7 +342,7 @@
 
   <a
     class="overview-stat"
-    href="/admin/export/assets"
+    href="/data/admin/export/assets"
     style="text-decoration:none;"
   >
     <span class="stat-icon stat-green">
@@ -406,7 +406,7 @@
   </div>
 
   <a
-    href="/admin/export"
+    href="/data/admin/export"
     class="backup-monitor-action"
   >
     <i class="fa-solid fa-download"></i>
@@ -832,7 +832,7 @@
         <% } %>
 
         <a class="exam-tool-card" href="/marksheet/print/result"><span class="exam-tool-icon"><i class="fa-solid fa-file-pdf"></i></span><strong>Print Result</strong><small>Open the result printing page</small><span class="exam-tool-action">Open tool <i class="fa-solid fa-arrow-right"></i></span></a>
-        <a class="exam-tool-card" href="/admin/export"><span class="exam-tool-icon"><i class="fa-solid fa-file-pdf"></i></span><strong>Export Collections   </strong><small>Export data from various collections</small><span class="exam-tool-action">Open tool <i class="fa-solid fa-arrow-right"></i></span></a>
+        <a class="exam-tool-card" href="/data/admin/export"><span class="exam-tool-icon"><i class="fa-solid fa-file-pdf"></i></span><strong>Export Collections   </strong><small>Export data from various collections</small><span class="exam-tool-action">Open tool <i class="fa-solid fa-arrow-right"></i></span></a>
        
       </div>
     </section>
@@ -871,7 +871,7 @@ async function loadBackupStatus() {
   try {
 
     const response = await fetch(
-      "/admin/export/status",
+      "/data/admin/export/status",
       {
         cache: "no-store",
         credentials: "same-origin"

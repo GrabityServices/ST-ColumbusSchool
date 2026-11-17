@@ -84,7 +84,7 @@ app.use(uniqueUser);
     app.use("/home", checkAdmin, stcolumbus);
     app.use("/stcolumbus/jaj/ekdara/admin", checkAdmin, adminroute);
     app.use("/stcolumbus/admin/manage", adminManagment);
-    app.use("/",checkAdmin,checkAdminAsSuperadmin, exportRoutes);
+    app.use("/data",checkAdmin,checkAdminAsSuperadmin, exportRoutes);
 
 
 app.use("/marksheet",checkAdmin , marksheet);
