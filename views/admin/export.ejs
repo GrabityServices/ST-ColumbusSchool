@@ -134,19 +134,19 @@
       <article class="card">
         <h2>4. All classwise collections ZIP</h2>
         <p>Download every registered classwise model collection. Files remain separate by class and model.</p>
-        <a class="action secondary" href="/admin/export/classwise/all">Download All Classwise ZIP</a>
+        <a class="action secondary" href="/data/admin/export/classwise/all">Download All Classwise ZIP</a>
       </article>
 
       <article class="card full-backup">
         <h2>5. Complete database backup</h2>
         <p>Exports every collection from both MongoDB databases. Each collection becomes its own CSV file inside one ZIP archive. This is the export that resets the weekly backup reminder after the response completes successfully.</p>
-        <a class="action" href="/admin/export/complete">Download Complete Database ZIP</a>
+        <a class="action" href="/data/admin/export/complete">Download Complete Database ZIP</a>
       </article>
 
       <article class="card">
         <h2>6. Website assets</h2>
         <p>Download the complete <code>assets/</code> directory, including its subfolders and files.</p>
-        <a class="action secondary" href="/admin/export/assets">Download Assets ZIP</a>
+        <a class="action secondary" href="/data/admin/export/assets">Download Assets ZIP</a>
       </article>
     </section>
 
@@ -165,7 +165,7 @@
       const collection = document.getElementById("mainCollection").value;
       const format = document.getElementById("mainFormat").value;
       navigateToExport(
-        `/admin/export/main/${encodeURIComponent(collection)}?format=${encodeURIComponent(format)}`
+        `/data/admin/export/main/${encodeURIComponent(collection)}?format=${encodeURIComponent(format)}`
       );
     });
 
@@ -174,7 +174,7 @@
       const collection = document.getElementById("markCollection").value;
       const format = document.getElementById("markFormat").value;
       navigateToExport(
-        `/admin/export/marksheet/${encodeURIComponent(collection)}?format=${encodeURIComponent(format)}`
+        `/data/admin/export/marksheet/${encodeURIComponent(collection)}?format=${encodeURIComponent(format)}`
       );
     });
 
@@ -182,13 +182,13 @@
       event.preventDefault();
       const group = document.getElementById("classGroup").value;
       navigateToExport(
-        `/admin/export/classwise/group/${encodeURIComponent(group)}`
+        `/data/admin/export/classwise/group/${encodeURIComponent(group)}`
       );
     });
 
     async function refreshBackupStatus() {
       try {
-        const response = await fetch("/admin/export/status", {
+        const response = await fetch("/data/admin/export/status", {
           cache: "no-store",
           credentials: "same-origin"
         });
