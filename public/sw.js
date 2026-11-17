@@ -263,5 +263,3 @@ self.addEventListener("unhandledrejection", event => {
     );
 
 });
-
-//jkadksjkjdskjfhj
